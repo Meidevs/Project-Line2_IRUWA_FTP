@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Banner Page</title>
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+<body>
+  <h1>광고 배너 등록 화면입니다.</h1>
+  <form method="POST" id="contact" name="13" class="form-horizontal wpc_contact" novalidate="novalidate"
+    enctype="multipart/form-data" action="/api/image/upload">
+    <fieldset>
+      <div id="legend" class="">
+        <legend class="">광고 배너 이미지와 URL을 등록합니다</legend>
+        <div id="alert-message" class="alert hidden"></div>
+      </div>
+      <p>
+      <div class="control-group">
+        <!-- Text input-->
+        <label class="control-label" for="input01">광고 이미지 관련 링크 URL</label>
+        <div class="controls">
+          <input type="text" placeholder="http://advertisement.com" id='adsuri' class="input-xlarge" name="adsuri">
+        </div>
+        <div class="control-group"> </div>
+      </div>
+      </p>
+      <p>
+        <label class="control-label">이미지 등록</label>
+      <div class="controls">
+        <input class="input-file" id="fileInput" type="file" name="image">
+      </div>
+      <div class="control-group"></div>
+      </p>
+      <p>
+        <label class="control-label">광고 설명 등록</label>
+      <div class="controls">
+        <input type="text" placeholder="간략한 광고 설명" id='info' class="input-xlarge" name="info">
+      </div>
+      <div class="control-group"></div>
+      </p>
+      <!-- Button -->
+      <div class="controls">
+        <button class="btn btn-success" onclikc="addFiles()">등록</button>
+      </div>
+    </fieldset>
+  </form>
+</body>
+<script>
+  async function addFiles() {
+    try {
+      const fileInput = document.querySelector('#fileInput');
+      const adsuri = document.querySelector('#adsuri');
+      const info = document.querySelector('#info');
+      const formData = new FormData();
+      formData.append('image', fileInput.files[0]);
+      formData.append('adsuri', adsuri.files[0]);
+      formData.append('info', info.files[0]);
+      var response = await fetch('http://localhost:8080/api/image/upload', {
+        method: 'POST',
+        'Content-Type': 'multipart/form-data',
+        body: formData,
+      })
+    } catch (err) {
+      console.log(err)
+    }
+  }
+</script>
+
+</html>
