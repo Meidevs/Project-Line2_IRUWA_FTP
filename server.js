@@ -5,7 +5,10 @@ var logger = require('morgan');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var static = require('serve-static');
+
+//Middle Ware List
 var apiRouter = require('./routes/api');
+var authRouter = require('./routes/auth');
 
 const app1 = express();
 const app2 = express();
@@ -29,8 +32,13 @@ app2.use(express.urlencoded({ extended: false }));
 app2.use(cookieParser());
 app2.use(express.static(path.join(__dirname, 'public')));
 
+// Request API, RESTful Endpoint
 app1.use('/api', apiRouter);
 app2.use('/api', apiRouter);
+
+// Request API, RESTful Endpoint For User Authentication.
+app1.use('/auth', authRouter);
+app2.use('/auth', authRouter);
 
 // Parse the request body as JSON
 app1.use(body.json());
