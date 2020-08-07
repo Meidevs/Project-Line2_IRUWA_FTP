@@ -23,8 +23,19 @@
 <body>
     <div class="container">
         <div class="row justify-content-center align-items-center">
-            <div class="col-lg-4 login-box">
-
+            <div class="col-md-4 login-box">
+                <div class="login-box-content justify-content-center align-items-center">
+                    <div class="col-md-3">
+                        로그인
+                    </div>
+                    <div class="col-md-12">
+                        <form method='post' action='/auth/user'>
+                            <input type='text' placeholder="사용자 아이디" />
+                            <input type='password' placeholder="사용자 비밀번호" />
+                            <button type='submit'>로그인</button>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -34,11 +45,17 @@
 </script>
 <style>
     .container {
-        align-self: 'center';
+        align-content: center;
+        justify-content: center;
     }
+
     .login-box {
         background-color: rgba(200, 200, 200, 0.5);
         height: 400px;
+    }
+
+    .login-box-content {
+        background-color: black;
     }
 </style>
 
