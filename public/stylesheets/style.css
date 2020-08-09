@@ -6,8 +6,11 @@ body {
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+    display:flex; 
+    flex-direction:column; 
+    justify-content:center;
+    min-height:80vh;
   }
-  
   a {
     color: #00B7FF;
   }

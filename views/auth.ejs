@@ -23,25 +23,46 @@
 <body>
     <div class="container">
         <div class="row justify-content-center align-items-center">
-            <div class="col-md-4 login-box">
-                <div class="login-box-content justify-content-center align-items-center">
-                    <div class="col-md-3">
-                        로그인
-                    </div>
-                    <div class="col-md-12">
-                        <form method='post' action='/auth/user'>
-                            <input type='text' placeholder="사용자 아이디" />
-                            <input type='password' placeholder="사용자 비밀번호" />
-                            <button type='submit'>로그인</button>
-                        </form>
-                    </div>
+            <div class="login-box">
+                <div class="login-box-title">
+                    로그인
+                </div>
+                <div class="login-form">
+                    <input id='login-id' type='text' placeholder="사용자 아이디" />
+                    <input id='login-pw' type='password' placeholder="사용자 비밀번호" />
+                    <button id='login-btn' type='button'>로그인</button>
                 </div>
             </div>
         </div>
     </div>
 </body>
 <script>
-
+    $('#login-btn').click( async () => {
+        var userid = document.getElementById('login-id').value;
+        var userpw = document.getElementById('login-pw').value;
+        try {
+            let response = await fetch ('http://localhost:80/admin/confirm', {
+                method : 'POST',
+                headers : {
+                    'Content-Type' : 'application/json',
+                },
+                body : JSON.stringify({userid : userid, userpw : userpw})
+            })
+            let json = await response.json();
+            console.log(json);
+            if (response.ok) {
+                var status = response.user.status;
+                switch (status) {
+                    case 0 :
+                        window.location.href = 'http://w3schools.com'
+                }
+            } else {
+                alert('로그인 실패')
+            }
+        } catch (err) {
+            console.log(err)
+        }
+    })
 </script>
 <style>
     .container {
@@ -51,11 +72,50 @@
 
     .login-box {
         background-color: rgba(200, 200, 200, 0.5);
+        width: 50vw;
         height: 400px;
+        flex-direction: column;
+        align-content: center;
+        justify-content: center;
+        border-radius: 5px;
     }
 
-    .login-box-content {
-        background-color: black;
+    .login-box-title {
+        height: 10vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+        color: rgba(55, 55, 55, 1);
+    }
+
+    .login-form {
+        height: 30vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    input[type=text],
+    input[type=password] {
+        padding: 12px 20px;
+        margin: 8px 0;
+        box-sizing: border-box;
+    }
+
+    button[type=button] {
+        background-color: rgba(255, 93, 134, 1);
+        color: white;
+        padding: 12px 20px;
+        margin: 8px 0;
+        border: rgba(255, 255, 255, 1);
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    button[type=button]:hover {
+        background-color: rgb(240, 87, 125);
     }
 </style>
 
