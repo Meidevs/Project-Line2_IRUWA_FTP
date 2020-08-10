@@ -6,6 +6,23 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var static = require('serve-static');
 
+
+// Session Storage
+const session = require('express-session');
+const FileStore = require('session-file-store')(session);
+
+app.use(session({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: false,
+  rolling : true,
+  store: new FileStore(),
+  cookie : {
+   maxAge: 2592000000,
+  }
+}));
+
+
 //Middle Ware List
 var ftpRouter = require('./routes/ftp');
 var authRouter = require('./routes/auth');

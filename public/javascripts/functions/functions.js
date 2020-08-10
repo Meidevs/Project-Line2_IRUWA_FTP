@@ -2,18 +2,18 @@ var crypto = require('crypto');
 var btoa = require('btoa');
 
 class Functions {
-    PasswordEncryption (id, pw) {
-     return new Promise (
-      async (resolve, reject) => {
-       try {
-          var cryptoHash = crypto.createHash('sha256').update(id).update(pw).digest();
-          var base64String = await btoa(String.fromCharCode(...new Uint8Array(cryptoHash)));
-	  resolve(base64String);
-       } catch (err) {
-          reject(err) 
-       }
-      }
-     )
+    PasswordEncryption(id, pw) {
+        return new Promise(
+            async (resolve, reject) => {
+                try {
+                    var cryptoHash = crypto.createHash('sha256').update(id).update(pw).digest();
+                    var base64String = await btoa(String.fromCharCode(...new Uint8Array(cryptoHash)));
+                    resolve(base64String);
+                } catch (err) {
+                    reject(err)
+                }
+            }
+        )
     }
 
     EleminateMarks(data) {
@@ -32,6 +32,23 @@ class Functions {
                         var reStr = str;
                     }
                     resolve(reStr)
+                } catch (err) {
+                    reject(err)
+                }
+            }
+        )
+    }
+
+    TodayString () {
+        return new Promise (
+            async (resolve, reject) => {
+                try {
+                    var today = new Date();
+                    var yearString = today.getFullYear();
+                    var monthString = today.getMonth() + 1;
+                    var dayString = today.getDate();
+                    var dateString = yearString + '-' + monthString + '-' + dayString;
+                    resolve(dateString)
                 } catch (err) {
                     reject(err)
                 }
