@@ -7,32 +7,34 @@ var cookieParser = require('cookie-parser');
 var static = require('serve-static');
 
 //Middle Ware List
-var apiRouter = require('./routes/api');
+var ftpRouter = require('./routes/ftp');
 var authRouter = require('./routes/auth');
 var adminRouter = require('./routes/admin');
+var apiRouter = require('./routes/api');
 
-const app1 = express();
-const app2 = express();
+const appFTP_1 = express();
+const appFTP_2 = express();
 const AdminApp = express();
+const appServer = express();
 
 // view engine setup
-app1.use(bodyParser.json());
-app1.set('views', path.join(__dirname, 'views'));
-app1.set('view engine', 'ejs');
-app1.use(logger('dev'));
-app1.use(express.json());
-app1.use(express.urlencoded({ extended: false }));
-app1.use(cookieParser());
-app1.use(express.static(path.join(__dirname, 'public')));
+appFTP_1.use(bodyParser.json());
+appFTP_1.set('views', path.join(__dirname, 'views'));
+appFTP_1.set('view engine', 'ejs');
+appFTP_1.use(logger('dev'));
+appFTP_1.use(express.json());
+appFTP_1.use(express.urlencoded({ extended: false }));
+appFTP_1.use(cookieParser());
+appFTP_1.use(express.static(path.join(__dirname, 'public')));
 
-app2.use(bodyParser.json());
-app2.set('views', path.join(__dirname, 'views'));
-app2.set('view engine', 'ejs');
-app2.use(logger('dev'));
-app2.use(express.json());
-app2.use(express.urlencoded({ extended: false }));
-app2.use(cookieParser());
-app2.use(express.static(path.join(__dirname, 'public')));
+appFTP_2.use(bodyParser.json());
+appFTP_2.set('views', path.join(__dirname, 'views'));
+appFTP_2.set('view engine', 'ejs');
+appFTP_2.use(logger('dev'));
+appFTP_2.use(express.json());
+appFTP_2.use(express.urlencoded({ extended: false }));
+appFTP_2.use(cookieParser());
+appFTP_2.use(express.static(path.join(__dirname, 'public')));
 
 AdminApp.use(bodyParser.json());
 AdminApp.set('views', path.join(__dirname, 'views'));
@@ -43,25 +45,40 @@ AdminApp.use(express.urlencoded({ extended: false }));
 AdminApp.use(cookieParser());
 AdminApp.use(express.static(path.join(__dirname, 'public')));
 
+appServer.use(bodyParser.json());
+appServer.set('views', path.join(__dirname, 'views'));
+appServer.set('view engine', 'ejs');
+appServer.use(logger('dev'));
+appServer.use(express.json());
+appServer.use(express.urlencoded({ extended: false }));
+appServer.use(cookieParser());
+appServer.use(express.static(path.join(__dirname, 'public')));
+
 // Request API, RESTful Endpoint
-app1.use('/api', apiRouter);
-app2.use('/api', apiRouter);
+appFTP_1.use('/ftp', ftpRouter);
+appFTP_2.use('/ftp', ftpRouter);
 
 // Request API, RESTful Endpoint For User Authentication.
-app1.use('/auth', authRouter);
-app2.use('/auth', authRouter);
-
+appFTP_1.use('/auth', authRouter);
+appFTP_2.use('/auth', authRouter);
 
 //Request API, RESTful Endpoint for Admin System
 AdminApp.use('/admin', adminRouter);
 
-// Parse the request body as JSON
-app1.use(body.json());
-app2.use(body.json());
-AdminApp.use(body.json());
+//Request API, RESTful Endpoint as App Server
+appServer.use('/api', apiRouter);
 
-app1.listen(3000);
-app2.listen(3001);
+// Parse the request body as JSON
+appFTP_1.use(body.json());
+appFTP_2.use(body.json());
+AdminApp.use(body.json());
+appServer.use(body.json());
+
+appFTP_1.listen(3000);
+appFTP_2.listen(3001);
 AdminApp.listen(80, () => {
     console.log('Admin Server Running! http://localhost:80/admin')
 });
+appServer.listen(8888, () => {
+    console.log('App Server is Running! http://localhost:8888/api');
+})

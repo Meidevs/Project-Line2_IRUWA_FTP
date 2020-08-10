@@ -69,7 +69,7 @@
       formData.append('image', fileInput.files[0]);
       formData.append('adsuri', adsuri.files[0]);
       formData.append('info', info.files[0]);
-      var response = await fetch('http://localhost:8080/api/image/upload', {
+      var response = await fetch('http://localhost:8080/ftp/image/upload', {
         method: 'POST',
         'Content-Type': 'multipart/form-data',
         body: formData,
