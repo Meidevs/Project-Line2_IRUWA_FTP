@@ -32,9 +32,6 @@ appServer.use(session({
   }
 }));
 
-
-
-
 // view engine setup
 appFTP_1.use(bodyParser.json());
 appFTP_1.set('views', path.join(__dirname, 'views'));
