@@ -49,12 +49,11 @@
                 body : JSON.stringify({userid : userid, userpw : userpw})
             })
             let json = await response.json();
-            console.log(json);
             if (response.ok) {
-                var status = response.user.status;
+                var status = 0;
                 switch (status) {
                     case 0 :
-                        window.location.href = 'http://w3schools.com'
+                        window.location.href = 'http://localhost:80/admin/dashboard'
                 }
             } else {
                 alert('로그인 실패')

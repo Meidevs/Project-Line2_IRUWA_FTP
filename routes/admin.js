@@ -17,4 +17,8 @@ router.post('/confirm', async (req, res) => {
         console.log(err)
     }
 });
+
+router.get('/dashboard', (req, res) => {
+    res.render('dashboard')
+});
 module.exports = router;
