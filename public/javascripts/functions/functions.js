@@ -55,6 +55,19 @@ class Functions {
             }
         )
     }
+
+    SearchString (filter, data) {
+        return new Promise (
+            async (resolve, reject) => {
+                try {
+
+                } catch (err) {
+
+                }
+            }
+        )
+    }
+
 }
 
 

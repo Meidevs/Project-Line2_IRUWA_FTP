@@ -41,7 +41,7 @@ class Authentication {
                 try {
                     var flags = 1;
                     var sql = 'SELECT 1 AS cmp_id FROM tb_company WHERE EXISTS (SELECT cmp_id FROM tb_company WHERE cmp_id = ?)';
-                    var CMP_EXISTENCE = await myConnection.query(sql, [data.user_id]);
+                    var CMP_EXISTENCE = await myConnection.query(sql, [data.cmp_id]);
                     if (CMP_EXISTENCE[0] == undefined) {
                         flags = 0;
                     }
@@ -67,7 +67,7 @@ class Authentication {
                     if (USER_INFO[0] != undefined) {
                         resReturn = {
                             flags: 0,
-                            message : '로그인 되었습니다.',
+                            message: '로그인 되었습니다.',
                             userSession: USER_INFO[0],
                         }
                     }
@@ -93,7 +93,7 @@ class Authentication {
                     if (CMP_INFO[0] != undefined) {
                         resReturn = {
                             flags: 0,
-                            message : '로그인 되었습니다.',
+                            message: '로그인 되었습니다.',
                             userSession: CMP_INFO[0],
                         }
                     }
@@ -105,13 +105,17 @@ class Authentication {
         )
     }
 
-    REGISTER(data) {
+    REGISTER_USER(data) {
         return new Promise(
             async (resolve, reject) => {
                 try {
+                    var resReturn = {
+                        flags : 0,
+                        message : '회원가입 되었습니다.'
+                    }
                     var sql = 'INSERT INTO tb_users (user_id, user_pw, user_name, user_phone, user_email, reg_date) VALUES (?, ?, ?, ?, ?, ?)';
                     await myConnection.query(sql, [data.user_id, data.user_pw, data.user_name, data.user_phone, data.user_email, data.reg_date]);
-                    resolve()
+                    resolve(resReturn)
                 } catch (err) {
                     reject(err)
                 }
@@ -119,6 +123,23 @@ class Authentication {
         )
     }
 
+    REGISTER_CMP(data) {
+        return new Promise(
+            async (resolve, reject) => {
+                try {
+                    var resReturn = {
+                        flags : 0,
+                        message : '회원가입 되었습니다.'
+                    }
+                    var sql = 'INSERT INTO tb_company (cmp_id, cmp_pw, cmp_name, cmp_phone, cmp_email, cmp_location, cmp_certificates, reg_date,  category_seq) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
+                    await myConnection.query(sql, [data.cmp_id, data.cmp_pw, data.cmp_name, data.cmp_phone, data.cmp_email, data.cmp_location, data.cmp_certificates, data.reg_date,  data.category_seq]);
+                    resolve(resReturn)
+                } catch (err) {
+                    reject(err)
+                }
+            }
+        )
+    }
 }
 
 module.exports = new Authentication();

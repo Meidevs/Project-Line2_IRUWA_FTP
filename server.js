@@ -6,12 +6,22 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var static = require('serve-static');
 
+//Middle Ware List
+var ftpRouter = require('./routes/ftp');
+var authRouter = require('./routes/auth');
+var adminRouter = require('./routes/admin');
+var apiRouter = require('./routes/api');
+
+const appFTP_1 = express();
+const appFTP_2 = express();
+const AdminApp = express();
+const appServer = express();
 
 // Session Storage
 const session = require('express-session');
 const FileStore = require('session-file-store')(session);
 
-app.use(session({
+appServer.use(session({
   secret: 'keyboard cat',
   resave: false,
   saveUninitialized: false,
@@ -23,16 +33,7 @@ app.use(session({
 }));
 
 
-//Middle Ware List
-var ftpRouter = require('./routes/ftp');
-var authRouter = require('./routes/auth');
-var adminRouter = require('./routes/admin');
-var apiRouter = require('./routes/api');
 
-const appFTP_1 = express();
-const appFTP_2 = express();
-const AdminApp = express();
-const appServer = express();
 
 // view engine setup
 appFTP_1.use(bodyParser.json());
