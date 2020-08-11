@@ -42,6 +42,40 @@ class Items {
             }
         )
     }
+
+    GET_ITEMS_LIST(data) {
+        return new Promise (
+            async (resolve, reject) => {
+                try {
+                    // After Put Ads Date
+                    var sql = 'SELECT * FROM tb_items WHERE cmp_seq IN (SELECT cmp_seq FROM tb_company WHERE cmp_location = ?)';
+                    var resReturn = await myConnection.query(sql, [data.location_name]);
+                    resolve(resReturn);
+                } catch (err) {
+                    reject(err)
+                }
+            }
+        )
+    }
+    GET_IMAGE_URI(data) {
+        return new Promise (
+            async (resolve, reject) => {
+                try {
+                    var sql = '\n';
+                    sql += "SELECT * ";
+                    sql += "FROM tb_images ";
+                    sql += "WHERE items_seq IN (";
+                    sql += data.join();
+                    sql += ")";
+                    var IMAGE_URIs = await myConnection.query(sql);
+                    resolve(IMAGE_URIs);
+                } catch (err) {
+                    reject(err);
+
+                }
+            }
+        )
+    }
 }
 
 module.exports = new Items();

@@ -10,6 +10,7 @@ router.post('/login', async (req, res) => {
     // ** 데이터 베이스 호출 속도를 빠르게 한다.
     try {
         var FromData = req.body;
+        console.log(FromData)
         var resReturn;
         var todayString = await functions.TodayString();
         FromData.reg_date = todayString;
@@ -23,7 +24,6 @@ router.post('/login', async (req, res) => {
         // Variables of Data ,user_id for General User and cmp_id for Incorp User, are Different.
 
         if (FromData.status == 0) {
-
             //Encrypt User & Incorporated Password For Security. Hash Password Created Using User_id and User_pw.
             var hashingPassword = await functions.PasswordEncryption(FromData.user_id, FromData.user_pw);
             FromData.user_pw = hashingPassword;
