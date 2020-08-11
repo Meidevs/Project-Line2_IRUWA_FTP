@@ -9,12 +9,10 @@ router.get('/all', async (req, res) => {
     // ** 데이터 베이스 호출 속도를 빠르게 한다.
     try {
         var ALL_CATEGORIES = await itemModel.SELECT_ALL_CATEGORIES();
-        console.log(ALL_CATEGORIES);
         res.status(200).send(ALL_CATEGORIES)
     } catch (err) {
         console.log(err)
     }
 });
-
 
 module.exports = router;
