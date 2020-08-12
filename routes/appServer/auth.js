@@ -10,7 +10,6 @@ router.post('/login', async (req, res) => {
     // ** 데이터 베이스 호출 속도를 빠르게 한다.
     try {
         var FromData = req.body;
-        console.log(FromData)
         var resReturn;
         var todayString = await functions.TodayString();
         FromData.reg_date = todayString;
@@ -32,16 +31,18 @@ router.post('/login', async (req, res) => {
         var USER_EXISTENCE = await userModel.CHECK_USER_EXISTENCE(FromData);
         if (USER_EXISTENCE == 1) {
             var USER_INFO = await userModel.LOGIN_USER(FromData);
-
+            resReturn = USER_INFO;
             // IF Login Process is related to Company User, Browser Will Send status 1. 
-            // Server Put in Company Infos to the User Session file.
-            if (FromData.status == 1) {
+            // Server Put in Company Infos to the User
+            if (USER_INFO.flags == 0) {
+
+                // IF There is no Company Information, CMP_INFO Will be false.
+                // If Not, userSession Will be Updated!
                 var CMP_INFO = await userModel.GET_CMP_INFO(USER_INFO);
-                resReturn = CMP_INFO;
-                req.session.user = CMP_INFO.userSession;
-            } else {
-                resReturn = USER_INFO;
-                req.session.user = USER_INFO.userSession;
+                if (CMP_INFO) {
+                    resReturn = CMP_INFO;
+                    req.session.user = CMP_INFO.userSession;
+                } 
             }
         }
         res.status(200).send(resReturn);

@@ -78,11 +78,7 @@ class Authentication {
         return new Promise(
             async (resolve, reject) => {
                 try {
-                    console.log(data)
-                    var resReturn = {
-                        flags: 1,
-                        message: '업체 회원이 아닙니다.',
-                    };
+                    var resReturn = false;
                     var sql = 'SELECT * FROM tb_company WHERE user_seq = ?';
                     var CMP_INFO = await myConnection.query(sql, [data.userSession.user_seq]);
                     if (CMP_INFO[0] != undefined) {
