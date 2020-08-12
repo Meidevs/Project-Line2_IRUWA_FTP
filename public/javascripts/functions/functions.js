@@ -67,7 +67,33 @@ class Functions {
             }
         )
     }
+    TimeAverageCal (data) {
+        return new Promise (
+            async (resolve, reject) => {
+                try {
+                    var TimeArray = new Array();
+                    data.map((data) => {
+                        var rawData = data.res_time.split(':');
+                        TimeArray.push(rawData)
+                    });
+                    var date = 0;
+                    var hour = 0;
+                    var minutes = 0;
+                    var seconds = 0;
 
+                    TimeArray.map((data) => {
+                        date = date + parseInt(data[0]);
+                        hour = hour + parseInt(data[1]);
+                        minutes = minutes + parseInt(data[2]);
+                        seconds = seconds + parseInt(data[3]);
+                    });
+                    
+                } catch (err) {
+
+                }
+            }
+        )
+    }
 }
 
 

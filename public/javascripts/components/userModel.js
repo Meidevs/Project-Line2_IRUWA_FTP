@@ -140,6 +140,33 @@ class Authentication {
             }
         )
     }
+
+    GET_CMP_LIST (data) {
+        return new Promise (
+            async (resolve, reject) => {
+                try {
+                    var sql = 'SELECT * FROM tb_company WHERE cmp_location = ?';
+                    var resReturn = await myConnection.query(sql, [data.location_name]);
+                    resolve(resReturn);
+                } catch (err) {
+                    reject(err)
+                }
+            }
+        )
+    }
+    GET_RESTIME_AVG (data) {
+        return new Promise (
+            async (resolve, reject) => {
+                try {
+                    var sql = 'SELECT res_time FROM tb_restime_avg WHERE cmp_seq = ?';
+                    var resReturn = await myConnection.query(sql, [data.cmp_seq]);
+                    resolve(resReturn);
+                } catch (err) {
+                    reject(err);
+                }
+            }
+        )
+    }
 }
 
 module.exports = new Authentication();

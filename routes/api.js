@@ -7,9 +7,11 @@ var router = express.Router();
 var authRouter = require('./appServer/auth');
 var cateRouter = require('./appServer/cate');
 var itemRouter = require('./appServer/item');
+var alarmRouter = require('./appServer/alarm');
 
 router.use('/auth', authRouter);
 router.use('/category', cateRouter)
 router.use('/item', itemRouter)
+router.use('/alarm', alarmRouter)
 
 module.exports = router;

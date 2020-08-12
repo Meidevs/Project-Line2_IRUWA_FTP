@@ -1,6 +1,5 @@
 var myConnection = require('../../../dbConfig');
 var functions = require('../functions/functions');
-const { rejectSeries } = require('async');
 
 class Items {
     SELECT_ALL_CATEGORIES() {
