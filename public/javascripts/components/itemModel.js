@@ -56,6 +56,21 @@ class Items {
             }
         )
     }
+
+    GET_ITEMS_LIST_ON_OWNER(data) {
+        return new Promise (
+            async (resolve, reject) => {
+                try {
+                    var sql = 'SELECT * FROM tb_items WHERE cmp_seq = ?';
+                    var ITEMS_OF_OWNER = await myConnection.query(sql, [data.cmp_seq]);
+                    resolve(ITEMS_OF_OWNER);
+                } catch (err) {
+                    reject(err);
+                }
+            }
+        )
+    }
+
     GET_IMAGE_URI(data) {
         return new Promise(
             async (resolve, reject) => {

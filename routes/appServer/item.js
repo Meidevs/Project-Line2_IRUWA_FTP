@@ -98,28 +98,35 @@ router.post('/list/detail/', async (req, res) => {
         console.log('queryString : ', queryString)
         console.log('user_seq : ', user_seq)
 
-        // Set View Count
+        // GET_VIEW_OWNER Function Find out Whether a User Already Have Viewed an Item.
+        // IF the User is on the List, UPDATE_VIEW_COUNT Function isnt Excuted.
+        // Finally, GET_VIEW_COUNT Function Calls the Number of User Who Have Viewed the Item.
         var VIEW_OWNER = await itemModel.GET_VIEW_OWNER(user_seq, queryString.items_seq);
         if (VIEW_OWNER == 0 || null) {
             await itemModel.UPDATE_VIEW_COUNT(user_seq, queryString.items_seq);
         }
         var VIEW_COUNT = await itemModel.GET_VIEW_COUNT(queryString.items_seq);
 
-
-        // Get Company Response Time Avg.
+        // GET_RESTIME_AVG Function Calls the data Which was Recorded during Chat From Database.
+        // IF GET_RESTIME_AVG Function's Response Variable is not undefined, TimeAverageCal Function is Executed.
         var GET_RESTIME_AVG = await userModel.GET_RESTIME_AVG(queryString);
         if (GET_RESTIME_AVG[0] != undefined) {
             TIME_AVG = await functions.TimeAverageCal(GET_RESTIME_AVG);
-            console.log(TIME_AVG)
         }
 
-        // Check Whether Application's User Already Pick the Item or Not.
+        // Check Whether Application's User Already Have Picked the Item.
         // If User already Pick the Item, PICK_STATUS Will be true.
         var EXISTENCE = await itemModel.USER_PICK_EXISTENCE(user_seq, queryString.items_seq);
         if (EXISTENCE) {
             PICK_STATUS = true;
         }
-        res.status(200).send({VIEW_COUNT : VIEW_COUNT, TIME_AVG : TIME_AVG, PICK_STATUS : PICK_STATUS});
+        
+        var ITEMS_OF_OWNER = await itemModel.GET_ITEMS_LIST_ON_OWNER(queryString);
+        for (var i = 0; i < ITEMS_OF_OWNER.length; i++) {
+            ITEMS_OF_OWNER[i].item_content = ITEMS_OF_OWNER[i].item_content.toString();
+        }
+        
+        res.status(200).send({VIEW_COUNT : VIEW_COUNT, TIME_AVG : TIME_AVG, PICK_STATUS : PICK_STATUS, ITEMS_OF_OWNER : ITEMS_OF_OWNER});
     } catch (err) {
         console.log(err)
     }
