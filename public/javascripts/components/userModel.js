@@ -35,19 +35,15 @@ class Authentication {
         )
     }
 
-    CHECK_CMP_EXISTENCE(data) {
+    GET_USER_COUNT() {
         return new Promise(
             async (resolve, reject) => {
                 try {
-                    var flags = 1;
-                    var sql = 'SELECT 1 AS cmp_id FROM tb_company WHERE EXISTS (SELECT cmp_id FROM tb_company WHERE cmp_id = ?)';
-                    var CMP_EXISTENCE = await myConnection.query(sql, [data.cmp_id]);
-                    if (CMP_EXISTENCE[0] == undefined) {
-                        flags = 0;
-                    }
-                    resolve(flags);
+                    var sql = 'SELECT COUNT(*) AS cnt FROM tb_users';
+                    var USER_COUNT = await myConnection.query(sql);
+                    resolve(USER_COUNT[0].cnt);
                 } catch (err) {
-                    reject(err);
+                    reject(err)
                 }
             }
         )
@@ -63,7 +59,6 @@ class Authentication {
                     };
                     var sql = 'SELECT * FROM tb_users WHERE user_id = ? AND user_pw = ?';
                     var USER_INFO = await myConnection.query(sql, [data.user_id, data.user_pw]);
-
                     if (USER_INFO[0] != undefined) {
                         resReturn = {
                             flags: 0,
@@ -79,22 +74,32 @@ class Authentication {
         )
     }
 
-    LOGIN_CMP(data) {
+    GET_CMP_INFO(data) {
         return new Promise(
             async (resolve, reject) => {
                 try {
+                    console.log(data)
                     var resReturn = {
                         flags: 1,
-                        message: '비밀번호가 맞지 않습니다.',
+                        message: '업체 회원이 아닙니다.',
                     };
-                    var sql = 'SELECT * FROM tb_company WHERE cmp_id = ? AND cmp_pw = ?';
-                    var CMP_INFO = await myConnection.query(sql, [data.cmp_id, data.cmp_pw]);
-
+                    var sql = 'SELECT * FROM tb_company WHERE user_seq = ?';
+                    var CMP_INFO = await myConnection.query(sql, [data.userSession.user_seq]);
                     if (CMP_INFO[0] != undefined) {
+                        data.userSession.cmp_seq = CMP_INFO[0].cmp_seq,
+                        data.userSession.category_seq = CMP_INFO[0].category_seq,
+                        data.userSession.cmp_name = CMP_INFO[0].cmp_name,
+                        data.userSession.cmp_phone = CMP_INFO[0].cmp_phone,
+                        data.userSession.cmp_location = CMP_INFO[0].cmp_location,
+                        data.userSession.cmp_certificates = CMP_INFO[0].cmp_certificates,
+                        data.userSession.reg_date = CMP_INFO[0].reg_date,
+                        data.userSession.ads_date = CMP_INFO[0].ads_date,
+                        data.userSession.ads_pre_date = CMP_INFO[0].ads_pre_date,
+
                         resReturn = {
                             flags: 0,
                             message: '로그인 되었습니다.',
-                            userSession: CMP_INFO[0],
+                            userSession: data.userSession,
                         }
                     }
                     resolve(resReturn);
@@ -110,11 +115,12 @@ class Authentication {
             async (resolve, reject) => {
                 try {
                     var resReturn = {
-                        flags : 0,
-                        message : '회원가입 되었습니다.'
+                        flags: 0,
+                        message: '회원가입되었습니다.'
                     }
                     var sql = 'INSERT INTO tb_users (user_id, user_pw, user_name, user_phone, user_email, reg_date) VALUES (?, ?, ?, ?, ?, ?)';
-                    await myConnection.query(sql, [data.user_id, data.user_pw, data.user_name, data.user_phone, data.user_email, data.reg_date]);
+                    var response = await myConnection.query(sql, [data.user_id, data.user_pw, data.user_name, data.user_phone, data.user_email, data.reg_date]);
+                    console.log(response)
                     resolve(resReturn)
                 } catch (err) {
                     reject(err)
@@ -123,17 +129,17 @@ class Authentication {
         )
     }
 
-    REGISTER_CMP(data) {
+    REGISTER_CMP(USER_SEQ, data) {
         return new Promise(
             async (resolve, reject) => {
                 try {
                     var resReturn = {
-                        flags : 0,
-                        message : '회원가입 되었습니다.'
+                        flags: 0,
+                        message: '회원가입 및 업체가 등록되었습니다.'
                     }
-                    var sql = 'INSERT INTO tb_company (cmp_id, cmp_pw, cmp_name, cmp_phone, cmp_email, cmp_location, cmp_certificates, reg_date,  category_seq) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
-                    await myConnection.query(sql, [data.cmp_id, data.cmp_pw, data.cmp_name, data.cmp_phone, data.cmp_email, data.cmp_location, data.cmp_certificates, data.reg_date,  data.category_seq]);
-                    resolve(resReturn)
+                    var sql = 'INSERT INTO tb_company (user_seq, category_seq, cmp_name, cmp_phone, cmp_location, cmp_certificates, reg_date) VALUES (?, ?, ?, ?, ?, ?, ?)';
+                    var response = await myConnection.query(sql, [USER_SEQ, data.category_seq, data.cmp_name, data.cmp_phone, data.cmp_location, data.cmp_certificates, data.reg_date]);
+                    resolve(resReturn);
                 } catch (err) {
                     reject(err)
                 }
@@ -141,8 +147,8 @@ class Authentication {
         )
     }
 
-    GET_CMP_LIST (data) {
-        return new Promise (
+    GET_CMP_LIST(data) {
+        return new Promise(
             async (resolve, reject) => {
                 try {
                     var sql = 'SELECT * FROM tb_company WHERE cmp_location = ?';
@@ -154,8 +160,8 @@ class Authentication {
             }
         )
     }
-    GET_RESTIME_AVG (data) {
-        return new Promise (
+    GET_RESTIME_AVG(data) {
+        return new Promise(
             async (resolve, reject) => {
                 try {
                     var sql = 'SELECT res_time FROM tb_restime_avg WHERE cmp_seq = ?';

@@ -1,5 +1,6 @@
 var crypto = require('crypto');
 var btoa = require('btoa');
+const { time } = require('console');
 
 class Functions {
     PasswordEncryption(id, pw) {
@@ -81,15 +82,25 @@ class Functions {
                     var minutes = 0;
                     var seconds = 0;
 
+                    // Add Each of Date, Hour, Minutes, Seconds Variables.
                     TimeArray.map((data) => {
                         date = date + parseInt(data[0]);
                         hour = hour + parseInt(data[1]);
                         minutes = minutes + parseInt(data[2]);
                         seconds = seconds + parseInt(data[3]);
                     });
-                    
+                    // One Day = 1 * 24 * 60 * 60 s
+                    // One Hour = 1 * 60 * 60 s
+                    // One Minute = 1 * 60 s
+                    // One Seconds = 1 s
+                    var dateToSeconds = date * 24 * 60 * 60;
+                    var hourToSeconds = hour * 60 * 60;
+                    var minutesToSeconds = minutes * 60;
+                    var timeAvg = (dateToSeconds + hourToSeconds + minutesToSeconds + seconds) / TimeArray.length;
+                    var result = parseInt(timeAvg / 86400) + ":" + parseInt(timeAvg % 86400 / 3600) + ":" + parseInt(timeAvg % 86400 % 3600 / 60) + ":" +  timeAvg % 86400 % 3600 % 60;
+                    resolve(result);
                 } catch (err) {
-
+                    reject(err)
                 }
             }
         )

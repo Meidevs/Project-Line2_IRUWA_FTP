@@ -93,10 +93,27 @@ router.post('/list/detail/', async (req, res) => {
 
         // Get Company Response Time Avg.
         var GET_RESTIME_AVG = await userModel.GET_RESTIME_AVG(queryString);
-        await functions.TimeAverageCal(GET_RESTIME_AVG);
+        var TIME_AVG = await functions.TimeAverageCal(GET_RESTIME_AVG);
+        var PICK_COUNT = await itemModel.GET_PICK_COUNT(queryString);
     } catch (err) {
         console.log(err)
     }
-})
+});
+
+router.post('/list/detail/pick', async (req, res) => {
+    // ** 함수는 한 가지 기능만 구현한다!
+    // ** 데이터 베이스 호출 속도를 빠르게 한다.
+    try {
+        req.query.item_seq = parseInt(req.query.item_seq);
+        req.query.cmp_seq = parseInt(req.query.cmp_seq);
+        var queryString = req.query;
+        console.log(queryString)
+
+        // Get Company Response Time Avg.
+        await itemModel.USER_PICK_ITEM()
+    } catch (err) {
+        console.log(err)
+    }
+});
 
 module.exports = router;
