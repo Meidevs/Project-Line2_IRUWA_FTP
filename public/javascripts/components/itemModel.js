@@ -89,7 +89,7 @@ class Items {
             }
         )
     }
-    GET_ITEM_OWNER(data) {
+    GET_PICK_OWNER(data) {
         return new Promise(
             async (resolve, reject) => {
                 try {
@@ -146,13 +146,52 @@ class Items {
             }
         )
     }
-    GET_PICK_COUNT() {
+    GET_PICK_STATUS() {
         return new Promise(
             async (resolve, reject) => {
                 try {
 
                 } catch (err) {
 
+                }
+            }
+        )
+    }
+    GET_VIEW_OWNER(user_seq, items_seq) {
+        return new Promise (
+            async (resolve, reject) => {
+                try {
+                    var sql = 'SELECT COUNT(*) AS cnt FROM tb_view WHERE user_seq = ?  AND items_seq = ?';
+                    var VIEW_OWNER = await myConnection.query(sql, [user_seq, items_seq]);
+                    resolve(VIEW_OWNER[0].cnt);
+                } catch (err) {
+                    reject(err)
+                }
+            }
+        )
+    }
+    UPDATE_VIEW_COUNT (user_seq, items_seq) {
+        return new Promise (
+            async (resolve, reject) => {
+                try {
+                    var sql = 'INSERT INTO tb_view (user_seq, items_seq) VALUES (?, ?)';
+                    await myConnection.query(sql, [user_seq, items_seq]);
+                    resolve(true)
+                } catch (err) {
+                    reject(err)
+                }
+            }
+        )
+    }
+    GET_VIEW_COUNT (items_seq) {
+        return new Promise (
+            async (resolve, reject) => {
+                try {
+                    var sql = 'SELECT COUNT(*) AS cnt FROM tb_view WHERE items_seq = ?';
+                    var VIEW_COUNT = await myConnection.query(sql, [items_seq]);
+                    resolve(VIEW_COUNT[0].cnt);
+                } catch (err) {
+                    reject(err);
                 }
             }
         )

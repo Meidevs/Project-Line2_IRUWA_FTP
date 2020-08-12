@@ -90,10 +90,21 @@ router.post('/list/detail/', async (req, res) => {
     try {
         req.query.items_seq = parseInt(req.query.items_seq);
         req.query.cmp_seq = parseInt(req.query.cmp_seq);
+        var user_seq = req.session.user.user_seq;
         var queryString = req.query;
         var TIME_AVG = '0:0:0:0';
+        PICK_STATUS = false;
+        VIEW_COUNT = 0;
+        console.log('queryString : ', queryString)
+        console.log('user_seq : ', user_seq)
 
-        console.log(queryString)
+        // Set View Count
+        var VIEW_OWNER = await itemModel.GET_VIEW_OWNER(user_seq, queryString.items_seq);
+        if (VIEW_OWNER == 0 || null) {
+            await itemModel.UPDATE_VIEW_COUNT(user_seq, queryString.items_seq);
+        }
+        var VIEW_COUNT = await itemModel.GET_VIEW_COUNT(queryString.items_seq);
+
 
         // Get Company Response Time Avg.
         var GET_RESTIME_AVG = await userModel.GET_RESTIME_AVG(queryString);
@@ -101,7 +112,14 @@ router.post('/list/detail/', async (req, res) => {
             TIME_AVG = await functions.TimeAverageCal(GET_RESTIME_AVG);
             console.log(TIME_AVG)
         }
-        var PICK_COUNT = await itemModel.GET_PICK_COUNT(queryString);
+
+        // Check Whether Application's User Already Pick the Item or Not.
+        // If User already Pick the Item, PICK_STATUS Will be true.
+        var EXISTENCE = await itemModel.USER_PICK_EXISTENCE(user_seq, queryString.items_seq);
+        if (EXISTENCE) {
+            PICK_STATUS = true;
+        }
+        res.status(200).send({VIEW_COUNT : VIEW_COUNT, TIME_AVG : TIME_AVG, PICK_STATUS : PICK_STATUS});
     } catch (err) {
         console.log(err)
     }
@@ -118,7 +136,7 @@ router.post('/list/detail/pick/', async (req, res) => {
             flags: 2,
             message: '본인 상품은 찜할 수 없습니다.'
         }
-        var ITEM_OWNER = await itemModel.GET_ITEM_OWNER(queryString);
+        var ITEM_OWNER = await itemModel.GET_PICK_OWNER(queryString);
         if (ITEM_OWNER != user_seq) {
             var EXISTENCE = await itemModel.USER_PICK_EXISTENCE(user_seq, queryString.items_seq);
             if (EXISTENCE) {
