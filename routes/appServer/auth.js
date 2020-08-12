@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 
 var userModel = require('../../public/javascripts/components/userModel');
-var itemModel = require('../../public/javascripts/components/itemModel');
 var functions = require('../../public/javascripts/functions/functions');
 
 router.post('/login', async (req, res) => {
@@ -32,10 +31,7 @@ router.post('/login', async (req, res) => {
         if (USER_EXISTENCE == 1) {
             var USER_INFO = await userModel.LOGIN_USER(FromData);
             resReturn = USER_INFO;
-            // IF Login Process is related to Company User, Browser Will Send status 1. 
-            // Server Put in Company Infos to the User
             if (USER_INFO.flags == 0) {
-
                 // IF There is no Company Information, CMP_INFO Will be false.
                 // If Not, userSession Will be Updated!
                 var CMP_INFO = await userModel.GET_CMP_INFO(USER_INFO);
@@ -73,7 +69,6 @@ router.post('/register', async (req, res) => {
             resReturn = REGISTER_USER;
             if (FromData.status == 1) {
                 var GET_USER_COUNT = await userModel.GET_USER_COUNT();
-                console.log('GET_USER_COUNT : ', GET_USER_COUNT);
                 var REGISTER_CMP = await userModel.REGISTER_CMP(GET_USER_COUNT, FromData);
                 resReturn = REGISTER_CMP;
             }
