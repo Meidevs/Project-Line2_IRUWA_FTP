@@ -86,4 +86,19 @@ router.post('/register', async (req, res) => {
     }
 });
 
+router.post('/logout', async (req, res) => {
+    try {
+        req.session.destroy((err) => {
+            console.log(err);
+        });
+        var resReturn = {
+            flags : 0,
+            message : '로그아웃 되었습니다.'
+        }
+        res.status(200).send()
+    } catch (err) {
+        console.log(err)
+    }
+})
+
 module.exports = router;

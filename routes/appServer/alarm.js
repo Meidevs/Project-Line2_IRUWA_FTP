@@ -68,7 +68,13 @@ router.post('/alarm/keywords/delete', async (req, res) => {
     }
 });
 
-
+router.post('/alarm/keywords/load', async (req, res) => {
+    try {
+        
+    } catch (err) {
+        console.log(err);
+    }
+});
 
 router.get('/alarm/chat', async (req, res) => {
     try {
