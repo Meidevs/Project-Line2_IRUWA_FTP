@@ -30,6 +30,12 @@ router.post('/login', async (req, res) => {
         var USER_EXISTENCE = await userModel.CHECK_USER_EXISTENCE(FromData);
         if (USER_EXISTENCE == 1) {
             var USER_INFO = await userModel.LOGIN_USER(FromData);
+
+            // GET_USER_ALARM_STATE Function Calls User's Alarm Setting Using USER_SEQ.
+            var USER_ALARM_SET = await userModel.GET_USER_ALARM_STATE(USER_INFO.userSession.user_seq);
+            console.log(USER_ALARM_SET)
+            USER_INFO.userSession.main_alarm = USER_ALARM_SET.main_alarm;
+            USER_INFO.userSession.sub_alarm = USER_ALARM_SET.sub_alarm;
             resReturn = USER_INFO;
             if (USER_INFO.flags == 0) {
                 // IF There is no Company Information, CMP_INFO Will be false.
@@ -66,9 +72,10 @@ router.post('/register', async (req, res) => {
         var USER_EXISTENCE = await userModel.CHECK_USER_EXISTENCE(FromData);
         if (USER_EXISTENCE == 0) {
             var REGISTER_USER = await userModel.REGISTER_USER(FromData);
+            var GET_USER_COUNT = await userModel.GET_USER_COUNT();
+            await userModel.REGISTER_USER_ALARM(GET_USER_COUNT);
             resReturn = REGISTER_USER;
             if (FromData.status == 1) {
-                var GET_USER_COUNT = await userModel.GET_USER_COUNT();
                 var REGISTER_CMP = await userModel.REGISTER_CMP(GET_USER_COUNT, FromData);
                 resReturn = REGISTER_CMP;
             }

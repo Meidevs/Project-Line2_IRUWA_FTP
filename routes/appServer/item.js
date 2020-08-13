@@ -93,11 +93,10 @@ router.post('/list/detail/', async (req, res) => {
         var user_seq = req.session.user.user_seq;
         var queryString = req.query;
         var TIME_AVG = '0:0:0:0';
-        PICK_STATUS = false;
-        VIEW_COUNT = 0;
-        console.log('queryString : ', queryString)
-        console.log('user_seq : ', user_seq)
-
+        var IMAGE_URIs = new Array();
+        var PICK_STATUS = false;
+        var VIEW_COUNT = 0;
+        
         // GET_VIEW_OWNER Function Find out Whether a User Already Have Viewed an Item.
         // IF the User is on the List, UPDATE_VIEW_COUNT Function isnt Excuted.
         // Finally, GET_VIEW_COUNT Function Calls the Number of User Who Have Viewed the Item.
@@ -105,7 +104,7 @@ router.post('/list/detail/', async (req, res) => {
         if (VIEW_OWNER == 0 || null) {
             await itemModel.UPDATE_VIEW_COUNT(user_seq, queryString.items_seq);
         }
-        var VIEW_COUNT = await itemModel.GET_VIEW_COUNT(queryString.items_seq);
+        VIEW_COUNT = await itemModel.GET_VIEW_COUNT(queryString.items_seq);
 
         // GET_RESTIME_AVG Function Calls the data Which was Recorded during Chat From Database.
         // IF GET_RESTIME_AVG Function's Response Variable is not undefined, TimeAverageCal Function is Executed.
@@ -126,6 +125,21 @@ router.post('/list/detail/', async (req, res) => {
             ITEMS_OF_OWNER[i].item_content = ITEMS_OF_OWNER[i].item_content.toString();
         }
         
+        // Extract items_seq As a Array. IMAGE_URIs Array sent to GET_IMAGE_URI Function Which Get Image Uris From Database. 
+        for (var j = 0; j < ITEMS_OF_OWNER.length; j++) {
+            IMAGE_URIs.push(ITEMS_OF_OWNER[j].items_seq);
+        }
+        var IMAGE_URI_ARRAY = await itemModel.GET_IMAGE_URI(IMAGE_URIs);
+        
+        ITEMS_OF_OWNER.map((data) => {
+            data.uri = new Array();
+            for (var x = 0; x < IMAGE_URI_ARRAY.length; x++) {
+                if (data.items_seq == IMAGE_URI_ARRAY[x].items_seq) {
+                    data.uri.push(IMAGE_URI_ARRAY[x].uri)
+                }
+            }
+        })
+
         res.status(200).send({VIEW_COUNT : VIEW_COUNT, TIME_AVG : TIME_AVG, PICK_STATUS : PICK_STATUS, ITEMS_OF_OWNER : ITEMS_OF_OWNER});
     } catch (err) {
         console.log(err)

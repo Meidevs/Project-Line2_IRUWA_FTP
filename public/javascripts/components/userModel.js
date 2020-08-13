@@ -49,6 +49,21 @@ class Authentication {
         )
     }
 
+    REGISTER_USER_ALARM (USER_SEQ) {
+        return new Promise (
+            async (resolve, reject) => {
+                try {
+                    console.log(USER_SEQ)
+                    var sql = 'INSERT INTO tb_user_alarm (user_seq) VALUES (?)';
+                    await myConnection.query(sql, [USER_SEQ]);
+                    resolve(true);
+                } catch (err) {
+                    reject(err)
+                }
+            }
+        )
+    }
+
     LOGIN_USER(data) {
         return new Promise(
             async (resolve, reject) => {
@@ -69,6 +84,21 @@ class Authentication {
                     resolve(resReturn);
                 } catch (err) {
                     reject(err)
+                }
+            }
+        )
+    }
+    GET_USER_ALARM_STATE (USER_SEQ) {
+        return new Promise (
+            async (resolve, reject) => {
+                try {
+                    console.log(USER_SEQ)
+                    var sql = 'SELECT main_alarm, sub_alarm FROM tb_user_alarm WHERE user_seq = ?';
+                    var USER_ALARM_STATE = await myConnection.query(sql, [USER_SEQ]);
+                    console.log('USER_ALARM_STATE :', USER_ALARM_STATE)
+                    resolve(USER_ALARM_STATE[0]);
+                } catch (err) {
+                    reject(err);
                 }
             }
         )
