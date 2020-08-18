@@ -49,8 +49,8 @@ class Authentication {
         )
     }
 
-    REGISTER_USER_ALARM (USER_SEQ) {
-        return new Promise (
+    REGISTER_USER_ALARM(USER_SEQ) {
+        return new Promise(
             async (resolve, reject) => {
                 try {
                     console.log(USER_SEQ)
@@ -88,8 +88,8 @@ class Authentication {
             }
         )
     }
-    GET_USER_ALARM_STATE (USER_SEQ) {
-        return new Promise (
+    GET_USER_ALARM_STATE(USER_SEQ) {
+        return new Promise(
             async (resolve, reject) => {
                 try {
                     console.log(USER_SEQ)
@@ -113,20 +113,20 @@ class Authentication {
                     var CMP_INFO = await myConnection.query(sql, [data.userSession.user_seq]);
                     if (CMP_INFO[0] != undefined) {
                         data.userSession.cmp_seq = CMP_INFO[0].cmp_seq,
-                        data.userSession.category_seq = CMP_INFO[0].category_seq,
-                        data.userSession.cmp_name = CMP_INFO[0].cmp_name,
-                        data.userSession.cmp_phone = CMP_INFO[0].cmp_phone,
-                        data.userSession.cmp_location = CMP_INFO[0].cmp_location,
-                        data.userSession.cmp_certificates = CMP_INFO[0].cmp_certificates,
-                        data.userSession.reg_date = CMP_INFO[0].reg_date,
-                        data.userSession.ads_date = CMP_INFO[0].ads_date,
-                        data.userSession.ads_pre_date = CMP_INFO[0].ads_pre_date,
+                            data.userSession.category_seq = CMP_INFO[0].category_seq,
+                            data.userSession.cmp_name = CMP_INFO[0].cmp_name,
+                            data.userSession.cmp_phone = CMP_INFO[0].cmp_phone,
+                            data.userSession.cmp_location = CMP_INFO[0].cmp_location,
+                            data.userSession.cmp_certificates = CMP_INFO[0].cmp_certificates,
+                            data.userSession.reg_date = CMP_INFO[0].reg_date,
+                            data.userSession.ads_date = CMP_INFO[0].ads_date,
+                            data.userSession.ads_pre_date = CMP_INFO[0].ads_pre_date,
 
-                        resReturn = {
-                            flags: 0,
-                            message: '로그인 되었습니다.',
-                            userSession: data.userSession,
-                        }
+                            resReturn = {
+                                flags: 0,
+                                message: '로그인 되었습니다.',
+                                userSession: data.userSession,
+                            }
                     }
                     resolve(resReturn);
                 } catch (err) {
@@ -144,8 +144,12 @@ class Authentication {
                         flags: 0,
                         message: '회원가입되었습니다.'
                     }
-                    var sql = 'INSERT INTO tb_users (user_id, user_pw, user_name, user_phone, user_email,user_location, reg_date) VALUES (?, ?, ?, ?, ?, ?, ?)';
-                    var response = await myConnection.query(sql, [data.user_id, data.user_pw, data.user_name, data.user_phone, data.user_email,data.user_location, data.reg_date]);
+                    var cmp_exist = 'N';
+                    if (data.status == 1) {
+                        cmp_exist = 'Y'
+                    }
+                    var sql = 'INSERT INTO tb_users (user_id, user_pw, user_name, user_phone, user_email,user_location, ,cmp_exist, reg_date) VALUES (?, ?, ?, ?, ?, ?, ?)';
+                    var response = await myConnection.query(sql, [data.user_id, data.user_pw, data.user_name, data.user_phone, data.user_email, data.user_location,cmp_exist, data.reg_date]);
                     console.log(response)
                     resolve(resReturn)
                 } catch (err) {

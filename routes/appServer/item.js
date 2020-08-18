@@ -37,7 +37,7 @@ router.post('/list', async (req, res) => {
         // Also, Distinguish Whether Company Pay for ads fee or Not. 
         // This Process Will be Executed by SQL to Accelerate Data Processing.
         var FromData = req.body;
-        FromData.location_name = '서울특별시 구로구 구로2동';
+        FromData.location_name = req.session.user.user_location;
 
         var IMAGE_URIs = new Array();
 
