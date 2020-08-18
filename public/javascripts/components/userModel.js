@@ -144,8 +144,8 @@ class Authentication {
                         flags: 0,
                         message: '회원가입되었습니다.'
                     }
-                    var sql = 'INSERT INTO tb_users (user_id, user_pw, user_name, user_phone, user_email, reg_date) VALUES (?, ?, ?, ?, ?, ?)';
-                    var response = await myConnection.query(sql, [data.user_id, data.user_pw, data.user_name, data.user_phone, data.user_email, data.reg_date]);
+                    var sql = 'INSERT INTO tb_users (user_id, user_pw, user_name, user_phone, user_email,user_location, reg_date) VALUES (?, ?, ?, ?, ?, ?, ?)';
+                    var response = await myConnection.query(sql, [data.user_id, data.user_pw, data.user_name, data.user_phone, data.user_email,data.user_location, data.reg_date]);
                     console.log(response)
                     resolve(resReturn)
                 } catch (err) {

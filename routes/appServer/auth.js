@@ -9,6 +9,7 @@ router.post('/login', async (req, res) => {
     // ** 데이터 베이스 호출 속도를 빠르게 한다.
     try {
         var FromData = req.body;
+        console.log(FromData)
         var resReturn;
         var todayString = await functions.TodayString();
         FromData.reg_date = todayString;
