@@ -19,7 +19,7 @@ const upload = multer({
     })
 })
 
-router.post('/create', upload.array('image', 10), async (req, res) => {
+router.post('/create', upload.any(), async (req, res) => {
     // ** 함수는 한 가지 기능만 구현한다!
     // ** 데이터 베이스 호출 속도를 빠르게 한다.
     try {
@@ -72,7 +72,8 @@ router.post('/list', async (req, res) => {
         // Also, Distinguish Whether Company Pay for ads fee or Not. 
         // This Process Will be Executed by SQL to Accelerate Data Processing.
         var FromData = req.body;
-        FromData.location_name = req.body.user_location;
+        // FromData.location_name = req.body.user_location;
+        FromData.location_name = '서울특별시 구로구 구로3동';
 
         var IMAGE_URIs = new Array();
 
@@ -86,14 +87,13 @@ router.post('/list', async (req, res) => {
         for (var i = 0; i < GET_ITEM_LIST.length; i++) {
             GET_ITEM_LIST[i].item_content = GET_ITEM_LIST[i].item_content.toString();
         }
-
         // Distinguish & Assemble related Information. 
         GET_ITEM_LIST.map((item) => {
             GET_CMP_LIST.map((data) => {
                 if (item.cmp_seq == data.cmp_seq) {
                     item.cmp_name = data.cmp_name;
                     item.cmp_category = data.category_seq;
-                    item.cmp_category = data.cmp_location;
+                    item.cmp_location = data.cmp_location;
                 }
             })
         });
@@ -116,7 +116,11 @@ router.post('/list', async (req, res) => {
                 }
             }
         })
-        res.status(200).send({ resReturn: GET_ITEM_LIST });
+        var resReturn = {
+            flags : 0,
+            content : GET_ITEM_LIST
+        }
+        res.status(200).send(resReturn);
     } catch (err) {
         console.log(err)
     }

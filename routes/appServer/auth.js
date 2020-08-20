@@ -86,13 +86,14 @@ router.post('/register', async (req, res) => {
 });
 
 router.get('/logout', (req, res) => {
+    console.log(req.session.user)
     if (req.session.user) {
         req.session.destroy(err => {
             console.log('failed: ' + err);
             return;
         });
         console.log('success');
-        res.status(200).redirect('/');
+        res.status(200).send(true);
     } else return;
 });
 

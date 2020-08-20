@@ -75,7 +75,6 @@ class Items {
         return new Promise(
             async (resolve, reject) => {
                 try {
-                    console.log(data.join())
                     var sql = '\n';
                     sql += "SELECT * ";
                     sql += "FROM tb_images ";
