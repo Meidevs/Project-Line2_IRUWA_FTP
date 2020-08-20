@@ -1,29 +1,51 @@
 var express = require('express');
 var router = express.Router();
+var multer = require('multer');
 
 var itemModel = require('../../public/javascripts/components/itemModel');
 var functions = require('../../public/javascripts/functions/functions');
 var userModel = require('../../public/javascripts/components/userModel');
 
-router.post('/create', async (req, res) => {
+const upload = multer({
+    storage: multer.diskStorage({
+        destination: (req, file, cb) => {
+            cb(null, 'public/images');
+        },
+
+        filename: (req, file, cb) => {
+            var type = file.mimetype.split('/')
+            cb(null, JSON.stringify(Date.now()) + '.' + type[1]);
+        }
+    })
+})
+
+router.post('/create', upload.array('image', 10), async (req, res) => {
     // ** 함수는 한 가지 기능만 구현한다!
     // ** 데이터 베이스 호출 속도를 빠르게 한다.
     try {
+        console.log('req.body', req.body)
+        console.log('req.files', req.file)
+        console.log('req.files', req.files)
+        console.log('userSession', req.session.user);
         var cmp_seq = req.session.user.cmp_seq;
         var FromData = req.body;
         var ITEM_SEQ = 999;
-        var todayString = await functions.TodayString();
+        var todayString = await functions.TodayTimeString();
         FromData.cmp_seq = cmp_seq;
         FromData.reg_date = todayString;
-
+        FromData.item_name = req.body.item_name;
+        FromData.item_content = req.body.item_content;
         var ITEM_COUNT = await itemModel.GET_CMP_ITEM_COUNT(FromData);
         if (ITEM_COUNT < 4) {
             await itemModel.INSERT_ITEMS(FromData);
             var ITEM_SEQ = await itemModel.GET_ITEMS_SEQ();
+            var items_seq = ITEM_SEQ;
+            var filename = req.files;
+            await itemModel.SAVE_IMAGE_URI(items_seq, filename);
         }
         // api/item/create Endpoint only Insert Text into Database.
         // Image Upload Will be Requested From Browser Again after Application Receive ITEM_SEQ From api/item/create Endpoint.
-        res.status(200).send({ item_seq: ITEM_SEQ });
+        res.status(200).send(true);
     } catch (err) {
         console.log(err)
     }
@@ -37,7 +59,7 @@ router.post('/list', async (req, res) => {
         // Also, Distinguish Whether Company Pay for ads fee or Not. 
         // This Process Will be Executed by SQL to Accelerate Data Processing.
         var FromData = req.body;
-        FromData.location_name = req.session.user.user_location;
+        FromData.location_name = req.body.user_location;
 
         var IMAGE_URIs = new Array();
 
@@ -67,7 +89,10 @@ router.post('/list', async (req, res) => {
         for (var j = 0; j < GET_ITEM_LIST.length; j++) {
             IMAGE_URIs.push(GET_ITEM_LIST[j].items_seq);
         }
-        var IMAGE_URI_ARRAY = await itemModel.GET_IMAGE_URI(IMAGE_URIs);
+
+        if (IMAGE_URIs.length != 0) {
+            var IMAGE_URI_ARRAY = await itemModel.GET_IMAGE_URI(IMAGE_URIs);
+        }
 
         // Push IMAGE_URI datas into GET_ITEM_LIST Array to Send Data to Application Browser.
         GET_ITEM_LIST.map((data) => {
@@ -96,7 +121,7 @@ router.post('/list/detail/', async (req, res) => {
         var IMAGE_URIs = new Array();
         var PICK_STATUS = false;
         var VIEW_COUNT = 0;
-        
+
         // GET_VIEW_OWNER Function Find out Whether a User Already Have Viewed an Item.
         // IF the User is on the List, UPDATE_VIEW_COUNT Function isnt Excuted.
         // Finally, GET_VIEW_COUNT Function Calls the Number of User Who Have Viewed the Item.
@@ -119,18 +144,18 @@ router.post('/list/detail/', async (req, res) => {
         if (EXISTENCE) {
             PICK_STATUS = true;
         }
-        
+
         var ITEMS_OF_OWNER = await itemModel.GET_ITEMS_LIST_ON_OWNER(queryString);
         for (var i = 0; i < ITEMS_OF_OWNER.length; i++) {
             ITEMS_OF_OWNER[i].item_content = ITEMS_OF_OWNER[i].item_content.toString();
         }
-        
+
         // Extract items_seq As a Array. IMAGE_URIs Array sent to GET_IMAGE_URI Function Which Get Image Uris From Database. 
         for (var j = 0; j < ITEMS_OF_OWNER.length; j++) {
             IMAGE_URIs.push(ITEMS_OF_OWNER[j].items_seq);
         }
         var IMAGE_URI_ARRAY = await itemModel.GET_IMAGE_URI(IMAGE_URIs);
-        
+
         ITEMS_OF_OWNER.map((data) => {
             data.uri = new Array();
             for (var x = 0; x < IMAGE_URI_ARRAY.length; x++) {
@@ -140,7 +165,7 @@ router.post('/list/detail/', async (req, res) => {
             }
         })
 
-        res.status(200).send({VIEW_COUNT : VIEW_COUNT, TIME_AVG : TIME_AVG, PICK_STATUS : PICK_STATUS, ITEMS_OF_OWNER : ITEMS_OF_OWNER});
+        res.status(200).send({ VIEW_COUNT: VIEW_COUNT, TIME_AVG: TIME_AVG, PICK_STATUS: PICK_STATUS, ITEMS_OF_OWNER: ITEMS_OF_OWNER });
     } catch (err) {
         console.log(err)
     }

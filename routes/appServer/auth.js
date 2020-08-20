@@ -9,7 +9,6 @@ router.post('/login', async (req, res) => {
     // ** 데이터 베이스 호출 속도를 빠르게 한다.
     try {
         var FromData = req.body;
-        console.log(FromData)
         var resReturn;
         var todayString = await functions.TodayString();
         FromData.reg_date = todayString;
@@ -32,6 +31,7 @@ router.post('/login', async (req, res) => {
         if (USER_EXISTENCE == 1) {
             var USER_INFO = await userModel.LOGIN_USER(FromData);
             resReturn = USER_INFO;
+            req.session.user = USER_INFO.userSession;
             if (USER_INFO.flags == 0) {
                 // GET_USER_ALARM_STATE Function Calls User's Alarm Setting Using USER_SEQ.
                 var USER_ALARM_SET = await userModel.GET_USER_ALARM_STATE(USER_INFO.userSession.user_seq);
@@ -85,18 +85,23 @@ router.post('/register', async (req, res) => {
     }
 });
 
-router.post('/logout', async (req, res) => {
-    try {
-        req.session.destroy((err) => {
-            console.log(err);
+router.get('/logout', (req, res) => {
+    if (req.session.user) {
+        req.session.destroy(err => {
+            console.log('failed: ' + err);
+            return;
         });
-        var resReturn = {
-            flags: 0,
-            message: '로그아웃 되었습니다.'
-        }
-        res.status(200).send()
+        console.log('success');
+        res.status(200).redirect('/');
+    } else return;
+});
+
+router.get('/info', async (req, res) => {
+    try {
+        console.log(req.session.user)
+        res.status(200).send(req.session.user);
     } catch (err) {
-        console.log(err)
+        console.log(err);
     }
 })
 

@@ -56,6 +56,19 @@ class Functions {
             }
         )
     }
+    TodayTimeString () {
+        return new Promise(
+            async (resolve, reject) => {
+                try {
+                    var today = new Date();
+                    console.log(today)
+                    resolve(today)
+                } catch (err) {
+                    reject(err);
+                }
+            }
+        )
+    }
 
     SearchString (filter, data) {
         return new Promise (

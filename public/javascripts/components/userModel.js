@@ -92,7 +92,6 @@ class Authentication {
         return new Promise(
             async (resolve, reject) => {
                 try {
-                    console.log(USER_SEQ)
                     var sql = 'SELECT main_alarm, sub_alarm FROM tb_user_alarm WHERE user_seq = ?';
                     var USER_ALARM_STATE = await myConnection.query(sql, [USER_SEQ]);
                     console.log('USER_ALARM_STATE :', USER_ALARM_STATE)

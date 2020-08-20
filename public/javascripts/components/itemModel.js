@@ -75,6 +75,7 @@ class Items {
         return new Promise(
             async (resolve, reject) => {
                 try {
+                    console.log(data.join())
                     var sql = '\n';
                     sql += "SELECT * ";
                     sql += "FROM tb_images ";
@@ -207,6 +208,23 @@ class Items {
                     resolve(VIEW_COUNT[0].cnt);
                 } catch (err) {
                     reject(err);
+                }
+            }
+        )
+    }
+
+    SAVE_IMAGE_URI (items_seq, filename) {
+        return new Promise(
+            async (resolve, reject) => {
+                try {
+                    var hostname = 'http://localhost:8080/images/';
+                    var filename = filename;
+                    var uri = hostname + filename;
+                    var sql = 'INSERT INTO tb_images (items_seq, uri, image_name) VALUES (?, ?, ?)';
+                    await myConnection.query(sql, [items_seq, uri])
+
+                } catch (err) {
+
                 }
             }
         )

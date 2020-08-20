@@ -6,8 +6,6 @@ var bodyParser = require('body-parser');
 const servers = ['http://localhost:3000', 'http://localhost:3001'];
 let cur = 0;
 
-
-
 const handler = (req, res) => {
     console.log('Request Url : ', req.url);
     const _req = request({ url: servers[cur] + req.url }).on('error', error => {
@@ -22,4 +20,6 @@ const handler = (req, res) => {
 
 const server = express().get('*', handler).post('*', handler);
 
-server.listen(8080);
+server.listen(8080, () => {
+    console.log('http://localhost:8080/ftp')
+});
