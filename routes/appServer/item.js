@@ -23,10 +23,10 @@ router.post('/create', upload.array('image', 10), async (req, res) => {
     // ** 함수는 한 가지 기능만 구현한다!
     // ** 데이터 베이스 호출 속도를 빠르게 한다.
     try {
-        console.log('req.body', req.body)
-        console.log('req.files', req.file)
-        console.log('req.files', req.files)
-        console.log('userSession', req.session.user);
+        var resReturn = {
+            flag : 2,
+            message : '일반 회원은 4개 이상의 상품을 등록할 수 없습니다.'
+        }
         var cmp_seq = req.session.user.cmp_seq;
         var FromData = req.body;
         var ITEM_SEQ = 999;
@@ -39,13 +39,26 @@ router.post('/create', upload.array('image', 10), async (req, res) => {
         if (ITEM_COUNT < 4) {
             await itemModel.INSERT_ITEMS(FromData);
             var ITEM_SEQ = await itemModel.GET_ITEMS_SEQ();
-            var items_seq = ITEM_SEQ;
-            var filename = req.files;
-            await itemModel.SAVE_IMAGE_URI(items_seq, filename);
+            if (ITEM_SEQ != 999) {
+                var items_seq = ITEM_SEQ;
+                var files = req.files;
+                var SAVE_RESULT = await itemModel.SAVE_IMAGE_URI(items_seq, files);
+                if(SAVE_RESULT) {
+                    resReturn = {
+                        flags : 0,
+                        message : '등록되었습니다.'
+                    }
+                } else {
+                    resReturn = {
+                        flags : 1,
+                        message : '등록에 실패하였습니다.'
+                    }
+                }
+            }
         }
         // api/item/create Endpoint only Insert Text into Database.
         // Image Upload Will be Requested From Browser Again after Application Receive ITEM_SEQ From api/item/create Endpoint.
-        res.status(200).send(true);
+        res.status(200).send(resReturn);
     } catch (err) {
         console.log(err)
     }

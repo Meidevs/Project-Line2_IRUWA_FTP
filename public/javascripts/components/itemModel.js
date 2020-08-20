@@ -58,7 +58,7 @@ class Items {
     }
 
     GET_ITEMS_LIST_ON_OWNER(data) {
-        return new Promise (
+        return new Promise(
             async (resolve, reject) => {
                 try {
                     var sql = 'SELECT * FROM tb_items WHERE cmp_seq = ?';
@@ -119,7 +119,7 @@ class Items {
         )
     }
     USER_PICK_EXISTENCE(user_seq, items_seq) {
-        return new Promise (
+        return new Promise(
             async (resolve, reject) => {
                 try {
                     var resRetrun = false;
@@ -136,7 +136,7 @@ class Items {
         )
     }
     DELETE_USER_PICK_ITEM(user_seq, items_seq) {
-        return new Promise (
+        return new Promise(
             async (resolve, reject) => {
                 try {
                     var sql = 'DELETE FROM tb_user_pick WHERE user_seq = ? AND items_seq = ?';
@@ -174,7 +174,7 @@ class Items {
         )
     }
     GET_VIEW_OWNER(user_seq, items_seq) {
-        return new Promise (
+        return new Promise(
             async (resolve, reject) => {
                 try {
                     var sql = 'SELECT COUNT(*) AS cnt FROM tb_view WHERE user_seq = ?  AND items_seq = ?';
@@ -186,8 +186,8 @@ class Items {
             }
         )
     }
-    UPDATE_VIEW_COUNT (user_seq, items_seq) {
-        return new Promise (
+    UPDATE_VIEW_COUNT(user_seq, items_seq) {
+        return new Promise(
             async (resolve, reject) => {
                 try {
                     var sql = 'INSERT INTO tb_view (user_seq, items_seq) VALUES (?, ?)';
@@ -199,8 +199,8 @@ class Items {
             }
         )
     }
-    GET_VIEW_COUNT (items_seq) {
-        return new Promise (
+    GET_VIEW_COUNT(items_seq) {
+        return new Promise(
             async (resolve, reject) => {
                 try {
                     var sql = 'SELECT COUNT(*) AS cnt FROM tb_view WHERE items_seq = ?';
@@ -213,18 +213,20 @@ class Items {
         )
     }
 
-    SAVE_IMAGE_URI (items_seq, filename) {
+    SAVE_IMAGE_URI(items_seq, files) {
         return new Promise(
             async (resolve, reject) => {
-                try {
+                try {   
+                    console.log('Files', files)
                     var hostname = 'http://localhost:8080/images/';
-                    var filename = filename;
-                    var uri = hostname + filename;
-                    var sql = 'INSERT INTO tb_images (items_seq, uri, image_name) VALUES (?, ?, ?)';
-                    await myConnection.query(sql, [items_seq, uri])
-
+                    for (var i = 0; i < files.length; i++) {
+                        var uri = hostname + files[i].filename;
+                        var sql = 'INSERT INTO tb_images (items_seq, uri) VALUES (?, ?)';
+                        await myConnection.query(sql, [items_seq, uri])
+                    }
+                    resolve(true);
                 } catch (err) {
-
+                    reject(err);
                 }
             }
         )

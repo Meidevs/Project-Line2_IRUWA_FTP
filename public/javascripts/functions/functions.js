@@ -61,7 +61,6 @@ class Functions {
             async (resolve, reject) => {
                 try {
                     var today = new Date();
-                    console.log(today)
                     resolve(today)
                 } catch (err) {
                     reject(err);
