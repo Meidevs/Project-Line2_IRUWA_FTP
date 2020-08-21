@@ -71,9 +71,9 @@ router.post('/list', async (req, res) => {
         // api/item/list Endpoint Receive Location Name From Application. 
         // Also, Distinguish Whether Company Pay for ads fee or Not. 
         // This Process Will be Executed by SQL to Accelerate Data Processing.
-        var FromData = req.body;
         // FromData.location_name = req.body.user_location;
-        FromData.location_name = req.session.user.user_location;
+        var FromData = new Object();
+        FromData.location_name = req.body.user_location;
         console.log(FromData)
         var IMAGE_URIs = new Array();
 
