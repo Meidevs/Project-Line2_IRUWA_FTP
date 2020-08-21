@@ -73,8 +73,8 @@ router.post('/list', async (req, res) => {
         // This Process Will be Executed by SQL to Accelerate Data Processing.
         var FromData = req.body;
         // FromData.location_name = req.body.user_location;
-        FromData.location_name = '서울특별시 구로구 구로3동';
-
+        FromData.location_name = req.session.user.user_location;
+        console.log(FromData)
         var IMAGE_URIs = new Array();
 
         // Get Company Information From Database to Show Company Infos At Main Page with Item Information.

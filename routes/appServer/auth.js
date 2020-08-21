@@ -104,6 +104,24 @@ router.get('/info', async (req, res) => {
     } catch (err) {
         console.log(err);
     }
-})
+});
+
+router.post('/userlocation', async (req, res) => {
+    try {
+        console.log(req.body);
+        console.log(req.session.user);
+        var user_location = req.body.user_location;
+        var user_seq = req.session.user.user_seq;
+
+        var UPDATE_RESPONSE = await userModel.USER_LOCATION_UPDATE(user_location, user_seq);
+        console.log(UPDATE_RESPONSE)
+        if(UPDATE_RESPONSE) {
+            req.session.user.user_location = user_location;
+        }
+        res.status(200).send(true);
+    } catch (err) {
+        console.log(err);
+    }
+});
 
 module.exports = router;

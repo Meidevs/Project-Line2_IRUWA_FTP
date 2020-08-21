@@ -202,6 +202,22 @@ class Authentication {
             }
         )
     }
+
+    USER_LOCATION_UPDATE(user_location, user_seq) {
+        return new Promise(
+            async (resolve, reject) => {
+                try {
+                    var sql = 'UPDATE tb_users SET user_location = ? WHERE user_seq = ?';
+                    var UPDATE_RESPONSE = await myConnection.query(sql, [user_location, user_seq]);
+                    if (UPDATE_RESPONSE.affectedRows > 0) {
+                        resolve(true);
+                    }
+                } catch (err) {
+                    reject(err)
+                }
+            }
+        )
+    }
 }
 
 module.exports = new Authentication();
