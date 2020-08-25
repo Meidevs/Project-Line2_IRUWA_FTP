@@ -235,7 +235,7 @@ class Items {
         return new Promise(
             async (resolve, reject) => {
                 try {
-                    var sql = 'SELECT * FROM tb_user_prev_search WHERE user_seq = ?';
+                    var sql = 'SELECT keyword FROM tb_user_prev_search WHERE user_seq = ?';
                     var resReturn = await myConnection.query(sql, [user_seq]);
                     resolve(resReturn)
                 } catch (err) {
@@ -250,9 +250,23 @@ class Items {
                 try {
                     var sql = 'INSERT INTO tb_user_prev_search (user_seq, keyword) VALUES (?, ?)';
                     await myConnection.query(sql, [user_seq, keyword]);
-                    resolve(true)
+                    resolve(true);
                 } catch (err) {
-                    console.log(err)
+                    reject(err);
+                }
+            }
+        )
+    }
+
+    DELETE_SEARCH_HISTORY(user_seq, keyword) {
+        return new Promise(
+            async (resolve, reject) => {
+                try {
+                    var sql = 'DELETE FROM tb_user_prev_search WHERE user_seq = ? AND keyword = ?';
+                    await myConnection.query(sql, [user_seq, keyword]);
+                    resolve(true);
+                } catch (err) {
+                    reject(err);
                 }
             }
         )
