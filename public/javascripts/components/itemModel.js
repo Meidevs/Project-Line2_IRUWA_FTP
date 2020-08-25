@@ -1,5 +1,6 @@
 var myConnection = require('../../../dbConfig');
 var functions = require('../functions/functions');
+const { moveCursor } = require('readline');
 
 class Items {
     SELECT_ALL_CATEGORIES() {
@@ -215,7 +216,7 @@ class Items {
     SAVE_IMAGE_URI(items_seq, files) {
         return new Promise(
             async (resolve, reject) => {
-                try {   
+                try {
                     console.log('Files', files)
                     var hostname = 'http://localhost:8080/images/';
                     for (var i = 0; i < files.length; i++) {
@@ -226,6 +227,32 @@ class Items {
                     resolve(true);
                 } catch (err) {
                     reject(err);
+                }
+            }
+        )
+    }
+    GET_SEARCH_HISTORY(user_seq) {
+        return new Promise(
+            async (resolve, reject) => {
+                try {
+                    var sql = 'SELECT * FROM tb_user_prev_search WHERE user_seq = ?';
+                    var resReturn = await myConnection.query(sql, [user_seq]);
+                    resolve(resReturn)
+                } catch (err) {
+                    reject(err);
+                }
+            }
+        )
+    }
+    INSERT_SEARCH_HISTORY(user_seq, keyword) {
+        return new Promise(
+            async (resolve, reject) => {
+                try {
+                    var sql = 'INSERT INTO tb_user_prev_search (user_seq, keyword) VALUES (?, ?)';
+                    await myConnection.query(sql, [user_seq, keyword]);
+                    resolve(true)
+                } catch (err) {
+                    console.log(err)
                 }
             }
         )

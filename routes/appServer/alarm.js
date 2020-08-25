@@ -4,7 +4,6 @@ var router = express.Router();
 var itemModel = require('../../public/javascripts/components/itemModel');
 var alarmModel = require('../../public/javascripts/components/alarmModel');
 var functions = require('../../public/javascripts/functions/functions');
-const { resourceUsage } = require('process');
 
 router.post('/alarm/keywords/create', async (req, res) => {
     try {
@@ -90,6 +89,6 @@ router.get('/alarm/notification', async (req, res) => {
     } catch (err) {
 
     }
-})
+});
 
 module.exports = router;

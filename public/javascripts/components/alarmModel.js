@@ -42,6 +42,7 @@ class Alarm {
             }
         )
     }
+
 }
 
 module.exports = new Alarm();
