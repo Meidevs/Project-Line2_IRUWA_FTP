@@ -39,7 +39,7 @@ router.post('/login', async (req, res) => {
                 USER_INFO.userSession.sub_alarm = USER_ALARM_SET.sub_alarm;
                 // IF There is no Company Information, CMP_INFO Will be false.
                 // If Not, userSession Will be Updated!
-                var CMP_INFO = await userModel.GET_CMP_INFO(USER_INFO);
+                var CMP_INFO = await userModel.GET_CMP_INFO_ON_USER(USER_INFO);
                 if (CMP_INFO) {
                     resReturn = CMP_INFO;
                     req.session.user = CMP_INFO.userSession;

@@ -103,7 +103,7 @@ class Authentication {
         )
     }
 
-    GET_CMP_INFO(data) {
+    GET_CMP_INFO_ON_USER(data) {
         return new Promise(
             async (resolve, reject) => {
                 try {
@@ -135,6 +135,30 @@ class Authentication {
         )
     }
 
+    GET_CMP_INFO(cmp_seq) {
+        return new Promise(
+            async (resolve, reject) => {
+                try {
+                    var rawObj = new Object();
+                    var sql = 'SELECT * FROM tb_company WHERE cmp_seq = ?';
+                    var CMP_INFO = await myConnection.query(sql, [cmp_seq]);
+                    rawObj.cmp_seq = CMP_INFO[0].cmp_seq
+                    rawObj.category_seq = CMP_INFO[0].category_seq
+                    rawObj.cmp_name = CMP_INFO[0].cmp_name
+                    rawObj.cmp_phone = CMP_INFO[0].cmp_phone
+                    rawObj.cmp_location = CMP_INFO[0].cmp_location
+                    rawObj.cmp_certificates = CMP_INFO[0].cmp_certificates
+                    rawObj.reg_date = CMP_INFO[0].reg_date
+                    rawObj.ads_date = CMP_INFO[0].ads_date
+                    rawObj.ads_pre_date = CMP_INFO[0].ads_pre_date
+                    resolve(rawObj);
+                } catch (err) {
+                    reject(err)
+                }
+            }
+        )
+    }
+
     REGISTER_USER(data) {
         return new Promise(
             async (resolve, reject) => {
@@ -148,7 +172,7 @@ class Authentication {
                         cmp_exist = 'Y'
                     }
                     var sql = 'INSERT INTO tb_users (user_id, user_pw, user_name, user_phone, user_email,user_location,cmp_exist, reg_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
-                    var response = await myConnection.query(sql, [data.user_id, data.user_pw, data.user_name, data.user_phone, data.user_email, data.user_location,cmp_exist, data.reg_date]);
+                    var response = await myConnection.query(sql, [data.user_id, data.user_pw, data.user_name, data.user_phone, data.user_email, data.user_location, cmp_exist, data.reg_date]);
                     console.log(response)
                     resolve(resReturn)
                 } catch (err) {

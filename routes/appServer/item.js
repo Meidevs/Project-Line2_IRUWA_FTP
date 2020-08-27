@@ -36,7 +36,7 @@ router.post('/create', upload.any(), async (req, res) => {
         FromData.item_name = req.body.item_name;
         FromData.item_content = req.body.item_content;
         var ITEM_COUNT = await itemModel.GET_CMP_ITEM_COUNT(FromData);
-        if (ITEM_COUNT < 4) {
+        if (ITEM_COUNT < 5) {
             await itemModel.INSERT_ITEMS(FromData);
             var ITEM_SEQ = await itemModel.GET_ITEMS_SEQ();
             if (ITEM_SEQ != 999) {
@@ -126,14 +126,16 @@ router.post('/list', async (req, res) => {
     }
 });
 
-router.post('/list/detail/', async (req, res) => {
+router.post('/list/detail', async (req, res) => {
     // ** 함수는 한 가지 기능만 구현한다!
     // ** 데이터 베이스 호출 속도를 빠르게 한다.
     try {
-        req.query.items_seq = parseInt(req.query.items_seq);
-        req.query.cmp_seq = parseInt(req.query.cmp_seq);
+        console.log(req.body)
+        var FromData = new Object();
+        FromData.items_seq = parseInt(req.body.items_seq);
+        FromData.cmp_seq = parseInt(req.body.cmp_seq);
         var user_seq = req.session.user.user_seq;
-        var queryString = req.query;
+        var queryString = FromData;
         var TIME_AVG = '0:0:0:0';
         var IMAGE_URIs = new Array();
         var PICK_STATUS = false;
@@ -145,7 +147,7 @@ router.post('/list/detail/', async (req, res) => {
         var VIEW_OWNER = await itemModel.GET_VIEW_OWNER(user_seq, queryString.items_seq);
         if (VIEW_OWNER == 0 || null) {
             await itemModel.UPDATE_VIEW_COUNT(user_seq, queryString.items_seq);
-        }
+        };
         VIEW_COUNT = await itemModel.GET_VIEW_COUNT(queryString.items_seq);
 
         // GET_RESTIME_AVG Function Calls the data Which was Recorded during Chat From Database.
@@ -153,24 +155,28 @@ router.post('/list/detail/', async (req, res) => {
         var GET_RESTIME_AVG = await userModel.GET_RESTIME_AVG(queryString);
         if (GET_RESTIME_AVG[0] != undefined) {
             TIME_AVG = await functions.TimeAverageCal(GET_RESTIME_AVG);
-        }
+        };
 
         // Check Whether Application's User Already Have Picked the Item.
         // If User already Pick the Item, PICK_STATUS Will be true.
         var EXISTENCE = await itemModel.USER_PICK_EXISTENCE(user_seq, queryString.items_seq);
         if (EXISTENCE) {
             PICK_STATUS = true;
-        }
+        };
 
         var ITEMS_OF_OWNER = await itemModel.GET_ITEMS_LIST_ON_OWNER(queryString);
         for (var i = 0; i < ITEMS_OF_OWNER.length; i++) {
             ITEMS_OF_OWNER[i].item_content = ITEMS_OF_OWNER[i].item_content.toString();
-        }
+        };
+
+        
+
+
 
         // Extract items_seq As a Array. IMAGE_URIs Array sent to GET_IMAGE_URI Function Which Get Image Uris From Database. 
         for (var j = 0; j < ITEMS_OF_OWNER.length; j++) {
             IMAGE_URIs.push(ITEMS_OF_OWNER[j].items_seq);
-        }
+        };
         var IMAGE_URI_ARRAY = await itemModel.GET_IMAGE_URI(IMAGE_URIs);
 
         ITEMS_OF_OWNER.map((data) => {
@@ -180,9 +186,20 @@ router.post('/list/detail/', async (req, res) => {
                     data.uri.push(IMAGE_URI_ARRAY[x].uri)
                 }
             }
+        });
+        var SelectedItem = new Array();
+        var NonSelectedItem = new Array();
+        ITEMS_OF_OWNER.map((data) => {
+            if (FromData.items_seq == data.items_seq) {
+                SelectedItem.push(data);
+            } else {
+                NonSelectedItem.push(data)
+            }
         })
 
-        res.status(200).send({ VIEW_COUNT: VIEW_COUNT, TIME_AVG: TIME_AVG, PICK_STATUS: PICK_STATUS, ITEMS_OF_OWNER: ITEMS_OF_OWNER });
+
+        var CMP_INFOs = await userModel.GET_CMP_INFO(queryString.cmp_seq);
+        res.status(200).send({ VIEW_COUNT: VIEW_COUNT, TIME_AVG: TIME_AVG, PICK_STATUS: PICK_STATUS, SELECTED : SelectedItem, NonSELECTED : NonSelectedItem, CMP_INFOs : CMP_INFOs });
     } catch (err) {
         console.log(err)
     }
@@ -221,5 +238,16 @@ router.post('/list/detail/pick/', async (req, res) => {
         console.log(err)
     }
 });
+
+router.post('/search', async (req, res) => {
+    try {
+        var keyword = req.body.keyword;
+        var user_seq = req.session.user.user_seq;
+        var user_location = req.session.user.user_location;
+        console.log(user_location)
+    } catch (err) {
+        console.log(err);
+    }
+})
 
 module.exports = router;

@@ -7,7 +7,6 @@ var functions = require('../../public/javascripts/functions/functions');
 
 router.post('/history/update', async (req, res) => {
     try {
-        
         var keyword = req.body.keyword;
         var user_seq = req.session.user.user_seq;
         var resReturn = {
@@ -53,6 +52,26 @@ router.post('/history/delete', async (req, res) => {
             message : '삭제 실패'
         }
         var DELETE_RESPONSE = await itemModel.DELETE_SEARCH_HISTORY(user_seq, keyword);
+        if (DELETE_RESPONSE) {
+            resReturn = {
+                flags : 0,
+                message : '삭제 성공'
+            }
+        }
+        res.status(200).send(resReturn)
+    } catch (err) {
+        console.log(err);
+    }
+});
+
+router.get('/history/deleteall', async (req, res) => {
+    try {
+        var user_seq = req.session.user.user_seq;
+        var resReturn = {
+            flags : 1,
+            message : '삭제 실패'
+        }
+        var DELETE_RESPONSE = await itemModel.DELETE_SEARCH_HISTORY_ALL(user_seq);
         if (DELETE_RESPONSE) {
             resReturn = {
                 flags : 0,

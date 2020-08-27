@@ -271,6 +271,19 @@ class Items {
             }
         )
     }
+    DELETE_SEARCH_HISTORY_ALL(user_seq) {
+        return new Promise(
+            async (resolve, reject) => {
+                try {
+                    var sql = 'DELETE FROM tb_user_prev_search WHERE user_seq = ?';
+                    await myConnection.query(sql, [user_seq]);
+                    resolve(true);
+                } catch (err) {
+                    reject(err);
+                }
+            }
+        )
+    }
 }
 
 module.exports = new Items();
