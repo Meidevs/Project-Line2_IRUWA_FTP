@@ -147,7 +147,7 @@ class Authentication {
                     if (data.status == 1) {
                         cmp_exist = 'Y'
                     }
-                    var sql = 'INSERT INTO tb_users (user_id, user_pw, user_name, user_phone, user_email,user_location, ,cmp_exist, reg_date) VALUES (?, ?, ?, ?, ?, ?, ?)';
+                    var sql = 'INSERT INTO tb_users (user_id, user_pw, user_name, user_phone, user_email,user_location,cmp_exist, reg_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
                     var response = await myConnection.query(sql, [data.user_id, data.user_pw, data.user_name, data.user_phone, data.user_email, data.user_location,cmp_exist, data.reg_date]);
                     console.log(response)
                     resolve(resReturn)
@@ -166,8 +166,8 @@ class Authentication {
                         flags: 0,
                         message: '회원가입 및 업체가 등록되었습니다.'
                     }
-                    var sql = 'INSERT INTO tb_company (user_seq, category_seq, cmp_name, cmp_phone, cmp_location, cmp_certificates, reg_date) VALUES (?, ?, ?, ?, ?, ?, ?)';
-                    var response = await myConnection.query(sql, [USER_SEQ, data.category_seq, data.cmp_name, data.cmp_phone, data.cmp_location, data.cmp_certificates, data.reg_date]);
+                    var sql = 'INSERT INTO tb_company (user_seq, category_seq, cmp_name, cmp_phone, cmp_location, cmp_detail_location, cmp_lat, cmp_lon, cmp_certificates, reg_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+                    var response = await myConnection.query(sql, [USER_SEQ, data.category_seq, data.cmp_name, data.cmp_phone, data.cmp_location, data.cmp_detail_location, data.lat, data.lon, data.cmp_certificates, data.reg_date]);
                     resolve(resReturn);
                 } catch (err) {
                     reject(err)

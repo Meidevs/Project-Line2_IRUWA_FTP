@@ -1,121 +1,128 @@
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 
 <head>
-    <title>Login Page</title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-    <!-- CSS only -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/css/bootstrap.min.css"
-        integrity="sha384-VCmXjywReHh4PwowAiWNagnWcLhlEJLA5buUprzK8rxFgeH0kww/aWY76TfkUoSX" crossorigin="anonymous">
-
-    <!-- JS, Popper.js, and jQuery -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
-        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
-        crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/js/bootstrap.min.js"
-        integrity="sha384-XEerZL0cuoUbHE4nZReLT7nx9gQrQreJekYhJD9WNWhH8nEW+0c5qq7aIo2Wl30J"
-        crossorigin="anonymous"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <script type="text/JavaScript" src="/juso_support_center/js/jquery-1.8.3.min.js"></script>
+    <title>Insert title here</title>
 </head>
 
 <body>
-    <div class="container">
-        <div class="row justify-content-center align-items-center">
-            <div class="login-box">
-                <div class="login-box-title">
-                    로그인
-                </div>
-                <div class="login-form">
-                    <input id='login-id' type='text' placeholder="사용자 아이디" />
-                    <input id='login-pw' type='password' placeholder="사용자 비밀번호" />
-                    <button id='login-btn' type='button'>로그인</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    <form name="form" id="form" method="post">
+        <input type="text" name="currentPage" value="1" />
+            <input type="text" name="countPerPage" value="10" />
+            <!-- 요청 변수 설정 (페이지당 출력 개수. countPerPage 범위 : 0 < n <= 100) -->
+            <input type="text" name="resultType" value="json" />
+                <input type="text" name="confmKey" id="confmKey" style="width:250px;display:none"
+                    value="U01TX0FVVEgyMDIwMDgyNzA0MTc0NzExMDExMTc=" /><!-- 요청 변수 설정 (승인키) -->
+                <input type="text" name="keyword" value="" onClick="enterSearch();" /><!-- 요청 변수 설정 (키워드) -->
+                <input type="button" onClick="getAddrLoc();" value="주소검색하기" />
+                <div id="list"></div><!-- 검색 결과 리스트 출력 영역 -->
+    </form>
 </body>
-<script>
-    $('#login-btn').click( async () => {
-        var userid = document.getElementById('login-id').value;
-        var userpw = document.getElementById('login-pw').value;
-        try {
-            let response = await fetch ('http://localhost:80/admin/confirm', {
-                method : 'POST',
-                headers : {
-                    'Content-Type' : 'application/json',
-                },
-                body : JSON.stringify({userid : userid, userpw : userpw})
-            })
-            let json = await response.json();
-            if (response.ok) {
-                var status = 0;
-                switch (status) {
-                    case 0 :
-                        window.location.href = 'http://localhost:80/admin/dashboard'
-                }
-            } else {
-                alert('로그인 실패')
-            }
-        } catch (err) {
-            console.log(err)
-        }
-    })
-</script>
-<style>
-    .container {
-        align-content: center;
-        justify-content: center;
-    }
-
-    .login-box {
-        background-color: rgba(200, 200, 200, 0.5);
-        width: 50vw;
-        height: 400px;
-        flex-direction: column;
-        align-content: center;
-        justify-content: center;
-        border-radius: 5px;
-    }
-
-    .login-box-title {
-        height: 10vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-weight: bold;
-        color: rgba(55, 55, 55, 1);
-    }
-
-    .login-form {
-        height: 30vh;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-    }
-
-    input[type=text],
-    input[type=password] {
-        padding: 12px 20px;
-        margin: 8px 0;
-        box-sizing: border-box;
-    }
-
-    button[type=button] {
-        background-color: rgba(255, 93, 134, 1);
-        color: white;
-        padding: 12px 20px;
-        margin: 8px 0;
-        border: rgba(255, 255, 255, 1);
-        border-radius: 4px;
-        cursor: pointer;
-    }
-
-    button[type=button]:hover {
-        background-color: rgb(240, 87, 125);
-    }
-</style>
 
 </html>
+<script language="javascript">
+    function getAddrLoc() {
+        // 적용예 (api 호출 전에 검색어 체크) 	
+        if (!checkSearchedWord(document.form.keyword)) {
+            return;
+        }
+        $.ajax({
+            url: "/sample/getAddrApi.do"
+            , type: "post"
+            , data: $("#form").serialize()
+            , dataType: "json"
+            , success: function (jsonStr) {
+                $("#list").html("");
+                var errCode = jsonStr.results.common.errorCode;
+                var errDesc = jsonStr.results.common.errorMessage;
+                if (errCode != "0") {
+                    alert(errCode + "=" + errDesc);
+                } else {
+                    if (jsonStr != null) {
+                        makeListJson(jsonStr);
+                    }
+                }
+            }
+            , error: function (xhr, status, error) {
+                alert("에러발생");
+            }
+        });
+    }
+
+    function makeListJson(jsonStr) {
+        var htmlStr = "";
+        htmlStr += "<table>";
+        $(jsonStr.results.juso).each(function () {
+            htmlStr += "<tr>";
+            htmlStr += "<td>" + this.roadAddr + "</td>";
+            htmlStr += "<td>" + this.roadAddrPart1 + "</td>";
+            htmlStr += "<td>" + this.roadAddrPart2 + "</td>";
+            htmlStr += "<td>" + this.jibunAddr + "</td>";
+            htmlStr += "<td>" + this.engAddr + "</td>";
+            htmlStr += "<td>" + this.zipNo + "</td>";
+            htmlStr += "<td>" + this.admCd + "</td>";
+            htmlStr += "<td>" + this.rnMgtSn + "</td>";
+            htmlStr += "<td>" + this.bdMgtSn + "</td>";
+            htmlStr += "<td>" + this.detBdNmList + "</td>";
+            /** API 서비스 제공항목 확대 (2017.02) **/
+            htmlStr += "<td>" + this.bdNm + "</td>";
+            htmlStr += "<td>" + this.bdKdcd + "</td>";
+            htmlStr += "<td>" + this.siNm + "</td>";
+            htmlStr += "<td>" + this.sggNm + "</td>";
+            htmlStr += "<td>" + this.emdNm + "</td>";
+            htmlStr += "<td>" + this.liNm + "</td>";
+            htmlStr += "<td>" + this.rn + "</td>";
+            htmlStr += "<td>" + this.udrtYn + "</td>";
+            htmlStr += "<td>" + this.buldMnnm + "</td>";
+            htmlStr += "<td>" + this.buldSlno + "</td>";
+            htmlStr += "<td>" + this.mtYn + "</td>";
+            htmlStr += "<td>" + this.lnbrMnnm + "</td>";
+            htmlStr += "<td>" + this.lnbrSlno + "</td>";
+            htmlStr += "<td>" + this.emdNo + "</td>";
+            htmlStr += "</tr>";
+        });
+        htmlStr += "</table>";
+        $("#list").html(htmlStr);
+    }
+
+    //특수문자, 특정문자열(sql예약어의 앞뒤공백포함) 제거
+    function checkSearchedWord(obj) {
+        if (obj.value.length > 0) {
+            //특수문자 제거
+            var expText = /[%=><]/;
+            if (expText.test(obj.value) == true) {
+                alert("특수문자를 입력 할수 없습니다.");
+                obj.value = obj.value.split(expText).join("");
+                return false;
+            }
+
+            //특정문자열(sql예약어의 앞뒤공백포함) 제거
+            var sqlArray = new Array(
+                //sql 예약어
+                "OR", "SELECT", "INSERT", "DELETE", "UPDATE", "CREATE", "DROP", "EXEC",
+                "UNION", "FETCH", "DECLARE", "TRUNCATE"
+            );
+
+            var regex;
+            for (var i = 0; i < sqlArray.length; i++) {
+                regex = new RegExp(sqlArray[i], "gi");
+
+                if (regex.test(obj.value)) {
+                    alert("\"" + sqlArray[i] + "\"와(과) 같은 특정문자로 검색할 수 없습니다.");
+                    obj.value = obj.value.replace(regex, "");
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    function enterSearch() {
+        var evt_code = (window.netscape) ? ev.which : event.keyCode;
+        if (evt_code == 13) {
+            event.keyCode = 0;
+            getAddrLoc();
+        }
+    }
