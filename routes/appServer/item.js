@@ -1,102 +1,94 @@
 var express = require('express');
 var router = express.Router();
-var multer = require('multer');
 
 var itemModel = require('../../public/javascripts/components/itemModel');
 var functions = require('../../public/javascripts/functions/functions');
 var userModel = require('../../public/javascripts/components/userModel');
+var imageController = require('../../public/javascripts/functions/imageController');
 
-const upload = multer({
-    storage: multer.diskStorage({
-        destination: (req, file, cb) => {
-            cb(null, 'public/images');
-        },
+router.post('/create',
+    imageController.uploadImages,
+    imageController.resizeImages,
+    imageController.getResult,
+    async (req, res) => {
+        // ** 함수는 한 가지 기능만 구현한다!
+        // ** 데이터 베이스 호출 속도를 빠르게 한다.
+        try {
 
-        filename: (req, file, cb) => {
-            var type = file.mimetype.split('/')
-            cb(null, JSON.stringify(Date.now()) + '.' + type[1]);
-        }
-    })
-})
-
-router.post('/create', upload.any(), async (req, res) => {
-    // ** 함수는 한 가지 기능만 구현한다!
-    // ** 데이터 베이스 호출 속도를 빠르게 한다.
-    try {
-        var FromData = new Object();
-        var resReturn = new Object();
-        var cmp_seq = req.session.user.cmp_seq;
-        var ITEM_SEQ = 999;
-        var todayString = await functions.TodayTimeString();
-        FromData.cmp_seq = cmp_seq;
-        FromData.reg_date = todayString;
-        FromData.item_name = req.body.item_name;
-        FromData.item_content = req.body.item_content;
-        FromData.ads_type = req.body.ads_type;
-        console.log('FromData', FromData);
-        resReturn = {
-            flag: 2,
-            message: '일반/프리미엄 광고 등록을 위해 결제해 주세요.'
-        }
-        var CMP_PERMISSION = await userModel.GET_CMP_ADS_PERMISSTION(FromData);
-        var ITEM_COUNT = await itemModel.GET_CMP_ITEM_COUNT(FromData);
-        var ITEM_PRE_COUNT = await itemModel.GET_CMP_PRE_ITEM_COUNT(FromData);
-        console.log('CMP_PERMISSION', CMP_PERMISSION)
-        if (CMP_PERMISSION[0].normal_ads == 'Y' && FromData.ads_type == 0) {
+            var FromData = new Object();
+            var resReturn = new Object();
+            var cmp_seq = req.session.user.cmp_seq;
+            var ITEM_SEQ = 999;
+            var todayString = await functions.TodayTimeString();
+            FromData.cmp_seq = cmp_seq;
+            FromData.reg_date = todayString;
+            FromData.item_name = req.body.item_name;
+            FromData.item_content = req.body.item_content;
+            FromData.ads_type = req.body.ads_type;
+            console.log('FromData', FromData);
             resReturn = {
                 flag: 2,
-                message: '일반 광고는 4개 이상 등록할 수 없습니다.'
+                message: '일반/프리미엄 광고 등록을 위해 결제해 주세요.'
             }
-            if (ITEM_COUNT < 5) {
-                await itemModel.INSERT_ITEMS(FromData);
-                var ITEM_SEQ = await itemModel.GET_ITEMS_SEQ();
-                var items_seq = ITEM_SEQ;
-                var files = req.files;
-                var SAVE_RESULT = await itemModel.SAVE_IMAGE_URI(items_seq, files);
-                if (SAVE_RESULT) {
-                    resReturn = {
-                        flags: 0,
-                        message: '등록되었습니다.'
+            var CMP_PERMISSION = await userModel.GET_CMP_ADS_PERMISSTION(FromData);
+            var ITEM_COUNT = await itemModel.GET_CMP_ITEM_COUNT(FromData);
+            var ITEM_PRE_COUNT = await itemModel.GET_CMP_PRE_ITEM_COUNT(FromData);
+            console.log('CMP_PERMISSION', CMP_PERMISSION)
+            if (CMP_PERMISSION[0].normal_ads == 'Y' && FromData.ads_type == 0) {
+                resReturn = {
+                    flag: 2,
+                    message: '일반 광고는 4개 이상 등록할 수 없습니다.'
+                }
+                if (ITEM_COUNT < 5) {
+                    await itemModel.INSERT_ITEMS(FromData);
+                    var ITEM_SEQ = await itemModel.GET_ITEMS_SEQ();
+                    var items_seq = ITEM_SEQ;
+                    var images = req.body.images;
+                    var SAVE_RESULT = await itemModel.SAVE_IMAGE_URI(items_seq, images);
+                    if (SAVE_RESULT) {
+                        resReturn = {
+                            flags: 0,
+                            message: '등록되었습니다.'
+                        }
+                    } else {
+                        resReturn = {
+                            flags: 1,
+                            message: '등록에 실패하였습니다.'
+                        }
                     }
-                } else {
-                    resReturn = {
-                        flags: 1,
-                        message: '등록에 실패하였습니다.'
+                }
+            } else if (CMP_PERMISSION[0].pre_ads == 'Y' && FromData.ads_type == 1) {
+                resReturn = {
+                    flag: 2,
+                    message: '프리미엄 광고는 1개 이상 등록할 수 없습니다.'
+                }
+                if (ITEM_PRE_COUNT < 1) {
+                    await itemModel.INSERT_ITEMS(FromData);
+                    var ITEM_SEQ = await itemModel.GET_ITEMS_SEQ();
+                    var items_seq = ITEM_SEQ;
+                    var images = req.body.images;
+                    var SAVE_RESULT = await itemModel.SAVE_IMAGE_URI(items_seq, images);
+                    if (SAVE_RESULT) {
+                        resReturn = {
+                            flags: 0,
+                            message: '등록되었습니다.'
+                        }
+                    } else {
+                        resReturn = {
+                            flags: 1,
+                            message: '등록에 실패하였습니다.'
+                        }
                     }
                 }
             }
-        } else if (CMP_PERMISSION[0].pre_ads == 'Y' && FromData.ads_type == 1) {
-            resReturn = {
-                flag: 2,
-                message: '프리미엄 광고는 1개 이상 등록할 수 없습니다.'
-            }
-            if (ITEM_PRE_COUNT < 1) {
-                await itemModel.INSERT_ITEMS(FromData);
-                var ITEM_SEQ = await itemModel.GET_ITEMS_SEQ();
-                var items_seq = ITEM_SEQ;
-                var files = req.files;
-                var SAVE_RESULT = await itemModel.SAVE_IMAGE_URI(items_seq, files);
-                if (SAVE_RESULT) {
-                    resReturn = {
-                        flags: 0,
-                        message: '등록되었습니다.'
-                    }
-                } else {
-                    resReturn = {
-                        flags: 1,
-                        message: '등록에 실패하였습니다.'
-                    }
-                }
-            }
-        }
 
-        // api/item/create Endpoint only Insert Text into Database.
-        // Image Upload Will be Requested From Browser Again after Application Receive ITEM_SEQ From api/item/create Endpoint.
-        res.status(200).send(resReturn);
-    } catch (err) {
-        console.log(err)
-    }
-});
+            // api/item/create Endpoint only Insert Text into Database.
+            // Image Upload Will be Requested From Browser Again after Application Receive ITEM_SEQ From api/item/create Endpoint.
+            res.status(200).send(resReturn);
+        } catch (err) {
+            console.log(err)
+        }
+    });
 
 router.post('/list', async (req, res) => {
     // ** 함수는 한 가지 기능만 구현한다!
@@ -119,7 +111,7 @@ router.post('/list', async (req, res) => {
         var GET_ITEM_LIST = await itemModel.GET_ITEMS_LIST(FromData);
 
         for (var i = 0; i < GET_ITEM_LIST.length; i++) {
-            GET_ITEM_LIST[i].item_content = GET_ITEM_LIST[i].item_content.toString();
+            GET_ITEM_LIST[i].item_content = GET_ITEM_LIST[i].item_content;
         }
         // Distinguish & Assemble related Information. 
         GET_ITEM_LIST.map((item) => {

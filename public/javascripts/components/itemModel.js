@@ -229,14 +229,13 @@ class Items {
         )
     }
 
-    SAVE_IMAGE_URI(items_seq, files) {
+    SAVE_IMAGE_URI(items_seq, images) {
         return new Promise(
             async (resolve, reject) => {
                 try {
-                    console.log('Files', files)
-                    var hostname = 'http://localhost:8080/images/';
-                    for (var i = 0; i < files.length; i++) {
-                        var uri = hostname + files[i].filename;
+                    var hostname = 'http://localhost:8888/';
+                    for (var i = 0; i < images.length; i++) {
+                        var uri = hostname + images[i];
                         var sql = 'INSERT INTO tb_images (items_seq, uri) VALUES (?, ?)';
                         await myConnection.query(sql, [items_seq, uri])
                     }
