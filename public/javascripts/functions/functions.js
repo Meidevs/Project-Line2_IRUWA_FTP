@@ -80,6 +80,7 @@ class Functions {
             }
         )
     }
+    
     TimeAverageCal (data) {
         return new Promise (
             async (resolve, reject) => {

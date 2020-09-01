@@ -23,39 +23,73 @@ router.post('/create', upload.any(), async (req, res) => {
     // ** 함수는 한 가지 기능만 구현한다!
     // ** 데이터 베이스 호출 속도를 빠르게 한다.
     try {
-        var resReturn = {
-            flag : 2,
-            message : '일반 회원은 4개 이상의 상품을 등록할 수 없습니다.'
-        }
+        var FromData = new Object();
+        var resReturn = new Object();
         var cmp_seq = req.session.user.cmp_seq;
-        var FromData = req.body;
         var ITEM_SEQ = 999;
-        var todayString = await functicccons.TodayTimeString();
+        var todayString = await functions.TodayTimeString();
         FromData.cmp_seq = cmp_seq;
         FromData.reg_date = todayString;
         FromData.item_name = req.body.item_name;
         FromData.item_content = req.body.item_content;
+        FromData.ads_type = req.body.ads_type;
+        console.log('FromData', FromData);
+        resReturn = {
+            flag: 2,
+            message: '일반/프리미엄 광고 등록을 위해 결제해 주세요.'
+        }
+        var CMP_PERMISSION = await userModel.GET_CMP_ADS_PERMISSTION(FromData);
         var ITEM_COUNT = await itemModel.GET_CMP_ITEM_COUNT(FromData);
-        if (ITEM_COUNT < 5) {
-            await itemModel.INSERT_ITEMS(FromData);
-            var ITEM_SEQ = await itemModel.GET_ITEMS_SEQ();
-            if (ITEM_SEQ != 999) {
+        var ITEM_PRE_COUNT = await itemModel.GET_CMP_PRE_ITEM_COUNT(FromData);
+        console.log('CMP_PERMISSION', CMP_PERMISSION)
+        if (CMP_PERMISSION[0].normal_ads == 'Y' && FromData.ads_type == 0) {
+            resReturn = {
+                flag: 2,
+                message: '일반 광고는 4개 이상 등록할 수 없습니다.'
+            }
+            if (ITEM_COUNT < 5) {
+                await itemModel.INSERT_ITEMS(FromData);
+                var ITEM_SEQ = await itemModel.GET_ITEMS_SEQ();
                 var items_seq = ITEM_SEQ;
                 var files = req.files;
                 var SAVE_RESULT = await itemModel.SAVE_IMAGE_URI(items_seq, files);
-                if(SAVE_RESULT) {
+                if (SAVE_RESULT) {
                     resReturn = {
-                        flags : 0,
-                        message : '등록되었습니다.'
+                        flags: 0,
+                        message: '등록되었습니다.'
                     }
                 } else {
                     resReturn = {
-                        flags : 1,
-                        message : '등록에 실패하였습니다.'
+                        flags: 1,
+                        message: '등록에 실패하였습니다.'
+                    }
+                }
+            }
+        } else if (CMP_PERMISSION[0].pre_ads == 'Y' && FromData.ads_type == 1) {
+            resReturn = {
+                flag: 2,
+                message: '프리미엄 광고는 1개 이상 등록할 수 없습니다.'
+            }
+            if (ITEM_PRE_COUNT < 1) {
+                await itemModel.INSERT_ITEMS(FromData);
+                var ITEM_SEQ = await itemModel.GET_ITEMS_SEQ();
+                var items_seq = ITEM_SEQ;
+                var files = req.files;
+                var SAVE_RESULT = await itemModel.SAVE_IMAGE_URI(items_seq, files);
+                if (SAVE_RESULT) {
+                    resReturn = {
+                        flags: 0,
+                        message: '등록되었습니다.'
+                    }
+                } else {
+                    resReturn = {
+                        flags: 1,
+                        message: '등록에 실패하였습니다.'
                     }
                 }
             }
         }
+
         // api/item/create Endpoint only Insert Text into Database.
         // Image Upload Will be Requested From Browser Again after Application Receive ITEM_SEQ From api/item/create Endpoint.
         res.status(200).send(resReturn);
@@ -117,8 +151,8 @@ router.post('/list', async (req, res) => {
             }
         })
         var resReturn = {
-            flags : 0,
-            content : GET_ITEM_LIST
+            flags: 0,
+            content: GET_ITEM_LIST
         }
         res.status(200).send(resReturn);
     } catch (err) {
@@ -169,10 +203,6 @@ router.post('/list/detail', async (req, res) => {
             ITEMS_OF_OWNER[i].item_content = ITEMS_OF_OWNER[i].item_content.toString();
         };
 
-        
-
-
-
         // Extract items_seq As a Array. IMAGE_URIs Array sent to GET_IMAGE_URI Function Which Get Image Uris From Database. 
         for (var j = 0; j < ITEMS_OF_OWNER.length; j++) {
             IMAGE_URIs.push(ITEMS_OF_OWNER[j].items_seq);
@@ -199,7 +229,13 @@ router.post('/list/detail', async (req, res) => {
 
 
         var CMP_INFOs = await userModel.GET_CMP_INFO(queryString.cmp_seq);
-        res.status(200).send({ VIEW_COUNT: VIEW_COUNT, TIME_AVG: TIME_AVG, PICK_STATUS: PICK_STATUS, SELECTED : SelectedItem, NonSELECTED : NonSelectedItem, CMP_INFOs : CMP_INFOs });
+        var CATEGORIES = await itemModel.SELECT_ALL_CATEGORIES();
+        CATEGORIES.map((data) => {
+            if (data.category_seq == CMP_INFOs.category_seq) {
+                CMP_INFOs.category_name = data.category_name;
+            }
+        });
+        res.status(200).send({ VIEW_COUNT: VIEW_COUNT, TIME_AVG: TIME_AVG, PICK_STATUS: PICK_STATUS, SELECTED: SelectedItem, NonSELECTED: NonSelectedItem, CMP_INFOs: CMP_INFOs });
     } catch (err) {
         console.log(err)
     }

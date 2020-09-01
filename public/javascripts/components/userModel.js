@@ -242,6 +242,19 @@ class Authentication {
             }
         )
     }
+    GET_CMP_ADS_PERMISSTION (data) {
+         return new Promise (
+             async (resolve, reject) => {
+                 try {
+                    var sql = 'SELECT normal_ads, pre_ads FROM tb_company WHERE cmp_seq = ?';
+                    var SELECT_RESPONSE = await myConnection.query(sql, [data.cmp_seq]);
+                    resolve(SELECT_RESPONSE);
+                 } catch (err) {
+                    reject(err)
+                 }
+             }
+         )
+    }
 }
 
 module.exports = new Authentication();

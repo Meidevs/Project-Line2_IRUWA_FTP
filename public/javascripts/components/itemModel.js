@@ -1,6 +1,7 @@
 var myConnection = require('../../../dbConfig');
 var functions = require('../functions/functions');
 const { moveCursor } = require('readline');
+const { reject } = require('async');
 
 class Items {
     SELECT_ALL_CATEGORIES() {
@@ -20,8 +21,8 @@ class Items {
         return new Promise(
             async (resolve, reject) => {
                 try {
-                    var sql = 'INSERT INTO tb_items (cmp_seq, item_name, item_content, reg_date) VALUES (?, ?, ?, ?)';
-                    await myConnection.query(sql, [data.cmp_seq, data.item_name, data.item_content, data.reg_date])
+                    var sql = 'INSERT INTO tb_items (cmp_seq, item_name, item_content, reg_date, ads_type) VALUES (?, ?, ?, ? , ?)';
+                    await myConnection.query(sql, [data.cmp_seq, data.item_name, data.item_content, data.reg_date, data.ads_type])
                     resolve(true);
                 } catch (err) {
                     reject(err)
@@ -105,6 +106,21 @@ class Items {
             }
         )
     }
+
+    GET_CMP_PRE_ITEM_COUNT(data) { 
+        return new Promise (
+            async (resolve, reject) => {
+                try {
+                    var sql = 'SELECT COUNT(*) AS cnt FROM tb_items WHERE cmp_seq = ? AND ads_type = 1';
+                    var ITEM_COUNT = await myConnection.query(sql, [data.cmp_seq]);
+                    resolve(ITEM_COUNT[0].cnt);
+                } catch (err) {
+                    reject(err);
+                }
+            }
+        )
+    }
+
     GET_PICK_OWNER(data) {
         return new Promise(
             async (resolve, reject) => {
