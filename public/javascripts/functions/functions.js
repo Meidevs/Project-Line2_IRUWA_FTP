@@ -1,6 +1,5 @@
 var crypto = require('crypto');
 var btoa = require('btoa');
-const { time } = require('console');
 
 class Functions {
     PasswordEncryption(id, pw) {
@@ -40,8 +39,8 @@ class Functions {
         )
     }
 
-    TodayString () {
-        return new Promise (
+    TodayString() {
+        return new Promise(
             async (resolve, reject) => {
                 try {
                     var today = new Date();
@@ -56,7 +55,7 @@ class Functions {
             }
         )
     }
-    TodayTimeString () {
+    TodayTimeString() {
         return new Promise(
             async (resolve, reject) => {
                 try {
@@ -69,8 +68,8 @@ class Functions {
         )
     }
 
-    SearchString (filter, data) {
-        return new Promise (
+    SearchString(filter, data) {
+        return new Promise(
             async (resolve, reject) => {
                 try {
 
@@ -80,9 +79,9 @@ class Functions {
             }
         )
     }
-    
-    TimeAverageCal (data) {
-        return new Promise (
+
+    TimeAverageCal(data) {
+        return new Promise(
             async (resolve, reject) => {
                 try {
                     var TimeArray = new Array();
@@ -110,13 +109,25 @@ class Functions {
                     var hourToSeconds = hour * 60 * 60;
                     var minutesToSeconds = minutes * 60;
                     var timeAvg = (dateToSeconds + hourToSeconds + minutesToSeconds + seconds) / TimeArray.length;
-                    var result = parseInt(timeAvg / 86400) + ":" + parseInt(timeAvg % 86400 / 3600) + ":" + parseInt(timeAvg % 86400 % 3600 / 60) + ":" +  timeAvg % 86400 % 3600 % 60;
+                    var result = parseInt(timeAvg / 86400) + ":" + parseInt(timeAvg % 86400 / 3600) + ":" + parseInt(timeAvg % 86400 % 3600 / 60) + ":" + timeAvg % 86400 % 3600 % 60;
                     resolve(result);
                 } catch (err) {
                     reject(err)
                 }
             }
         )
+    }
+
+    randomArray(dataArray) {
+        var rndNumArray = new Array();
+        do {
+            var rndNum = Math.floor(Math.random() * dataArray.length);
+            var existence = rndNumArray.includes(rndNum);
+            if (!existence) {
+                rndNumArray.push(rndNum);
+            }
+        } while (rndNumArray.length < 5) ;
+        return rndNumArray;
     }
 }
 

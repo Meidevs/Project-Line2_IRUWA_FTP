@@ -81,7 +81,6 @@ router.post('/create',
                     }
                 }
             }
-
             // api/item/create Endpoint only Insert Text into Database.
             // Image Upload Will be Requested From Browser Again after Application Receive ITEM_SEQ From api/item/create Endpoint.
             res.status(200).send(resReturn);
@@ -89,6 +88,51 @@ router.post('/create',
             console.log(err)
         }
     });
+
+router.post('/premiums', async (req, res) => {
+    try {
+        var FromData = new Object();
+        var IMAGE_URIs = new Array();
+        var IMAGE_URI_ARRAY = new Array();
+        var resReturn = {
+            flags : 0,
+            data : [],
+        }
+        FromData.location_name = req.body.user_location;
+        var GET_PREMIUM_LIST = await itemModel.GET_ITEM_PREMIUM_LIST(FromData);
+        
+        for (var j = 0; j < GET_PREMIUM_LIST.length; j++) {
+            IMAGE_URIs.push(GET_PREMIUM_LIST[j].items_seq);
+        }
+
+        if (IMAGE_URIs.length != 0) {
+            var IMAGE_URI_ARRAY = await itemModel.GET_IMAGE_URI(IMAGE_URIs);
+        }
+
+        // Push IMAGE_URI datas into GET_ITEM_LIST Array to Send Data to Application Browser.
+        GET_PREMIUM_LIST.map((data) => {
+            data.uri = new Array();
+            for (var x = 0; x < IMAGE_URI_ARRAY.length; x++) {
+                if (data.items_seq == IMAGE_URI_ARRAY[x].items_seq) {
+                    data.uri.push(IMAGE_URI_ARRAY[x].uri)
+                }
+            }
+        });
+        if (GET_PREMIUM_LIST.length >= 5) {
+            var Random_Array = await functions.randomArray(GET_PREMIUM_LIST);
+            for (var i = 0; i < Random_Array.length; i++) {
+                resReturn.data.push(GET_PREMIUM_LIST[Random_Array[i]]);
+            }
+        } else {
+            for (var i = 0; i < GET_PREMIUM_LIST.length; i++) {
+                resReturn.data.push(GET_PREMIUM_LIST[i]);
+            }
+        }
+        res.status(200).send(resReturn);
+    } catch (err) {
+        console.log(err);
+    }
+})
 
 router.post('/list', async (req, res) => {
     // ** 함수는 한 가지 기능만 구현한다!
@@ -99,9 +143,8 @@ router.post('/list', async (req, res) => {
         // This Process Will be Executed by SQL to Accelerate Data Processing.
         // FromData.location_name = req.body.user_location;
         var FromData = new Object();
-        FromData.location_name = req.body.user_location;
-        console.log(FromData)
         var IMAGE_URIs = new Array();
+        FromData.location_name = req.body.user_location;
 
         // Get Company Information From Database to Show Company Infos At Main Page with Item Information.
         var GET_CMP_LIST = await userModel.GET_CMP_LIST(FromData);
@@ -156,7 +199,6 @@ router.post('/list/detail', async (req, res) => {
     // ** 함수는 한 가지 기능만 구현한다!
     // ** 데이터 베이스 호출 속도를 빠르게 한다.
     try {
-        console.log(req.body)
         var FromData = new Object();
         FromData.items_seq = parseInt(req.body.items_seq);
         FromData.cmp_seq = parseInt(req.body.cmp_seq);

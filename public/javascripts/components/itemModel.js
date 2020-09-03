@@ -49,7 +49,7 @@ class Items {
             async (resolve, reject) => {
                 try {
                     // After Put Ads Date
-                    var sql = 'SELECT * FROM tb_items WHERE cmp_seq IN (SELECT cmp_seq FROM tb_company WHERE cmp_location = ?)';
+                    var sql = 'SELECT * FROM tb_items WHERE cmp_seq IN (SELECT cmp_seq FROM tb_company WHERE cmp_location = ?) ORDER BY reg_date DESC';
                     var resReturn = await myConnection.query(sql, [data.location_name]);
                     resolve(resReturn);
                 } catch (err) {
@@ -58,7 +58,19 @@ class Items {
             }
         )
     }
-
+    GET_ITEM_PREMIUM_LIST (data) {
+        return new Promise (
+            async (resolve, reject) => {
+                try {
+                    var sql = 'SELECT * FROM tb_items WHERE cmp_seq IN (SELECT cmp_seq FROM tb_company WHERE cmp_location = ?) AND ads_type = 1';
+                    var resReturn = await myConnection.query(sql, [data.location_name]);
+                    resolve(resReturn);
+                } catch (err) {
+                    reject(err);
+                }
+            }
+        )
+    }
     GET_ITEMS_LIST_ON_OWNER(data) {
         return new Promise(
             async (resolve, reject) => {
