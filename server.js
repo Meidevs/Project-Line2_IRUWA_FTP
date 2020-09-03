@@ -91,9 +91,17 @@ appServer.use(body.json());
 
 appFTP_1.listen(3000);
 appFTP_2.listen(3001);
+
+var http = require('http').Server(appServer);
+let io = require('socket.io')(http);
+
 AdminApp.listen(80, () => {
     console.log('Admin Server Running! http://localhost:80/admin')
 });
-appServer.listen(8888, () => {
+http.listen(8888, () => {
     console.log('App Server is Running! http://localhost:8888/api');
-})
+});
+
+io.on('connection', (socket) => {
+  console.log('A User Connected!');
+});

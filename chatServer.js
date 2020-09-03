@@ -9,9 +9,6 @@ server.listen(port, () => {
     console.log('Server listening at port %d', port);
 });
 
-
-// Chatroom
-
 let numUsers = 0;
 
 
