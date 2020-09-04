@@ -100,7 +100,6 @@ router.get('/logout', (req, res) => {
 
 router.get('/info', async (req, res) => {
     try {
-        console.log(req.session.user)
         res.status(200).send(req.session.user);
     } catch (err) {
         console.log(err);

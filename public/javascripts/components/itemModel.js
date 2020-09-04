@@ -311,6 +311,21 @@ class Items {
             }
         )
     }
+
+    GET_ITEM_INFO (items_seq) {
+        return new Promise (
+            async (resolve, reject) => {
+                try {
+                    var sql = 'SELECT * FROM tb_items WHERE items_seq = ?';
+                    var resReturn = await myConnection.query(sql, [items_seq]);
+                    resolve(resReturn[0])
+                } catch (err) {
+                    reject(err)
+                }
+            }
+        )
+    }
+
 }
 
 module.exports = new Items();
