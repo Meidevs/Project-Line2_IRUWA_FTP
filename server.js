@@ -25,10 +25,10 @@ appServer.use(session({
   secret: 'keyboard cat',
   resave: false,
   saveUninitialized: false,
-  rolling : true,
+  rolling: true,
   store: new FileStore(),
-  cookie : {
-   maxAge: 2592000000,
+  cookie: {
+    maxAge: 2592000000,
   }
 }));
 
@@ -96,12 +96,16 @@ var http = require('http').Server(appServer);
 let io = require('socket.io')(http);
 
 AdminApp.listen(80, () => {
-    console.log('Admin Server Running! http://localhost:80/admin')
+  console.log('Admin Server Running! http://localhost:80/admin')
 });
 http.listen(8888, () => {
-    console.log('App Server is Running! http://localhost:8888/api');
+  console.log('App Server is Running! http://localhost:8888/api');
 });
+var rawArray = new Array();
 
-io.on('connection', (socket) => {
+io.on('connect', (socket) => {
   console.log('A User Connected!');
+  socket.on('sendMessage', (message) => {
+    socket.emit('receiveMessage', message);
+  });
 });

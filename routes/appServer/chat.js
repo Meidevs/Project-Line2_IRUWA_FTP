@@ -24,9 +24,12 @@ router.post('/company/infos', async (req, res) => {
     try {
         var cmp_seq = req.body.cmp_seq;
         var CMP_INFOs = await userModel.GET_CMP_INFO(cmp_seq);
+        var HOST_INFOs = await userModel.GET_USER_INFO_ON_CMP(CMP_INFOs)
         var resReturn = {
             cmp_seq : CMP_INFOs.cmp_seq,
             cmp_name : CMP_INFOs.cmp_name,
+            host_seq : HOST_INFOs.user_seq,
+            host_name : HOST_INFOs.user_name,
         }
         res.status(200).send(resReturn)
     } catch (err) {

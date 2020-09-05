@@ -1,6 +1,7 @@
 var myConnection = require('../../../dbConfig');
 var functions = require('../functions/functions');
 const { rejectSeries } = require('async');
+const { type } = require('os');
 
 class Authentication {
 
@@ -102,7 +103,22 @@ class Authentication {
             }
         )
     }
-
+    GET_USER_INFO_ON_CMP (data) {
+        return new Promise (
+            async (resolve, reject) => {
+                try {
+                    var rawObj = new Object();
+                    var sql = 'SELECT * FROM tb_users WHERE user_seq IN (SELECT user_seq FROM tb_company WHERE cmp_seq = ?)';
+                    var HOST_INFO = await myConnection.query(sql, [data.cmp_seq]);
+                    rawObj.user_seq = HOST_INFO[0].user_seq;
+                    rawObj.user_name = HOST_INFO[0].user_name;
+                    resolve(rawObj)
+                } catch (err) {
+                    reject(err);
+                }
+            }
+        )
+    }
     GET_CMP_INFO_ON_USER(data) {
         return new Promise(
             async (resolve, reject) => {
