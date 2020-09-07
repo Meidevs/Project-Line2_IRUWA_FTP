@@ -102,10 +102,26 @@ http.listen(8888, () => {
   console.log('App Server is Running! http://localhost:8888/api');
 });
 var rawArray = new Array();
-
+var users = new Array();
 io.on('connect', (socket) => {
-  console.log('A User Connected!');
+  socket.on('connection', (data) => {
+    var uid = {
+      socketID: socket.id,
+      userID: data.userID,
+    }
+    var uid_exist = users.filter((item) => item.userID === uid.userID);
+    if (uid_exist.length > 0) {
+      index = users.findIndex(item => item.userID === uid.userID);
+      users[index] = uid;
+    } else {
+      users.push(uid);
+    }
+  });
+
   socket.on('sendMessage', (message) => {
+    console.log(message)
+    console.log(users)
+
     socket.emit('receiveMessage', message);
   });
 });
