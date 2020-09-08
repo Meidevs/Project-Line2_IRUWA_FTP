@@ -4,6 +4,10 @@ var router = express.Router();
 var itemModel = require('../../public/javascripts/components/itemModel');
 var userModel = require('../../public/javascripts/components/userModel');
 
+router.get('/', (req, res) => {
+    res.render('chat')
+})
+
 router.get('/user/infos', async (req, res) => {
     // ** 함수는 한 가지 기능만 구현한다!
     // ** 데이터 베이스 호출 속도를 빠르게 한다.

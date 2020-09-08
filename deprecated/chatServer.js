@@ -1,6 +1,7 @@
 // Setup basic express server
 let express = require('express');
-let config = require("config")
+let config = require("config");
+const router = require('./routes/chat');
 let app = express();
 let server = require('http').createServer(app);
 let io = require('socket.io')(server);
@@ -9,8 +10,17 @@ server.listen(port, () => {
     console.log('Server listening at port %d', port);
 });
 
-let numUsers = 0;
+// app.set('views', path.join(__dirname, 'views'));
+// app.use(logger('dev'));
 
+app.set('view engine', 'ejs');
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+// app.use(cookieParser());
+// app.use(express.static(path.join(__dirname, 'public')));
+
+let numUsers = 0;
+app.use('/', router);
 
 io.on('connection', (socket) => {
     let addedUser = false;

@@ -35,17 +35,18 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script>
-        var socket = io.connect('http://localhost:8000');
+        var socket = io.connect('http://192.168.0.40:8888');
+        socket.emit('connection', { userID: 2 })
         $('form').submit(function () {
             var msg = $('#m').val();
             if (msg.length > 0)
-                socket.emit('new message', msg);
+                socket.emit('sendMessage', msg);
             else
                 console.log("Enter a valid msg :)");
             $('#m').val("");
             return false;
         });
-        socket.on('new message', (msg) => {
+        socket.on('receiveMessage', (msg) => {
             console.log(msg)
             $("#messages").append('<li class="list-group-item">' + msg + '</li>');
         });

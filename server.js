@@ -108,6 +108,7 @@ io.on('connect', (socket) => {
     var uid = {
       socketID: socket.id,
       userID: data.userID,
+      socket : socket
     }
     var uid_exist = users.filter((item) => item.userID === uid.userID);
     if (uid_exist.length > 0) {
@@ -119,9 +120,15 @@ io.on('connect', (socket) => {
   });
 
   socket.on('sendMessage', (message) => {
-    console.log(message)
-    console.log(users)
-
-    socket.emit('receiveMessage', message);
+    var index = users.findIndex(item => item.userID === message.receiver_seq);
+    var socketB = users[index].socket;
+    socketB.join(message.roomCode);
+    socket.join(message.roomCode);
+    io.in(message.roomCode).emit('receiveMessage', message);
+    // socket.emit('receiveMessage', message);
   });
+
+  socket.on('disconnect', (err, data) => {
+    console.log('User Leave')
+  })
 });
