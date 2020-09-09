@@ -3,8 +3,8 @@ const mysql = require('mariadb');
 var dbConfig = {
     host: 'localhost',
     port: 3306,
-    user: 'root',
-    password: '1234',
+    user: 'admin',
+    password: 'password',
     database: 'iruwa',
 };
 
