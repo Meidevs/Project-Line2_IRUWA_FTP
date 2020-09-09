@@ -104,7 +104,7 @@ http.listen(8888, () => {
 var messageList = new Array();
 var users = new Array();
 io.on('connect', (socket) => {
-
+  console.log('Socket', socket)
   socket.on('connection', (data) => {
     console.log('User Connected!');
     var uid = {
@@ -140,6 +140,7 @@ io.on('connect', (socket) => {
   socket.on('sendMessage', (message) => {
     var index = users.findIndex(item => item.userID === message.receiver_seq);
     var socketB = users[index].socket;
+    console.log('roomCode', message.roomCode)
     socketB.join(message.roomCode);
     socket.join(message.roomCode);
     io.in(message.roomCode).emit('receiveMessage', message );
