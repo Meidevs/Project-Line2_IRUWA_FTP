@@ -101,10 +101,14 @@ AdminApp.listen(80, () => {
 http.listen(8888, () => {
   console.log('App Server is Running! http://localhost:8888/api');
 });
-var rawArray = new Array();
+var messageList = new Array();
 var users = new Array();
 io.on('connect', (socket) => {
+
+  console.log('socket', socket)
+
   socket.on('connection', (data) => {
+    console.log('User Connected!');
     var uid = {
       socketID: socket.id,
       userID: data.userID,
@@ -119,7 +123,14 @@ io.on('connect', (socket) => {
     }
   });
 
+  socket.on('messageLogs', (data) => {
+
+    socket.emit('getMessageLogs', message);
+
+  });
+
   socket.on('sendMessage', (message) => {
+    messageList.push(message);
     var index = users.findIndex(item => item.userID === message.receiver_seq);
     var socketB = users[index].socket;
     socketB.join(message.roomCode);
@@ -129,6 +140,7 @@ io.on('connect', (socket) => {
   });
 
   socket.on('disconnect', (err, data) => {
+    console.log(socket.connected)
     console.log('User Leave')
   })
 });
