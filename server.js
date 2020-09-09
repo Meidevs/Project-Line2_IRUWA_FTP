@@ -112,7 +112,7 @@ io.on('connect', (socket) => {
     var uid = {
       socketID: socket.id,
       userID: data.userID,
-      socket : socket
+      socket: socket
     }
     var uid_exist = users.filter((item) => item.userID === uid.userID);
     if (uid_exist.length > 0) {
@@ -123,7 +123,17 @@ io.on('connect', (socket) => {
     }
   });
 
-  socket.on('messageLogs', (data) => {
+  socket.on('messageLogs', (user_seq) => {
+    var availableRooms = [];
+    var rooms = io.sockets.adapter.rooms;
+    if (rooms) {
+      for (var room in rooms) {
+        if (!rooms[room].hasOwnProperty(room)){
+          availableRooms.push (room);
+        }
+      }
+    }
+    console.log('availableRooms', availableRooms);
 
     socket.emit('getMessageLogs', message);
 
@@ -132,14 +142,11 @@ io.on('connect', (socket) => {
   socket.on('sendMessage', (message) => {
     var index = users.findIndex(item => item.userID === message.receiver_seq);
     var socketB = users[index].socket;
-    console.log('socketB', socketB)
+    // Create Random String
     socketB.join(message.roomCode);
     socket.join(message.roomCode);
-    if (!socketB.connected) {
-      io.in(message.roomCode).emit('receiveMessage', message);
-    } else {
-      messageList.push(message)
-    }
+    io.in(roomCode).emit('receiveMessage', message );
+    messageList.push( message )
     // socket.emit('receiveMessage', message);
   });
 
