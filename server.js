@@ -130,12 +130,16 @@ io.on('connect', (socket) => {
   });
 
   socket.on('sendMessage', (message) => {
-    messageList.push(message);
     var index = users.findIndex(item => item.userID === message.receiver_seq);
     var socketB = users[index].socket;
+    console.log('socketB', socketB)
     socketB.join(message.roomCode);
     socket.join(message.roomCode);
-    io.in(message.roomCode).emit('receiveMessage', message);
+    if (!socketB.connected) {
+      io.in(message.roomCode).emit('receiveMessage', message);
+    } else {
+      messageList.push(message)
+    }
     // socket.emit('receiveMessage', message);
   });
 
