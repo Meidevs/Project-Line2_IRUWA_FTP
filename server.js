@@ -101,55 +101,124 @@ AdminApp.listen(80, () => {
 http.listen(8888, () => {
   console.log('App Server is Running! http://localhost:8888/api');
 });
-var messageList = new Array();
-var users = new Array();
+
+const { addUser, removeUser, getUser, setMessages, getMessages } = require('./users');
+const { GET_CMP_INFO_ON_USER } = require('./public/javascripts/components/userModel');
+var rooms = [];
+var infos = [];
 io.on('connect', (socket) => {
-  console.log('Socket', socket)
-  socket.on('connection', (data) => {
-    console.log('User Connected!');
-    var uid = {
-      socketID: socket.id,
-      userID: data.userID,
-      socket: socket
+  socket.on('connection', ({ userID }, callback) => {
+    if (userID != null) {
+      addUser(socket.id, userID, socket);
     }
-    var uid_exist = users.filter((item) => item.userID === uid.userID);
-    if (uid_exist.length > 0) {
-      index = users.findIndex(item => item.userID === uid.userID);
-      users[index] = uid;
+  });
+
+  socket.on('join', (data, callback) => {
+    var user = getUser(data.sender_seq);
+    var index = rooms.findIndex(item => item.user == user.userID);
+    if (index == -1) {
+      rooms.push({ roomCode: data.roomCode, user: user.userID, status: 1 })
     } else {
-      users.push(uid);
+      rooms[index] = { roomCode: data.roomCode, user: user.userID, status: 1 };
     }
+    socket.join(data.roomCode);
   });
 
-  socket.on('messageLogs', (user_seq) => {
-    var availableRooms = [];
-    var rooms = io.sockets.adapter.rooms;
-    if (rooms) {
-      for (var room in rooms) {
-        if (!rooms[room].hasOwnProperty(room)){
-          availableRooms.push (room);
-        }
-      }
+  socket.on('goMessage', (data, callback) => {
+    var y = infos.findIndex(data => data.roomCode == data.roomCode);
+    if (y === -1)
+      infos.push(data);
+
+    var x = rooms.findIndex((user) => user.user == data.receiver_seq);
+    if (x == -1 || rooms[x].status == 0) {
+      setMessages(data.roomCode, data.receiver_seq, data.sender_seq, data.message, data.reg_date);
     }
-    console.log('availableRooms', availableRooms);
-
-    socket.emit('getMessageLogs', message);
-
+    io.in(data.roomCode).emit('message', { sender_seq: data.sender_seq, message: data.message, reg_date: data.reg_date });
   });
 
-  socket.on('sendMessage', (message) => {
-    var index = users.findIndex(item => item.userID === message.receiver_seq);
-    var socketB = users[index].socket;
-    console.log('roomCode', message.roomCode)
-    socketB.join(message.roomCode);
-    socket.join(message.roomCode);
-    io.in(message.roomCode).emit('receiveMessage', message );
-    messageList.push( message )
-    // socket.emit('receiveMessage', message);
-  });
+  socket.on('getHistory', (userID, callback) => {
+    const history = getMessages(userID);
+    var info = infos.filter(data => data.receiver_seq == userID);
 
-  socket.on('disconnect', (err, data) => {
-    console.log(socket.connected)
-    console.log('User Leave')
+    socket.emit('returnHistory', { history: history, info: info });
   })
+
+  // socket.on('disconnect', () => {
+  //   const user = removeUser(socket.id);
+
+  //   if (user) {
+  //     io.to(user.room).emit('message', { user: 'Admin', text: `${user.name} has left.` });
+  //     io.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room) });
+  //   }
+  // })
 });
+
+
+// io.on('connect', (socket) => {
+//   socket.on('connection', (data) => {
+//     console.log('User Connected!');
+//     console.log(data)
+//     var uid = {
+//       socketID: socket.id,
+//       userID: data.userID,
+//       socket: socket
+//     }
+//     var uid_exist = users.filter((item) => item.userID === uid.userID);
+//     if (uid_exist.length > 0) {
+//       index = users.findIndex(item => item.userID === uid.userID);
+//       users[index] = uid;
+//     } else {
+//       users.push(uid);
+//     }
+//   });
+
+//   socket.on('messageLogs', (data) => {
+//     var returnList = unReadList.filter(item => item.receiver_seq == data);
+//     unReadList = unReadList.filter(item => item.sender_seq = user_seq);
+//     socket.emit('getMessageLogs', returnList);
+//   });
+
+//   socket.on('inviteRoom', (message) => {
+//     console.log('inviteRoom', message);
+//     console.log('users', users);
+//     var index = users.findIndex(item => item.userID == message.receiver_seq);
+//     if (index !== -1) {
+//       var socketB = users[index].socket;
+//       socket.join(message.roomCode);
+//       socketB.join(message.roomCode);
+//     }
+//     roomList.push({ sender_seq: message.sender_seq, receiver_seq: message.receiver_seq,items_seq : message.items_seq, roomCode: message.roomCode })
+//   });
+
+//   socket.on('getRoom', data => {
+//     var returnList = roomList.filter(item => item.receiver_seq == data);
+//     socket.emit('getRoom', returnList)
+//   });
+
+//   socket.on('inRoom', data => {
+//     socket.join(data.roomCode);
+//     socket.in(data.roomCode).emit('receiveMessage', '방에 입장하셨습니다.');
+//   })
+
+//   socket.on('outRoom', data => {
+//     socket.leave(data.roomCode);
+//   })
+
+//   socket.on('sendMessage', (message) => {
+//     console.log('sendMessage', message);
+
+//     unReadList.push({
+//       roomCode : message.roomCode,
+//       sender_seq : message.sender_seq,
+//       receiver_seq : message.receiver_seq,
+//       message : message.message,
+//       reg_date : message.reg_date,
+//     })
+//     io.in(message.roomCode).emit('receiveMessage', message);
+//   });
+
+//   socket.on('disconnect', (err, data) => {
+//     console.log(socket.connected)
+//     console.log('User Leave')
+//   })
+// });
