@@ -130,7 +130,8 @@ io.on('connect', (socket) => {
     }
 
     var USER_INVITE_ROOM = Rooms.findIndex(room => room.userID == data.receiver_seq && room.roomCode == data.roomCode);
-    if (USER_INVITE_ROOM !== -1) {
+    console.log('USER_INVITE_ROOM', USER_INVITE_ROOM)
+    if (USER_INVITE_ROOM == -1) {
       var socketB = getUser(data.receiver_seq);
       socketB.socket.join(data.roomCode)
       Rooms.push({

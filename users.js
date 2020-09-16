@@ -33,7 +33,7 @@ const setMessages = (roomCode, receiver, sender, message, reg_date) => {
   console.log('setMessages', uid_exist)
   if (uid_exist === -1) return { error: '사용자를 확인할 수 없습니다.' }
 
-  messages.push({ roomCode: roomCode, receiver: receiver, sender: sender, message: message, reg_date: reg_date });
+  messages.push({ roomCode: roomCode, receiver_seq: receiver, sender_seq: sender, message: message, reg_date: reg_date });
   console.log(messages)
   return messages ;
 }
