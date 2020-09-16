@@ -104,78 +104,53 @@ http.listen(8888, () => {
 
 const { addUser, removeUser, getUser, setMessages, getMessages } = require('./users');
 const { GET_CMP_INFO_ON_USER } = require('./public/javascripts/components/userModel');
-const { RSA_PKCS1_PADDING } = require('constants');
-var Rooms = [];
-var Infos = [];
+var rooms = [];
+var infos = [];
 io.on('connect', (socket) => {
-  console.log('Socket ID : ', socket.id)
   socket.on('connection', ({ userID }, callback) => {
     if (userID != null) {
       addUser(socket.id, userID, socket);
     }
   });
 
-  socket.on('goMessage', (data, callback) => {
-    console.log('data', data)
-    // !! Data Form :
-    // sender_seq, receiver_seq, items_seq, cmp_seq, roomCode, message, reg_date
-
-    var USER_IN_ROOM = Rooms.findIndex(room => room.userID == data.sender_seq && room.roomCode == data.roomCode);
-    if (USER_IN_ROOM == -1) {
-      socket.join(data.roomCode);
-      Rooms.push({
-        roomCode: data.roomCode,
-        userID: data.sender_seq,
-      })
+  socket.on('join', (data, callback) => {
+    var user = getUser(data.sender_seq);
+    var index = rooms.findIndex(item => item.user == user.userID);
+    if (index == -1) {
+      rooms.push({ roomCode: data.roomCode, user: user.userID, status: 1 })
+    } else {
+      rooms[index] = { roomCode: data.roomCode, user: user.userID, status: 1 };
     }
-
-    var USER_INVITE_ROOM = Rooms.findIndex(room => room.userID == data.receiver_seq && room.roomCode == data.roomCode);
-    if (USER_INVITE_ROOM !== -1) {
-      var socketB = getUser(data.receiver_seq);
-      socketB.socket.join(data.roomCode)
-      Rooms.push({
-        roomCode: data.roomCode,
-        userID: data.receiver_seq,
-      })
-    }
-    var ROOM_INFO = Infos.findIndex(info => info.roomCode == data.roomCode);
-    if (ROOM_INFO == -1) {
-      Infos.push({
-        sender_seq: data.sender_seq,
-        sender_name: data.sender_name,
-        receiver_seq: data.receiver_seq,
-        receiver_name: data.receiver_name,
-        items_seq: data.items_seq,
-        item_name: data.item_name,
-        cmp_seq: data.cmp_seq,
-        cmp_name: data.cmp_name,
-        roomCode: data.roomCode,
-        messages: [],
-      })
-    }
-    setMessages(data.roomCode, data.receiver_seq, data.sender_seq, data.message, data.reg_date);
-
-    io.in(data.roomCode).emit('receiveMessage', { roomCode: data.roomCode, receiver_seq: data.receiver_seq, sender_seq: data.sender_seq, message: data.message, reg_date: data.reg_date });
+    socket.join(data.roomCode);
   });
 
-  socket.on('prevMessage', (userID, callback) => {
-    var info = Infos.filter(data => data.receiver_seq == userID || data.sender_seq == userID);
-    console.log('prevMessage Info', info)
-    info.map(data => {
-      var messages = getMessages(data.roomCode);
-      data.messages = messages;
-    })
-    console.log('info', info)
-    socket.emit('prevMessage', info);
+  socket.on('goMessage', (data, callback) => {
+    var y = infos.findIndex(data => data.roomCode == data.roomCode);
+    if (y === -1)
+      infos.push(data);
+
+    var x = rooms.findIndex((user) => user.user == data.receiver_seq);
+    if (x == -1 || rooms[x].status == 0) {
+      setMessages(data.roomCode, data.receiver_seq, data.sender_seq, data.message, data.reg_date);
+    }
+    io.in(data.roomCode).emit('message', { sender_seq: data.sender_seq, message: data.message, reg_date: data.reg_date });
+  });
+
+  socket.on('getHistory', (userID, callback) => {
+    const history = getMessages(userID);
+    var info = infos.filter(data => data.receiver_seq == userID);
+
+    socket.emit('returnHistory', { history: history, info: info });
   })
 
-  socket.on('getRoomMessages', (roomCode) => {
-    console.log(roomCode)
-    var messages = getMessages(roomCode);
-    socket.emit('getRoomMessages', messages)
-  })
+  // socket.on('disconnect', () => {
+  //   const user = removeUser(socket.id);
 
-  // socket.on('disconnect');
+  //   if (user) {
+  //     io.to(user.room).emit('message', { user: 'Admin', text: `${user.name} has left.` });
+  //     io.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room) });
+  //   }
+  // })
 });
 
 

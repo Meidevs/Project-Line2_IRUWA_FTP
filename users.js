@@ -22,20 +22,24 @@ const removeUser = (id) => {
   if (index !== -1) return users.splice(index, 1)[0];
 }
 
-const getUser = (uid) => users.find((user) => user.userID === uid);
+const getUser = (uid) => {
+  var user = users.find((user) => user.userID === uid);
+
+  return user;
+};
 
 const setMessages = (roomCode, receiver, sender, message, reg_date) => {
   const uid_exist = users.findIndex(user => user.userID == receiver);
   console.log('setMessages', uid_exist)
   if (uid_exist === -1) return { error: '사용자를 확인할 수 없습니다.' }
 
-  messages.push({ roomCode: roomCode, receiver: receiver, sender : sender, message: message, reg_date : reg_date });
+  messages.push({ roomCode: roomCode, receiver: receiver, sender: sender, message: message, reg_date: reg_date });
   console.log(messages)
-  return { messages };
+  return messages ;
 }
 
-const getMessages = (uid) => {
-  var message_exist = messages.filter((user) => user.receiver === uid);
+const getMessages = (roomCode) => {
+  var message_exist = messages.filter((message) => message.roomCode === roomCode);
   console.log('getMessages', message_exist)
   return message_exist;
 }
