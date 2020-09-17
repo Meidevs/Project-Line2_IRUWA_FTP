@@ -162,13 +162,13 @@ class Items {
             }
         )
     }
-    USER_PICK_EXISTENCE(user_seq, items_seq) {
+    USER_PICK_EXISTENCE(data) {
         return new Promise(
             async (resolve, reject) => {
                 try {
                     var resRetrun = false;
                     var sql = 'SELECT * FROM tb_user_pick WHERE user_seq = ? AND items_seq = ?';
-                    var EXISTENCE = await myConnection.query(sql, [user_seq, items_seq]);
+                    var EXISTENCE = await myConnection.query(sql, [data.user_seq, data.items_seq]);
                     if (EXISTENCE[0] != undefined) {
                         resRetrun = true;
                     }
@@ -179,12 +179,12 @@ class Items {
             }
         )
     }
-    DELETE_USER_PICK_ITEM(user_seq, items_seq) {
+    DELETE_USER_PICK_ITEM(data) {
         return new Promise(
             async (resolve, reject) => {
                 try {
                     var sql = 'DELETE FROM tb_user_pick WHERE user_seq = ? AND items_seq = ?';
-                    await myConnection.query(sql, [user_seq, items_seq]);
+                    await myConnection.query(sql, [data.user_seq, data.items_seq]);
                     resolve(true);
                 } catch (err) {
                     reject(err);
@@ -193,12 +193,12 @@ class Items {
         )
     }
 
-    USER_PICK_ITEM(user_seq, items_seq) {
+    USER_PICK_ITEM(data) {
         return new Promise(
             async (resolve, reject) => {
                 try {
                     var sql = 'INSERT INTO tb_user_pick (user_seq, items_seq) VALUES (?, ?)';
-                    await myConnection.query(sql, [user_seq, items_seq]);
+                    await myConnection.query(sql, [data.user_seq, data.items_seq]);
                     resolve(true)
                 } catch (err) {
                     reject(err)
@@ -217,12 +217,12 @@ class Items {
             }
         )
     }
-    GET_VIEW_OWNER(user_seq, items_seq) {
+    GET_VIEW_OWNER(data) {
         return new Promise(
             async (resolve, reject) => {
                 try {
                     var sql = 'SELECT COUNT(*) AS cnt FROM tb_view WHERE user_seq = ?  AND items_seq = ?';
-                    var VIEW_OWNER = await myConnection.query(sql, [user_seq, items_seq]);
+                    var VIEW_OWNER = await myConnection.query(sql, [data.user_seq, data.items_seq]);
                     resolve(VIEW_OWNER[0].cnt);
                 } catch (err) {
                     reject(err)
@@ -230,12 +230,12 @@ class Items {
             }
         )
     }
-    UPDATE_VIEW_COUNT(user_seq, items_seq) {
+    UPDATE_VIEW_COUNT(data) {
         return new Promise(
             async (resolve, reject) => {
                 try {
                     var sql = 'INSERT INTO tb_view (user_seq, items_seq) VALUES (?, ?)';
-                    await myConnection.query(sql, [user_seq, items_seq]);
+                    await myConnection.query(sql, [data.user_seq, data.items_seq]);
                     resolve(true)
                 } catch (err) {
                     reject(err)
@@ -243,12 +243,12 @@ class Items {
             }
         )
     }
-    GET_VIEW_COUNT(items_seq) {
+    GET_VIEW_COUNT(data) {
         return new Promise(
             async (resolve, reject) => {
                 try {
                     var sql = 'SELECT COUNT(*) AS cnt FROM tb_view WHERE items_seq = ?';
-                    var VIEW_COUNT = await myConnection.query(sql, [items_seq]);
+                    var VIEW_COUNT = await myConnection.query(sql, [data.items_seq]);
                     resolve(VIEW_COUNT[0].cnt);
                 } catch (err) {
                     reject(err);

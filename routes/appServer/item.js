@@ -203,7 +203,7 @@ router.post('/list/detail', async (req, res) => {
         FromData.items_seq = parseInt(req.body.items_seq);
         FromData.cmp_seq = parseInt(req.body.cmp_seq);
         var user_seq = req.session.user.user_seq;
-        var queryString = FromData;
+        FromData.user_seq = user_seq;
         var TIME_AVG = '0:0:0:0';
         var IMAGE_URIs = new Array();
         var PICK_STATUS = false;
@@ -212,27 +212,27 @@ router.post('/list/detail', async (req, res) => {
         // GET_VIEW_OWNER Function Find out Whether a User Already Have Viewed an Item.
         // IF the User is on the List, UPDATE_VIEW_COUNT Function isnt Excuted.
         // Finally, GET_VIEW_COUNT Function Calls the Number of User Who Have Viewed the Item.
-        var VIEW_OWNER = await itemModel.GET_VIEW_OWNER(user_seq, queryString.items_seq);
+        var VIEW_OWNER = await itemModel.GET_VIEW_OWNER(FromData);
         if (VIEW_OWNER == 0 || null) {
-            await itemModel.UPDATE_VIEW_COUNT(user_seq, queryString.items_seq);
+            await itemModel.UPDATE_VIEW_COUNT(FromData);
         };
-        VIEW_COUNT = await itemModel.GET_VIEW_COUNT(queryString.items_seq);
+        VIEW_COUNT = await itemModel.GET_VIEW_COUNT(FromData);
 
         // GET_RESTIME_AVG Function Calls the data Which was Recorded during Chat From Database.
         // IF GET_RESTIME_AVG Function's Response Variable is not undefined, TimeAverageCal Function is Executed.
-        var GET_RESTIME_AVG = await userModel.GET_RESTIME_AVG(queryString);
+        var GET_RESTIME_AVG = await userModel.GET_RESTIME_AVG(FromData);
         if (GET_RESTIME_AVG[0] != undefined) {
             TIME_AVG = await functions.TimeAverageCal(GET_RESTIME_AVG);
         };
 
         // Check Whether Application's User Already Have Picked the Item.
         // If User already Pick the Item, PICK_STATUS Will be true.
-        var EXISTENCE = await itemModel.USER_PICK_EXISTENCE(user_seq, queryString.items_seq);
+        var EXISTENCE = await itemModel.USER_PICK_EXISTENCE(FromData);
         if (EXISTENCE) {
             PICK_STATUS = true;
         };
 
-        var ITEMS_OF_OWNER = await itemModel.GET_ITEMS_LIST_ON_OWNER(queryString);
+        var ITEMS_OF_OWNER = await itemModel.GET_ITEMS_LIST_ON_OWNER(FromData);
         for (var i = 0; i < ITEMS_OF_OWNER.length; i++) {
             ITEMS_OF_OWNER[i].item_content = ITEMS_OF_OWNER[i].item_content.toString();
         };
@@ -262,7 +262,7 @@ router.post('/list/detail', async (req, res) => {
         })
 
 
-        var CMP_INFOs = await userModel.GET_CMP_INFO(queryString.cmp_seq);
+        var CMP_INFOs = await userModel.GET_CMP_INFO(FromData);
         var CATEGORIES = await itemModel.SELECT_ALL_CATEGORIES();
         CATEGORIES.map((data) => {
             if (data.category_seq == CMP_INFOs.category_seq) {
@@ -275,28 +275,32 @@ router.post('/list/detail', async (req, res) => {
     }
 });
 
-router.post('/list/detail/pick/', async (req, res) => {
+router.post('/list/pick', async (req, res) => {
     // ** 함수는 한 가지 기능만 구현한다!
     // ** 데이터 베이스 호출 속도를 빠르게 한다.
     try {
-        req.query.items_seq = parseInt(req.query.items_seq);
+        var FromData = new Object();
+
+        var items_seq = parseInt(req.body.items_seq);
         var user_seq = req.session.user.user_seq;
-        var queryString = req.query;
+        FromData.items_seq = items_seq;
+        FromData.user_seq = user_seq;
+
         var resReturn = {
             flags: 2,
             message: '본인 상품은 찜할 수 없습니다.'
         }
-        var ITEM_OWNER = await itemModel.GET_PICK_OWNER(queryString);
-        if (ITEM_OWNER != user_seq) {
-            var EXISTENCE = await itemModel.USER_PICK_EXISTENCE(user_seq, queryString.items_seq);
+        var ITEM_OWNER = await itemModel.GET_PICK_OWNER(FromData);
+        if (ITEM_OWNER != FromData.user_seq) {
+            var EXISTENCE = await itemModel.USER_PICK_EXISTENCE(FromData);
             if (EXISTENCE) {
-                await itemModel.DELETE_USER_PICK_ITEM(user_seq, queryString.items_seq);
+                await itemModel.DELETE_USER_PICK_ITEM(FromData);
                 resReturn = {
                     flags: 1,
                     message: '찜 해제되었습니다.'
                 }
             } else {
-                await itemModel.USER_PICK_ITEM(user_seq, queryString.items_seq);
+                await itemModel.USER_PICK_ITEM(FromData);
                 resReturn = {
                     flags: 0,
                     message: '찜 등록되었습니다.'

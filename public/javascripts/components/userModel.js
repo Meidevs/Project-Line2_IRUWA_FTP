@@ -151,13 +151,13 @@ class Authentication {
         )
     }
 
-    GET_CMP_INFO(cmp_seq) {
+    GET_CMP_INFO(data) {
         return new Promise(
             async (resolve, reject) => {
                 try {
                     var rawObj = new Object();
                     var sql = 'SELECT * FROM tb_company WHERE cmp_seq = ?';
-                    var CMP_INFO = await myConnection.query(sql, [cmp_seq]);
+                    var CMP_INFO = await myConnection.query(sql, [data.cmp_seq]);
                     rawObj.cmp_seq = CMP_INFO[0].cmp_seq
                     rawObj.category_seq = CMP_INFO[0].category_seq
                     rawObj.cmp_name = CMP_INFO[0].cmp_name
