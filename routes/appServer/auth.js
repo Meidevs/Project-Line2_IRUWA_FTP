@@ -106,6 +106,7 @@ router.get('/info', async (req, res) => {
             user_name : req.session.user.user_name,
             user_location : req.session.user.user_location, 
             cmp_exist : req.session.user.cmp_exist,
+            cmp_seq : req.session.user.cmp_seq,
             cmp_name : req.session.user.cmp_name,
             cmp_location : req.session.user.cmp_location,
         });

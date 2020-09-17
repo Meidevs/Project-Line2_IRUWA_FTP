@@ -95,12 +95,12 @@ router.post('/premiums', async (req, res) => {
         var IMAGE_URIs = new Array();
         var IMAGE_URI_ARRAY = new Array();
         var resReturn = {
-            flags : 0,
-            data : [],
+            flags: 0,
+            data: [],
         }
         FromData.location_name = req.body.user_location;
         var GET_PREMIUM_LIST = await itemModel.GET_ITEM_PREMIUM_LIST(FromData);
-        
+
         for (var j = 0; j < GET_PREMIUM_LIST.length; j++) {
             IMAGE_URIs.push(GET_PREMIUM_LIST[j].items_seq);
         }
@@ -378,6 +378,45 @@ router.post('/search/category', async (req, res) => {
     } catch (err) {
         console.log(err)
     }
-})
+});
+
+router.post('/mylist', async (req, res) => {
+    // ** 함수는 한 가지 기능만 구현한다!
+    // ** 데이터 베이스 호출 속도를 빠르게 한다.
+    try {
+        var FromData = new Object();
+        var IMAGE_URIs = new Array();
+
+        FromData.cmp_seq = req.body.cmp_seq;
+
+        var ITEMS_OF_OWNER = await itemModel.GET_ITEMS_LIST_ON_OWNER(FromData);
+        for (var i = 0; i < ITEMS_OF_OWNER.length; i++) {
+            IMAGE_URIs.push(ITEMS_OF_OWNER[i].items_seq);
+        }
+
+        var IMAGE_URI_ARRAY = new Array();
+
+        if (IMAGE_URIs.length != 0) {
+            IMAGE_URI_ARRAY = await itemModel.GET_IMAGE_URI(IMAGE_URIs);
+        }
+
+        ITEMS_OF_OWNER.map((data) => {
+            data.uri = new Array();
+            for (var x = 0; x < IMAGE_URI_ARRAY.length; x++) {
+                if (data.items_seq == IMAGE_URI_ARRAY[x].items_seq) {
+                    data.uri.push(IMAGE_URI_ARRAY[x].uri)
+                }
+            }
+        });
+
+        var resReturn = {
+            flags: 0,
+            content: ITEMS_OF_OWNER
+        }
+        res.status(200).send(resReturn);
+    } catch (err) {
+        console.log(err);
+    }
+});
 
 module.exports = router;
