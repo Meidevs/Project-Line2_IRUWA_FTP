@@ -124,7 +124,7 @@ io.on('connect', (socket) => {
     if (USER_IN_ROOM == -1) {
       socket.join(data.roomCode);
       Rooms.push({
-        roomCode: data.roomCode,
+        roomCode: data.roomCode, 
         userID: data.sender_seq,
       })
     }

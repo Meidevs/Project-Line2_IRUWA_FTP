@@ -309,7 +309,7 @@ router.post('/list/detail/pick/', async (req, res) => {
     }
 });
 
-router.post('/search', async (req, res) => {
+router.post('/search/keyword', async (req, res) => {
     try {
         var keyword = req.body.keyword;
         var user_seq = req.session.user.user_seq;
@@ -317,6 +317,66 @@ router.post('/search', async (req, res) => {
         console.log(user_location)
     } catch (err) {
         console.log(err);
+    }
+});
+
+router.post('/search/category', async (req, res) => {
+    // ** 함수는 한 가지 기능만 구현한다!
+    // ** 데이터 베이스 호출 속도를 빠르게 한다.
+    try {
+        // api/item/list Endpoint Receive Location Name From Application. 
+        // Also, Distinguish Whether Company Pay for ads fee or Not. 
+        // This Process Will be Executed by SQL to Accelerate Data Processing.
+        // FromData.location_name = req.body.user_location;
+        var FromData = new Object();
+        var IMAGE_URIs = new Array();
+        FromData.category_seq = req.body.category_seq;
+        // Get Company Information From Database to Show Company Infos At Main Page with Item Information.
+        var GET_CMP_LIST = await userModel.GET_CMP_LIST_ON_CATEGORY(FromData);
+        // Get Items Information From Database Such as item_name, item_content, cmp_seq etc.
+        // item_content Might be long String. So, Database dealwith item_content Data As Blob Type. 
+        // Server Will encode Blob data to actual Data Which can Read & Understand.
+        var GET_ITEM_LIST = await itemModel.GET_ITEMS_LIST_ON_CATEGORY(FromData);
+
+        for (var i = 0; i < GET_ITEM_LIST.length; i++) {
+            GET_ITEM_LIST[i].item_content = GET_ITEM_LIST[i].item_content;
+        }
+        // Distinguish & Assemble related Information. 
+        GET_ITEM_LIST.map((item) => {
+            GET_CMP_LIST.map((data) => {
+                if (item.cmp_seq == data.cmp_seq) {
+                    item.cmp_name = data.cmp_name;
+                    item.cmp_category = data.category_seq;
+                    item.cmp_location = data.cmp_location;
+                }
+            })
+        });
+
+        // Extract items_seq As a Array. IMAGE_URIs Array sent to GET_IMAGE_URI Function Which Get Image Uris From Database. 
+        for (var j = 0; j < GET_ITEM_LIST.length; j++) {
+            IMAGE_URIs.push(GET_ITEM_LIST[j].items_seq);
+        }
+
+        if (IMAGE_URIs.length != 0) {
+            var IMAGE_URI_ARRAY = await itemModel.GET_IMAGE_URI(IMAGE_URIs);
+        }
+
+        // Push IMAGE_URI datas into GET_ITEM_LIST Array to Send Data to Application Browser.
+        GET_ITEM_LIST.map((data) => {
+            data.uri = new Array();
+            for (var x = 0; x < IMAGE_URI_ARRAY.length; x++) {
+                if (data.items_seq == IMAGE_URI_ARRAY[x].items_seq) {
+                    data.uri.push(IMAGE_URI_ARRAY[x].uri)
+                }
+            }
+        })
+        var resReturn = {
+            flags: 0,
+            content: GET_ITEM_LIST
+        }
+        res.status(200).send(resReturn);
+    } catch (err) {
+        console.log(err)
     }
 })
 

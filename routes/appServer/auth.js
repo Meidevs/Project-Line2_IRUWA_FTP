@@ -100,7 +100,15 @@ router.get('/logout', (req, res) => {
 
 router.get('/info', async (req, res) => {
     try {
-        res.status(200).send({user_location : req.session.user.user_location, user_seq : req.session.user.user_seq});
+        console.log(req.session.user)
+        res.status(200).send({
+            user_seq : req.session.user.user_seq,
+            user_name : req.session.user.user_name,
+            user_location : req.session.user.user_location, 
+            cmp_exist : req.session.user.cmp_exist,
+            cmp_name : req.session.user.cmp_name,
+            cmp_location : req.session.user.cmp_location,
+        });
     } catch (err) {
         console.log(err);
     }

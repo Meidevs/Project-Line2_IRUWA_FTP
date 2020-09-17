@@ -58,8 +58,24 @@ class Items {
             }
         )
     }
-    GET_ITEM_PREMIUM_LIST (data) {
-        return new Promise (
+
+    GET_ITEMS_LIST_ON_CATEGORY(data) {
+        return new Promise(
+            async (resolve, reject) => {
+                try {
+                    // After Put Ads Date
+                    var sql = 'SELECT * FROM tb_items WHERE cmp_seq IN (SELECT cmp_seq FROM tb_company WHERE category_seq = ?) ORDER BY reg_date DESC';
+                    var resReturn = await myConnection.query(sql, [data.category_seq]);
+                    resolve(resReturn);
+                } catch (err) {
+                    reject(err)
+                }
+            }
+        )
+    }
+
+    GET_ITEM_PREMIUM_LIST(data) {
+        return new Promise(
             async (resolve, reject) => {
                 try {
                     var sql = 'SELECT * FROM tb_items WHERE cmp_seq IN (SELECT cmp_seq FROM tb_company WHERE cmp_location = ?) AND ads_type = 1';
@@ -119,8 +135,8 @@ class Items {
         )
     }
 
-    GET_CMP_PRE_ITEM_COUNT(data) { 
-        return new Promise (
+    GET_CMP_PRE_ITEM_COUNT(data) {
+        return new Promise(
             async (resolve, reject) => {
                 try {
                     var sql = 'SELECT COUNT(*) AS cnt FROM tb_items WHERE cmp_seq = ? AND ads_type = 1';
@@ -245,7 +261,7 @@ class Items {
         return new Promise(
             async (resolve, reject) => {
                 try {
-                    var hostname = 'http://148.72.210.153/:8888/';
+                    var hostname = 'http://192.168.0.40:8888/';
                     for (var i = 0; i < images.length; i++) {
                         var uri = hostname + images[i];
                         var sql = 'INSERT INTO tb_images (items_seq, uri) VALUES (?, ?)';
@@ -312,8 +328,8 @@ class Items {
         )
     }
 
-    GET_ITEM_INFO (items_seq) {
-        return new Promise (
+    GET_ITEM_INFO(items_seq) {
+        return new Promise(
             async (resolve, reject) => {
                 try {
                     var sql = 'SELECT * FROM tb_items WHERE items_seq = ?';

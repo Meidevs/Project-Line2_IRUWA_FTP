@@ -271,6 +271,20 @@ class Authentication {
              }
          )
     }
+
+    GET_CMP_LIST_ON_CATEGORY (data) {
+        return new Promise (
+            async (resolve, reject) => {
+                try {
+                    var sql = 'SELECT * FROM tb_company WHERE category_seq = ?';
+                    var SELECT_RESPONSE = await myConnection.query(sql, [data.category_seq]);
+                    resolve(SELECT_RESPONSE);
+                } catch (err) {
+                    reject(err);
+                }
+            }
+        )
+    }
 }
 
 module.exports = new Authentication();
