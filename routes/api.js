@@ -10,6 +10,7 @@ var itemRouter = require('./appServer/item');
 var alarmRouter = require('./appServer/alarm');
 var searchRouter = require('./appServer/search');
 var chatRouter = require('./appServer/chat');
+var notiRouter = require('./appServer/notification');
 var scheduleRouter = require('./appServer/schedule');
 
 router.use('/auth', authRouter);
@@ -18,5 +19,6 @@ router.use('/item', itemRouter);
 router.use('/alarm', alarmRouter);
 router.use('/search', searchRouter);
 router.use('/chat', chatRouter);
+router.use('/noti', notiRouter);
 
 module.exports = router;
