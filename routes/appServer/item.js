@@ -315,10 +315,57 @@ router.post('/list/pick', async (req, res) => {
 
 router.post('/search/keyword', async (req, res) => {
     try {
+        console.log(req.body)
         var keyword = req.body.keyword;
-        var user_seq = req.session.user.user_seq;
         var user_location = req.session.user.user_location;
-        console.log(user_location)
+        var FromData = new Object();
+        FromData.keyword = keyword;
+        FromData.location_name = user_location;
+        
+        // Get Company Information From Database to Show Company Infos At Main Page with Item Information.
+        var GET_CMP_LIST = await userModel.GET_CMP_LIST(FromData);
+
+        var GET_ITEM_LIST = await itemModel.SEARCH_ITEM(FromData);
+        for (var i = 0; i < GET_ITEM_LIST.length; i++) {
+            GET_ITEM_LIST[i].item_content = GET_ITEM_LIST[i].item_content;
+        }
+        
+        // Distinguish & Assemble related Information. 
+        GET_ITEM_LIST.map((item) => {
+            GET_CMP_LIST.map((data) => {
+                if (item.cmp_seq == data.cmp_seq) {
+                    item.cmp_name = data.cmp_name;
+                    item.cmp_category = data.category_seq;
+                    item.cmp_location = data.cmp_location;
+                }
+            })
+        });
+
+        var IMAGE_URIs = new Array();
+
+        // Extract items_seq As a Array. IMAGE_URIs Array sent to GET_IMAGE_URI Function Which Get Image Uris From Database. 
+        for (var j = 0; j < GET_ITEM_LIST.length; j++) {
+            IMAGE_URIs.push(GET_ITEM_LIST[j].items_seq);
+        }
+
+        if (IMAGE_URIs.length != 0) {
+            var IMAGE_URI_ARRAY = await itemModel.GET_IMAGE_URI(IMAGE_URIs);
+        }
+
+        // Push IMAGE_URI datas into GET_ITEM_LIST Array to Send Data to Application Browser.
+        GET_ITEM_LIST.map((data) => {
+            data.uri = new Array();
+            for (var x = 0; x < IMAGE_URI_ARRAY.length; x++) {
+                if (data.items_seq == IMAGE_URI_ARRAY[x].items_seq) {
+                    data.uri.push(IMAGE_URI_ARRAY[x].uri)
+                }
+            }
+        })
+        var resReturn = {
+            flags: 0,
+            content: GET_ITEM_LIST
+        }
+        res.status(200).send(resReturn);
     } catch (err) {
         console.log(err);
     }

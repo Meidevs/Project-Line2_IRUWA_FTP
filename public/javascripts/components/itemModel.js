@@ -341,7 +341,20 @@ class Items {
             }
         )
     }
-
+    SEARCH_ITEM (data) {
+        return new Promise (
+            async (resolve, reject) => {
+                try {
+                    data.keyword = '%' + data.keyword + '%';
+                    var sql = 'SELECT * FROM tb_items WHERE item_name LIKE ? OR item_content LIKE ? AND cmp_seq IN (SELECT cmp_seq FROM tb_company WHERE cmp_location = ?) ORDER BY reg_date DESC';
+                    var SERACH_RETURN = await myConnection.query(sql, [data.keyword, data.keyword, data.location_name]);
+                    resolve(SERACH_RETURN);
+                } catch (err) {
+                    reject(err);
+                }   
+            }
+        )
+    }
 }
 
 module.exports = new Items();
