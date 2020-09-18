@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-const multer = require("multer");
 
 var itemModel = require('../../public/javascripts/components/itemModel');
 var functions = require('../../public/javascripts/functions/functions');
@@ -21,11 +20,14 @@ const upload = multer({
 })
 
 router.post('/create',
-    upload.any(),
+    imageController.uploadImages,
+    // imageController.resizeImages,
+    imageController.getResult,
     async (req, res) => {
         // ** 함수는 한 가지 기능만 구현한다!
         // ** 데이터 베이스 호출 속도를 빠르게 한다.
         try {
+
             var FromData = new Object();
             var resReturn = new Object();
             var cmp_seq = req.session.user.cmp_seq;
@@ -52,7 +54,8 @@ router.post('/create',
                     await itemModel.INSERT_ITEMS(FromData);
                     var ITEM_SEQ = await itemModel.GET_ITEMS_SEQ();
                     var items_seq = ITEM_SEQ;
-                    var images = req.files;
+                    var images = req.body.images;
+                    console.log(images)
                     var SAVE_RESULT = await itemModel.SAVE_IMAGE_URI(items_seq, images);
                     if (SAVE_RESULT) {
                         resReturn = {
@@ -76,8 +79,6 @@ router.post('/create',
                     var ITEM_SEQ = await itemModel.GET_ITEMS_SEQ();
                     var items_seq = ITEM_SEQ;
                     var images = req.body.images;
-                    var imagesFiles = req.files;
-                    console.log('imagesFiles', imagesFiles)
                     var SAVE_RESULT = await itemModel.SAVE_IMAGE_URI(items_seq, images);
                     if (SAVE_RESULT) {
                         resReturn = {
@@ -285,7 +286,7 @@ router.post('/list/detail', async (req, res) => {
                 CMP_INFOs.category_name = data.category_name;
             }
         });
-        res.status(200).send({ VIEW_COUNT: VIEW_COUNT, TIME_AVG: TIME_AVG, PICK_STATUS: PICK_STATUS, SELECTED: SelectedItem, NonSELECTED: NonSelectedItem, CMP_INFOs: CMP_INFOs, COUPON: Coupon });
+        res.status(200).send({ VIEW_COUNT: VIEW_COUNT, TIME_AVG: TIME_AVG, PICK_STATUS: PICK_STATUS, SELECTED: SelectedItem, NonSELECTED: NonSelectedItem, CMP_INFOs: CMP_INFOs, COUPON : Coupon });
     } catch (err) {
         console.log(err)
     }

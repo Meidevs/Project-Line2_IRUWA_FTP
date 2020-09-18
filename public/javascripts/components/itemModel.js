@@ -261,9 +261,10 @@ class Items {
         return new Promise(
             async (resolve, reject) => {
                 try {
+                    console.log(images)
                     var hostname = 'http://192.168.0.40:8888/';
                     for (var i = 0; i < images.length; i++) {
-                        var uri = hostname + images[i];
+                        var uri = hostname + 'images/' + images[i].filename;
                         var sql = 'INSERT INTO tb_images (items_seq, uri) VALUES (?, ?)';
                         await myConnection.query(sql, [items_seq, uri])
                     }
