@@ -341,6 +341,21 @@ class Items {
             }
         )
     }
+
+    GET_COUPON_INFO(data) {
+        return new Promise (
+            async (resolve, reject) => {
+                try {
+                    var sql = 'SELECT * FROM tb_items_coupon WHERE items_seq = ?';
+                    var resReturn = await myConnection.query(sql, [data.items_seq]);
+                    resolve(resReturn);
+                } catch (err) {
+                    reject(err);
+                }
+            }
+        )
+    }
+
     SEARCH_ITEM (data) {
         return new Promise (
             async (resolve, reject) => {

@@ -25,7 +25,6 @@ router.post('/create',
             FromData.item_name = req.body.item_name;
             FromData.item_content = req.body.item_content;
             FromData.ads_type = req.body.ads_type;
-            console.log('FromData', FromData);
             resReturn = {
                 flag: 2,
                 message: '일반/프리미엄 광고 등록을 위해 결제해 주세요.'
@@ -33,7 +32,6 @@ router.post('/create',
             var CMP_PERMISSION = await userModel.GET_CMP_ADS_PERMISSTION(FromData);
             var ITEM_COUNT = await itemModel.GET_CMP_ITEM_COUNT(FromData);
             var ITEM_PRE_COUNT = await itemModel.GET_CMP_PRE_ITEM_COUNT(FromData);
-            console.log('CMP_PERMISSION', CMP_PERMISSION)
             if (CMP_PERMISSION[0].normal_ads == 'Y' && FromData.ads_type == 0) {
                 resReturn = {
                     flag: 2,
@@ -44,6 +42,7 @@ router.post('/create',
                     var ITEM_SEQ = await itemModel.GET_ITEMS_SEQ();
                     var items_seq = ITEM_SEQ;
                     var images = req.body.images;
+                    console.log(images)
                     var SAVE_RESULT = await itemModel.SAVE_IMAGE_URI(items_seq, images);
                     if (SAVE_RESULT) {
                         resReturn = {
@@ -251,6 +250,12 @@ router.post('/list/detail', async (req, res) => {
                 }
             }
         });
+        var COUPON_INFOs = await itemModel.GET_COUPON_INFO(FromData);
+        var Coupon = new Array();
+        if (COUPON_INFOs.length > 0) {
+            Coupon.push(COUPON_INFOs[0])
+        }
+
         var SelectedItem = new Array();
         var NonSelectedItem = new Array();
         ITEMS_OF_OWNER.map((data) => {
@@ -261,7 +266,6 @@ router.post('/list/detail', async (req, res) => {
             }
         })
 
-
         var CMP_INFOs = await userModel.GET_CMP_INFO(FromData);
         var CATEGORIES = await itemModel.SELECT_ALL_CATEGORIES();
         CATEGORIES.map((data) => {
@@ -269,7 +273,7 @@ router.post('/list/detail', async (req, res) => {
                 CMP_INFOs.category_name = data.category_name;
             }
         });
-        res.status(200).send({ VIEW_COUNT: VIEW_COUNT, TIME_AVG: TIME_AVG, PICK_STATUS: PICK_STATUS, SELECTED: SelectedItem, NonSELECTED: NonSelectedItem, CMP_INFOs: CMP_INFOs });
+        res.status(200).send({ VIEW_COUNT: VIEW_COUNT, TIME_AVG: TIME_AVG, PICK_STATUS: PICK_STATUS, SELECTED: SelectedItem, NonSELECTED: NonSelectedItem, CMP_INFOs: CMP_INFOs, COUPON : Coupon });
     } catch (err) {
         console.log(err)
     }
@@ -321,7 +325,7 @@ router.post('/search/keyword', async (req, res) => {
         var FromData = new Object();
         FromData.keyword = keyword;
         FromData.location_name = user_location;
-        
+
         // Get Company Information From Database to Show Company Infos At Main Page with Item Information.
         var GET_CMP_LIST = await userModel.GET_CMP_LIST(FromData);
 
@@ -329,7 +333,7 @@ router.post('/search/keyword', async (req, res) => {
         for (var i = 0; i < GET_ITEM_LIST.length; i++) {
             GET_ITEM_LIST[i].item_content = GET_ITEM_LIST[i].item_content;
         }
-        
+
         // Distinguish & Assemble related Information. 
         GET_ITEM_LIST.map((item) => {
             GET_CMP_LIST.map((data) => {

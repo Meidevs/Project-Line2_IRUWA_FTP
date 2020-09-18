@@ -1,12 +1,18 @@
 const multer = require("multer");
 const sharp = require("sharp");
 const multerStorage = multer.memoryStorage();
-const multerFilter = (req, file, cb) => {
-    if (file.mimetype.startsWith("image")) {
-        cb(null, true);
-    } else {
-        cb("Please upload only images.", false);
+const multerFilter = async (req, file, cb) => {
+    console.log('1', req.files)
+    try {
+        if (file.mimetype.startsWith("image")) {
+            cb(null, true);
+        } else {
+            cb("Please upload only images.", false);
+        }
+    } catch (err) {
+        console.log(err);
     }
+
 };
 
 const upload = multer({
@@ -14,18 +20,22 @@ const upload = multer({
     fileFilter: multerFilter
 });
 const uploadFiles = upload.any();
-const uploadImages = (req, res, next) => {
-    uploadFiles(req, res, err => {
-        if (err instanceof multer.MulterError) {
-            if (err.code === "LIMIT_UNEXPECTED_FILE") {
-                return res.send("Too many files to upload.");
+const uploadImages = async (req, res, next) => {
+    try {
+        await uploadFiles(req, res, err => {
+            if (err instanceof multer.MulterError) {
+                if (err.code === "LIMIT_UNEXPECTED_FILE") {
+                    return res.send("Too many files to upload.");
+                }
+            } else if (err) {
+                return res.send(err);
             }
-        } else if (err) {
-            return res.send(err);
-        }
 
-        next();
-    });
+            next();
+        });
+    } catch (err) {
+        console.log(err);
+    }
 };
 
 const resizeImages = async (req, res, next) => {
@@ -37,7 +47,6 @@ const resizeImages = async (req, res, next) => {
             req.files.map(async file => {
                 const filename = file.originalname.replace(/\..+$/, "");
                 const newFilename = `${filename}${Date.now()}.jpeg`;
-
                 await sharp(file.buffer)
                     .resize({
                         width: 400,
