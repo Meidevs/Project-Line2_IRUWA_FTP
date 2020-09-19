@@ -5,7 +5,6 @@ const multer = require("multer");
 var itemModel = require('../../public/javascripts/components/itemModel');
 var functions = require('../../public/javascripts/functions/functions');
 var userModel = require('../../public/javascripts/components/userModel');
-var imageController = require('../../public/javascripts/functions/imageController');
 
 const upload = multer({
     storage: multer.diskStorage({
@@ -75,9 +74,7 @@ router.post('/create',
                     await itemModel.INSERT_ITEMS(FromData);
                     var ITEM_SEQ = await itemModel.GET_ITEMS_SEQ();
                     var items_seq = ITEM_SEQ;
-                    var images = req.body.images;
-                    var imagesFiles = req.files;
-                    console.log('imagesFiles', imagesFiles)
+                    var images = req.files;
                     var SAVE_RESULT = await itemModel.SAVE_IMAGE_URI(items_seq, images);
                     if (SAVE_RESULT) {
                         resReturn = {
@@ -479,6 +476,49 @@ router.post('/mylist', async (req, res) => {
         var resReturn = {
             flags: 0,
             content: ITEMS_OF_OWNER
+        }
+        res.status(200).send(resReturn);
+    } catch (err) {
+        console.log(err);
+    }
+});
+
+router.post('/mypick', async (req, res) => {
+    // ** 함수는 한 가지 기능만 구현한다!
+    // ** 데이터 베이스 호출 속도를 빠르게 한다.
+    try {
+        var FromData = new Object();
+        var IMAGE_URIs = new Array();
+
+        FromData.user_seq = req.body.user_seq;
+        // var GET_CMP_LIST = await userModel.GET_CMP_LIST(FromData);
+
+        var LIST_OF_PICK = await itemModel.GET_ITEMS_LIST_OF_PICK(FromData);
+
+        for (var i = 0; i < LIST_OF_PICK.length; i++) {
+            IMAGE_URIs.push(LIST_OF_PICK[i].items_seq);
+        }
+
+        var IMAGE_URI_ARRAY = new Array();
+
+        if (IMAGE_URIs.length != 0) {
+            IMAGE_URI_ARRAY = await itemModel.GET_IMAGE_URI(IMAGE_URIs);
+        }
+
+        LIST_OF_PICK.map((data) => {
+            data.uri = new Array();
+            for (var x = 0; x < IMAGE_URI_ARRAY.length; x++) {
+                if (data.items_seq == IMAGE_URI_ARRAY[x].items_seq) {
+                    data.uri.push(IMAGE_URI_ARRAY[x].uri)
+                }
+            }
+        });
+
+        console.log('LIST_OF_PICK', LIST_OF_PICK)
+        
+        var resReturn = {
+            flags: 0,
+            content: LIST_OF_PICK
         }
         res.status(200).send(resReturn);
     } catch (err) {

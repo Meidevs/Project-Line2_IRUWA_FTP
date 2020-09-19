@@ -101,6 +101,20 @@ class Items {
         )
     }
 
+    GET_ITEMS_LIST_OF_PICK(data) {
+        return new Promise(
+            async (resolve, reject) => {
+                try {
+                    var sql = 'SELECT items.cmp_seq AS cmp_seq,items.items_seq,items.item_name,items.item_content,items.reg_date,items.ads_type,cmp.cmp_name, cmp.cmp_name, cmp.cmp_location, (SELECT COUNT(*) FROM tb_user_pick WHERE items_seq = items.items_seq) AS cnt FROM tb_items items INNER JOIN tb_company cmp ON cmp.cmp_seq = items.cmp_seq WHERE items_seq IN (SELECT items_seq FROM tb_user_pick WHERE user_seq = ?)';
+                    var LIST_OF_PICK = await myConnection.query(sql, [data.user_seq]);
+                    resolve(LIST_OF_PICK);
+                } catch (err) {
+                    reject(err);
+                }
+            }
+        )
+    }
+
     GET_IMAGE_URI(data) {
         return new Promise(
             async (resolve, reject) => {
@@ -206,14 +220,17 @@ class Items {
             }
         )
     }
-    GET_PICK_STATUS() {
+    GET_PICK_COUNT(data) {
         return new Promise(
             async (resolve, reject) => {
                 try {
-
+                    var sql = 'SELECT COUNT(*) AS cnt FROM tb_user_pick WHERE items_seq = ?';
+                    var PICK_COUNT = await myConnection.query(sql, [data.items_seq]);
+                    resolve(PICK_COUNT[0].cnt);
                 } catch (err) {
-
+                    reject(err);
                 }
+
             }
         )
     }
@@ -344,7 +361,7 @@ class Items {
     }
 
     GET_COUPON_INFO(data) {
-        return new Promise (
+        return new Promise(
             async (resolve, reject) => {
                 try {
                     var sql = 'SELECT * FROM tb_items_coupon WHERE items_seq = ?';
@@ -357,8 +374,8 @@ class Items {
         )
     }
 
-    SEARCH_ITEM (data) {
-        return new Promise (
+    SEARCH_ITEM(data) {
+        return new Promise(
             async (resolve, reject) => {
                 try {
                     data.keyword = '%' + data.keyword + '%';
@@ -367,7 +384,7 @@ class Items {
                     resolve(SERACH_RETURN);
                 } catch (err) {
                     reject(err);
-                }   
+                }
             }
         )
     }
