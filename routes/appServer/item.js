@@ -97,6 +97,44 @@ router.post('/create',
         }
     });
 
+router.post('/update',
+    upload.any(),
+    async (req, res) => {
+        // ** 함수는 한 가지 기능만 구현한다!
+        // ** 데이터 베이스 호출 속도를 빠르게 한다.
+        try {
+            var FromData = new Object();
+            var resReturn = new Object();
+            var cmp_seq = req.session.user.cmp_seq;
+            var todayString = await functions.TodayTimeString();
+            resReturn = {
+                flags: 1,
+                message: '등록에 실패하였습니다.'
+            }
+            FromData.cmp_seq = cmp_seq;
+            FromData.reg_date = todayString;
+            FromData.items_seq = req.body.items_seq;
+            FromData.item_name = req.body.item_name;
+            FromData.item_content = req.body.item_content;
+            FromData.ads_type = req.body.ads_type;
+            var UPDATE_RESULT = await itemModel.UPDATE_ITEMS(FromData);
+            var images = req.files;
+            var DELETE_RESULT = await itemModel.DELETE_IMAGE_URI(FromData.items_seq);
+            var SAVE_RESULT = await itemModel.SAVE_IMAGE_URI(FromData.items_seq, images);
+            if (SAVE_RESULT && UPDATE_RESULT && DELETE_RESULT) {
+                resReturn = {
+                    flags: 0,
+                    message: '등록되었습니다.'
+                }
+            }
+            // api/item/create Endpoint only Insert Text into Database.
+            // Image Upload Will be Requested From Browser Again after Application Receive ITEM_SEQ From api/item/create Endpoint.
+            res.status(200).send(resReturn);
+        } catch (err) {
+            console.log(err)
+        }
+    });
+
 router.post('/premiums', async (req, res) => {
     try {
         var FromData = new Object();
@@ -140,7 +178,7 @@ router.post('/premiums', async (req, res) => {
     } catch (err) {
         console.log(err);
     }
-})
+});
 
 router.post('/list', async (req, res) => {
     // ** 함수는 한 가지 기능만 구현한다!
@@ -515,7 +553,7 @@ router.post('/mypick', async (req, res) => {
         });
 
         console.log('LIST_OF_PICK', LIST_OF_PICK)
-        
+
         var resReturn = {
             flags: 0,
             content: LIST_OF_PICK

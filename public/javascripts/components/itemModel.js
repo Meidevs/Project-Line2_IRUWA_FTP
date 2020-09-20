@@ -30,6 +30,34 @@ class Items {
             }
         )
     }
+
+    UPDATE_ITEMS(data) {
+        return new Promise (
+            async (resolve, reject) => {
+                try {
+                    var sql = 'UPDATE tb_items SET item_name = ? , item_content = ?, reg_date = ? WHERE items_seq = ?';
+                    await myConnection.query(sql, [data.item_name, data.item_content, data.reg_date, data.items_seq]);
+                    resolve(true);
+                } catch (err) {
+                    reject(err);
+                }
+            }
+        )
+    }
+
+    DELETE_ITEM(data) {
+        return new Promise(
+            async (resolve, reject) => {
+                try {
+                    var sql = 'DELETE FROM tb_items WHERE items_seq = ?';
+                    await myConnection.query(sql, [data.item_seq])
+                    resolve(true);
+                } catch (err) {
+                    reject(err)
+                }
+            }
+        )
+    }
     GET_ITEMS_SEQ() {
         return new Promise(
             async (resolve, reject) => {
@@ -91,7 +119,7 @@ class Items {
         return new Promise(
             async (resolve, reject) => {
                 try {
-                    var sql = 'SELECT * FROM tb_items WHERE cmp_seq = ?';
+                    var sql = 'SELECT * , (SELECT COUNT(*) FROM tb_user_pick WHERE items_seq = items.items_seq) AS cnt FROM tb_items items WHERE cmp_seq = ?';
                     var ITEMS_OF_OWNER = await myConnection.query(sql, [data.cmp_seq]);
                     resolve(ITEMS_OF_OWNER);
                 } catch (err) {
@@ -105,7 +133,7 @@ class Items {
         return new Promise(
             async (resolve, reject) => {
                 try {
-                    var sql = 'SELECT items.cmp_seq AS cmp_seq,items.items_seq,items.item_name,items.item_content,items.reg_date,items.ads_type,cmp.cmp_name, cmp.cmp_name, cmp.cmp_location, (SELECT COUNT(*) FROM tb_user_pick WHERE items_seq = items.items_seq) AS cnt FROM tb_items items INNER JOIN tb_company cmp ON cmp.cmp_seq = items.cmp_seq WHERE items_seq IN (SELECT items_seq FROM tb_user_pick WHERE user_seq = ?)';
+                    var sql = 'SELECT items.items_seq, items.item_name,items.item_content, items.reg_date, items.ads_type, cmp.cmp_seq, cmp.cmp_name, cmp.cmp_location, (SELECT COUNT(*) FROM tb_user_pick WHERE items_seq = items.items_seq) AS cnt FROM tb_items items INNER JOIN tb_company cmp ON cmp.cmp_seq = items.cmp_seq WHERE items_seq IN (SELECT items_seq FROM tb_user_pick WHERE user_seq = ?)';
                     var LIST_OF_PICK = await myConnection.query(sql, [data.user_seq]);
                     resolve(LIST_OF_PICK);
                 } catch (err) {
@@ -278,7 +306,6 @@ class Items {
         return new Promise(
             async (resolve, reject) => {
                 try {
-                    console.log(images)
                     var hostname = 'http://192.168.0.40:8888/';
                     for (var i = 0; i < images.length; i++) {
                         var uri = hostname + 'images/' + images[i].filename;
@@ -292,6 +319,21 @@ class Items {
             }
         )
     }
+
+    DELETE_IMAGE_URI(items_seq) {
+        return new Promise (
+            async (resolve, reject) => {
+                try {
+                    var sql = 'DELETE FROM tb_images WHERE items_seq = ?';
+                    await myConnection.query(sql, [items_seq]);
+                    resolve(true);
+                } catch (err) {
+                    reject(err);
+                }   
+            }
+        )
+    }
+
     GET_SEARCH_HISTORY(user_seq) {
         return new Promise(
             async (resolve, reject) => {
