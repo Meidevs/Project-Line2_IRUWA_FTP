@@ -103,8 +103,8 @@ class Authentication {
             }
         )
     }
-    GET_USER_INFO_ON_CMP (data) {
-        return new Promise (
+    GET_USER_INFO_ON_CMP(data) {
+        return new Promise(
             async (resolve, reject) => {
                 try {
                     var rawObj = new Object();
@@ -159,6 +159,7 @@ class Authentication {
                     var sql = 'SELECT * FROM tb_company WHERE cmp_seq = ?';
                     var CMP_INFO = await myConnection.query(sql, [data.cmp_seq]);
                     rawObj.cmp_seq = CMP_INFO[0].cmp_seq
+                    rawObj.user_seq = CMP_INFO[0].user_seq
                     rawObj.category_seq = CMP_INFO[0].category_seq
                     rawObj.cmp_name = CMP_INFO[0].cmp_name
                     rawObj.cmp_phone = CMP_INFO[0].cmp_phone
@@ -258,27 +259,71 @@ class Authentication {
             }
         )
     }
-    GET_CMP_ADS_PERMISSTION (data) {
-         return new Promise (
-             async (resolve, reject) => {
-                 try {
+    GET_CMP_ADS_PERMISSTION(data) {
+        return new Promise(
+            async (resolve, reject) => {
+                try {
                     var sql = 'SELECT normal_ads, pre_ads FROM tb_company WHERE cmp_seq = ?';
                     var SELECT_RESPONSE = await myConnection.query(sql, [data.cmp_seq]);
                     resolve(SELECT_RESPONSE);
-                 } catch (err) {
+                } catch (err) {
                     reject(err)
-                 }
-             }
-         )
+                }
+            }
+        )
     }
 
-    GET_CMP_LIST_ON_CATEGORY (data) {
-        return new Promise (
+    GET_CMP_LIST_ON_CATEGORY(data) {
+        return new Promise(
             async (resolve, reject) => {
                 try {
                     var sql = 'SELECT * FROM tb_company WHERE category_seq = ?';
                     var SELECT_RESPONSE = await myConnection.query(sql, [data.category_seq]);
                     resolve(SELECT_RESPONSE);
+                } catch (err) {
+                    reject(err);
+                }
+            }
+        )
+    }
+
+    GET_USER_PROFILE (data) {
+        return new Promise (
+            async (resolve, reject) => {
+                try {
+                    var sql = 'SELECT * FROM tb_user_profile WHERE user_seq = ?';
+                    var USER_PROFILE_IMAGE = await myConnection.query(sql, [data]);
+                    resolve(USER_PROFILE_IMAGE);
+                } catch (err) {
+                    reject(err);
+                }
+            }
+        )
+    }
+
+
+    DELETE_PREV_PROFILE_IMAGE (data) {
+        return new Promise (
+            async (resolve, reject) => {
+                try {
+                    var sql = 'DELETE FROM tb_user_profile WHERE user_seq = ? ';
+                    await myConnection.query(sql, [data]);
+                    resolve(true);
+                } catch (err){
+                    reject(err);
+                }
+            }
+        )
+    }
+    SAVE_PROFILE_IMAGE_URI(data, profile) {
+        return new Promise(
+            async (resolve, reject) => {
+                try {
+                    var hostname = 'http://192.168.0.40:8888/';
+                    var uri = hostname + 'profiles/' + profile.filename;
+                    var sql = 'INSERT INTO tb_user_profile (user_seq, uri) VALUES (?, ?)';
+                    await myConnection.query(sql, [data, uri]);
+                    resolve(true);
                 } catch (err) {
                     reject(err);
                 }

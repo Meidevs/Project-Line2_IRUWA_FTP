@@ -314,6 +314,10 @@ router.post('/list/detail', async (req, res) => {
         })
 
         var CMP_INFOs = await userModel.GET_CMP_INFO(FromData);
+        
+        var PROFILE = await userModel.GET_USER_PROFILE(CMP_INFOs.user_seq);
+        CMP_INFOs.profile_uri = PROFILE[0].uri;
+
         var CATEGORIES = await itemModel.SELECT_ALL_CATEGORIES();
         CATEGORIES.map((data) => {
             if (data.category_seq == CMP_INFOs.category_seq) {

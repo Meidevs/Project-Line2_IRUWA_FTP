@@ -26,8 +26,9 @@ router.post('/company/infos', async (req, res) => {
     // ** 함수는 한 가지 기능만 구현한다!
     // ** 데이터 베이스 호출 속도를 빠르게 한다.
     try {
-        var cmp_seq = req.body.cmp_seq;
-        var CMP_INFOs = await userModel.GET_CMP_INFO(cmp_seq);
+        var FromData = new Object();
+        FromData.cmp_seq = req.body.cmp_seq;
+        var CMP_INFOs = await userModel.GET_CMP_INFO(FromData);
         var HOST_INFOs = await userModel.GET_USER_INFO_ON_CMP(CMP_INFOs)
         var resReturn = {
             cmp_seq : CMP_INFOs.cmp_seq,
