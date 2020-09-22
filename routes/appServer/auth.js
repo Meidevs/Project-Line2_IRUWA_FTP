@@ -71,7 +71,6 @@ router.post('/register', async (req, res) => {
     // ** 데이터 베이스 호출 속도를 빠르게 한다.
     try {
         var FromData = req.body;
-        console.log(FromData);
         var todayString = await functions.TodayString();
         FromData.reg_date = todayString;
 
@@ -101,7 +100,6 @@ router.post('/register', async (req, res) => {
 });
 
 router.get('/logout', (req, res) => {
-    console.log(req.session.user)
     if (req.session.user) {
         req.session.destroy(err => {
             console.log('failed: ' + err);
@@ -114,7 +112,6 @@ router.get('/logout', (req, res) => {
 
 router.get('/info', async (req, res) => {
     try {
-        console.log(req.session.user)
         res.status(200).send({
             user_seq: req.session.user.user_seq,
             user_name: req.session.user.user_name,
@@ -135,7 +132,6 @@ router.post('/userlocation', async (req, res) => {
         var user_seq = req.session.user.user_seq;
 
         var UPDATE_RESPONSE = await userModel.USER_LOCATION_UPDATE(user_location, user_seq);
-        console.log(UPDATE_RESPONSE)
         if (UPDATE_RESPONSE) {
             req.session.user.user_location = user_location;
         }

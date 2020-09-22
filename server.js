@@ -102,9 +102,9 @@ http.listen(8888, () => {
   console.log('App Server is Running! http://localhost:8888/api');
 });
 
-const { addUser, removeUser, getUser, setMessages, getMessages } = require('./users');
-var Rooms = [];
-var Infos = [];
+const { addUser, getUser, addRoomCode } = require('./users');
+const { addRoom, getRoom } = require('./rooms');
+const { newMessages, getMessages } = require('./messages');
 io.on('connect', (socket) => {
   console.log('Socket ID : ', socket.id)
   socket.on('connection', ({ userID }, callback) => {
@@ -113,65 +113,33 @@ io.on('connect', (socket) => {
     }
   });
 
-  socket.on('goMessage', (data, callback) => {
-    // !! Data Form :
-    // sender_seq, receiver_seq, items_seq, cmp_seq, roomCode, message, reg_date
-
-    var USER_IN_ROOM = Rooms.findIndex(room => room.userID == data.sender_seq && room.roomCode == data.roomCode);
-    if (USER_IN_ROOM == -1) {
-      socket.join(data.roomCode);
-      Rooms.push({
-        roomCode: data.roomCode,
-        userID: data.sender_seq,
-      })
-    }
-
-    var USER_INVITE_ROOM = Rooms.findIndex(room => room.userID == data.receiver_seq && room.roomCode == data.roomCode);
-    console.log('USER_INVITE_ROOM', USER_INVITE_ROOM)
-    if (USER_INVITE_ROOM == -1) {
-      var socketB = getUser(data.receiver_seq);
-      socketB.socket.join(data.roomCode)
-      Rooms.push({
-        roomCode: data.roomCode,
-        userID: data.receiver_seq,
-      })
-    }
-
-    var ROOM_INFO = Infos.findIndex(info => info.roomCode == data.roomCode);
-    if (ROOM_INFO == -1) {
-      Infos.push({
-        sender_seq: data.sender_seq,
-        sender_name: data.sender_name,
-        receiver_seq: data.receiver_seq,
-        receiver_name: data.receiver_name,
-        items_seq: data.items_seq,
-        item_name: data.item_name,
-        cmp_seq: data.cmp_seq,
-        cmp_name: data.cmp_name,
-        roomCode: data.roomCode,
-        messages: [],
-      })
-    }
-    setMessages(data.roomCode, data.receiver_seq, data.sender_seq, data.message, data.reg_date);
-
-    io.in(data.roomCode).emit('receiveMessage', { roomCode: data.roomCode, receiver_seq: data.receiver_seq, sender_seq: data.sender_seq, message: data.message, reg_date: data.reg_date });
-  });
-
-  socket.on('prevMessage', (userID, callback) => {
-    var info = Infos.filter(data => data.receiver_seq == userID || data.sender_seq == userID);
-    console.log('prevMessage Info', info)
-    info.map(data => {
-      var messages = getMessages(data.roomCode);
-      data.messages = messages;
-    })
-    console.log('info', info)
-    socket.emit('prevMessage', info);
+  socket.on('CreateRoom', data => {
+    var socketB  = getUser(data.receiver_seq);
+    socket.join(data.roomCode);
+    socketB.socket.join(data.roomCode);
+    addRoomCode(data.sender_seq, data.receiver_seq, data.roomCode);
+    addRoom(data);
   })
 
-  socket.on('getRoomMessages', (roomCode) => {
-    console.log(roomCode)
-    var messages = getMessages(roomCode);
-    socket.emit('getRoomMessages', messages)
+  socket.on('sendMessage', message => {
+    var returnRoom = getRoom([message.roomCode]);
+    // If No Message Ever Befroe then Set Chat Count Update
+    var socketB  = getUser(message.receiver_seq);
+    console.log('socketB', socketB.socket.id)
+    var receiveMessage = newMessages(message);
+    io.in(message.roomCode).emit('receiveMessage', {roomInfo : returnRoom[0], messages : receiveMessage});
+  })
+
+  socket.on('GetRoomList', (data) => {
+    var rawReturn = new Array();
+    var ROOMS_OF_USER = getUser(data);
+    var roomList = ROOMS_OF_USER.roomList;
+    console.log(socket.id)
+    if (roomList) {
+      var Instance = getRoom(roomList);
+      var rawReturn = getMessages(Instance);
+    }
+    socket.emit('GetRoomList', rawReturn)
   })
 
   socket.on('disconnect', (err, data) => {
