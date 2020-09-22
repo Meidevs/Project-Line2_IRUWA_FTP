@@ -117,6 +117,7 @@ io.on('connect', (socket) => {
     var socketB  = getUser(data.receiver_seq);
     socket.join(data.roomCode);
     socketB.socket.join(data.roomCode);
+    console.log(socketB.socket.id)
     addRoomCode(data.sender_seq, data.receiver_seq, data.roomCode);
     addRoom(data);
   })
@@ -124,8 +125,6 @@ io.on('connect', (socket) => {
   socket.on('sendMessage', message => {
     var returnRoom = getRoom([message.roomCode]);
     // If No Message Ever Befroe then Set Chat Count Update
-    var socketB  = getUser(message.receiver_seq);
-    console.log('socketB', socketB.socket.id)
     var receiveMessage = newMessages(message);
     io.in(message.roomCode).emit('receiveMessage', {roomInfo : returnRoom[0], messages : receiveMessage});
   })
@@ -133,8 +132,9 @@ io.on('connect', (socket) => {
   socket.on('GetRoomList', (data) => {
     var rawReturn = new Array();
     var ROOMS_OF_USER = getUser(data);
+    console.log(ROOMS_OF_USER.socket.id)
     var roomList = ROOMS_OF_USER.roomList;
-    console.log(socket.id)
+    console.log('roomList', roomList)
     if (roomList) {
       var Instance = getRoom(roomList);
       var rawReturn = getMessages(Instance);
