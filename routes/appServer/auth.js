@@ -131,8 +131,6 @@ router.get('/info', async (req, res) => {
 
 router.post('/userlocation', async (req, res) => {
     try {
-        console.log(req.body);
-        console.log(req.session.user);
         var user_location = req.body.user_location;
         var user_seq = req.session.user.user_seq;
 
@@ -147,9 +145,9 @@ router.post('/userlocation', async (req, res) => {
     }
 });
 
-router.get('/userprofile', async (req, res) => {
+router.post('/userprofile', async (req, res) => {
     try {
-        var user_seq = req.session.user.user_seq;
+        var user_seq = req.body.user_seq;
         var resReturn = {
             flags : 1,
             message : '정보가 없습니다.'
