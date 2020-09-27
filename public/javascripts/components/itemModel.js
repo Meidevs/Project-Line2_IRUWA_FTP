@@ -2,6 +2,8 @@ var myConnection = require('../../../dbConfig');
 var functions = require('../functions/functions');
 const { moveCursor } = require('readline');
 const { reject } = require('async');
+const { resolve } = require('path');
+const { response } = require('express');
 
 class Items {
     SELECT_ALL_CATEGORIES() {
@@ -12,6 +14,19 @@ class Items {
                     resolve(ALL_CATEGORIES);
                 } catch (err) {
                     reject(err)
+                }
+            }
+        )
+    }
+
+    SELECT_ALL_CATEGORY_IMAGES() {
+        return new Promise(
+            async (resolve, reject) => {
+                try {
+                    var ALL_CATEGORY_IMAGES = await myConnection.query('SELECT * FROM tb_category_icons');
+                    resolve(ALL_CATEGORY_IMAGES);
+                } catch (err) {
+                    reject(err);
                 }
             }
         )
@@ -32,7 +47,7 @@ class Items {
     }
 
     UPDATE_ITEMS(data) {
-        return new Promise (
+        return new Promise(
             async (resolve, reject) => {
                 try {
                     var sql = 'UPDATE tb_items SET item_name = ? , item_content = ?, reg_date = ? WHERE items_seq = ?';
@@ -321,7 +336,7 @@ class Items {
     }
 
     DELETE_IMAGE_URI(items_seq) {
-        return new Promise (
+        return new Promise(
             async (resolve, reject) => {
                 try {
                     var sql = 'DELETE FROM tb_images WHERE items_seq = ?';
@@ -329,7 +344,7 @@ class Items {
                     resolve(true);
                 } catch (err) {
                     reject(err);
-                }   
+                }
             }
         )
     }
@@ -424,6 +439,48 @@ class Items {
                     var sql = 'SELECT * FROM tb_items WHERE item_name LIKE ? OR item_content LIKE ? AND cmp_seq IN (SELECT cmp_seq FROM tb_company WHERE cmp_location = ?) ORDER BY reg_date DESC';
                     var SERACH_RETURN = await myConnection.query(sql, [data.keyword, data.keyword, data.location_name]);
                     resolve(SERACH_RETURN);
+                } catch (err) {
+                    reject(err);
+                }
+            }
+        )
+    }
+
+    INSERT_PHONE_LIST(data) {
+        return new Promise(
+            async (resolve, reject) => {
+                try {
+                    var sql = 'INSERT INTO tb_phone_list (cmp_seq, name, position, phone) VALUES (?, ?, ?, ?)';
+                    await myConnection.query(sql, [data.cmp_seq, data.name, data.position, data.phone]);
+                    resolve(true);
+                } catch (err) {
+                    reject(err);
+                }
+            }
+        )
+    }
+
+    DELETE_PHONE_LIST(data) {
+        return new Promise(
+            async (resolve, reject) => {
+                try {
+                    var sql = 'DELETE FROM tb_phone_list WHERE phone_seq = ?';
+                    await myConnection.query(sql, [data.phone_seq]);
+                    resolve(true);
+                } catch (err) {
+                    reject(err);
+                }
+            }
+        )
+    }
+
+    GET_PHONE_LIST(data) {
+        return new Promise(
+            async (resolve, reject) => {
+                try {
+                    var sql = 'SELECT * FROM tb_phone_list WHERE cmp_seq = ?';
+                    var PHONE_LIST = await myConnection.query(sql, [data.cmp_seq]);
+                    resolve(PHONE_LIST);
                 } catch (err) {
                     reject(err);
                 }

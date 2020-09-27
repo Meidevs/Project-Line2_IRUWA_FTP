@@ -314,7 +314,7 @@ router.post('/list/detail', async (req, res) => {
         })
 
         var CMP_INFOs = await userModel.GET_CMP_INFO(FromData);
-        
+        var CMP_PHONE_LIST = await itemModel.GET_PHONE_LIST(FromData);
         var PROFILE = await userModel.GET_USER_PROFILE(CMP_INFOs.user_seq);
         CMP_INFOs.profile_uri = PROFILE[0].uri;
 
@@ -324,7 +324,7 @@ router.post('/list/detail', async (req, res) => {
                 CMP_INFOs.category_name = data.category_name;
             }
         });
-        res.status(200).send({ VIEW_COUNT: VIEW_COUNT, TIME_AVG: TIME_AVG, PICK_STATUS: PICK_STATUS, SELECTED: SelectedItem, NonSELECTED: NonSelectedItem, CMP_INFOs: CMP_INFOs, COUPON: Coupon });
+        res.status(200).send({ VIEW_COUNT: VIEW_COUNT, TIME_AVG: TIME_AVG, PICK_STATUS: PICK_STATUS, SELECTED: SelectedItem, NonSELECTED: NonSelectedItem, CMP_INFOs: CMP_INFOs, COUPON: Coupon, PHONE_LIST : CMP_PHONE_LIST });
     } catch (err) {
         console.log(err)
     }
@@ -563,6 +563,63 @@ router.post('/mypick', async (req, res) => {
             content: LIST_OF_PICK
         }
         res.status(200).send(resReturn);
+    } catch (err) {
+        console.log(err);
+    }
+});
+
+router.post('/phone', async (req, res) => {
+    try {
+        var FromData = new Object();
+        var resReturn = {
+            flags: 1,
+            messages: '전화번호를 6개 이상 등록하실 수 없습니다.'
+        }
+        FromData.cmp_seq = req.session.user.cmp_seq;
+        FromData.name = req.body.data.name;
+        FromData.position = req.body.data.position;
+        FromData.phone = req.body.data.phone;
+        var PHONE_COUNT = await itemModel.GET_PHONE_LIST(FromData);
+        if (PHONE_COUNT.length <= 5) {
+            var PHONE_LIST = await itemModel.INSERT_PHONE_LIST(FromData);
+            if (PHONE_LIST) {
+                resReturn = {
+                    flags: 0,
+                }
+            }
+        }
+        res.status(200).send(resReturn);
+    } catch (err) {
+        console.log(err);
+    }
+});
+
+router.post('/removephone', async (req, res) => {
+    try {
+        var FromData = new Object();
+        var resReturn = {
+            flags: 1,
+            messages: '전화번호 삭제에 실패하였습니다.'
+        }
+        FromData.phone_seq = req.body.phone_seq;
+        var DELETE_RESPONSE = await itemModel.DELETE_PHONE_LIST(FromData);
+        if (DELETE_RESPONSE) {
+            resReturn = {
+                flags: 0,
+            }
+        }
+        res.status(200).send(resReturn);
+    } catch (err) {
+        console.log(err);
+    }
+});
+
+router.get('/phonelist', async (req, res) => {
+    try {
+        var FromData = new Object();
+        FromData.cmp_seq = req.session.user.cmp_seq;
+        var PHONE_LIST = await itemModel.GET_PHONE_LIST(FromData);
+        res.status(200).send(PHONE_LIST);
     } catch (err) {
         console.log(err);
     }

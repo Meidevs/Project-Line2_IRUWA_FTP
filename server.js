@@ -103,7 +103,7 @@ http.listen(8888, () => {
 });
 
 const { addUser, getUser, addRoomCode } = require('./users');
-const { addRoom, getRoom } = require('./rooms');
+const { addRoom, getRoom, addMessages } = require('./rooms');
 const { newMessages, getMessages } = require('./messages');
 io.on('connect', (socket) => {
   console.log('Socket ID : ', socket.id)
@@ -117,30 +117,27 @@ io.on('connect', (socket) => {
     var socketB  = getUser(data.receiver_seq);
     socket.join(data.roomCode);
     socketB.socket.join(data.roomCode);
-    console.log(socketB.socket.id)
-    addRoomCode(data.sender_seq, data.receiver_seq, data.roomCode);
+    var roomCreation = addRoomCode(data.sender_seq, data.receiver_seq, data.roomCode);
     addRoom(data);
-  })
+  });
 
   socket.on('sendMessage', message => {
     var returnRoom = getRoom([message.roomCode]);
     // If No Message Ever Befroe then Set Chat Count Update
-    var receiveMessage = newMessages(message);
-    io.in(message.roomCode).emit('receiveMessage', {roomInfo : returnRoom[0], messages : receiveMessage});
-  })
+    // var receiveMessage = newMessages(message);
+    addMessages(message);
+    io.in(message.roomCode).emit('receiveMessage', {roomInfo : returnRoom[0], messages : message});
+  });
 
   socket.on('GetRoomList', (data) => {
-    var rawReturn = new Array();
+    console.log(data)
     var ROOMS_OF_USER = getUser(data);
-    console.log(ROOMS_OF_USER.socket.id)
     var roomList = ROOMS_OF_USER.roomList;
-    console.log('roomList', roomList)
     if (roomList) {
-      var Instance = getRoom(roomList);
-      var rawReturn = getMessages(Instance);
+      var rawReturn = getRoom(roomList);
     }
-    socket.emit('GetRoomList', rawReturn)
-  })
+    socket.emit('GetRoomList', rawReturn);
+  });
 
   socket.on('disconnect', (err, data) => {
     console.log(socket.connected)

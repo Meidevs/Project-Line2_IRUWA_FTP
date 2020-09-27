@@ -11,15 +11,4 @@ const newMessages = (data) => {
   return message;
 }
 
-const getMessages = (roomList) => {
-  messages.map((data) => {
-    for (var i = 0; i < roomList.length; i++) {
-      if (data.roomCode == roomList[i].roomCode) {
-        roomList[i].messages.push(data); 
-      }
-    }
-  })
-  return roomList;
-}
-
-module.exports = { newMessages, getMessages };
+module.exports = { newMessages };
