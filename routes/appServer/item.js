@@ -135,6 +135,30 @@ router.post('/update',
         }
     });
 
+router.post('/removeitem', async (req, res) => {
+    try {
+        var FromData = new Object();
+        var resReturn = {
+            flags : 1,
+            message : '삭제에 실패하였습니다.'
+        }
+
+        FromData.items_seq = req.body.items_seq;
+
+        var DELETE_RESULT = await itemModel.DELETE_ITEM(FromData);
+        if (DELETE_RESULT) {
+            resReturn = {
+                flags : 0,
+                message : '삭제되었습니다.'
+            }
+        }
+        res.status(200).send(resReturn)
+    } catch (err) {
+        console.log(err)
+    }
+})
+
+
 router.post('/premiums', async (req, res) => {
     try {
         var FromData = new Object();

@@ -18,6 +18,19 @@ const upload = multer({
     })
 })
 
+const registration = multer({
+    storage: multer.diskStorage({
+        destination: (req, file, cb) => {
+            cb(null, 'public/business_registration');
+        },
+
+        filename: (req, file, cb) => {
+            var type = file.mimetype.split('/')
+            cb(null, JSON.stringify(Date.now()) + '.' + type[1]);
+        }
+    })
+})
+
 router.post('/login', async (req, res) => {
     // ** 함수는 한 가지 기능만 구현한다!
     // ** 데이터 베이스 호출 속도를 빠르게 한다.
@@ -66,38 +79,41 @@ router.post('/login', async (req, res) => {
     }
 });
 
-router.post('/register', async (req, res) => {
-    // ** 함수는 한 가지 기능만 구현한다!
-    // ** 데이터 베이스 호출 속도를 빠르게 한다.
-    try {
-        var FromData = req.body;
-        var todayString = await functions.TodayString();
-        FromData.reg_date = todayString;
+router.post('/register',
+    registration.single('image'),
+    async (req, res) => {
+        // ** 함수는 한 가지 기능만 구현한다!
+        // ** 데이터 베이스 호출 속도를 빠르게 한다.
+        try {
+            console.log('Register Data', req.body);
+            var FromData = JSON.parse(req.body.data);
+            var todayString = await functions.TodayString();
+            FromData.reg_date = todayString;
 
-        var resReturn = {
-            flags: 1,
-            message: '이미 가입된 아이디입니다.'
-        }
-        var hashingPassword = await functions.PasswordEncryption(FromData.user_id, FromData.user_pw);
-        FromData.user_pw = hashingPassword;
-
-        // Confirm User_ID Existence, 0 Not Exist & 1 Exist
-        var USER_EXISTENCE = await userModel.CHECK_USER_EXISTENCE(FromData);
-        if (USER_EXISTENCE == 0) {
-            var REGISTER_USER = await userModel.REGISTER_USER(FromData);
-            var GET_USER_COUNT = await userModel.GET_USER_COUNT();
-            await userModel.REGISTER_USER_ALARM(GET_USER_COUNT);
-            resReturn = REGISTER_USER;
-            if (FromData.status == 1) {
-                var REGISTER_CMP = await userModel.REGISTER_CMP(GET_USER_COUNT, FromData);
-                resReturn = REGISTER_CMP;
+            var resReturn = {
+                flags: 1,
+                message: '이미 가입된 아이디입니다.'
             }
+            var hashingPassword = await functions.PasswordEncryption(FromData.user_id, FromData.user_pw);
+            FromData.user_pw = hashingPassword;
+
+            // Confirm User_ID Existence, 0 Not Exist & 1 Exist
+            var USER_EXISTENCE = await userModel.CHECK_USER_EXISTENCE(FromData);
+            if (USER_EXISTENCE == 0) {
+                var REGISTER_USER = await userModel.REGISTER_USER(FromData);
+                var GET_USER_COUNT = await userModel.GET_USER_COUNT();
+                await userModel.REGISTER_USER_ALARM(GET_USER_COUNT);
+                resReturn = REGISTER_USER;
+                if (FromData.status == 1) {
+                    var REGISTER_CMP = await userModel.REGISTER_CMP(GET_USER_COUNT, FromData);
+                    resReturn = REGISTER_CMP;
+                }
+            }
+            res.status(200).send(resReturn);
+        } catch (err) {
+            console.log(err)
         }
-        res.status(200).send(resReturn);
-    } catch (err) {
-        console.log(err)
-    }
-});
+    });
 
 router.get('/logout', (req, res) => {
     if (req.session.user) {
@@ -145,14 +161,14 @@ router.post('/userprofile', async (req, res) => {
     try {
         var user_seq = req.body.user_seq;
         var resReturn = {
-            flags : 1,
-            message : '정보가 없습니다.'
+            flags: 1,
+            message: '정보가 없습니다.'
         }
         var USER_PROFILE = await userModel.GET_USER_PROFILE(user_seq);
         if (USER_PROFILE.length != 0) {
             resReturn = {
-                flags : 0,
-                message : USER_PROFILE[0].uri
+                flags: 0,
+                message: USER_PROFILE[0].uri
             }
         }
         res.status(200).send(resReturn)
@@ -168,8 +184,8 @@ router.post('/profileimage',
         try {
             var FromData = new Object();
             var resReturn = {
-                flags : 1,
-                message : '프로필 업로드에 실패하였습니다.'
+                flags: 1,
+                message: '프로필 업로드에 실패하였습니다.'
             }
             var user_seq = req.session.user.user_seq;
             FromData.user_seq = user_seq;
@@ -182,8 +198,8 @@ router.post('/profileimage',
             var SAVE_RESULT = await userModel.SAVE_PROFILE_IMAGE_URI(FromData.user_seq, images);
             if (SAVE_RESULT) {
                 var resReturn = {
-                    flags : 1,
-                    message : '프로필이 변경되었습니다.'
+                    flags: 1,
+                    message: '프로필이 변경되었습니다.'
                 }
             }
             res.status(200).send(resReturn)

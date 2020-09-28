@@ -64,8 +64,8 @@ class Items {
         return new Promise(
             async (resolve, reject) => {
                 try {
-                    var sql = 'DELETE FROM tb_items WHERE items_seq = ?';
-                    await myConnection.query(sql, [data.item_seq])
+                    var sql = 'UPDATE tb_items SET cancelled = 1 WHERE items_seq = ?';
+                    await myConnection.query(sql, [data.items_seq])
                     resolve(true);
                 } catch (err) {
                     reject(err)
@@ -92,7 +92,7 @@ class Items {
             async (resolve, reject) => {
                 try {
                     // After Put Ads Date
-                    var sql = 'SELECT * FROM tb_items WHERE cmp_seq IN (SELECT cmp_seq FROM tb_company WHERE cmp_location = ?) ORDER BY reg_date DESC';
+                    var sql = 'SELECT * FROM tb_items WHERE cancelled = 0 AND cmp_seq IN (SELECT cmp_seq FROM tb_company WHERE cmp_location = ?) ORDER BY reg_date DESC';
                     var resReturn = await myConnection.query(sql, [data.location_name]);
                     resolve(resReturn);
                 } catch (err) {
@@ -107,7 +107,7 @@ class Items {
             async (resolve, reject) => {
                 try {
                     // After Put Ads Date
-                    var sql = 'SELECT * FROM tb_items WHERE cmp_seq IN (SELECT cmp_seq FROM tb_company WHERE category_seq = ?) ORDER BY reg_date DESC';
+                    var sql = 'SELECT * FROM tb_items WHERE cancelled = 0 AND cmp_seq IN (SELECT cmp_seq FROM tb_company WHERE category_seq = ?) ORDER BY reg_date DESC';
                     var resReturn = await myConnection.query(sql, [data.category_seq]);
                     resolve(resReturn);
                 } catch (err) {
@@ -121,7 +121,7 @@ class Items {
         return new Promise(
             async (resolve, reject) => {
                 try {
-                    var sql = 'SELECT * FROM tb_items WHERE cmp_seq IN (SELECT cmp_seq FROM tb_company WHERE cmp_location = ?) AND ads_type = 1';
+                    var sql = 'SELECT * FROM tb_items WHERE cancelled = 0 AND cmp_seq IN (SELECT cmp_seq FROM tb_company WHERE cmp_location = ?) AND ads_type = 1';
                     var resReturn = await myConnection.query(sql, [data.location_name]);
                     resolve(resReturn);
                 } catch (err) {
@@ -134,7 +134,7 @@ class Items {
         return new Promise(
             async (resolve, reject) => {
                 try {
-                    var sql = 'SELECT * , (SELECT COUNT(*) FROM tb_user_pick WHERE items_seq = items.items_seq) AS cnt FROM tb_items items WHERE cmp_seq = ?';
+                    var sql = 'SELECT * , (SELECT COUNT(*) FROM tb_user_pick WHERE items_seq = items.items_seq) AS cnt FROM tb_items items WHERE cmp_seq = ? AND cancelled = 0';
                     var ITEMS_OF_OWNER = await myConnection.query(sql, [data.cmp_seq]);
                     resolve(ITEMS_OF_OWNER);
                 } catch (err) {
@@ -436,7 +436,7 @@ class Items {
             async (resolve, reject) => {
                 try {
                     data.keyword = '%' + data.keyword + '%';
-                    var sql = 'SELECT * FROM tb_items WHERE item_name LIKE ? OR item_content LIKE ? AND cmp_seq IN (SELECT cmp_seq FROM tb_company WHERE cmp_location = ?) ORDER BY reg_date DESC';
+                    var sql = 'SELECT * FROM tb_items WHERE cancelled = 0 AND item_name LIKE ? OR item_content LIKE ? AND cmp_seq IN (SELECT cmp_seq FROM tb_company WHERE cmp_location = ?) ORDER BY reg_date DESC';
                     var SERACH_RETURN = await myConnection.query(sql, [data.keyword, data.keyword, data.location_name]);
                     resolve(SERACH_RETURN);
                 } catch (err) {
