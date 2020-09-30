@@ -4,16 +4,16 @@ var bodyParser = require('body-parser');
 var logger = require('morgan');
 var path = require('path');
 var cookieParser = require('cookie-parser');
-var static = require('serve-static');
+// var static = require('serve-static');
 
 //Middle Ware List
-var ftpRouter = require('./routes/ftp');
-var authRouter = require('./routes/auth');
+// var ftpRouter = require('./routes/ftp');
+// var authRouter = require('./routes/auth');
 var adminRouter = require('./routes/admin');
 var apiRouter = require('./routes/api');
 
-const appFTP_1 = express();
-const appFTP_2 = express();
+// const appFTP_1 = express();
+// const appFTP_2 = express();
 const AdminApp = express();
 const appServer = express();
 
@@ -33,23 +33,23 @@ appServer.use(session({
 }));
 
 // view engine setup
-appFTP_1.use(bodyParser.json());
-appFTP_1.set('views', path.join(__dirname, 'views'));
-appFTP_1.set('view engine', 'ejs');
-appFTP_1.use(logger('dev'));
-appFTP_1.use(express.json());
-appFTP_1.use(express.urlencoded({ extended: false }));
-appFTP_1.use(cookieParser());
-appFTP_1.use(express.static(path.join(__dirname, 'public')));
+// appFTP_1.use(bodyParser.json());
+// appFTP_1.set('views', path.join(__dirname, 'views'));
+// appFTP_1.set('view engine', 'ejs');
+// appFTP_1.use(logger('dev'));
+// appFTP_1.use(express.json());
+// appFTP_1.use(express.urlencoded({ extended: false }));
+// appFTP_1.use(cookieParser());
+// appFTP_1.use(express.static(path.join(__dirname, 'public')));
 
-appFTP_2.use(bodyParser.json());
-appFTP_2.set('views', path.join(__dirname, 'views'));
-appFTP_2.set('view engine', 'ejs');
-appFTP_2.use(logger('dev'));
-appFTP_2.use(express.json());
-appFTP_2.use(express.urlencoded({ extended: false }));
-appFTP_2.use(cookieParser());
-appFTP_2.use(express.static(path.join(__dirname, 'public')));
+// appFTP_2.use(bodyParser.json());
+// appFTP_2.set('views', path.join(__dirname, 'views'));
+// appFTP_2.set('view engine', 'ejs');
+// appFTP_2.use(logger('dev'));
+// appFTP_2.use(express.json());
+// appFTP_2.use(express.urlencoded({ extended: false }));
+// appFTP_2.use(cookieParser());
+// appFTP_2.use(express.static(path.join(__dirname, 'public')));
 
 AdminApp.use(bodyParser.json());
 AdminApp.set('views', path.join(__dirname, 'views'));
@@ -70,12 +70,12 @@ appServer.use(cookieParser());
 appServer.use(express.static(path.join(__dirname, 'public')));
 
 // Request API, RESTful Endpoint
-appFTP_1.use('/ftp', ftpRouter);
-appFTP_2.use('/ftp', ftpRouter);
+// appFTP_1.use('/ftp', ftpRouter);
+// appFTP_2.use('/ftp', ftpRouter);
 
 // Request API, RESTful Endpoint For User Authentication.
-appFTP_1.use('/auth', authRouter);
-appFTP_2.use('/auth', authRouter);
+// appFTP_1.use('/auth', authRouter);
+// appFTP_2.use('/auth', authRouter);
 
 //Request API, RESTful Endpoint for Admin System
 AdminApp.use('/admin', adminRouter);
@@ -84,13 +84,13 @@ AdminApp.use('/admin', adminRouter);
 appServer.use('/api', apiRouter);
 
 // Parse the request body as JSON
-appFTP_1.use(body.json());
-appFTP_2.use(body.json());
+// appFTP_1.use(body.json());
+// appFTP_2.use(body.json());
 AdminApp.use(body.json());
 appServer.use(body.json());
 
-appFTP_1.listen(3000);
-appFTP_2.listen(3001);
+// appFTP_1.listen(3000);
+// appFTP_2.listen(3001);
 
 var http = require('http').Server(appServer);
 let io = require('socket.io')(http);
@@ -102,35 +102,39 @@ http.listen(8888, () => {
   console.log('App Server is Running! http://localhost:8888/api');
 });
 
-const { addUser, getUser, addRoomCode } = require('./users');
+const { addUser, getUser, addRoomCode, removeRoomCode } = require('./users');
 const { addRoom, getRoom, addMessages } = require('./rooms');
-const { newMessages, getMessages } = require('./messages');
 io.on('connect', (socket) => {
-  console.log('Socket ID : ', socket.id)
   socket.on('connection', ({ userID }, callback) => {
     if (userID != null) {
-      addUser(socket.id, userID, socket);
+      var user = addUser(socket.id, userID, socket);
+      var ROOMS_OF_USER = getUser(user.userID);
+      for (var i = 0; i < ROOMS_OF_USER.roomList.length; i++) {
+        socket.join(ROOMS_OF_USER.roomList[i]);
+      }
     }
   });
 
   socket.on('CreateRoom', data => {
-    var socketB  = getUser(data.receiver_seq);
+    var socketB = getUser(data.receiver_seq);
     socket.join(data.roomCode);
     socketB.socket.join(data.roomCode);
-    var roomCreation = addRoomCode(data.sender_seq, data.receiver_seq, data.roomCode);
+    addRoomCode(data.sender_seq, data.receiver_seq, data.roomCode);
     addRoom(data);
   });
 
   socket.on('sendMessage', message => {
     var returnRoom = getRoom([message.roomCode]);
-    // If No Message Ever Befroe then Set Chat Count Update
-    // var receiveMessage = newMessages(message);
     addMessages(message);
-    io.in(message.roomCode).emit('receiveMessage', {roomInfo : returnRoom[0], messages : message});
+    io.in(message.roomCode).emit('receiveMessage', { roomInfo: returnRoom[0], messages: message });
   });
 
+  socket.on('GetRoom', (data) => {
+    var rawReturn = getRoom([data]);
+    socket.emit('GetRoom', rawReturn);
+  })
+
   socket.on('GetRoomList', (data) => {
-    console.log(data)
     var ROOMS_OF_USER = getUser(data);
     var roomList = ROOMS_OF_USER.roomList;
     if (roomList) {
@@ -139,8 +143,15 @@ io.on('connect', (socket) => {
     socket.emit('GetRoomList', rawReturn);
   });
 
-  socket.on('disconnect', (err, data) => {
-    console.log(socket.connected)
-    console.log('User Leave')
+  socket.on('leave', (data) => {
+    removeRoomCode(data)
+    var messages = {
+      roomCode: data.roomCode,
+      sender_seq: 'admin',
+      message: '다른 사용자가 방을 떠났습니다.'
+    }
+    addMessages(messages);
+    io.in(data.roomCode).emit('officialMessage', { messages });
+    socket.leave(data.roomCode)
   })
 });

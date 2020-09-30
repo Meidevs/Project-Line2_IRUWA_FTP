@@ -3,10 +3,8 @@ const rooms = [];
 const addRoom = (data) => {
   var date_time = new Date().toISOString();
   var exist = rooms.filter((rooms) => rooms.roomCode == data.roomCode);
-  console.log('exist', exist)
   if (exist.length > 0) return false;
 
-  console.log('a')
   rooms.push({
     roomCode: data.roomCode,
     sender_seq: data.sender_seq,
@@ -21,11 +19,9 @@ const addRoom = (data) => {
     reg_date: date_time,
     messages: [],
   });
-  console.log('Room? : ', rooms)
 }
 
 const getRoom = (roomList) => {
-  console.log('rooms', rooms)
   var rawArray = new Array();
   roomList.map((data) => {
     for (var i = 0; i < rooms.length; i++) {
@@ -34,6 +30,7 @@ const getRoom = (roomList) => {
       }
     }
   })
+  console.log('get Room rawArray' , rawArray)
   return rawArray;
 }
 

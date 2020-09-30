@@ -223,9 +223,6 @@ router.post('/list', async (req, res) => {
         // Server Will encode Blob data to actual Data Which can Read & Understand.
         var GET_ITEM_LIST = await itemModel.GET_ITEMS_LIST(FromData);
 
-        for (var i = 0; i < GET_ITEM_LIST.length; i++) {
-            GET_ITEM_LIST[i].item_content = GET_ITEM_LIST[i].item_content;
-        }
         // Distinguish & Assemble related Information. 
         GET_ITEM_LIST.map((item) => {
             GET_CMP_LIST.map((data) => {
@@ -303,9 +300,6 @@ router.post('/list/detail', async (req, res) => {
         };
 
         var ITEMS_OF_OWNER = await itemModel.GET_ITEMS_LIST_ON_OWNER(FromData);
-        for (var i = 0; i < ITEMS_OF_OWNER.length; i++) {
-            ITEMS_OF_OWNER[i].item_content = ITEMS_OF_OWNER[i].item_content.toString();
-        };
 
         // Extract items_seq As a Array. IMAGE_URIs Array sent to GET_IMAGE_URI Function Which Get Image Uris From Database. 
         for (var j = 0; j < ITEMS_OF_OWNER.length; j++) {
@@ -405,9 +399,6 @@ router.post('/search/keyword', async (req, res) => {
         var GET_CMP_LIST = await userModel.GET_CMP_LIST(FromData);
 
         var GET_ITEM_LIST = await itemModel.SEARCH_ITEM(FromData);
-        for (var i = 0; i < GET_ITEM_LIST.length; i++) {
-            GET_ITEM_LIST[i].item_content = GET_ITEM_LIST[i].item_content;
-        }
 
         // Distinguish & Assemble related Information. 
         GET_ITEM_LIST.map((item) => {
@@ -468,9 +459,6 @@ router.post('/search/category', async (req, res) => {
         // Server Will encode Blob data to actual Data Which can Read & Understand.
         var GET_ITEM_LIST = await itemModel.GET_ITEMS_LIST_ON_CATEGORY(FromData);
 
-        for (var i = 0; i < GET_ITEM_LIST.length; i++) {
-            GET_ITEM_LIST[i].item_content = GET_ITEM_LIST[i].item_content;
-        }
         // Distinguish & Assemble related Information. 
         GET_ITEM_LIST.map((item) => {
             GET_CMP_LIST.map((data) => {
