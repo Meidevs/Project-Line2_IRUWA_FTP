@@ -65,7 +65,7 @@ http.listen(8888, () => {
   console.log('App Server is Running! http://localhost:8888/api');
 });
 
-const { addUser, getUser, addRoomCode, removeRoomCode } = require('./users');
+const { addUser, getUser, addRoomCode, removeRoomCode, bannedUserCheck } = require('./users');
 const { addRoom, getRoom, addMessages, removeMessages } = require('./rooms');
 const { sendPushNotification } = require('./messages');
 io.on('connect', (socket) => {
@@ -92,6 +92,8 @@ io.on('connect', (socket) => {
   socket.on('sendMessage', message => {
     var returnRoom = getRoom([message.roomCode]);
     addMessages(message);
+    var check = bannedUserCheck(message);
+    if (check) return;
     sendPushNotification(message)
     io.in(message.roomCode).emit('receiveMessage', { roomInfo: returnRoom[0], messages: message });
   });

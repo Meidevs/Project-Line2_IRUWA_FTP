@@ -165,6 +165,19 @@ router.post('/userlocation', async (req, res) => {
     }
 });
 
+router.post('/appstate', async (req, res) => {
+    try {
+        var FromData = new Object();
+        FromData.token = req.body.pushToken;
+        FromData.appState = req.body.appState;
+        FromData.user_seq = req.session.user.user_seq;
+        await userModel.UPDATE_DEVICE_STATE(FromData);
+        res.status(200).send(true);
+    } catch (err) {
+        console.log(err);
+    }
+});
+
 router.post('/userprofile', async (req, res) => {
     try {
         var user_seq = req.body.user_seq;

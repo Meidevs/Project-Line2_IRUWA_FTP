@@ -370,6 +370,33 @@ class Authentication {
             }
         )
     }
+    UPDATE_DEVICE_STATE (data) {
+        return new Promise (
+            async (resolve, reject) => {
+                try {
+                    var sql = 'UPDATE tb_device SET appstate = ? WHERE user_seq = ? AND token = ?';
+                    await myConnection.query(sql, [data.appState, data.user_seq, data.token]);
+                    resolve(true)
+                } catch (err) {
+                    reject(err)
+                }
+            }
+        )
+    }
+
+    CHECK_BANNED_USER (data) {
+        return new Promise (
+            async (resolve, reject) => {
+                try {
+                    var sql = 'SELECT * FROM tb_banned_user WHERE request_user_seq = ? AND target_user_seq = ?';
+                    var BANNED_USER = await myConnection.query(sql, [data.receiver_seq, data.sender_seq]);
+                    resolve(BANNED_USER);
+                } catch (err) { 
+                    reject(err)
+                }
+            }
+        )
+    }
 }
 
 module.exports = new Authentication();

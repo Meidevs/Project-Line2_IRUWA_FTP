@@ -1,3 +1,6 @@
+const userModel = require("./public/javascripts/components/userModel");
+const { use } = require("./routes/api");
+
 const users = [];
 
 const addUser = (socketID, userID, socket) => {
@@ -64,4 +67,14 @@ const getUser = (uid) => {
 
   return user;
 };
-module.exports = { addUser, addRoomCode, getUser, removeRoomCode };
+
+const bannedUserCheck = async (data) => {
+  var BANNED_USER = await userModel.CHECK_BANNED_USER(data);
+  if (BANNED_USER.length > 0) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+module.exports = { addUser, addRoomCode, getUser, removeRoomCode, bannedUserCheck };

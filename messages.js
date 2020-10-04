@@ -12,17 +12,16 @@ const sendPushNotification = async (data) => {
   var pushToken = await userModel.GET_USER_DEVICE(FromData);
   if (pushToken.length > 0) {
     for (var  i = 0;  i < pushToken.length; i++) {
-      messages.push({
-        to: pushToken[i].token,
-        title: '채팅 알림',
-        body: data.message,
-      });
+      if (pushToken[i].appstate == 'background') {
+        messages.push({
+          to: pushToken[i].token,
+          title: '채팅 알림',
+          body: data.message,
+        });
+      }
     }
-    
     await expo.sendPushNotificationsAsync(messages);
   }
 }
-// Create the messages that you want to send to clients
-
 
 module.exports = { sendPushNotification };
