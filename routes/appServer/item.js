@@ -452,8 +452,10 @@ router.post('/search/category', async (req, res) => {
         var FromData = new Object();
         var IMAGE_URIs = new Array();
         FromData.category_seq = req.body.category_seq;
+        FromData.user_location = req.session.user.user_location;
         // Get Company Information From Database to Show Company Infos At Main Page with Item Information.
         var GET_CMP_LIST = await userModel.GET_CMP_LIST_ON_CATEGORY(FromData);
+        console.log('GET_CMP_LIST', GET_CMP_LIST)
         // Get Items Information From Database Such as item_name, item_content, cmp_seq etc.
         // item_content Might be long String. So, Database dealwith item_content Data As Blob Type. 
         // Server Will encode Blob data to actual Data Which can Read & Understand.

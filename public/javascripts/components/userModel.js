@@ -2,6 +2,7 @@ var myConnection = require('../../../dbConfig');
 var functions = require('../functions/functions');
 const { rejectSeries } = require('async');
 const { type } = require('os');
+const { resolve } = require('path');
 
 class Authentication {
 
@@ -95,7 +96,6 @@ class Authentication {
                 try {
                     var sql = 'SELECT main_alarm, sub_alarm FROM tb_user_alarm WHERE user_seq = ?';
                     var USER_ALARM_STATE = await myConnection.query(sql, [USER_SEQ]);
-                    console.log('USER_ALARM_STATE :', USER_ALARM_STATE)
                     resolve(USER_ALARM_STATE[0]);
                 } catch (err) {
                     reject(err);
@@ -277,8 +277,8 @@ class Authentication {
         return new Promise(
             async (resolve, reject) => {
                 try {
-                    var sql = 'SELECT * FROM tb_company WHERE category_seq = ?';
-                    var SELECT_RESPONSE = await myConnection.query(sql, [data.category_seq]);
+                    var sql = 'SELECT * FROM tb_company WHERE category_seq = ? AND cmp_location = ?';
+                    var SELECT_RESPONSE = await myConnection.query(sql, [data.category_seq, data.user_location]);
                     resolve(SELECT_RESPONSE);
                 } catch (err) {
                     reject(err);
@@ -287,8 +287,8 @@ class Authentication {
         )
     }
 
-    GET_USER_PROFILE (data) {
-        return new Promise (
+    GET_USER_PROFILE(data) {
+        return new Promise(
             async (resolve, reject) => {
                 try {
                     var sql = 'SELECT * FROM tb_user_profile WHERE user_seq = ?';
@@ -302,14 +302,14 @@ class Authentication {
     }
 
 
-    DELETE_PREV_PROFILE_IMAGE (data) {
-        return new Promise (
+    DELETE_PREV_PROFILE_IMAGE(data) {
+        return new Promise(
             async (resolve, reject) => {
                 try {
                     var sql = 'DELETE FROM tb_user_profile WHERE user_seq = ? ';
                     await myConnection.query(sql, [data]);
                     resolve(true);
-                } catch (err){
+                } catch (err) {
                     reject(err);
                 }
             }
@@ -326,6 +326,50 @@ class Authentication {
                     resolve(true);
                 } catch (err) {
                     reject(err);
+                }
+            }
+        )
+    }
+    GET_USER_DEVICE(data) {
+        return new Promise(
+            async (resolve, reject) => {
+                try {
+                    var sql = 'SELECT * FROM tb_device WHERE user_seq = ?';
+                    var USER_DEVICE = await myConnection.query(sql, [data.user_seq]);
+                    if (USER_DEVICE.length > 0) {
+                        resolve(true);
+                    } else {
+                        resolve(false);
+                    }
+                } catch (err) {
+                    reject(err)
+                }
+            }
+        )
+    }
+    SET_USER_DEVICE(data) {
+        return new Promise(
+            async (resolve, reject) => {
+                try {
+                    console.log(data)
+                    var sql = 'INSERT INTO tb_device (user_seq, token, os) VALUES (?, ?, ?)';
+                    await myConnection.query(sql, [data.user_seq, data.user_device.data, data.user_device.type])
+                    resolve(true);
+                } catch (err) {
+                    reject(err)
+                }
+            }
+        )
+    }
+    UPDATE_USER_DEVICE(data) {
+        return new Promise(
+            async (resolve, reject) => {
+                try {
+                    var sql = 'UPDATE tb_device SET token = ?, os = ? WHERE user_seq = ?';
+                    await myConnection.query(sql, [data.user_device.data, data.user_device.type, data.user_seq])
+                    resolve(true);
+                } catch (err) {
+                    reject(err)
                 }
             }
         )

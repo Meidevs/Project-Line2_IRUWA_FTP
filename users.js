@@ -4,11 +4,20 @@ const addUser = (socketID, userID, socket) => {
   var user;
   var index = users.findIndex((user) => user.userID === userID);
   if (index !== -1) {
-    user = {
-      socketID: socketID,
-      userID: userID,
-      socket: socket,
-      roomList: [users[index].roomList]
+    if (users[index].roomList.length > 0) {
+      user = {
+        socketID: socketID,
+        userID: userID,
+        socket: socket,
+        roomList: [users[index].roomList]
+      }
+    } else {
+      user = {
+        socketID: socketID,
+        userID: userID,
+        socket: socket,
+        roomList: []
+      }
     }
     users[index] = user;
   } else {

@@ -4,6 +4,7 @@ const multer = require("multer");
 
 var userModel = require('../../public/javascripts/components/userModel');
 var functions = require('../../public/javascripts/functions/functions');
+var sendEmail = require('../../public/javascripts/components/email.send');
 
 const upload = multer({
     storage: multer.diskStorage({
@@ -39,7 +40,7 @@ router.post('/login', async (req, res) => {
         var resReturn;
         var todayString = await functions.TodayString();
         FromData.reg_date = todayString;
-
+        FromData.user_device = req.body.user_device;
         resReturn = {
             flags: 1,
             message: '아이디를 확인해 주세요.'
@@ -60,6 +61,13 @@ router.post('/login', async (req, res) => {
             resReturn = USER_INFO;
             req.session.user = USER_INFO.userSession;
             if (USER_INFO.flags == 0) {
+                FromData.user_seq = USER_INFO.userSession.user_seq;
+                var deviceExist = await userModel.GET_USER_DEVICE(FromData);
+                if (deviceExist) {
+                    await userModel.UPDATE_USER_DEVICE(FromData);
+                } else {
+                    await userModel.SET_USER_DEVICE(FromData);
+                }
                 // GET_USER_ALARM_STATE Function Calls User's Alarm Setting Using USER_SEQ.
                 var USER_ALARM_SET = await userModel.GET_USER_ALARM_STATE(USER_INFO.userSession.user_seq);
                 USER_INFO.userSession.main_alarm = USER_ALARM_SET.main_alarm;
@@ -89,7 +97,7 @@ router.post('/register',
             var FromData = JSON.parse(req.body.data);
             var todayString = await functions.TodayString();
             FromData.reg_date = todayString;
-
+            sendEmail();
             var resReturn = {
                 flags: 1,
                 message: '이미 가입된 아이디입니다.'

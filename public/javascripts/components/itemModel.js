@@ -107,8 +107,8 @@ class Items {
             async (resolve, reject) => {
                 try {
                     // After Put Ads Date
-                    var sql = 'SELECT * FROM tb_items WHERE cancelled = 0 AND cmp_seq IN (SELECT cmp_seq FROM tb_company WHERE category_seq = ?) ORDER BY reg_date DESC';
-                    var resReturn = await myConnection.query(sql, [data.category_seq]);
+                    var sql = 'SELECT * FROM tb_items WHERE cancelled = 0 AND cmp_seq IN (SELECT cmp_seq FROM tb_company WHERE category_seq = ? AND cmp_location = ?) ORDER BY reg_date DESC';
+                    var resReturn = await myConnection.query(sql, [data.category_seq, data.user_location]);
                     resolve(resReturn);
                 } catch (err) {
                     reject(err)
