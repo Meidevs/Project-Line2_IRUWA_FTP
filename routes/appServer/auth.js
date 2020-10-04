@@ -63,7 +63,7 @@ router.post('/login', async (req, res) => {
             if (USER_INFO.flags == 0) {
                 FromData.user_seq = USER_INFO.userSession.user_seq;
                 var deviceExist = await userModel.GET_USER_DEVICE(FromData);
-                if (deviceExist) {
+                if (deviceExist.length > 0) {
                     await userModel.UPDATE_USER_DEVICE(FromData);
                 } else {
                     await userModel.SET_USER_DEVICE(FromData);

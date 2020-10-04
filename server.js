@@ -67,6 +67,7 @@ http.listen(8888, () => {
 
 const { addUser, getUser, addRoomCode, removeRoomCode } = require('./users');
 const { addRoom, getRoom, addMessages, removeMessages } = require('./rooms');
+const { sendPushNotification } = require('./messages');
 io.on('connect', (socket) => {
   socket.on('connection', ({ userID }, callback) => {
     if (userID != null) {
@@ -91,6 +92,7 @@ io.on('connect', (socket) => {
   socket.on('sendMessage', message => {
     var returnRoom = getRoom([message.roomCode]);
     addMessages(message);
+    sendPushNotification(message)
     io.in(message.roomCode).emit('receiveMessage', { roomInfo: returnRoom[0], messages: message });
   });
 

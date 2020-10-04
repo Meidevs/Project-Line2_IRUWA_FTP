@@ -336,11 +336,7 @@ class Authentication {
                 try {
                     var sql = 'SELECT * FROM tb_device WHERE user_seq = ?';
                     var USER_DEVICE = await myConnection.query(sql, [data.user_seq]);
-                    if (USER_DEVICE.length > 0) {
-                        resolve(true);
-                    } else {
-                        resolve(false);
-                    }
+                    resolve(USER_DEVICE);
                 } catch (err) {
                     reject(err)
                 }

@@ -121,7 +121,7 @@ class Items {
         return new Promise(
             async (resolve, reject) => {
                 try {
-                    var sql = 'SELECT * FROM tb_items WHERE cancelled = 0 AND cmp_seq IN (SELECT cmp_seq FROM tb_company WHERE cmp_location = ?) AND ads_type = 1';
+                    var sql = 'SELECT * FROM tb_items WHERE cancelled = 0 AND cmp_seq IN (SELECT cmp_seq FROM tb_company WHERE cmp_location = ?) AND ads_type = 1 ORDER BY reg_date DESC';
                     var resReturn = await myConnection.query(sql, [data.location_name]);
                     resolve(resReturn);
                 } catch (err) {

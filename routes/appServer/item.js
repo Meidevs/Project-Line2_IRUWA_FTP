@@ -139,8 +139,8 @@ router.post('/removeitem', async (req, res) => {
     try {
         var FromData = new Object();
         var resReturn = {
-            flags : 1,
-            message : '삭제에 실패하였습니다.'
+            flags: 1,
+            message: '삭제에 실패하였습니다.'
         }
 
         FromData.items_seq = req.body.items_seq;
@@ -148,8 +148,8 @@ router.post('/removeitem', async (req, res) => {
         var DELETE_RESULT = await itemModel.DELETE_ITEM(FromData);
         if (DELETE_RESULT) {
             resReturn = {
-                flags : 0,
-                message : '삭제되었습니다.'
+                flags: 0,
+                message: '삭제되었습니다.'
             }
         }
         res.status(200).send(resReturn)
@@ -342,7 +342,7 @@ router.post('/list/detail', async (req, res) => {
                 CMP_INFOs.category_name = data.category_name;
             }
         });
-        res.status(200).send({ VIEW_COUNT: VIEW_COUNT, TIME_AVG: TIME_AVG, PICK_STATUS: PICK_STATUS, SELECTED: SelectedItem, NonSELECTED: NonSelectedItem, CMP_INFOs: CMP_INFOs, COUPON: Coupon, PHONE_LIST : CMP_PHONE_LIST });
+        res.status(200).send({ VIEW_COUNT: VIEW_COUNT, TIME_AVG: TIME_AVG, PICK_STATUS: PICK_STATUS, SELECTED: SelectedItem, NonSELECTED: NonSelectedItem, CMP_INFOs: CMP_INFOs, COUPON: Coupon, PHONE_LIST: CMP_PHONE_LIST });
     } catch (err) {
         console.log(err)
     }
@@ -438,6 +438,58 @@ router.post('/search/keyword', async (req, res) => {
         res.status(200).send(resReturn);
     } catch (err) {
         console.log(err);
+    }
+});
+
+router.get('/search/premiums', async (req, res) => {
+    // ** 함수는 한 가지 기능만 구현한다!
+    // ** 데이터 베이스 호출 속도를 빠르게 한다.
+    try {
+        var FromData = new Object();
+        var IMAGE_URIs = new Array();
+        var IMAGE_URI_ARRAY = new Array();
+        var resReturn = {
+            flags: 0,
+            data: [],
+        }
+        FromData.location_name = req.session.user.user_location;
+        var GET_CMP_LIST = await userModel.GET_CMP_LIST(FromData);
+
+        var GET_PREMIUM_LIST = await itemModel.GET_ITEM_PREMIUM_LIST(FromData);
+        GET_PREMIUM_LIST.map((item) => {
+            GET_CMP_LIST.map((data) => {
+                if (item.cmp_seq == data.cmp_seq) {
+                    item.cmp_name = data.cmp_name;
+                    item.cmp_category = data.category_seq;
+                    item.cmp_location = data.cmp_location;
+                }
+            })
+        });
+        
+        for (var j = 0; j < GET_PREMIUM_LIST.length; j++) {
+            IMAGE_URIs.push(GET_PREMIUM_LIST[j].items_seq);
+        }
+
+        if (IMAGE_URIs.length != 0) {
+            var IMAGE_URI_ARRAY = await itemModel.GET_IMAGE_URI(IMAGE_URIs);
+        }
+
+        // Push IMAGE_URI datas into GET_ITEM_LIST Array to Send Data to Application Browser.
+        GET_PREMIUM_LIST.map((data) => {
+            data.uri = new Array();
+            for (var x = 0; x < IMAGE_URI_ARRAY.length; x++) {
+                if (data.items_seq == IMAGE_URI_ARRAY[x].items_seq) {
+                    data.uri.push(IMAGE_URI_ARRAY[x].uri)
+                }
+            }
+        });
+
+        for (var i = 0; i < GET_PREMIUM_LIST.length; i++) {
+            resReturn.data.push(GET_PREMIUM_LIST[i]);
+        }
+        res.status(200).send(resReturn);
+    } catch (err) {
+        console.log(err)
     }
 });
 

@@ -1,14 +1,28 @@
-const messages = [];
+const { Expo } = require('expo-server-sdk');
+const userModel = require('./public/javascripts/components/userModel');
 
-const newMessages = (data) => {
-  messages.push(data)
-  var message = {
-    sender_seq : data.sender_seq,
-    roomCode : data.roomCode,
-    message : data.message,
-    reg_date : data.reg_date,
+// Create a new Expo SDK client
+// optionally providing an access token if you have enabled push security
+let expo = new Expo();
+const sendPushNotification = async (data) => {
+  console.log('sendPushNotification', data)
+  var FromData = new Object();
+  FromData.user_seq = data.receiver_seq;
+  var messages = [];
+  var pushToken = await userModel.GET_USER_DEVICE(FromData);
+  if (pushToken.length > 0) {
+    for (var  i = 0;  i < pushToken.length; i++) {
+      messages.push({
+        to: pushToken[i].token,
+        title: '채팅 알림',
+        body: data.message,
+      });
+    }
+    
+    await expo.sendPushNotificationsAsync(messages);
   }
-  return message;
 }
+// Create the messages that you want to send to clients
 
-module.exports = { newMessages };
+
+module.exports = { sendPushNotification };
