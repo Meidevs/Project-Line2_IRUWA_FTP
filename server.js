@@ -85,7 +85,6 @@ io.on('connect', (socket) => {
     var socketB = getUser(data.receiver_seq);
     socket.join(data.roomCode);
     var check = await bannedUserCheck(data);
-    console.log('Banned User Check :', check)
     if (check) return;
     socketB.socket.join(data.roomCode);
     addRoomCode(data.sender_seq, data.receiver_seq, data.roomCode);
@@ -96,16 +95,18 @@ io.on('connect', (socket) => {
     var returnRoom = getRoom([message.roomCode]);
     addMessages(message);
     var check = await bannedUserCheck(message);
-    console.log('Banned User Check :', check)
-    if (check) return;
-    sendPushNotification(message)
-    io.in(message.roomCode).emit('receiveMessage', { roomInfo: returnRoom[0], messages: message });
+    if (check) {
+      socket.emit('receiveMessage', { roomInfo: returnRoom[0], messages: message });
+    } else {
+      sendPushNotification(message)
+      io.in(message.roomCode).emit('receiveMessage', { roomInfo: returnRoom[0], messages: message });
+    }
   });
 
   socket.on('GetRoom', (data) => {
     var rawReturn = getRoom([data]);
     socket.emit('GetRoom', rawReturn);
-  })
+  });
 
   socket.on('GetRoomList', (data) => {
     var ROOMS_OF_USER = getUser(data);
@@ -130,5 +131,5 @@ io.on('connect', (socket) => {
     addMessages(messages);
     io.in(data.roomCode).emit('officialMessage', { messages });
     socket.leave(data.roomCode)
-  })
+  });
 });

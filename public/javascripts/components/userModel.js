@@ -374,8 +374,8 @@ class Authentication {
         return new Promise(
             async (resolve, reject) => {
                 try {
-                    var sql = 'UPDATE tb_device SET appstate = ? WHERE user_seq = ? AND token = ?';
-                    await myConnection.query(sql, [data.appState, data.user_seq, data.token]);
+                    var sql = 'UPDATE tb_device SET appstate = ? WHERE token = ?';
+                    await myConnection.query(sql, [data.appState, data.token]);
                     resolve(true)
                 } catch (err) {
                     reject(err)
@@ -437,6 +437,34 @@ class Authentication {
                     resolve(true);
                 } catch (err) {
                     reject(err)
+                }
+            }
+        )
+    }
+
+    GET_BANNED_USER(data) {
+        return new Promise(
+            async (resolve, reject) => {
+                try {
+                    var sql = 'SELECT * FROM tb_banned_user WHERE request_user_seq = ?';
+                    var BANNED_USER_LIST = await myConnection.query(sql, [data.user_seq]);
+                    resolve(BANNED_USER_LIST);
+                } catch (err) {
+                    reject(err);
+                }
+            }
+        )
+    }
+
+    DELETE_BANNED_USER (data) {
+        return new Promise (
+            async (resolve, reject) => {
+                try {
+                    var sql = 'DELETE FROM tb_banned_user WHERE request_user_seq = ? AND target_user_seq = ?';
+                    await myConnection.query(sql, [data.request_user_seq, data.target_user_seq]);
+                    resolve(true);
+                } catch (err) {
+                    reject(err);
                 }
             }
         )

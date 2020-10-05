@@ -169,7 +169,6 @@ router.post('/appstate', async (req, res) => {
         var FromData = new Object();
         FromData.token = req.body.pushToken;
         FromData.appState = req.body.appState;
-        FromData.user_seq = req.session.user.user_seq;
         await userModel.UPDATE_DEVICE_STATE(FromData);
         res.status(200).send(true);
     } catch (err) {
@@ -287,6 +286,41 @@ router.post('/ban', async (req, res) => {
             resReturn = {
                 flags : 0,
                 messages : '차단되었습니다.'
+            }
+        }
+        res.status(200).send(resReturn)
+    } catch (err) {
+        console.log(err);
+    }
+});
+
+router.post('/banlist', async (req, res) => {
+    try {
+        var FromData = new Object();
+        FromData.user_seq = req.session.user.user_seq;
+        console.log('User_seq FromData : ', FromData)
+        var GET_BANNED_LIST = await userModel.GET_BANNED_USER(FromData);
+        res.status(200).send(GET_BANNED_LIST)
+    } catch (err) {
+        console.log(err);
+    }
+});
+
+router.post('/removeban', async (req, res) => {
+    try {
+        var FromData = new Object();
+        var resReturn = {
+            flags : 1,
+            messages : '차단 해제 실패하였습니다.'
+        }
+        FromData.target_user_seq = req.body.target_user_seq;
+        FromData.request_user_seq = req.session.user.user_seq;
+        console.log('User_seq FromData : ', FromData)
+        var GET_BANNED_LIST = await userModel.DELETE_BANNED_USER(FromData);
+        if (GET_BANNED_LIST) {
+            resReturn = {
+                flags : 0,
+                messages : '차단 해제되었습니다.'
             }
         }
         res.status(200).send(resReturn)
