@@ -1,5 +1,4 @@
 const userModel = require("./public/javascripts/components/userModel");
-const { use } = require("./routes/api");
 
 const users = [];
 
@@ -68,13 +67,29 @@ const getUser = (uid) => {
   return user;
 };
 
+const roomExistence = (data) => {
+  var returnValue = false;
+  users.map((user) => {
+    if (user.roomList == data.roomCode) {
+      returnValue = true;
+    }
+  })
+  return returnValue;
+}
+
 const bannedUserCheck = async (data) => {
-  var BANNED_USER = await userModel.CHECK_BANNED_USER(data);
-  if (BANNED_USER.length > 0) {
-    return true;
-  } else {
-    return false;
+  try {
+    console.log('bannedUserCheck', data)
+    var BANNED_USER = await userModel.CHECK_BANNED_USER(data);
+    console.log('BANNED_USER', BANNED_USER)
+    if (BANNED_USER.length > 0) {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (err) {
+    console.log(err);
   }
 }
 
-module.exports = { addUser, addRoomCode, getUser, removeRoomCode, bannedUserCheck };
+module.exports = { addUser, addRoomCode, getUser, removeRoomCode, roomExistence, bannedUserCheck };

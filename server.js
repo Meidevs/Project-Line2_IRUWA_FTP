@@ -65,7 +65,7 @@ http.listen(8888, () => {
   console.log('App Server is Running! http://localhost:8888/api');
 });
 
-const { addUser, getUser, addRoomCode, removeRoomCode, bannedUserCheck } = require('./users');
+const { addUser, getUser, addRoomCode, removeRoomCode, roomExistence, bannedUserCheck } = require('./users');
 const { addRoom, getRoom, addMessages, removeMessages } = require('./rooms');
 const { sendPushNotification } = require('./messages');
 io.on('connect', (socket) => {
@@ -81,18 +81,22 @@ io.on('connect', (socket) => {
     }
   });
 
-  socket.on('CreateRoom', data => {
+  socket.on('CreateRoom', async data => {
     var socketB = getUser(data.receiver_seq);
     socket.join(data.roomCode);
+    var check = await bannedUserCheck(data);
+    console.log('Banned User Check :', check)
+    if (check) return;
     socketB.socket.join(data.roomCode);
     addRoomCode(data.sender_seq, data.receiver_seq, data.roomCode);
     addRoom(data);
   });
 
-  socket.on('sendMessage', message => {
+  socket.on('sendMessage', async message => {
     var returnRoom = getRoom([message.roomCode]);
     addMessages(message);
-    var check = bannedUserCheck(message);
+    var check = await bannedUserCheck(message);
+    console.log('Banned User Check :', check)
     if (check) return;
     sendPushNotification(message)
     io.in(message.roomCode).emit('receiveMessage', { roomInfo: returnRoom[0], messages: message });
@@ -114,7 +118,10 @@ io.on('connect', (socket) => {
 
   socket.on('leave', (data) => {
     removeRoomCode(data);
-    // removeMessages(data)
+    var a = roomExistence(data);
+    if (!a) {
+      removeMessages(data)
+    }
     var messages = {
       roomCode: data.roomCode,
       sender_seq: 'admin',

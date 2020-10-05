@@ -370,8 +370,8 @@ class Authentication {
             }
         )
     }
-    UPDATE_DEVICE_STATE (data) {
-        return new Promise (
+    UPDATE_DEVICE_STATE(data) {
+        return new Promise(
             async (resolve, reject) => {
                 try {
                     var sql = 'UPDATE tb_device SET appstate = ? WHERE user_seq = ? AND token = ?';
@@ -384,14 +384,58 @@ class Authentication {
         )
     }
 
-    CHECK_BANNED_USER (data) {
-        return new Promise (
+    CHECK_BANNED_USER(data) {
+        return new Promise(
             async (resolve, reject) => {
                 try {
                     var sql = 'SELECT * FROM tb_banned_user WHERE request_user_seq = ? AND target_user_seq = ?';
                     var BANNED_USER = await myConnection.query(sql, [data.receiver_seq, data.sender_seq]);
                     resolve(BANNED_USER);
-                } catch (err) { 
+                } catch (err) {
+                    reject(err)
+                }
+            }
+        )
+    }
+
+    CHANGE_PROFILE(data, key) {
+        return new Promise(
+            async (resolve, reject) => {
+                try {
+                    var sql = 'UPDATE tb_users SET ';
+                    sql += key + '= ? ';
+                    sql += 'WHERE user_seq = ?';
+                    await myConnection.query(sql, [data[key], data.user_seq]);
+                    resolve(true)
+                } catch (err) {
+                    reject(err)
+                }
+            }
+        )
+    }
+    CHANGE_CMP_PROFILE(data, key) {
+        return new Promise(
+            async (resolve, reject) => {
+                try {
+                    var sql = 'UPDATE tb_company SET ';
+                    sql += key + '= ? ';
+                    sql += 'WHERE user_seq = ?';
+                    await myConnection.query(sql, [data[key], data.user_seq]);
+                    resolve(true)
+                } catch (err) {
+                    reject(err)
+                }
+            }
+        )
+    }
+    SET_BANNED_USER(data) {
+        return new Promise(
+            async (resolve, reject) => {
+                try {
+                    var sql = 'INSERT INTO tb_banned_user (request_user_seq, target_user_seq) VALUES (?, ?)';
+                    await myConnection.query(sql, [data.request_user_seq, data.target_user_seq]);
+                    resolve(true);
+                } catch (err) {
                     reject(err)
                 }
             }

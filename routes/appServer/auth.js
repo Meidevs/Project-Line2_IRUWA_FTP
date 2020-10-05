@@ -154,7 +154,6 @@ router.post('/userlocation', async (req, res) => {
     try {
         var user_location = req.body.user_location;
         var user_seq = req.session.user.user_seq;
-
         var UPDATE_RESPONSE = await userModel.USER_LOCATION_UPDATE(user_location, user_seq);
         if (UPDATE_RESPONSE) {
             req.session.user.user_location = user_location;
@@ -201,7 +200,6 @@ router.post('/userprofile', async (req, res) => {
 router.post('/profileimage',
     upload.single('image'),
     async (req, res) => {
-        console.log('REQ FILE', req.file);
         try {
             var FromData = new Object();
             var resReturn = {
@@ -214,8 +212,6 @@ router.post('/profileimage',
             // Before Save User Profile Image, Check Whether there are any other Profile Image or Not.
             // If There is Uploaded Image, Delete it.
             var a = await userModel.DELETE_PREV_PROFILE_IMAGE(FromData.user_seq);
-            console.log('a', a)
-
             var SAVE_RESULT = await userModel.SAVE_PROFILE_IMAGE_URI(FromData.user_seq, images);
             if (SAVE_RESULT) {
                 var resReturn = {
@@ -228,6 +224,75 @@ router.post('/profileimage',
             console.log(err);
         }
     });
+router.post('/profile', async (req, res) => {
+    try {
+        var FromData = new Object();
+        var resReturn = {
+            flags: 1,
+            messages: '변경에 실패하였습니다.'
+        }
+        FromData = req.body;
+        FromData.user_seq = req.session.user.user_seq;
+        var key = Object.keys(FromData)[0];
+        var CHANGE_RESULT = await userModel.CHANGE_PROFILE(FromData, key);
+        if (CHANGE_RESULT) {
+            req.session.user[key] = req.body[key];
+            resReturn = {
+                flags: 0,
+                messages: '변경되었습니다.'
+            }
+        }
+        res.status(200).send(resReturn)
+    } catch (err) {
+        console.log(err);
+    }
+});
 
+router.post('/cmpprofile', async (req, res) => {
+    try {
+        var FromData = new Object();
+        var resReturn = {
+            flags: 1,
+            messages: '변경에 실패하였습니다.'
+        }
+        FromData = req.body;
+        FromData.user_seq = req.session.user.user_seq;
+        var key = Object.keys(FromData)[0];
+        var CHANGE_RESULT = await userModel.CHANGE_CMP_PROFILE(FromData, key);
+        if (CHANGE_RESULT) {
+            req.session.user[key] = req.body[key];
+            resReturn = {
+                flags: 0,
+                messages: '변경되었습니다.'
+            }
+        }
+        res.status(200).send(resReturn)
+    } catch (err) {
+        console.log(err);
+    }
+});
+
+router.post('/ban', async (req, res) => {
+    try {
+        var FromData = new Object();
+        var resReturn = {
+            flags : 1,
+            messages : '차단에 실패하였습니다.'
+        }
+        FromData.target_user_seq = req.body.receiver_seq;
+        FromData.request_user_seq = req.session.user.user_seq;
+        console.log('Ban FromData : ', FromData)
+        var SET_BANNED_RESULT = await userModel.SET_BANNED_USER(FromData);
+        if (SET_BANNED_RESULT) {
+            resReturn = {
+                flags : 0,
+                messages : '차단되었습니다.'
+            }
+        }
+        res.status(200).send(resReturn)
+    } catch (err) {
+        console.log(err);
+    }
+});
 
 module.exports = router;

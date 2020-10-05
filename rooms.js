@@ -43,7 +43,8 @@ const addMessages = (data) => {
 
 const removeMessages = (data) => {
   var exist = rooms.findIndex((rooms) => rooms.roomCode == data.roomCode);
-  rooms[exist].messages = [];
+  // rooms[exist].messages = [];
+  console.log(rooms)
 }
 
 module.exports = { addRoom, getRoom, addMessages, removeMessages };
