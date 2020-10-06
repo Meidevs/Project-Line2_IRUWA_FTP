@@ -4,7 +4,7 @@ var dbConfig = {
     host: 'localhost',
     port: 3306,
     user: 'admin',
-    password: '1234',
+    password: 'password',
     database: 'iruwa',
 };
 
