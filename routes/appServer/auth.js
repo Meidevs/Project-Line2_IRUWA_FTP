@@ -275,8 +275,8 @@ router.post('/ban', async (req, res) => {
     try {
         var FromData = new Object();
         var resReturn = {
-            flags : 1,
-            messages : '차단에 실패하였습니다.'
+            flags: 1,
+            messages: '차단에 실패하였습니다.'
         }
         FromData.target_user_seq = req.body.receiver_seq;
         FromData.request_user_seq = req.session.user.user_seq;
@@ -284,8 +284,8 @@ router.post('/ban', async (req, res) => {
         var SET_BANNED_RESULT = await userModel.SET_BANNED_USER(FromData);
         if (SET_BANNED_RESULT) {
             resReturn = {
-                flags : 0,
-                messages : '차단되었습니다.'
+                flags: 0,
+                messages: '차단되었습니다.'
             }
         }
         res.status(200).send(resReturn)
@@ -294,13 +294,31 @@ router.post('/ban', async (req, res) => {
     }
 });
 
-router.post('/banlist', async (req, res) => {
+router.get('/banlist', async (req, res) => {
     try {
         var FromData = new Object();
+        var rawArray = new Array();
         FromData.user_seq = req.session.user.user_seq;
         console.log('User_seq FromData : ', FromData)
-        var GET_BANNED_LIST = await userModel.GET_BANNED_USER(FromData);
-        res.status(200).send(GET_BANNED_LIST)
+        var GET_BANNED_USER_LIST = await userModel.GET_BANNED_USER(FromData);
+        console.log('GET_BANNED_USER_LIST', GET_BANNED_USER_LIST)
+        var GET_BANNED_CMP_LIST = await userModel.GET_BANNED_CMP(FromData);
+        console.log('GET_BANNED_CMP_LIST', GET_BANNED_CMP_LIST)
+
+        GET_BANNED_USER_LIST.map((data) => {
+            for (var i = 0; i < GET_BANNED_CMP_LIST.length; i++) {
+                if (data.user_seq == GET_BANNED_CMP_LIST[i].user_seq) {
+                    data.cmp_seq = GET_BANNED_CMP_LIST[i].cmp_seq
+                    data.cmp_name = GET_BANNED_CMP_LIST[i].cmp_name
+                }
+            }
+        });
+        for (var i = 0; i < GET_BANNED_USER_LIST.length; i++) {
+            var USER_PROFILE_URI = await userModel.GET_USER_PROFILE(GET_BANNED_USER_LIST[i].user_seq);
+            GET_BANNED_USER_LIST[i].uri = USER_PROFILE_URI[0].uri;
+        }
+        console.log('rawArray', GET_BANNED_USER_LIST)
+        res.status(200).send(GET_BANNED_USER_LIST)
     } catch (err) {
         console.log(err);
     }
@@ -310,8 +328,8 @@ router.post('/removeban', async (req, res) => {
     try {
         var FromData = new Object();
         var resReturn = {
-            flags : 1,
-            messages : '차단 해제 실패하였습니다.'
+            flags: 1,
+            messages: '차단 해제 실패하였습니다.'
         }
         FromData.target_user_seq = req.body.target_user_seq;
         FromData.request_user_seq = req.session.user.user_seq;
@@ -319,8 +337,8 @@ router.post('/removeban', async (req, res) => {
         var GET_BANNED_LIST = await userModel.DELETE_BANNED_USER(FromData);
         if (GET_BANNED_LIST) {
             resReturn = {
-                flags : 0,
-                messages : '차단 해제되었습니다.'
+                flags: 0,
+                messages: '차단 해제되었습니다.'
             }
         }
         res.status(200).send(resReturn)

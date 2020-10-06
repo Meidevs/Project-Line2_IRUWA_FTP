@@ -330,6 +330,7 @@ class Authentication {
             }
         )
     }
+
     GET_USER_DEVICE(data) {
         return new Promise(
             async (resolve, reject) => {
@@ -446,7 +447,7 @@ class Authentication {
         return new Promise(
             async (resolve, reject) => {
                 try {
-                    var sql = 'SELECT * FROM tb_banned_user WHERE request_user_seq = ?';
+                    var sql = 'SELECT user_name, user_seq FROM tb_users WHERE user_seq IN (SELECT target_user_seq FROM tb_banned_user WHERE request_user_seq = ?)';
                     var BANNED_USER_LIST = await myConnection.query(sql, [data.user_seq]);
                     resolve(BANNED_USER_LIST);
                 } catch (err) {
@@ -456,8 +457,22 @@ class Authentication {
         )
     }
 
-    DELETE_BANNED_USER (data) {
-        return new Promise (
+    GET_BANNED_CMP(data) {
+        return new Promise(
+            async (resolve, reject) => {
+                try {
+                    var sql = 'SELECT cmp_name, cmp_seq, user_seq FROM tb_company WHERE user_seq IN (SELECT target_user_seq FROM tb_banned_user WHERE request_user_seq = ?)';
+                    var BANNED_USER_LIST = await myConnection.query(sql, [data.user_seq]);
+                    resolve(BANNED_USER_LIST);
+                } catch (err) {
+                    reject(err);
+                }
+            }
+        )
+    }
+
+    DELETE_BANNED_USER(data) {
+        return new Promise(
             async (resolve, reject) => {
                 try {
                     var sql = 'DELETE FROM tb_banned_user WHERE request_user_seq = ? AND target_user_seq = ?';
