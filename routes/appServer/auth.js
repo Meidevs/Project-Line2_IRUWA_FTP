@@ -1,10 +1,11 @@
 var express = require('express');
 var router = express.Router();
 const multer = require("multer");
-
+var url = require('url');
 var userModel = require('../../public/javascripts/components/userModel');
 var functions = require('../../public/javascripts/functions/functions');
-var sendEmail = require('../../public/javascripts/components/email.send');
+const sendEmail = require('../../public/javascripts/components/email.send');
+const { Buffer } = require('buffer');
 
 const upload = multer({
     storage: multer.diskStorage({
@@ -56,28 +57,37 @@ router.post('/login', async (req, res) => {
         // USER_EXISTENCE == 0 Means that user_id(cmp_id) Which you sent to Server is out of Database.
         // Contrarily, USER_EXISTENCE == 1 Means that user_id is in the Database.
         var USER_EXISTENCE = await userModel.CHECK_USER_EXISTENCE(FromData);
+
         if (USER_EXISTENCE == 1) {
-            var USER_INFO = await userModel.LOGIN_USER(FromData);
-            resReturn = USER_INFO;
-            req.session.user = USER_INFO.userSession;
-            if (USER_INFO.flags == 0) {
-                FromData.user_seq = USER_INFO.userSession.user_seq;
-                var deviceExist = await userModel.GET_USER_DEVICE(FromData);
-                if (deviceExist.length > 0) {
-                    await userModel.UPDATE_USER_DEVICE(FromData);
-                } else {
-                    await userModel.SET_USER_DEVICE(FromData);
+            var USER_EMAIL_CONFIRM = await userModel.CHECK_USER_EMAIL(FromData);
+            if (USER_EMAIL_CONFIRM) {
+                var USER_INFO = await userModel.LOGIN_USER(FromData);
+                resReturn = USER_INFO;
+                req.session.user = USER_INFO.userSession;
+                if (USER_INFO.flags == 0) {
+                    FromData.user_seq = USER_INFO.userSession.user_seq;
+                    var deviceExist = await userModel.GET_USER_DEVICE(FromData);
+                    if (deviceExist.length > 0) {
+                        await userModel.UPDATE_USER_DEVICE(FromData);
+                    } else {
+                        await userModel.SET_USER_DEVICE(FromData);
+                    }
+                    // GET_USER_ALARM_STATE Function Calls User's Alarm Setting Using USER_SEQ.
+                    var USER_ALARM_SET = await userModel.GET_USER_ALARM_STATE(USER_INFO.userSession.user_seq);
+                    USER_INFO.userSession.main_alarm = USER_ALARM_SET.main_alarm;
+                    USER_INFO.userSession.sub_alarm = USER_ALARM_SET.sub_alarm;
+                    // IF There is no Company Information, CMP_INFO Will be false.
+                    // If Not, userSession Will be Updated!
+                    var CMP_INFO = await userModel.GET_CMP_INFO_ON_USER(USER_INFO);
+                    if (CMP_INFO) {
+                        resReturn = CMP_INFO;
+                        req.session.user = CMP_INFO.userSession;
+                    }
                 }
-                // GET_USER_ALARM_STATE Function Calls User's Alarm Setting Using USER_SEQ.
-                var USER_ALARM_SET = await userModel.GET_USER_ALARM_STATE(USER_INFO.userSession.user_seq);
-                USER_INFO.userSession.main_alarm = USER_ALARM_SET.main_alarm;
-                USER_INFO.userSession.sub_alarm = USER_ALARM_SET.sub_alarm;
-                // IF There is no Company Information, CMP_INFO Will be false.
-                // If Not, userSession Will be Updated!
-                var CMP_INFO = await userModel.GET_CMP_INFO_ON_USER(USER_INFO);
-                if (CMP_INFO) {
-                    resReturn = CMP_INFO;
-                    req.session.user = CMP_INFO.userSession;
+            } else {
+                resReturn = {
+                    flags: 1,
+                    message: '이메일 인증을 진행해 주세요.'
                 }
             }
         }
@@ -97,7 +107,6 @@ router.post('/register',
             var FromData = JSON.parse(req.body.data);
             var todayString = await functions.TodayString();
             FromData.reg_date = todayString;
-            sendEmail();
             var resReturn = {
                 flags: 1,
                 message: '이미 가입된 아이디입니다.'
@@ -110,6 +119,7 @@ router.post('/register',
             if (USER_EXISTENCE == 0) {
                 var REGISTER_USER = await userModel.REGISTER_USER(FromData);
                 var GET_USER_COUNT = await userModel.GET_USER_COUNT();
+                sendEmail.email_sender(FromData.user_email);
                 await userModel.REGISTER_USER_ALARM(GET_USER_COUNT);
                 resReturn = REGISTER_USER;
                 if (FromData.status == 1) {
@@ -122,6 +132,22 @@ router.post('/register',
             console.log(err)
         }
     });
+
+router.get('/emailconfirm', async (req, res) => {
+    // ** 함수는 한 가지 기능만 구현한다!
+    // ** 데이터 베이스 호출 속도를 빠르게 한다.
+    try {
+        var FromData = new Object();
+        var url_parts = url.parse(req.url, true);
+        var query = url_parts.query;
+        var b = Buffer.from(query.string, 'base64');
+        var s = b.toString();
+        FromData.user_email = s;
+        await userModel.GET_USER_EMAIL_CONFIRMATION(FromData);
+    } catch (err) {
+        console.log(err)
+    }
+});
 
 router.get('/logout', (req, res) => {
     if (req.session.user) {

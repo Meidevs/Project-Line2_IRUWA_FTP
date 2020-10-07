@@ -36,7 +36,37 @@ class Authentication {
             }
         )
     }
+    CHECK_USER_EMAIL(data) {
+        return new Promise(
+            async (resolve, reject) => {
+                try {
+                    var sql = 'SELECT * FROM tb_users WHERE user_id = ?';
+                    var USER_EMAIL_CONFIRM = await myConnection.query(sql, [data.user_id]);
+                    if (USER_EMAIL_CONFIRM[0].email_confirmation == 'Y') {
+                        resolve(true);
+                    } else {
+                        resolve(false);
+                    }
+                } catch (err) {
+                    reject(err);
+                }
+            }
+        )
+    }
 
+    GET_USER_EMAIL_CONFIRMATION(data) {
+        return new Promise(
+            async (resolve, reject) => {
+                try {
+                    var sql = 'UPDATE tb_users SET email_confirmation = Y WHERE user_email = ?';
+                    await myConnection.query(sql, [data.user_email])
+                    resolve(true);
+                } catch (err) {
+                    reject(err);
+                }
+            }
+        )
+    }
     GET_USER_COUNT() {
         return new Promise(
             async (resolve, reject) => {
