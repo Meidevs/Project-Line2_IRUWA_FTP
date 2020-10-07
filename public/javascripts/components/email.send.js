@@ -39,7 +39,7 @@ class EmailSender {
                                     <div>아래 버튼을 클릭하시면 메일 인증이 완료됩니다.</div>
                                 <br>
                                 <div>
-                                    <a href="http://192.168.0.40:8888/api/auth/emailconfirm?string=`+ s + `" type='button'  style='display: block; width: 400px;border: none;background-color: #15BAC1; color: white; padding: 14px 28px;font-size: 16px;text-align: center;' class='block'>이메일 인증</a>
+                                    <a href="http://148.72.210.153:8888/api/auth/emailconfirm?string=`+ s + `" type='button'  style='display: block; width: 400px;border: none;background-color: #15BAC1; color: white; padding: 14px 28px;font-size: 16px;text-align: center;' class='block'>이메일 인증</a>
                                 </div>
                             </body>`, // html body
                     });
