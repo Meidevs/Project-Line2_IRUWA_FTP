@@ -144,6 +144,7 @@ router.get('/emailconfirm', async (req, res) => {
         var s = b.toString();
         FromData.user_email = s;
         await userModel.GET_USER_EMAIL_CONFIRMATION(FromData);
+        res.status(200)
     } catch (err) {
         console.log(err)
     }
