@@ -58,7 +58,7 @@ class Authentication {
         return new Promise(
             async (resolve, reject) => {
                 try {
-                    var sql = 'UPDATE tb_users SET email_confirmation = Y WHERE user_email = ?';
+                    var sql = 'UPDATE tb_users SET email_confirmation = "Y" WHERE user_email = ?';
                     await myConnection.query(sql, [data.user_email])
                     resolve(true);
                 } catch (err) {
