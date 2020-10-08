@@ -55,7 +55,45 @@ appServer.use('/api', apiRouter);
 AdminApp.use(body.json());
 appServer.use(body.json());
 
-var http = require('http').Server(appServer);
+var http = require('http').Server(appServer, (req, res) => {
+  console.log(req.method)
+  if (req.url == 'api/auth/register' && req.method.toLowerCase() == 'post') {
+
+    // Instantiate a new formidable form for processing.
+
+    var form = new formidable.IncomingForm();
+
+    // form.parse analyzes the incoming stream data, picking apart the different fields and files for you.
+
+    form.parse(req, function (err, fields, files) {
+      if (err) {
+
+        // Check for and handle any errors here.
+
+        console.error(err.message);
+        return;
+      }
+      res.writeHead(200, { 'content-type': 'text/plain' });
+      res.write('received upload:\n\n');
+
+      // This last line responds to the form submission with a list of the parsed data and files.
+
+      res.end(util.inspect({ fields: fields, files: files }));
+    });
+    return;
+  }
+
+  // If this is a regular request, and not a form submission, then send the form.
+
+  res.writeHead(200, { 'content-type': 'text/html' });
+  res.end(
+    '<form action="/upload" enctype="multipart/form-data" method="post">' +
+    '<input type="text" name="title"><br>' +
+    '<input type="file" name="upload" multiple="multiple"><br>' +
+    '<input type="submit" value="Upload">' +
+    '</form>'
+  );
+});
 let io = require('socket.io')(http);
 
 AdminApp.listen(80, () => {
