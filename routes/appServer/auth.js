@@ -117,7 +117,9 @@ router.post('/register',
             // Confirm User_ID Existence, 0 Not Exist & 1 Exist
             var USER_EXISTENCE = await userModel.CHECK_USER_EXISTENCE(FromData);
             if (USER_EXISTENCE == 0) {
-                await userModel.INSERT_RECOMENDATION_CODE(FromData);
+                if (FromData.recommendation) {
+                    await userModel.INSERT_RECOMENDATION_CODE(FromData);
+                }
                 var REGISTER_USER = await userModel.REGISTER_USER(FromData);
                 var GET_USER_COUNT = await userModel.GET_USER_COUNT();
                 sendEmail.email_sender(FromData.user_email);
