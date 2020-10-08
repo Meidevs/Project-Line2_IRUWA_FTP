@@ -27,7 +27,6 @@ class EmailSender {
                     // be passed to Nodemailer.
                     var stringToBase64 = new Buffer.from(user_email);
                     var s = stringToBase64.toString('base64');
-                    console.log('s', s)
                     await transporter.sendMail({
                         from: 'meipartnersdev@gmail.com', // sender address
                         to: user_email, // list of receivers

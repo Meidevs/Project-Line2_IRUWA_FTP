@@ -36,6 +36,20 @@ class Authentication {
             }
         )
     }
+    EMAIL_EXISTENCE(data) {
+        return new Promise (
+            async (resolve, reject) => {
+                try {
+                    var sql = 'SELECT * FROM tb_users WHERE user_email = ?';
+                    var EXISTENCE = await myConnection.query(sql, [data.user_email]);
+                    resolve(EXISTENCE)
+                } catch (err) {
+                    reject(err);
+                }
+            }
+        )
+    }
+
     CHECK_USER_EMAIL(data) {
         return new Promise(
             async (resolve, reject) => {
@@ -54,7 +68,7 @@ class Authentication {
         )
     }
 
-    GET_USER_EMAIL_CONFIRMATION(data) {
+    UPDATE_USER_EMAIL_CONFIRMATION(data) {
         return new Promise(
             async (resolve, reject) => {
                 try {
@@ -507,6 +521,19 @@ class Authentication {
                 try {
                     var sql = 'DELETE FROM tb_banned_user WHERE request_user_seq = ? AND target_user_seq = ?';
                     await myConnection.query(sql, [data.request_user_seq, data.target_user_seq]);
+                    resolve(true);
+                } catch (err) {
+                    reject(err);
+                }
+            }
+        )
+    }
+    INSERT_RECOMENDATION_CODE (data) {
+        return new Promise (
+            async (resolve, reject) => {
+                try {
+                    var sql = 'INSERT INTO tb_recommend_codes (recommend_code) VALUES (?)';
+                    await myConnection.query(sql, [data.recommendation]);
                     resolve(true);
                 } catch (err) {
                     reject(err);

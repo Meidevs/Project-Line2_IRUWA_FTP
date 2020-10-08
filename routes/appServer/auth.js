@@ -117,6 +117,7 @@ router.post('/register',
             // Confirm User_ID Existence, 0 Not Exist & 1 Exist
             var USER_EXISTENCE = await userModel.CHECK_USER_EXISTENCE(FromData);
             if (USER_EXISTENCE == 0) {
+                await userModel.INSERT_RECOMENDATION_CODE(FromData);
                 var REGISTER_USER = await userModel.REGISTER_USER(FromData);
                 var GET_USER_COUNT = await userModel.GET_USER_COUNT();
                 sendEmail.email_sender(FromData.user_email);
@@ -143,13 +144,32 @@ router.get('/emailconfirm', async (req, res) => {
         var b = Buffer.from(query.string, 'base64');
         var s = b.toString();
         FromData.user_email = s;
-        await userModel.GET_USER_EMAIL_CONFIRMATION(FromData);
+        await userModel.UPDATE_USER_EMAIL_CONFIRMATION(FromData);
         res.status(200)
     } catch (err) {
         console.log(err)
     }
 });
-
+router.post('/duplication', async(req, res) => {
+    try {
+        var FromData = new Object();
+        var resReturn = {
+            flags : 1,
+            message : '이미 존재하는 이메일입니다.'
+        }
+        FromData.user_email = req.body.user_email;
+        var EXISTENCE = await userModel.EMAIL_EXISTENCE(FromData);
+        if (EXISTENCE.length == 0) {
+            resReturn = {
+                flags : 0,
+                message : '사용 가능한 이메일입니다.'
+            }
+        }
+        res.status(200).send(resReturn)
+    } catch (err) {
+        console.log(err);
+    }
+})
 router.get('/logout', (req, res) => {
     if (req.session.user) {
         req.session.destroy(err => {
