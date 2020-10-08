@@ -532,7 +532,7 @@ class Authentication {
         return new Promise (
             async (resolve, reject) => {
                 try {
-                    var sql = 'INSERT INTO tb_recommend_codes (recommend_code) VALUES (?)';
+                    var sql = 'INSERT INTO tb_recommend_codes (recommendation) VALUES (?)';
                     await myConnection.query(sql, [data.recommendation]);
                     resolve(true);
                 } catch (err) {
