@@ -4,7 +4,9 @@ var bodyParser = require('body-parser');
 var logger = require('morgan');
 var path = require('path');
 var cookieParser = require('cookie-parser');
-
+var formidable = require('formidable'),
+  http = require('http'),
+  util = require('util');
 //Middle Ware List
 var adminRouter = require('./routes/admin');
 var apiRouter = require('./routes/api');
