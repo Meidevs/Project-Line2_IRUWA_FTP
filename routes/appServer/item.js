@@ -334,7 +334,9 @@ router.post('/list/detail', async (req, res) => {
         var CMP_INFOs = await userModel.GET_CMP_INFO(FromData);
         var CMP_PHONE_LIST = await itemModel.GET_PHONE_LIST(FromData);
         var PROFILE = await userModel.GET_USER_PROFILE(CMP_INFOs.user_seq);
-        CMP_INFOs.profile_uri = PROFILE[0].uri;
+        if (PROFILE.lenggth > 0) {
+            CMP_INFOs.profile_uri = PROFILE[0].uri;
+        }
 
         var CATEGORIES = await itemModel.SELECT_ALL_CATEGORIES();
         CATEGORIES.map((data) => {
