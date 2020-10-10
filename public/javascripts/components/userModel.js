@@ -208,7 +208,9 @@ class Authentication {
                     rawObj.cmp_name = CMP_INFO[0].cmp_name
                     rawObj.cmp_phone = CMP_INFO[0].cmp_phone
                     rawObj.cmp_location = CMP_INFO[0].cmp_location
-                    rawObj.cmp_certificates = CMP_INFO[0].cmp_certificates
+                    rawObj.cmp_certificates = CMP_INFO[0].cmp_certificates,
+                    rawObj.cmp_lon = CMP_INFO[0].cmp_lon,
+                    rawObj.cmp_lat = CMP_INFO[0].cmp_lat,
                     rawObj.reg_date = CMP_INFO[0].reg_date
                     rawObj.ads_date = CMP_INFO[0].ads_date
                     rawObj.ads_pre_date = CMP_INFO[0].ads_pre_date
