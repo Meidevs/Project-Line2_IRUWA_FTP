@@ -1,9 +1,9 @@
 var myConnection = require('../../../dbConfig');
-var functions = require('../functions/functions');
-const { moveCursor } = require('readline');
-const { reject } = require('async');
-const { resolve } = require('path');
-const { response } = require('express');
+// var functions = require('../functions/functions');
+// const { moveCursor } = require('readline');
+// const { reject } = require('async');
+// const { resolve } = require('path');
+// const { response } = require('express');
 
 class Items {
     SELECT_ALL_CATEGORIES() {
