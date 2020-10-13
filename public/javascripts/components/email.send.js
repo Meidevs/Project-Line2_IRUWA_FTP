@@ -28,7 +28,7 @@ class EmailSender {
                     var stringToBase64 = new Buffer.from(user_email);
                     var s = stringToBase64.toString('base64');
                     await transporter.sendMail({
-                        from: 'meipartnersdev@gmail.com', // sender address
+                        from: 'iruwa77@gmail.com', // sender address
                         to: user_email, // list of receivers
                         subject: "IRUWA 이메일 인증", // Subject line
                         html: `
