@@ -188,6 +188,7 @@ router.get('/info', async (req, res) => {
         res.status(200).send({
             user_seq: req.session.user.user_seq,
             user_name: req.session.user.user_name,
+            user_email : req.session.user.user_email,
             user_location: req.session.user.user_location,
             cmp_exist: req.session.user.cmp_exist,
             cmp_seq: req.session.user.cmp_seq,
