@@ -67,8 +67,11 @@ console.log(securePort)
 console.log(secureAdminPort)
 appServer.set('port', securePort);
 AdminApp.set('port', secureAdminPort);
+
 var options = {key: privateKey, cert: certificate, ca : [cert_g]};
-var adminHttps = require('https').Server(options, AdminApp);
+var adminOptions = {key: privateKey, cert: certificate, ca : [cert_g]};
+
+var adminHttps = require('https').Server(adminOptions, AdminApp);
 var https = require('https').Server(options, appServer);
 let io = require('socket.io')(https);
 
