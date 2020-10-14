@@ -55,7 +55,8 @@ appServer.use('/api', apiRouter);
 AdminApp.use(body.json());
 appServer.use(body.json());
 
-fs = require('fs');
+const fs = require('fs');
+const normalizePort = require('normalize-port');
 var privateKey = fs.readFileSync('../../../../etc/ssl/private/mostfeel.key').toString();
 var certificate = fs.readFileSync('../../../../etc/ssl/certs/gd_bundle-g2-g1.crt').toString();
 var cert_g = fs.readFileSync('../../../../etc/ssl/certs/6aecb2bad696d02c.crt').toString();
