@@ -55,14 +55,20 @@ appServer.use('/api', apiRouter);
 AdminApp.use(body.json());
 appServer.use(body.json());
 
-var http = require('http').Server(appServer);
-let io = require('socket.io')(http);
+fs = require('fs');
+var privateKey = fs.readFileSync('/etc/ssl/private/mostfeel.key').toString();
+var certificate = fs.readFileSync('/etc/ssl/certs/gd_bundle_g2-g1.crt').toString();
+var securePort = normalizePort(process.env.PORT || '8888');
+appServer.set('port', securePort);
+var options = {key: privateKey, cert: certificate};
+var https = require('https').Server(options, appServer);
+let io = require('socket.io')(https);
 
 AdminApp.listen(80, () => {
-  console.log('Admin Server Running! http://localhost:80/admin')
+  console.log('Admin Server Running! https://localhost:80/admin')
 });
-http.listen(8888, () => {
-  console.log('App Server is Running! http://localhost:8888/api');
+https.listen(securePort, () => {
+  console.log('App Server is Running! https://localhost:8888/api');
 });
 
 const { addUser, getUser, addRoomCode, removeRoomCode, roomExistence, bannedUserCheck } = require('./users');
