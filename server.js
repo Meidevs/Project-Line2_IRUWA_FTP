@@ -83,6 +83,7 @@ io.on('connect', (socket) => {
 
   socket.on('CreateRoom', async data => {
     var socketB = getUser(data.receiver_seq);
+    console.log('socketB CreateRoom', socketB)
     socket.join(data.roomCode);
     var check = await bannedUserCheck(data);
     if (check) return;
@@ -110,6 +111,7 @@ io.on('connect', (socket) => {
 
   socket.on('GetRoomList', (data) => {
     var ROOMS_OF_USER = getUser(data);
+    console.log('Get Room List : ', ROOMS_OF_USER)
     var roomList = ROOMS_OF_USER.roomList;
     if (roomList) {
       var rawReturn = getRoom(roomList);
