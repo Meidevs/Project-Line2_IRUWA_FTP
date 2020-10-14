@@ -570,6 +570,19 @@ class Authentication {
             }
         )
     }
+    UPDATE_PASSWORD_ON_USER (data) {
+        return new Promise (
+            async (resolve, reject) => {
+                try {
+                    var sql = 'UPDATE tb_users SET user_pw = ? WHERE user_id = ?';
+                    await myConnection.query(sql, [data.user_pw, data.user_id]);
+                    resolve(true);
+                } catch (err) {
+                    reject(err)
+                }
+            }
+        )
+    }
 }
 
 module.exports = new Authentication();

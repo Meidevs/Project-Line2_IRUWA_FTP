@@ -152,19 +152,19 @@ router.get('/emailconfirm', async (req, res) => {
         console.log(err)
     }
 });
-router.post('/duplication', async(req, res) => {
+router.post('/duplication', async (req, res) => {
     try {
         var FromData = new Object();
         var resReturn = {
-            flags : 1,
-            message : '이미 존재하는 이메일입니다.'
+            flags: 1,
+            message: '이미 존재하는 이메일입니다.'
         }
         FromData.user_email = req.body.user_email;
         var EXISTENCE = await userModel.EMAIL_EXISTENCE(FromData);
         if (EXISTENCE.length == 0) {
             resReturn = {
-                flags : 0,
-                message : '사용 가능한 이메일입니다.'
+                flags: 0,
+                message: '사용 가능한 이메일입니다.'
             }
         }
         res.status(200).send(resReturn)
@@ -188,7 +188,7 @@ router.get('/info', async (req, res) => {
         res.status(200).send({
             user_seq: req.session.user.user_seq,
             user_name: req.session.user.user_name,
-            user_email : req.session.user.user_email,
+            user_email: req.session.user.user_email,
             user_location: req.session.user.user_location,
             cmp_exist: req.session.user.cmp_exist,
             cmp_seq: req.session.user.cmp_seq,
@@ -401,15 +401,15 @@ router.post('/userid', async (req, res) => {
     try {
         var FromData = new Object();
         var resReturn = {
-            flags : 1,
-            message : '해당 이메일로 가입된 아이디가 없습니다.'
+            flags: 1,
+            message: '해당 이메일로 가입된 아이디가 없습니다.'
         }
         FromData.user_email = req.body.user_email;
         var USER_EMAIL = await userModel.FIND_USER_EMAIL(FromData);
         if (USER_EMAIL.length > 0) {
             resReturn = {
-                flags : 0,
-                message : USER_EMAIL[0].user_id,
+                flags: 0,
+                message: USER_EMAIL[0].user_id,
             }
         }
         res.status(200).send(resReturn)
@@ -422,8 +422,8 @@ router.post('/userpw', async (req, res) => {
     try {
         var FromData = new Object();
         var resReturn = {
-            flags : 1,
-            message : '해당 이메일로 가입된 아이디가 없습니다.'
+            flags: 1,
+            message: '해당 이메일로 가입된 아이디가 없습니다.'
         }
         FromData.user_email = req.body.user_email;
         var USER_EMAIL = await userModel.FIND_USER_EMAIL(FromData);
@@ -436,8 +436,38 @@ router.post('/userpw', async (req, res) => {
             if (RESULT) {
                 sendEmail.password_sender(FromData.user_email, rndString);
                 resReturn = {
-                    flags : 0,
-                    message : '입력하신 이메일로 임시 비밀번호를 발급했습니다.'
+                    flags: 0,
+                    message: '입력하신 이메일로 임시 비밀번호를 발급했습니다.'
+                }
+            }
+        }
+        res.status(200).send(resReturn);
+    } catch (err) {
+        console.log(err);
+    }
+});
+
+router.post('/newpassword', async (req, res) => {
+    try {
+        var FromData = new Object();
+        var resReturn = {
+            flags: 1,
+            message: '기존 비밀번호가 맞지 않습니다.'
+        }
+        FromData.prevPassword = req.body.prevPassword;
+        FromData.newPassword = req.body.newPassword;
+        FromData.user_id = req.session.user.user_id;
+        var hashingPassword = await functions.PasswordEncryption(FromData.user_id, FromData.prevPassword);
+        FromData.user_pw = hashingPassword;
+        var USER_MATCH = await userModel.LOGIN_USER(FromData);
+        if (USER_MATCH.length > 0) {
+            var newhashingPassword = await functions.PasswordEncryption(FromData.user_id, FromData.newPassword);
+            FromData.user_pw = newhashingPassword;
+            var RESULT = await userModel.UPDATE_PASSWORD_ON_USER(FromData);
+            if (RESULT) {
+                resReturn = {
+                    flags: 0,
+                    message: '비밀번호가 변경되었습니다.'
                 }
             }
         }
