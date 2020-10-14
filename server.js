@@ -60,6 +60,7 @@ const normalizePort = require('normalize-port');
 var privateKey = fs.readFileSync('../../../../etc/ssl/private/mf.key');
 var certificate = fs.readFileSync('../../../../etc/ssl/certs/mf.crt');
 var cert_g = fs.readFileSync('../../../../etc/ssl/certs/gd_bundle-g2-g1.crt');
+
 var securePort = normalizePort(process.env.PORT || '443');
 var secureAdminPort = normalizePort(process.env.PORT || '8888');
 console.log(securePort)
@@ -73,10 +74,10 @@ var adminHttps = require('https').Server(options, AdminApp);
 let io = require('socket.io')(https);
 
 adminHttps.listen(secureAdminPort, () => {
-  console.log('Admin Server Running! https://localhost:80/admin')
+  console.log('Admin Server Running! https://localhost:8888/admin')
 });
 https.listen(securePort, () => {
-  console.log('App Server is Running! https://localhost:8888/api');
+  console.log('App Server is Running! https://localhost:443/api');
 });
 
 const { addUser, getUser, addRoomCode, removeRoomCode, roomExistence, bannedUserCheck } = require('./users');
