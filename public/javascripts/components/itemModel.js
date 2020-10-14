@@ -321,7 +321,7 @@ class Items {
         return new Promise(
             async (resolve, reject) => {
                 try {
-                    var hostname = 'http://148.72.210.153:8888/';
+                    var hostname = 'https://148.72.210.153:443/';
                     for (var i = 0; i < images.length; i++) {
                         var uri = hostname + 'images/' + images[i].filename;
                         var sql = 'INSERT INTO tb_images (items_seq, uri) VALUES (?, ?)';

@@ -365,7 +365,7 @@ class Authentication {
         return new Promise(
             async (resolve, reject) => {
                 try {
-                    var hostname = 'http://148.72.210.153:8888/';
+                    var hostname = 'https://148.72.210.153:443/';
                     var uri = hostname + 'profiles/' + profile.filename;
                     var sql = 'INSERT INTO tb_user_profile (user_seq, uri) VALUES (?, ?)';
                     await myConnection.query(sql, [data, uri]);
