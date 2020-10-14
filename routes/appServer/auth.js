@@ -457,7 +457,9 @@ router.post('/newpassword', async (req, res) => {
         FromData.prevPassword = req.body.prevPassword;
         FromData.newPassword = req.body.newPassword;
         FromData.user_id = req.session.user.user_id;
+        console.log('FromData', FromData)
         var hashingPassword = await functions.PasswordEncryption(FromData.user_id, FromData.prevPassword);
+        console.log('hashingPassword', hashingPassword);
         FromData.user_pw = hashingPassword;
         var USER_MATCH = await userModel.LOGIN_USER(FromData);
         if (USER_MATCH.length > 0) {
