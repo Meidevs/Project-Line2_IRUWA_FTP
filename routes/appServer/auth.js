@@ -429,12 +429,9 @@ router.post('/userpw', async (req, res) => {
         var USER_EMAIL = await userModel.FIND_USER_EMAIL(FromData);
         if (USER_EMAIL.length > 0) {
             FromData.user_id = USER_EMAIL[0].user_id;
-            console.log('1', FromData)
             var rndString = Math.random().toString(36).substring(2, 11);
-            console.log('rndString', rndString)
             var hashingPassword = await functions.PasswordEncryption(FromData.user_id, rndString);
             FromData.user_pw = hashingPassword;
-            console.log('2', FromData)
             var RESULT = await userModel.UPDATE_PASSWORD(FromData);
             if (RESULT) {
                 sendEmail.password_sender(FromData.user_email, rndString);
