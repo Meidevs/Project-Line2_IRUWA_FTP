@@ -185,7 +185,7 @@ router.post('/premiums', async (req, res) => {
             for (var x = 0; x < IMAGE_URI_ARRAY.length; x++) {
                 if (data.items_seq == IMAGE_URI_ARRAY[x].items_seq) {
                     data.uri.push(IMAGE_URI_ARRAY[x].uri)
-                    data.pre_uri.push(IMAGE_URI_ARRAY[x].pre_uri)
+                    data.pre_uri = IMAGE_URI_ARRAY[x].pre_uri)
                 }
             }
         });
