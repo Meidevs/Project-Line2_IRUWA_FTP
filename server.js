@@ -61,13 +61,18 @@ var privateKey = fs.readFileSync('../../../../etc/ssl/private/mf.key');
 var certificate = fs.readFileSync('../../../../etc/ssl/certs/mf.crt');
 var cert_g = fs.readFileSync('../../../../etc/ssl/certs/gd_bundle-g2-g1.crt');
 var securePort = normalizePort(process.env.PORT || '443');
+var secureAdminPort = normalizePort(process.env.PORT || '8888');
 console.log(securePort)
+console.log(secureAdminPort)
 appServer.set('port', securePort);
+AdminApp.set('port', secureAdminPort);
 var options = {key: privateKey, cert: certificate, ca : [cert_g]};
 var https = require('https').Server(options, appServer);
+
+var adminHttps = require('https').Server(options, AdminApp);
 let io = require('socket.io')(https);
 
-AdminApp.listen(80, () => {
+adminHttps.listen(secureAdminPort, () => {
   console.log('Admin Server Running! https://localhost:80/admin')
 });
 https.listen(securePort, () => {
