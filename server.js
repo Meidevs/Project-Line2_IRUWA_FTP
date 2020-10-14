@@ -60,7 +60,6 @@ const normalizePort = require('normalize-port');
 var privateKey = fs.readFileSync('../../../../etc/ssl/private/mf.key');
 var certificate = fs.readFileSync('../../../../etc/ssl/certs/mf.crt');
 var cert_g = fs.readFileSync('../../../../etc/ssl/certs/gd_bundle-g2-g1.crt');
-// var cert_g1 = fs.readFileSync('../../../../etc/ssl/certs/bef9a16218069c39.crt').toString();
 var securePort = normalizePort(process.env.PORT || '443');
 console.log(securePort)
 appServer.set('port', securePort);
