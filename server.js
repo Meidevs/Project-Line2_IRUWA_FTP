@@ -56,8 +56,8 @@ AdminApp.use(body.json());
 appServer.use(body.json());
 
 fs = require('fs');
-var privateKey = fs.readFileSync('/etc/ssl/private/mostfeel.key').toString();
-var certificate = fs.readFileSync('/etc/ssl/certs/gd_bundle_g2-g1.crt').toString();
+var privateKey = fs.readFileSync('../../../etc/ssl/private/mostfeel.key').toString();
+var certificate = fs.readFileSync('../../../etc/ssl/certs/gd_bundle_g2-g1.crt').toString();
 var securePort = normalizePort(process.env.PORT || '8888');
 appServer.set('port', securePort);
 var options = {key: privateKey, cert: certificate};
