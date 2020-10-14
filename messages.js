@@ -5,6 +5,7 @@ const userModel = require('./public/javascripts/components/userModel');
 // optionally providing an access token if you have enabled push security
 let expo = new Expo();
 const sendPushNotification = async (data) => {
+  console.log('hi')
   console.log('sendPushNotification', data)
   var FromData = new Object();
   FromData.user_seq = data.receiver_seq;
