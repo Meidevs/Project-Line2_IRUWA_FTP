@@ -61,7 +61,8 @@ var privateKey = fs.readFileSync('../../../../etc/ssl/private/mostfeel.key').toS
 var certificate = fs.readFileSync('../../../../etc/ssl/certs/mostfeel.crt').toString();
 var cert_g = fs.readFileSync('../../../../etc/ssl/certs/gd_bundle-g2-g1.crt').toString();
 var cert_g1 = fs.readFileSync('../../../../etc/ssl/certs/bef9a16218069c39.crt').toString();
-var securePort = normalizePort(process.env.PORT || '8888');
+var securePort = normalizePort(process.env.PORT || '443');
+console.log(securePort)
 appServer.set('port', securePort);
 var options = {key: privateKey, cert: certificate, ca : [cert_g, cert_g1]};
 var https = require('https').Server(options, appServer);
