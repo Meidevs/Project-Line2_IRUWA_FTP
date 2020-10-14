@@ -57,8 +57,8 @@ appServer.use(body.json());
 
 const fs = require('fs');
 const normalizePort = require('normalize-port');
-var privateKey = fs.readFileSync('../../../../etc/ssl/private/mostfeel.key');
-var certificate = fs.readFileSync('../../../../etc/ssl/certs/mostfeel.crt');
+var privateKey = fs.readFileSync('../../../../etc/ssl/private/mf.key');
+var certificate = fs.readFileSync('../../../../etc/ssl/certs/mf.crt');
 var cert_g = fs.readFileSync('../../../../etc/ssl/certs/gd_bundle-g2-g1.crt');
 // var cert_g1 = fs.readFileSync('../../../../etc/ssl/certs/bef9a16218069c39.crt').toString();
 var securePort = normalizePort(process.env.PORT || '443');
