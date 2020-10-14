@@ -4,8 +4,8 @@ var router = express.Router();
 // Interface Router, Interface Router Tells Sub Router's Endpoint Definitions.
 // Each of Sub Router has Own Processing Area.
 // For Example, AuthRouter Manage Authentication Of Platform.
-var adminRouter = require('./admin/admin');
+var authRouter = require('./adminServer/auth');
 
-router.use('/admin', adminRouter);
+router.use('/auth', authRouter);
 
 module.exports = router;
