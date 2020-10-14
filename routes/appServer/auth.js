@@ -147,7 +147,7 @@ router.get('/emailconfirm', async (req, res) => {
         var s = b.toString();
         FromData.user_email = s;
         await userModel.UPDATE_USER_EMAIL_CONFIRMATION(FromData);
-        res.status(200).render('email.confirm')
+        res.status(200).render('emailconfirm')
     } catch (err) {
         console.log(err)
     }
