@@ -12,7 +12,7 @@ router.post('/confirm', async (req, res) => {
                 status : 0
             }
         }
-        res.status(200).send(response)
+        res.status(200).send('email.confirm')
     } catch (err) {
         console.log(err)
     }
@@ -21,4 +21,5 @@ router.post('/confirm', async (req, res) => {
 router.get('/dashboard', (req, res) => {
     res.render('dashboard')
 });
+
 module.exports = router;
