@@ -1,25 +1,11 @@
 var express = require('express');
 var router = express.Router();
 
-router.get('/', (req, res) => {
-    res.render('auth');
-});
-router.post('/confirm', async (req, res) => {
-    try {
-        console.log(req.body)
-        var response = {
-            user : {
-                status : 0
-            }
-        }
-        res.status(200).send('email.confirm')
-    } catch (err) {
-        console.log(err)
-    }
-});
+// Interface Router, Interface Router Tells Sub Router's Endpoint Definitions.
+// Each of Sub Router has Own Processing Area.
+// For Example, AuthRouter Manage Authentication Of Platform.
+var adminRouter = require('./admin/admin');
 
-router.get('/dashboard', (req, res) => {
-    res.render('dashboard')
-});
+router.use('/admin', adminRouter);
 
 module.exports = router;
