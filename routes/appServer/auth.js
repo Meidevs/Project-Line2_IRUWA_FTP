@@ -397,4 +397,54 @@ router.post('/removeban', async (req, res) => {
     }
 });
 
+router.post('/userid', async (req, res) => {
+    try {
+        var FromData = new Object();
+        var resReturn = {
+            flags : 1,
+            message : '해당 이메일로 가입된 아이디가 없습니다.'
+        }
+        FromData.user_email = req.body.user_email;
+        var USER_EMAIL = await userModel.FIND_USER_EMAIL(FromData);
+        if (USER_EMAIL.length > 0) {
+            resReturn = {
+                flags : 0,
+                message : USER_EMAIL[0].user_id,
+            }
+        }
+        res.status(200).send(resReturn)
+    } catch (err) {
+        console.log(err);
+    }
+});
+
+router.post('/userpw', async (req, res) => {
+    try {
+        var FromData = new Object();
+        var resReturn = {
+            flags : 1,
+            message : '해당 이메일로 가입된 아이디가 없습니다.'
+        }
+        FromData.user_email = req.body.user_email;
+        var USER_EMAIL = await userModel.FIND_USER_EMAIL(FromData);
+        if (USER_EMAIL.length > 0) {
+            FromData.user_id = USER_EMAIL[0].user_id;
+            var rndString = Math.random().toString(36).substring(2, 11);
+            var hashingPassword = await functions.PasswordEncryption(FromData.user_id, FromData.user_pw);
+            FromData.user_pw = hashingPassword;
+            var RESULT = await userModel.UPDATE_PASSWORD(FromData);
+            if (RESULT) {
+                sendEmail.password_sender(FromData.user_email, rndString);
+                resReturn = {
+                    flags : 0,
+                    message : '입력하신 이메일로 임시 비밀번호를 발급했습니다.'
+                }
+            }
+        }
+        res.status(200).send(resReturn);
+    } catch (err) {
+        console.log(err);
+    }
+});
+
 module.exports = router;

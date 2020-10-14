@@ -48,6 +48,47 @@ class EmailSender {
                 }
             }
         )
+    }
+
+    password_sender(user_email, password) {
+        return new Promise(
+            async (resolve, reject) => {
+                try {
+                    var transporter = nodemailer.createTransport(
+                        smtpTransport({
+                            service: 'gmail',
+                            host: 'smtp.gmail.com',
+                            port: 587,
+                            secure: false,
+                            auth: {
+                                user: 'meipartnersdev@gmail.com',
+                                pass: 'Mei2020##'
+                            }
+                        })
+                    );
+                    // The from and to addresses for the email that is about to be sent.
+                    // Combining the content and contacts into a single object that can
+                    // be passed to Nodemailer.
+                    var stringToBase64 = new Buffer.from(user_email);
+                    var s = stringToBase64.toString('base64');
+                    await transporter.sendMail({
+                        from: 'iruwa77@gmail.com', // sender address
+                        to: user_email, // list of receivers
+                        subject: "IRUWA 임시 비밀번호", // Subject line
+                        html: `
+                            <body>
+                                <h3>고객님 임시 비밀번호를 발급해드립니다.</h3>
+                                <br>
+                                    <div>` + password + `</div>
+                                <br>
+                            </body>`, // html body
+                    });
+                    resolve(true);
+                } catch (err) {
+                    reject(err);
+                }
+            }
+        )
 
     }
 }

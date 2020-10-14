@@ -543,6 +543,33 @@ class Authentication {
             }
         )
     }
+
+    FIND_USER_EMAIL (data) {
+        return new Promise (
+            async (resolve, reject) => {
+                try {
+                    var sql = 'SELECT user_id, user_pw FROM tb_users WHERE user_email = ?';
+                    var USER_ID = await myConnection.query(sql, [data.user_email]);
+                    resolve(USER_ID);
+                } catch (err) {
+                    reject(err);
+                }
+            }
+        )
+    }
+    UPDATE_PASSWORD (data) {
+        return new Promise (
+            async (resolve, reject) => {
+                try {
+                    var sql = 'UPDATE tb_users SET user_pw = ? WHERE user_email = ?';
+                    await myConnection.query(sql, [data.user_pw, data.user_email]);
+                    resolve(true);
+                } catch (err) {
+                    reject(err)
+                }
+            }
+        )
+    }
 }
 
 module.exports = new Authentication();
