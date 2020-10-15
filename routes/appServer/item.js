@@ -567,7 +567,7 @@ router.post('/mylist', async (req, res) => {
         for (var i = 0; i < ITEMS_OF_OWNER.length; i++) {
             IMAGE_URIs.push(ITEMS_OF_OWNER[i].items_seq);
         }
-
+        ITEMS_OF_COUPON = await itemModel.GET_COUPON_INFO(FromData);
         var IMAGE_URI_ARRAY = new Array();
 
         if (IMAGE_URIs.length != 0) {

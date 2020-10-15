@@ -17,8 +17,8 @@ class EmailSender {
                             port: 587,
                             secure: false,
                             auth: {
-                                user: 'meipartnersdev@gmail.com',
-                                pass: 'Mei2020##'
+                                user: 'iruwa77@gmail.com',
+                                pass: 'iruwa1024!'
                             }
                         })
                     );
@@ -61,8 +61,8 @@ class EmailSender {
                             port: 587,
                             secure: false,
                             auth: {
-                                user: 'meipartnersdev@gmail.com',
-                                pass: 'Mei2020##'
+                                user: 'iruwa77@gmail.com',
+                                pass: 'iruwa1024!'
                             }
                         })
                     );
