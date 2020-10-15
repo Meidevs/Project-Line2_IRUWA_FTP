@@ -135,6 +135,21 @@ class Items {
             async (resolve, reject) => {
                 try {
                     var sql = 'SELECT * , (SELECT COUNT(*) FROM tb_user_pick WHERE items_seq = items.items_seq) AS cnt FROM tb_items items WHERE cmp_seq = ? AND cancelled = 0';
+                    // "SELECT * , (SELECT COUNT(*) FROM tb_user_pick WHERE items_seq = items.items_seq) AS cnt, (SELECT coupon_content FROM tb_items_coupon WHERE items_seq = items.items_seq) AS coupon_content, (SELECT coupon_due_date FROM tb_items_coupon WHERE items_seq = items.items_seq) AS coupon_due_date FROM tb_items items WHERE cmp_seq = ? AND cancelled = 0;"
+                    var ITEMS_OF_OWNER = await myConnection.query(sql, [data.cmp_seq]);
+                    resolve(ITEMS_OF_OWNER);
+                } catch (err) {
+                    reject(err);
+                }
+            }
+        )
+    }
+
+    GET_ITEMS_LIST_ON_OWNER_WITH_COUPON (data) {
+        return new Promise(
+            async (resolve, reject) => {
+                try {
+                    var sql = 'SELECT * , (SELECT COUNT(*) FROM tb_user_pick WHERE items_seq = items.items_seq) AS cnt, (SELECT coupon_content FROM tb_items_coupon WHERE items_seq = items.items_seq) AS coupon_content, (SELECT coupon_due_date FROM tb_items_coupon WHERE items_seq = items.items_seq) AS coupon_due_date FROM tb_items items WHERE cmp_seq = ? AND cancelled = 0;';
                     var ITEMS_OF_OWNER = await myConnection.query(sql, [data.cmp_seq]);
                     resolve(ITEMS_OF_OWNER);
                 } catch (err) {

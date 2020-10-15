@@ -563,11 +563,11 @@ router.post('/mylist', async (req, res) => {
 
         FromData.cmp_seq = req.body.cmp_seq;
 
-        var ITEMS_OF_OWNER = await itemModel.GET_ITEMS_LIST_ON_OWNER(FromData);
+        var ITEMS_OF_OWNER = await itemModel.GET_ITEMS_LIST_ON_OWNER_WITH_COUPON(FromData);
         for (var i = 0; i < ITEMS_OF_OWNER.length; i++) {
             IMAGE_URIs.push(ITEMS_OF_OWNER[i].items_seq);
         }
-        ITEMS_OF_COUPON = await itemModel.GET_COUPON_INFO(FromData);
+        
         var IMAGE_URI_ARRAY = new Array();
 
         if (IMAGE_URIs.length != 0) {
