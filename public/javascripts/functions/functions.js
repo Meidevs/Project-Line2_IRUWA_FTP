@@ -68,6 +68,23 @@ class Functions {
         )
     }
 
+    AddDate(data) {
+        return new Promise(
+            async (resolve, reject) => {
+                try {
+                    var currentDate = new Date();
+                    var year = currentDate.getFullYear();
+                    var month = currentDate.getMonth();
+                    var day = currentDate.getDate();
+                    var dueDate = new Date(year, month, day + data.coupon_due_date).toISOString().substr(0, 10);
+                    resolve(dueDate);
+                } catch (err) {
+                    reject(err);
+                }
+            }
+        )
+    }
+
     SearchString(filter, data) {
         return new Promise(
             async (resolve, reject) => {
@@ -126,7 +143,7 @@ class Functions {
             if (!existence) {
                 rndNumArray.push(rndNum);
             }
-        } while (rndNumArray.length < 5) ;
+        } while (rndNumArray.length < 5);
         return rndNumArray;
     }
 }

@@ -693,4 +693,35 @@ router.get('/phonelist', async (req, res) => {
     }
 });
 
+router.post('/coupon', async (req, res) => {
+    try {
+        var FromData = new Object();
+        var resReturn = {
+            flags : 1,
+            message : '쿠폰 등록에 실패하였습니다.'
+        }
+        var result = false;
+        FromData.items_seq = req.body.items_seq;
+        FromData.coupon_content = req.body.coupon_content;
+        FromData.coupon_due_date = req.body.coupon_due_date;
+        var dueDate = await functions.AddDate(FromData);
+        FromData.coupon_due_date = dueDate;
+        var couponExistence = await itemModel.GET_COUPON_INFO(FromData);
+        if (couponExistence.lnegth > 0) {
+            result = await itemModel.UPDATE_COUPON(FromData);
+        } else {
+            result = await itemModel.SET_COUPON(FromData);
+        }
+        if (result) {
+            resReturn = {
+                flags : 0,
+                message : '쿠폰이 등록되었습니다.'
+            }
+        }
+        res.status(200).send(resReturn);
+    } catch (err) {
+        console.log(err);
+    }
+});
+
 module.exports = router;

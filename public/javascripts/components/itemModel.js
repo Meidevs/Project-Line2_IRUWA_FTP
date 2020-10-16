@@ -135,7 +135,6 @@ class Items {
             async (resolve, reject) => {
                 try {
                     var sql = 'SELECT * , (SELECT COUNT(*) FROM tb_user_pick WHERE items_seq = items.items_seq) AS cnt FROM tb_items items WHERE cmp_seq = ? AND cancelled = 0';
-                    // "SELECT * , (SELECT COUNT(*) FROM tb_user_pick WHERE items_seq = items.items_seq) AS cnt, (SELECT coupon_content FROM tb_items_coupon WHERE items_seq = items.items_seq) AS coupon_content, (SELECT coupon_due_date FROM tb_items_coupon WHERE items_seq = items.items_seq) AS coupon_due_date FROM tb_items items WHERE cmp_seq = ? AND cancelled = 0;"
                     var ITEMS_OF_OWNER = await myConnection.query(sql, [data.cmp_seq]);
                     resolve(ITEMS_OF_OWNER);
                 } catch (err) {
@@ -496,6 +495,34 @@ class Items {
                     var sql = 'SELECT * FROM tb_phone_list WHERE cmp_seq = ?';
                     var PHONE_LIST = await myConnection.query(sql, [data.cmp_seq]);
                     resolve(PHONE_LIST);
+                } catch (err) {
+                    reject(err);
+                }
+            }
+        )
+    }
+
+    UPDATE_COUPON (data) {
+        return new Promise (
+            async (resolve, reject) => {
+                try {
+                    var sql = 'UPDATE tb_items_coupon SET coupon_content = ?, coupon_due_date = ? WHERE items_seq = ?';
+                    await myConnection.query(sql, [data.coupon_content, data.coupon_due_date, data.items_seq]);
+                    resolve(true);
+                } catch (err) {
+                    reject(err);
+                }
+            }
+        )
+    }
+
+    SET_COUPON (data) {
+        return new Promise (
+            async (resolve, reject) => {
+                try {
+                    var sql = 'INSERT INTO tb_items_coupon (items_seq, coupon_content, coupon_due_date) VALUES (?, ?, ?)';
+                    await myConnection.query(sql, [data.items_seq, data.coupon_content, data.coupon_due_date]);
+                    resolve(true);
                 } catch (err) {
                     reject(err);
                 }
