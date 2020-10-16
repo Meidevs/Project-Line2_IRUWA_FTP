@@ -733,7 +733,7 @@ router.post('/regdate', async (req, res) => {
             message: '끌어올리기에 실패하였습니다.'
         }
         FromData.items_seq = req.body.items_seq;
-        FromData.reg_date = await functions.TodayString();
+        FromData.reg_date = await functions.TodayTimeString();
         var result = await itemModel.RESET_REG_DATE(FromData)
         if (result) {
             resReturn = {
