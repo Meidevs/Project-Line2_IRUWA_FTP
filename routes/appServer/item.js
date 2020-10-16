@@ -743,7 +743,7 @@ router.post('/regdate', async (req, res) => {
         }
         res.status(200).send(resReturn);
     } catch (err) {
-
+        console.log(err);
     }
 });
 
