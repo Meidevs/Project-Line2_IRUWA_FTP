@@ -529,6 +529,19 @@ class Items {
             }
         )
     }
+    RESET_REG_DATE (data) {
+        return new Promise (
+            async (resolve, reject) => {
+                try {
+                    var sql = 'UPDATE tb_items SET reg_date = ? WHERE items_seq = ?';
+                    await myConnection.query(sql, [data.reg_date, data.items_seq]);
+                    resolve(true);
+                } catch (err) {
+                    reject(err);
+                }
+            }
+        )
+    }
 }
 
 module.exports = new Items();

@@ -467,7 +467,7 @@ router.get('/search/premiums', async (req, res) => {
                 }
             })
         });
-        
+
         for (var j = 0; j < GET_PREMIUM_LIST.length; j++) {
             IMAGE_URIs.push(GET_PREMIUM_LIST[j].items_seq);
         }
@@ -567,7 +567,7 @@ router.post('/mylist', async (req, res) => {
         for (var i = 0; i < ITEMS_OF_OWNER.length; i++) {
             IMAGE_URIs.push(ITEMS_OF_OWNER[i].items_seq);
         }
-        
+
         var IMAGE_URI_ARRAY = new Array();
 
         if (IMAGE_URIs.length != 0) {
@@ -697,8 +697,8 @@ router.post('/coupon', async (req, res) => {
     try {
         var FromData = new Object();
         var resReturn = {
-            flags : 1,
-            message : '쿠폰 등록에 실패하였습니다.'
+            flags: 1,
+            message: '쿠폰 등록에 실패하였습니다.'
         }
         var result = false;
         FromData.items_seq = req.body.items_seq;
@@ -714,8 +714,8 @@ router.post('/coupon', async (req, res) => {
         }
         if (result) {
             resReturn = {
-                flags : 0,
-                message : '쿠폰이 등록되었습니다.'
+                flags: 0,
+                message: '쿠폰이 등록되었습니다.'
             }
         }
         res.status(200).send(resReturn);
@@ -723,5 +723,29 @@ router.post('/coupon', async (req, res) => {
         console.log(err);
     }
 });
+
+
+router.post('/regdate', async (req, res) => {
+    try {
+        var FromData = new Object();
+        var resReturn = {
+            flags: 1,
+            message: '끌어올리기에 실패하였습니다.'
+        }
+        FromData.items_seq = req.body.items_seq;
+        FromData.reg_date = await functions.TodayString();
+        var result = await itemModel.RESET_REG_DATE(FromData)
+        if (result) {
+            resReturn = {
+                flags : 0,
+                message : '게시물을 끌어올렸습니다.'
+            }
+        }
+        res.status(200).send(resReturn);
+    } catch (err) {
+
+    }
+});
+
 
 module.exports = router;
