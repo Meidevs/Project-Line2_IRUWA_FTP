@@ -529,6 +529,19 @@ class Items {
             }
         )
     }
+    DELETE_COUPON (data) {
+        return new Promise (
+            async (resolve, reject) => {
+                try {
+                    var sql = 'DELETE FROM tb_items_coupon WHERE items_seq = ?';
+                    await myConnection.query(sql, [data.items_seq]);
+                    resolve(true);
+                } catch (err) {
+                    reject(err);
+                }
+            }
+        )
+    }
     RESET_REG_DATE (data) {
         return new Promise (
             async (resolve, reject) => {

@@ -724,6 +724,26 @@ router.post('/coupon', async (req, res) => {
     }
 });
 
+router.post('/removecoupon', async (req, res) => {
+    try {
+        var FromData = new Object();
+        var resReturn = {
+            flags: 1,
+            message: '쿠폰 삭제에 실패하였습니다.'
+        }
+        FromData.items_seq = req.body.items_seq;
+        var deleteCoupon = await itemModel.DELETE_COUPON(FromData);
+        if (deleteCoupon) {
+            resReturn = {
+                flags: 0,
+                message: '쿠폰을 삭제하였습니다.'
+            }
+        }
+        res.status(200).send(resReturn);
+    } catch (err) {
+        console.log(err);
+    }
+});
 
 router.post('/regdate', async (req, res) => {
     try {
