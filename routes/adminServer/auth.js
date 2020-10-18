@@ -6,4 +6,8 @@ router.get('/', (req, res) => {
 });
 
 
+router.get('/main', (req, res) => {
+    res.status(200).render('index');
+});
+
 module.exports = router;
