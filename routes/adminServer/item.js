@@ -8,7 +8,7 @@ router.get('/main', (req, res) => {
 
 router.get('/listing', (req, res) => {
     res.status(200).render('iruwa_admin_listing');
-
+});
 
 
 module.exports = router;
