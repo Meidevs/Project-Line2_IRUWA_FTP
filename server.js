@@ -36,6 +36,7 @@ AdminApp.use(express.urlencoded({ extended: false }));
 AdminApp.use(cookieParser());
 AdminApp.use('/admin/auth', express.static(path.join(__dirname, 'public')));
 
+
 appServer.use(bodyParser.json());
 appServer.set('views', path.join(__dirname, 'views'));
 appServer.set('view engine', 'ejs');
