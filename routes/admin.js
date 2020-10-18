@@ -5,7 +5,9 @@ var router = express.Router();
 // Each of Sub Router has Own Processing Area.
 // For Example, AuthRouter Manage Authentication Of Platform.
 var authRouter = require('./adminServer/auth');
+var itemRouter = require('./adminServer/item');
 
 router.use('/auth', authRouter);
+router.use('/item', itemRouter);
 
 module.exports = router;

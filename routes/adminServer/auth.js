@@ -5,7 +5,6 @@ router.get('/', (req, res) => {
     res.status(200).render('auth');
 });
 
-
 router.get('/main', (req, res) => {
     res.status(200).render('index');
 });
