@@ -49,6 +49,7 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
 	vertical-align: baseline;
 }
 body {
+
 	font-size: 14px;
 	color: #555555; 
 	font-family: 'Open Sans', sans-serif;
@@ -111,7 +112,7 @@ a, button, input {
 }
 
 button, input[type=text]:focus, input[type=email]:focus, input[type=password]:focus, input[type=number]:focus, input[type=search]:focus, input[type=checkbox]:focus, textarea:focus {
-	border-color: #21c87a;
+	border-color: #15bac1;
 	outline: none;
 	outline-offset: 0;
 }
