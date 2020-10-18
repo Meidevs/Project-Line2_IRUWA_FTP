@@ -76,10 +76,8 @@ var https = require('https').Server(options, appServer);
 let io = require('socket.io')(https);
 
 adminHttps.listen(secureAdminPort, () => {
-  console.log('Admin Server Running! https://localhost:8888/admin')
 });
 https.listen(securePort, () => {
-  console.log('App Server is Running! https://localhost:443/api');
 });
 
 const { addUser, getUser, addRoomCode, removeRoomCode, roomExistence, bannedUserCheck } = require('./users');

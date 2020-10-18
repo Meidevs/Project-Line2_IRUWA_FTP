@@ -21,8 +21,4 @@ router.use('/search', searchRouter);
 router.use('/chat', chatRouter);
 router.use('/noti', notiRouter);
 
-router.get('/', (req, res) => {
-    res.status(200).send('hi')
-});
-
 module.exports = router;
