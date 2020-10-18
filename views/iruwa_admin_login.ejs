@@ -58,7 +58,7 @@
                 <p>이루와 앱 서비스의 사용을 원하시는 고객님은 Google Play Store & App Store에서 이루와 앱을 설치해주세요.
                 </p>
               </div>
-              <form class="login-form" action="#">
+              <form class="login-form" action="https://mostfeel.site:8888/admin/item/main" method="POST">
                 <div class="row">
                   <div class="col-md-12 email">
                     <label>아이디</label>
@@ -78,7 +78,7 @@
                     </div>
                   </div>
                   <div class="col-md-12">
-                    <button type="submit" id="lgnBtn"name="button" onclick="loginAdmin()">로그인</button>
+                    <button type="submit" id="lgnBtn" name="button">로그인</button>
                   </div>
                 </div>
               </form>
@@ -135,23 +135,7 @@
       </div>
     </div>
   </footer>
-  <script>
-    $('#lgnBtn').click(async() => {
 
-      var user_id = document.getElementById('user_id');
-      var user_pw = document.getElementById('user_pw');
-      console.log(user_id)
-      // fetch('https://mostfeel.site/admin/auth', {
-      //   method : 'POST',
-      //   headers : {
-      //     "Content-Type" : "application/json"
-      //   },
-      //   body : JSON.stringify({user_id : user_id, user_pw : user_pw})
-      // })
-
-      window.location='https://mostfeel.site:8888/admin/item/main'
-    })
-  </script>
   <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
   <script src="javascripts/js/jquery.min.js" type="text/javascript"></script>
