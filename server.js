@@ -63,8 +63,6 @@ var cert_g = fs.readFileSync('../../../../etc/ssl/certs/gd_bundle-g2-g1.crt');
 
 var securePort = normalizePort(process.env.PORT || '443');
 var secureAdminPort = normalizePort(process.env.PORT || '8888');
-console.log(securePort)
-console.log(secureAdminPort)
 appServer.set('port', securePort);
 AdminApp.set('port', secureAdminPort);
 
