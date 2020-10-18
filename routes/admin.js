@@ -6,6 +6,6 @@ var router = express.Router();
 // For Example, AuthRouter Manage Authentication Of Platform.
 var authRouter = require('./adminServer/auth');
 
-router.use('/auth', authRouter);
+router.use('/admin', authRouter);
 
 module.exports = router;
