@@ -4,7 +4,7 @@ var router = express.Router();
 
 router.post('/main', async (req, res) => {
     try {
-        console.log(req)
+        console.log(req.body)
 
         res.status(200).render('iruwa_admin_main');
     } catch (err) {

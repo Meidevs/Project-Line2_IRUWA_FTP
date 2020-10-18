@@ -321,6 +321,7 @@ Header 1 Area CSS
 	text-align: center;
 }
 .tab-content > .tab-pane {
+	background-color: #ffffff;
 	display: none;
 }
 .tab-content > .active {
@@ -1022,10 +1023,9 @@ a.navbar-brand img {
 	background-size: cover;
 	background-repeat: no-repeat;
 	background-position: top center;
-	padding: 210px 0;
+	padding: 30px 0;
 }
 .gradient-overlay-half-primary-v1::before {
- background-image: linear-gradient(30deg, rgba(121, 110, 255, 0.95) 0%, rgba(33, 200, 122, 0.95) 100%);
  background-repeat: repeat-x;
 }
 [class*="gradient-overlay-half"]::before {
@@ -1049,11 +1049,11 @@ a.navbar-brand img {
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
 	border-radius: 5px;
-	border: solid 12px rgba(255, 255, 255, .27);
+	border: solid 1px #ebebeb;
 }
 .cflyformtheme {
 	width: 100%;
-	margin: 60px 0 0 0;
+	margin: 0s 0 0 0;
 	padding: 0 0 60px 0;
 }
 h1.font-size-48--md-down {
@@ -1118,6 +1118,7 @@ h1.font-size-48--md-down {
 	overflow: hidden;
 	border-radius: 5px;
 	padding: 0 190px 0 0;
+	border: 1px solid #ebebeb;
 }
 .cflyformtheme fieldset {
 	margin: 0;
@@ -6056,7 +6057,7 @@ h5.mb-2 {
 
 /* Tab */
 .tab-content {
-	padding: 25px 0;
+	padding: 0 0;
 	margin-bottom: 20px;
 }
 .nav-tabs .nav-item .nav-link {

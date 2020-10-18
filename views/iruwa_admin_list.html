@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <!-- Bootstrap CSS -->
+  <link href="css/style.css" type="text/css" rel="stylesheet" />
+  <!-- Favicon -->
+  <!-- Favicon and Touch Icons -->
+  <link href="images/favicon.png" rel="shortcut icon" type="image/png">
+  <link href="images/apple-touch-icon.png" rel="apple-touch-icon">
+  <link href="images/apple-touch-icon-72x72.png" rel="apple-touch-icon" sizes="72x72">
+  <link href="images/apple-touch-icon-114x114.png" rel="apple-touch-icon" sizes="114x114">
+  <link href="images/apple-touch-icon-144x144.png" rel="apple-touch-icon" sizes="144x144">
+  <title>Classifly - Classified Ads HTML Template</title>
+  <style>
+    .cflyformtheme {
+      margin: 0 0 0 0;
+    }
+
+    .gradient-overlay-half-primary-v1::after {
+      background-color: #ffffff;
+    }
+  </style>
+</head>
+
+<body>
+  <header class="header-static navbar-sticky navbar-light shadow">
+    <!-- Navbar top start-->
+    <div class="navbar-top d-none d-lg-block">
+      <div class="container">
+        <div class="d-flex justify-content-between align-items-center">
+          <div class="d-flex align-items-center">
+          </div>
+
+          <div class="d-flex align-items-center">
+            <div class="dropdown"> <a class="dropdown-toggle" href="#" role="button" id="dropdownAccount"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i
+                  class="far fa-user mr-2"></i>Account </a>
+              <div class="dropdown-menu mt-2 shadow" aria-labelledby="dropdownAccount"><a class="dropdown-item"
+                  href="#">Logout</a> <a class="dropdown-item" href="#">Settings</a> </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Navbar top End-->
+
+    <!-- Logo Nav Start -->
+    <nav class="navbar navbar-expand-lg">
+      <div class="container">
+        <!-- Logo -->
+        <a class="navbar-brand" href="index.html"> <img src="images/logo-header.png" alt="travelgo"> </a>
+        <!-- Menu opener button -->
+        <button class="navbar-toggler ml-auto" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+          aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation"> <span
+            class="navbar-toggler-icon"> </span> </button>
+        <!-- Main Menu Start -->
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <ul class="navbar-nav ml-auto">
+            <!-- Menu item 1 Demos-->
+            <li class="nav-item">
+              <a class="nav-link" href="iruwa_admin_main_1.html">Home</a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link" href="iruwa_admin_list.html">Ads Listing</a>
+            </li>
+            <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="#" id="docMenu"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dashboard</a>
+              <ul class="dropdown-menu" aria-labelledby="docMenu">
+                <li><a class="dropdown-item" href="dashboard.html">Dashboard</a></li>
+                <li><a class="dropdown-item" href="dashboard-myads.html">My Ads</a></li>
+                <li><a class="dropdown-item" href="dashboard-myfavourites.html">Favorites ads</a></li>
+                <li><a class="dropdown-item" href="dashboard-offermessages.html"> Offer Message</a></li>
+                <li><a class="dropdown-item" href="dashboard-payments.html"> Payment</a></li>
+                <li><a class="dropdown-item" href="dashboard-postanad.html"> Post Ads</a></li>
+                <li><a class="dropdown-item" href="dashboard-privacy-setting.html"> privacy Setting</a></li>
+                <li><a class="dropdown-item" href="dashboard-profile-setting.html"> Profile Setting</a></li>
+                <li><a class="dropdown-item" href="saved.html">Saved search</a></li>
+                <li><a class="dropdown-item" href="srchived.html">Archived ads</a></li>
+                <li><a class="dropdown-item" href="pending.html">Pending Ads</a></li>
+                <li><a class="dropdown-item" href="log.html">Log out</a></li>
+              </ul>
+            </li>
+            <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="#" id="docMenu"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Categories</a>
+              <ul class="dropdown-menu" aria-labelledby="docMenu">
+                <li><a class="dropdown-item" href="categories.html">Categories Style 1</a></li>
+                <li><a class="dropdown-item" href="categories-2.html">Categories Style 2</a></li>
+                <li><a class="dropdown-item" href="categories-3.html">Categories Style 3</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+        <!-- Main Menu End -->
+      </div>
+    </nav>
+    <!-- Logo Nav End -->
+  </header>
+
+
+  <!-- Hero Section -->
+  <div class="gradient-overlay-half-primary-v1 bg-img-hero">
+    <div class="container space-2 space-4-top--lg space-3-bottom--lg">
+      <div class="row align-items-lg-center">
+        <div class="col-lg-12 mb-lg-0">
+          <form class="cflyformtheme cflyformbannersearch">
+            <fieldset>
+              <div class="form-group cflyinputwithicon"> <i class="fas fa-bullhorn"></i>
+                <input type="text" name="customword" class="form-control" placeholder="업체 명을 입력해주세요">
+              </div>
+              <div class="form-group cflyinputwithicon"> <i class="far fa-paper-plane"></i> <a
+                  class="cflybtnsharelocation fa fa-crosshairs" href="javascript:void(0);"></a>
+                <input type="text" name="yourlocation" class="form-control" placeholder="업체 지역을 입력해주세요">
+              </div>
+              <div class="form-group cflyinputwithicon"> <i class="fab fa-staylinked"></i>
+                <div class="cflyselect">
+                  <select>
+                    <option value="none">카테고리</option>
+                    <option value="none">Mobiles</option>
+                    <option value="none">Electronics</option>
+                    <option value="none">Vehicles</option>
+                    <option value="none">Bikes</option>
+                    <option value="none">Animals</option>
+                    <option value="none">Furniture</option>
+                    <option value="none">toys</option>
+                  </select>
+                </div>
+              </div>
+              <Button class="cflybtn" type="button" onclick="location.href='iruwa_admin_detail.html'">Search
+                Now</Button>
+            </fieldset>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End Hero Section -->
+
+  <section class="grayBG pt80 pb50 GridList adsDetails">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12">
+          <div class="accordion accordion-primary" id="accordion2">
+            <!-- item -->
+            <div class="accordion-item">
+              <div class="accordion-title"> <a class="h6 mb-0" data-toggle="collapse" href="#collapse-4">모든 카테고리</a>
+              </div>
+              <div class="collapse show" id="collapse-4" data-parent="#accordion2">
+                <div class="accordion-content">
+                  <ul>
+                    <li><a href="#"><i class="fas fa-laptop"></i>일반 유흥 주점업<span>(1029)</span></a></li>
+                    <li><a href="#"><i class="fas fa-mobile-alt"></i>무도 유흥 주점업<span>(1228)</span></a></li>
+                    <li><a href="#"><i class="fas fa-tablet-alt"></i>힐링 문화업<span>(178)</span></a></li>
+                    <li><a href="#"><i class="fas fa-home"></i>노래방업<span>(7163)</span></a></li>
+                    <li><a href="#"><i class="far fa-user"></i>숙박업<span>(8709)</span></a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <!-- item -->
+            <div class="accordion-item">
+              <div class="accordion-title"> <a class="collapsed" data-toggle="collapse" href="#collapse-5">업체 위치별</a>
+              </div>
+              <div class="collapse" id="collapse-5" data-parent="#accordion2">
+                <div class="accordion-content">
+                  <ul>
+                    <li><a href="#"><i class="fas fa-map-marker-alt"></i>서울권<span>(3129)</span></a></li>
+                    <li><a href="#"><i class="fas fa-map-marker-alt"></i>경기도권<span>(3129)</span></a></li>
+                    <li><a href="#"><i class="fas fa-map-marker-alt"></i>강원도권<span>(3129)</span></a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <div class="accordion-title"> <a class="collapsed" data-toggle="collapse" href="#collapse-9">광고 타입별</a>
+              </div>
+              <div class="collapse" id="collapse-9" data-parent="#accordion2">
+                <div class="accordion-content">
+                  <div class="custom-control custom-checkbox mr-sm-2">
+                    <input type="checkbox" class="custom-control-input" id="Featured">
+                    <label class="custom-control-label" for="Featured">프리미엄 광고 <span>(3129)</span></label>
+                  </div>
+                  <div class="custom-control custom-checkbox mr-sm-2">
+                    <input type="checkbox" class="custom-control-input" id="Regular">
+                    <label class="custom-control-label" for="Regular">일반 광고 <span>(3129)</span></label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <div class="accordion-title"> <a class="collapsed" data-toggle="collapse" href="#collapse-7">마감 일자</a>
+              </div>
+              <div class="collapse" id="collapse-7" data-parent="#accordion2">
+                <div class="accordion-content">
+                  <div class="custom-control custom-checkbox mr-sm-2">
+                    <input type="checkbox" class="custom-control-input" id="customControlAutosizing">
+                    <label class="custom-control-label" for="customControlAutosizing">New</label>
+                  </div>
+                  <div class="custom-control custom-checkbox mr-sm-2">
+                    <input type="checkbox" class="custom-control-input" id="customControlA">
+                    <label class="custom-control-label" for="customControlA">Used</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-9 col-md-8 col-sm-12 col-xs-12">
+          <div class="dashboardsection">
+            <!-- Tab Content -->
+            <div class="tab-content" id="v-pills-tabContent">
+              <div class="tab-pane fade active show" id="v-pills-Offer" role="tabpanel"
+                aria-labelledby="v-pills-key-Offer-tab">
+                <div class="row">
+                  <div class="inbox-wrapper">
+                    <div class="row">
+                      <div class="col-md-9 col-lg-12">
+                        <div class="btn-group hidden-sm">
+                          <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown"> <span
+                              class="dropdown-menu-sort-selected">전체</span> </button>
+                          <ul class="dropdown-menu dropdown-menu-sort" role="menu">
+                            <li class="dropdown-item"><a>전체</a> </li>
+                            <li class="dropdown-item"><a>마감일순</a> </li>
+                          </ul>
+                        </div>
+                        <button type="button" class="btn btn-secondary hidden-sm" data-toggle="tooltip" title=""
+                          data-original-title="Refresh"><span class="fas fa-sync-alt"></span> </button>
+
+                        <div class="message-tool-bar-right pull-right"> <span class="text-muted count-message"><b>1</b>
+                            -
+                            <b>20</b> of <b>255</b></span>
+                          <div class="btn-group btn-group-sm">
+                            <button type="button" class="btn btn-secondary"><span class="fas fa-arrow-left"></span>
+                            </button>
+                            <button type="button" class="btn btn-secondary"><span class="fas fa-arrow-right"></span>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                      <div class="col-md-3 col-lg-2">
+                        <ul class="nav nav-pills  inbox-nav">
+                          <li class="active nav-item"><a class="nav-link"> 전체 <span
+                                class="badge badge-gray count">32</span></a> </li>
+                          <li class="nav-item"><a class="nav-link">납부 <span
+                                class="badge badge-gray count">28</span></a> </li>
+                          <li class="nav-item"><a class="nav-link">미납<span
+                            class="badge badge-gray count">4</span></a> </li>
+                        </ul>
+                      </div>
+                      <div class="col-md-9 col-lg-10">
+                        <div class="message-list">
+                          <div id="home">
+                            <div class="list-group">
+                              <div class="list-group-item">
+                                <div class="form-check">
+                                  <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                    <label class="custom-control-label" for="customCheck1"></label>
+                                  </div>
+                                </div>
+                                <a href="iruwa_admin_detail.html" class="list-box-user"> <img src="images/img-22.jpg" alt="user"> <span
+                                    class="name"> <i class="fa fa-circle online"></i>Parrish Zamora </span> </a> <a
+                                  href="iruwa_admin_detail.html" class="list-box-content"> <span class="title">Is this item still available
+                                    ?</span>
+                                  <div class="message-text  "> Hi, how are you ? Donec imperdiet leo ac ipsum blandit
+                                    auctor </div>
+                                  <div class="time text-muted">2018-03-19 03:08pm</div>
+                                </a>
+                                <div class="list-box-action"> <a data-toggle="tooltip" data-placement="top"
+                                    class="markAsStar" title="" data-original-title="Mark as Important "><i
+                                      class="far fa-star"></i></a> <a data-toggle="tooltip" data-placement="top"
+                                    title="" data-original-title="Delete "> <i class=" fas fa-trash"></i></a> <a
+                                    class="markAsRead" data-toggle="tooltip" data-placement="top" title=""
+                                    data-original-title="Mark as read "> <i class=" fas fa-envelope"></i></a> </div>
+                              </div>
+                              <div class="list-group-item seen">
+                                <div class="form-check">
+                                  <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="customCheck2">
+                                    <label class="custom-control-label" for="customCheck2"></label>
+                                  </div>
+                                </div>
+                                <a href="iruwa_admin_detail.html" class="list-box-user"> <img src="images/img-22.jpg" alt="user"> <span
+                                    class="name"> <i class="fa fa-circle online"></i>Calderon White </span> </a> <a
+                                  href="iruwa_admin_detail.html" class="list-box-content"> <span class="title">Is this item still available
+                                    ?</span>
+                                  <div class="message-text  "> Hi, how are you ? Donec vel purus eget dui pharetra
+                                    rutrum
+                                  </div>
+                                  <div class="time">2018-04-01 11:05pm</div>
+                                </a>
+                                <div class="list-box-action"> <a data-toggle="tooltip" data-placement="top"
+                                    class="markAsStar" title="" data-original-title="Mark as Important "><i
+                                      class="far fa-star"></i></a> <a data-toggle="tooltip" data-placement="top"
+                                    title="" data-original-title="Delete "> <i class=" fas fa-trash"></i></a> <a
+                                    class="markAsRead" data-toggle="tooltip" data-placement="top" title=""
+                                    data-original-title="Mark as unread "> <i class=" fas fa-envelope-open"></i></a>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Tab Content -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <footer class="main-footer">
+    <div class="footer-content">
+      <div class="container">
+        <div class="row">
+          <div class=" col-xl-3 col-xl-3 col-md-3 col-sm-6 col-xs-12 col-12">
+            <div class="footer-col row">
+              <div class="col-sm-12 col-xs-6 col-xxs-12 no-padding-lg">
+                <div class="mobile-app-content">
+                  <h4 class="footer-title">Mobile Apps</h4>
+                  <div class="row ">
+                    <div class="col-6  "> <a class="app-icon" target="_blank" href="https://itunes.apple.com/"> <img
+                          src="images/app_store_badge.svg" alt="Available on the App Store"> </a> </div>
+                    <div class="col-6  "> <a class="app-icon" target="_blank" href="https://play.google.com/store/">
+                        <img src="images/google-play-badge.svg" alt="Available on the App Store"> </a> </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div style="clear: both"></div>
+          <div class="col-xl-12">
+            <div class=" text-center paymanet-method-logo">
+              <div class="copy-info text-center"> © 2019 Classifly. All Rights Reserved. </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="js/jquery.min.js" type="text/javascript"></script>
+  <script src="js/popper.min.js" type="text/javascript"></script>
+  <script src="js/bootstrap.min.js" type="text/javascript"></script>
+  <script src="js/isotope.pkgd.min.js" type="text/javascript"></script>
+  <script src="js/imagesloaded.pkgd.min.js" type="text/javascript"></script>
+  <script src="js/functions.js" type="text/javascript"></script>
+  <script src="js/owl.carousel.min.js" type="text/javascript"></script>
+  <script src="js/slick.js" type="text/javascript"></script>
+  <script src="js/swiper.min.js" type="text/javascript"></script>
+  <script src="js/main.js" type="text/javascript"></script>
+</body>
+
+</html>
