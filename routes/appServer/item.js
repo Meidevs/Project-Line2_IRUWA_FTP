@@ -9,7 +9,7 @@ var userModel = require('../../public/javascripts/components/userModel');
 const upload = multer({
     storage: multer.diskStorage({
         destination: (req, file, cb) => {
-            cb(null, 'public/images');
+            cb(null, 'public/item_images');
         },
 
         filename: (req, file, cb) => {
