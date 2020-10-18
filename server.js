@@ -75,10 +75,8 @@ var adminHttps = require('https').Server(adminOptions, AdminApp);
 var https = require('https').Server(options, appServer);
 let io = require('socket.io')(https);
 
-adminHttps.listen(secureAdminPort, () => {
-});
-https.listen(securePort, () => {
-});
+adminHttps.listen(secureAdminPort);
+https.listen(securePort);
 
 const { addUser, getUser, addRoomCode, removeRoomCode, roomExistence, bannedUserCheck } = require('./users');
 const { addRoom, getRoom, addMessages, removeMessages } = require('./rooms');
