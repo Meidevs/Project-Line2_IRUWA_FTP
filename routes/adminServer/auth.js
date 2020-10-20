@@ -29,10 +29,7 @@ router.post('/login', async (req, res) => {
 
         if (adminExitence == 1) {
             var USER_INFO = await adminModel.LOGIN_ADMIN(FromData);
-            resReturn = USER_INFO;
-            req.session.user = USER_INFO.userSession;
             if (USER_INFO.flags == 0) {
-                FromData.user_seq = USER_INFO.userSession.user_seq;
                 resReturn = {
                     flags: 0,
                     message: '로그인 되었습니다.'
