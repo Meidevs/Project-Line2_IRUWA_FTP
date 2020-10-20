@@ -3,21 +3,7 @@ var myConnection = require('../../../dbConfig');
 var functions = require('../functions/functions');
 
 class Admin {
-    GET_ADMIN_AUTHENTICATION () {
-        return new Promise (
-            async (resolve, reject) => {
-                try {
-                    var sql = ''
-
-                    resolve();
-                } catch (err) {
-                    reject(err);
-                }
-            }
-        )
-    }
-
-    CHECK_ADMIN_EXISTENCE () {
+    CHECK_ADMIN_EXISTENCE (data) {
         return new Promise (
             async (resolve, reject) => {
                 try {

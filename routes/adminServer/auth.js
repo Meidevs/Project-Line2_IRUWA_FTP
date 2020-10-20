@@ -25,9 +25,9 @@ router.post('/login', async (req, res) => {
         // CHECK_USER_EXISTENCE or CHECK_CMP_EXISTENCE is Checking whether User already Exist or Not. 
         // USER_EXISTENCE == 0 Means that user_id(cmp_id) Which you sent to Server is out of Database.
         // Contrarily, USER_EXISTENCE == 1 Means that user_id is in the Database.
-        var USER_EXISTENCE = await adminModel.CHECK_ADMIN_EXISTENCE(FromData);
+        var adminExitence = await adminModel.CHECK_ADMIN_EXISTENCE(FromData);
 
-        if (USER_EXISTENCE == 1) {
+        if (adminExitence == 1) {
             var USER_INFO = await adminModel.LOGIN_ADMIN(FromData);
             resReturn = USER_INFO;
             req.session.user = USER_INFO.userSession;
