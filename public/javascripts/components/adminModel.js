@@ -1,5 +1,6 @@
 const { reject } = require('async');
 var myConnection = require('../../../dbConfig');
+const { notify } = require('../../../routes/adminServer/item');
 var functions = require('../functions/functions');
 
 class Admin {
@@ -111,6 +112,19 @@ class Admin {
                     var daysAgo = new Date(year, month, day - 2).toISOString().substring(0, 10);
                     var sql = 'SELECT * FROM tb_company WHERE reg_date > ?';
                     var resReturn = await myConnection.query(sql, [daysAgo]);
+                    resolve(resReturn);
+                } catch (err) {
+                    reject(err);
+                }
+            }
+        )
+    }
+    getCategories() {
+        return new Promise (
+            async (resolve, reject) => {
+                try {
+                    var sql = 'SELECT  categories.category_seq, categories.category_name, (SELECT uri FROM tb_category_icons WHERE category_seq = categories.category_seq) FROM tb_categories categories';
+                    var resReturn = await myConnection.query(sql);
                     resolve(resReturn);
                 } catch (err) {
                     reject(err);

@@ -70,5 +70,15 @@ router.get('/list', (req, res) => {
     res.status(200).render('iruwa_admin_list');
 });
 
+router.get('/categories', async (req, res) => {
+    try {
+        var categoriesArray = await adminModel.getCategories();
+        var categoriesImage = await adminModel.get
+        res.status(200).send(categoriesArray)
+    } catch (err) {
+        console.log(err);
+    }
+})
+
 
 module.exports = router;
