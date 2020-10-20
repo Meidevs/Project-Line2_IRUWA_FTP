@@ -122,7 +122,7 @@ class Admin {
             async (resolve, reject) => {
                 try {
                     console.log('a')
-                    var sql = 'SELECT categories.category_seq, categories.category_name FROM tb_categories categories';
+                    var sql = 'SELECT categories.category_seq, categories.category_name, (SELECT icons.uri FROM tb_category_icons icons WHERE icons.category_seq = categories.category_seq) AS uri FROM tb_categories categories';
                     var resReturn = await myConnection.query(sql);
                     console.log(resReturn)
                     resolve(resReturn);
