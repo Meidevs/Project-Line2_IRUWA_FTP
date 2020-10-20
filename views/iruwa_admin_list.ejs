@@ -117,7 +117,7 @@
               </div>
               <div class="form-group cflyinputwithicon"> <i class="fab fa-staylinked"></i>
                 <div class="cflyselect">
-                  <select>
+                  <select id="option-content">
                     <option value="none">카테고리</option>
                     <option value="none">Mobiles</option>
                     <option value="none">Electronics</option>
@@ -167,22 +167,6 @@
                     <li><a href="#"><i class="fas fa-map-marker-alt"></i>경기도권<span>(3129)</span></a></li>
                     <li><a href="#"><i class="fas fa-map-marker-alt"></i>강원도권<span>(3129)</span></a></li>
                   </ul>
-                </div>
-              </div>
-            </div>
-            <div class="accordion-item">
-              <div class="accordion-title"> <a class="collapsed" data-toggle="collapse" href="#collapse-9">광고 타입별</a>
-              </div>
-              <div class="collapse" id="collapse-9" data-parent="#accordion2">
-                <div class="accordion-content">
-                  <div class="custom-control custom-checkbox mr-sm-2">
-                    <input type="checkbox" class="custom-control-input" id="Featured">
-                    <label class="custom-control-label" for="Featured">프리미엄 광고 <span>(3129)</span></label>
-                  </div>
-                  <div class="custom-control custom-checkbox mr-sm-2">
-                    <input type="checkbox" class="custom-control-input" id="Regular">
-                    <label class="custom-control-label" for="Regular">일반 광고 <span>(3129)</span></label>
-                  </div>
                 </div>
               </div>
             </div>
@@ -370,10 +354,15 @@
         let json = await resCategories.json();
         if (resCategories.ok) {
           var ulForm = document.getElementById('accordion-content-categories');
+          var selectForm = document.getElementById('option-content');
           for (var i = 0; i < json.length; i++) {
             var li = document.createElement('li');
             li.innerHTML = `<li><a href="https://mostfeel.site:8888/admin/list/c=` + json[i].category_seq + `"><img src="` + json[i].uri + `" style="width : 20px; height : 20px; background-color: #15bac1;">`+ json[i].category_name + `(` + json[i].count + `)</a></li>`;
             ulForm.appendChild(li);
+            
+            var option = document.createElement('option');
+            option.innerHTML = `<option value="`+ json[i].category_seq+`">`+ json[i].category_name +`</option>`
+            selectForm.appendChild(option);
           }
         }
       } catch (err) {
@@ -385,23 +374,6 @@
     $(document).ready(async () => {
       try {
         const resCategories = await fetch('https://mostfeel.site:8888/admin/location', {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        });
-
-        let json = await resCategories.json();
-        if (resCategories.ok) {
-
-        }
-      } catch (err) {
-      }
-    });
-
-    $(document).ready(async () => {
-      try {
-        const resCategories = await fetch('https://mostfeel.site:8888/admin/adstypes', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json'
