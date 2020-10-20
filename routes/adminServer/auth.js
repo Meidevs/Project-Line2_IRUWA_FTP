@@ -7,7 +7,7 @@ router.get('/', (req, res) => {
     res.status(200).render('iruwa_admin_login');
 });
 
-router.post('/auth', async (req, res) => {
+router.post('/login', async (req, res) => {
     try {
         var FromData = req.body;
         var resReturn;
