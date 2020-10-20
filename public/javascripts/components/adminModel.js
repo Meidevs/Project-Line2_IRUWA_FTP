@@ -1,7 +1,4 @@
-const { reject } = require('async');
 var myConnection = require('../../../dbConfig');
-const { notify } = require('../../../routes/adminServer/item');
-var functions = require('../functions/functions');
 
 class Admin {
     CHECK_ADMIN_EXISTENCE(data) {
@@ -125,7 +122,7 @@ class Admin {
             async (resolve, reject) => {
                 try {
                     console.log('a')
-                    var sql = 'SELECT categories.category_seq, categories.category_name, (SELECT uri FROM tb_category_icons WHERE category_seq = categories.category_seq) AS uri FROM tb_categories categories';
+                    var sql = 'SELECT categories.category_seq, categories.category_name FROM tb_categories categories';
                     var resReturn = await myConnection.query(sql);
                     console.log(resReturn)
                     resolve(resReturn);
@@ -136,6 +133,5 @@ class Admin {
         )
     }
 }
-
 
 module.exports = new Admin();

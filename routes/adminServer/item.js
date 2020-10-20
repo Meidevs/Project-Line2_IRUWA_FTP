@@ -1,7 +1,7 @@
 var express = require('express'); 
 var router = express.Router();
 var adminModel = require('../../public/javascripts/components/adminModel');
-var itemModel = require('../../public/javascripts/components/itemModel');
+
 router.get('/main', (req, res) => {
     res.status(200).render('iruwa_admin_main');
 });
