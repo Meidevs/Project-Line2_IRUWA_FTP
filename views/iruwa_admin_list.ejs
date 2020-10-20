@@ -150,7 +150,7 @@
               </div>
               <div class="collapse show" id="collapse-4" data-parent="#accordion2">
                 <div class="accordion-content">
-                  <ul>
+                  <ul id="accordion-content-categories">
                     <li><a href="#"><i class="fas fa-laptop"></i>일반 유흥 주점업<span>(1029)</span></a></li>
                     <li><a href="#"><i class="fas fa-mobile-alt"></i>무도 유흥 주점업<span>(1228)</span></a></li>
                     <li><a href="#"><i class="fas fa-tablet-alt"></i>힐링 문화업<span>(178)</span></a></li>
@@ -373,7 +373,10 @@
 
         let json = await resCategories.json();
         if (resCategories.ok) {
-
+          var ulForm = document.getElementById('accordion-content-categories');
+          for (var i = 0; i < json.length; i++) {
+            ulForm.appendChild(`<li><a href="https://mostfeel.site:8888/admin/list/categories=` + json[i].category_seq + `"><i class="fas fa-map-marker-alt"></i>`+ json[i].category_name + `<span>``</span></a></li>`);
+          }
         }
       } catch (err) {
         console.log(err);
