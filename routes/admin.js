@@ -8,6 +8,6 @@ var authRouter = require('./adminServer/auth');
 var itemRouter = require('./adminServer/item');
 
 router.use('/auth', authRouter);
-router.use('/item', itemRouter);
+router.use('/', itemRouter);
 
 module.exports = router;
