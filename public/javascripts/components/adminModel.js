@@ -119,7 +119,7 @@ class Admin {
             }
         )
     }
-    getNewCompany() {
+    getCategoryList() {
         return new Promise(
             async (resolve, reject) => {
                 try {

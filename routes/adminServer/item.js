@@ -74,7 +74,7 @@ router.get('/categories', async (req, res) => {
     try {
         var categoryList = await adminModel.getCategoryList();
         console.log(categoryList);
-        res.status(200).send(categoriesArray)
+        res.status(200).send(categoryList)
     } catch (err) {
         console.log(err);
     }
