@@ -76,13 +76,12 @@ router.get('/categories', async (req, res) => {
         var categoryList = await adminModel.getCategoryList();
         var cmpCount = await adminModel.getItemCount();
         for (var i = 0; i < categoryList.length; i++) {
+            categoryList[i].count = 0;
             for (var j = 0; j < cmpCount.length; j++) {
                 if (categoryList[i].category_seq == cmpCount[j].category_seq) {
                     if(cmpCount[j].cnt) {
                         categoryList[i].count = cmpCount[j].cnt;
-                    } else {
-                        categoryList[i].count = 0;
-                    }
+                    } 
                 }
             }
         }
