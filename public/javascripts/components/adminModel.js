@@ -3,8 +3,8 @@ var myConnection = require('../../../dbConfig');
 var functions = require('../functions/functions');
 
 class Admin {
-    CHECK_ADMIN_EXISTENCE (data) {
-        return new Promise (
+    CHECK_ADMIN_EXISTENCE(data) {
+        return new Promise(
             async (resolve, reject) => {
                 try {
                     var flags = 1;
@@ -46,8 +46,8 @@ class Admin {
         )
     }
 
-    GET_NOTIFICATIONS () {
-        return new Promise (
+    GET_NOTIFICATIONS() {
+        return new Promise(
             async (resolve, reject) => {
                 try {
                     var sql = 'SELECT * FROM tb_notifications';
@@ -60,8 +60,8 @@ class Admin {
         )
     }
 
-    getHighestView () {
-        return new Promise (
+    getHighestView() {
+        return new Promise(
             async (resolve, reject) => {
                 try {
                     var sql = 'SELECT items_seq, COUNT(*) FROM tb_view GROUP BY items_seq ORDER BY COUNT(*) DESC';
@@ -74,8 +74,8 @@ class Admin {
         )
     }
 
-    getHighestViewItem (data) {
-        return new Promise (
+    getHighestViewItem(data) {
+        return new Promise(
             async (resolve, reject) => {
                 try {
                     var sql = "SELECT * FROM tb_items WHERE items_seq IN (" + data + ")";
@@ -88,13 +88,32 @@ class Admin {
             }
         )
     }
-    getCompanyInfo (data) {
-        return new Promise (
+    getCompanyInfo(data) {
+        return new Promise(
             async (resolve, reject) => {
                 try {
                     var sql = "SELECT * FROM tb_company WHERE cmp_seq IN (SELECT * FROM tb_items WHERE items_seq IN (" + data + "))";
+                    var resReturn = await myConnection.query(sql);
+                    resolve(resReturn);
                 } catch (err) {
-
+                    reject(err);
+                }
+            }
+        )
+    }
+    getNewCompany() {
+        return new Promise(
+            async (resolve, reject) => {
+                try {
+                    var year = new Date().getFullYear();
+                    var month = new Date().getMonth();
+                    var day = new Date().getDate();
+                    var daysAgo = new Date(year, month, day - 2).toISOString().substring(0, 10);
+                    var sql = 'SELECT * FROM tb_company WHERE reg_date > ?';
+                    var resReturn = await myConnection.query(sql, [daysAgo]);
+                    resolve(resReturn);
+                } catch (err) {
+                    reject(err);
                 }
             }
         )
