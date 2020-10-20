@@ -26,7 +26,7 @@ router.get('/popular', async(req, res) => {
                 newString = rawArray.slice(0,3).join();
             }
             var itemsList = await adminModel.getHighestViewItem(newString);
-
+            console.log(itemsList);
             var cmpList = await adminModel.getCompanyInfo(newString);
 
             itemsList.map((data) => {
@@ -40,6 +40,26 @@ router.get('/popular', async(req, res) => {
                 flags : 0,
                 message : itemsList,
             }
+        }
+
+        res.status(200).send(resReturn);
+    } catch (err) {
+        console.log(err);
+    }
+});
+
+router.get('/recentcompany', async(req, res) => {
+    try {
+        var result = new Array();
+        var rawArray = new Array();
+        var newString;
+        var resReturn = {
+            flags : 1,
+            message : '조회에 실패하였습니다.'
+        };
+        result = await adminModel.getNewCompany();
+        if(result.length > 0) {
+            
         }
 
         res.status(200).send(resReturn);
