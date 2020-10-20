@@ -1,7 +1,65 @@
+const { reject } = require('async');
 var myConnection = require('../../../dbConfig');
 var functions = require('../functions/functions');
 
 class Admin {
+    GET_ADMIN_AUTHENTICATION () {
+        return new Promise (
+            async (resolve, reject) => {
+                try {
+                    var sql = ''
+
+                    resolve();
+                } catch (err) {
+                    reject(err);
+                }
+            }
+        )
+    }
+
+    CHECK_ADMIN_EXISTENCE () {
+        return new Promise (
+            async (resolve, reject) => {
+                try {
+                    var flags = 1;
+                    var sql = 'SELECT 1 AS user_id FROM tb_users WHERE EXISTS (SELECT user_id FROM tb_admins WHERE user_id = ?)';
+                    var USER_EXISTENCE = await myConnection.query(sql, [data.user_id]);
+                    if (USER_EXISTENCE[0] == undefined) {
+                        flags = 0;
+                    }
+                    resolve(flags);
+                } catch (err) {
+                    reject(err)
+                }
+            }
+        )
+    }
+
+    LOGIN_ADMIN(data) {
+        return new Promise(
+            async (resolve, reject) => {
+                try {
+                    var resReturn = {
+                        flags: 1,
+                        message: '비밀번호가 맞지 않습니다.',
+                    };
+                    var sql = 'SELECT * FROM tb_admins WHERE user_id = ? AND user_pw = ?';
+                    var USER_INFO = await myConnection.query(sql, [data.user_id, data.user_pw]);
+                    if (USER_INFO[0] != undefined) {
+                        resReturn = {
+                            flags: 0,
+                            message: '로그인 되었습니다.',
+                            userSession: USER_INFO[0],
+                        }
+                    }
+                    resolve(resReturn);
+                } catch (err) {
+                    reject(err)
+                }
+            }
+        )
+    }
+
     GET_NOTIFICATIONS () {
         return new Promise (
             async (resolve, reject) => {

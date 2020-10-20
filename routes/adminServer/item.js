@@ -1,16 +1,18 @@
 var express = require('express'); 
-const { route } = require('./auth');
 var router = express.Router();
-
-router.post('/main', async (req, res) => {
-    try {
-        console.log(req.body)
-
-        res.status(200).render('iruwa_admin_main');
-    } catch (err) {
-
-    }
+var userModel = require('../../public/javascripts/components/adminModel');
+var itemModel = require('../../public/javascripts/components/itemModel');
+router.get('/main', (req, res) => {
+    res.status(200).render('iruwa_admin_main');
 });
+
+router.get('item', async(req, res) => {
+    try {
+
+    } catch (err) {
+        console.log(err);
+    }
+})
 
 router.get('/listing', (req, res) => {
     res.status(200).render('iruwa_admin_listing');
