@@ -78,7 +78,11 @@ router.get('/categories', async (req, res) => {
         for (var i = 0; i < categoryList.length; i++) {
             for (var j = 0; j < cmpCount.length; j++) {
                 if (categoryList[i].category_seq == cmpCount[j].category_seq) {
-                    categoryList[i].count = cmpCount[j].cnt;
+                    if(cmpCount[j].cnt) {
+                        categoryList[i].count = cmpCount[j].cnt;
+                    } else {
+                        categoryList[i].count = 0;
+                    }
                 }
             }
         }
