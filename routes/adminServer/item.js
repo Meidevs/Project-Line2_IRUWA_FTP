@@ -66,7 +66,7 @@ router.get('/recentcompany', async(req, res) => {
     }
 });
 
-router.get('/listing', (req, res) => {
+router.get('/list', (req, res) => {
     res.status(200).render('iruwa_admin_listing');
 });
 
