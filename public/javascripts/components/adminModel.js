@@ -59,6 +59,46 @@ class Admin {
             }
         )
     }
+
+    getHighestView () {
+        return new Promise (
+            async (resolve, reject) => {
+                try {
+                    var sql = 'SELECT items_seq, COUNT(*) FROM tb_view GROUP BY items_seq ORDER BY COUNT(*) DESC';
+                    var resReturn = await myConnection.query(sql);
+                    resolve(resReturn);
+                } catch (err) {
+                    reject(err);
+                }
+            }
+        )
+    }
+
+    getHighestViewItem (data) {
+        return new Promise (
+            async (resolve, reject) => {
+                try {
+                    var sql = "SELECT * FROM tb_items WHERE items_seq IN (" + data + ")";
+                    console.log(sql);
+                    var resReturn = await myConnection.query(sql);
+                    resolve(resReturn)
+                } catch (err) {
+                    reject(err);
+                }
+            }
+        )
+    }
+    getCompanyInfo (data) {
+        return new Promise (
+            async (resolve, reject) => {
+                try {
+                    var sql = "SELECT * FROM tb_company WHERE cmp_seq IN (SELECT * FROM tb_items WHERE items_seq IN (" + data + "))";
+                } catch (err) {
+
+                }
+            }
+        )
+    }
 }
 
 module.exports = new Admin();
