@@ -375,7 +375,7 @@
         if (resCategories.ok) {
           var ulForm = document.getElementById('accordion-content-categories');
           for (var i = 0; i < json.length; i++) {
-            ulForm.appendChild(`<li><a href="https://mostfeel.site:8888/admin/list/categories=` + json[i].category_seq + `"><i class="fas fa-map-marker-alt"></i>`+ json[i].category_name + `<span>``</span></a></li>`);
+            ulForm.appendChild(`<li><a href="https://mostfeel.site:8888/admin/list/c=` + json[i].category_seq + `"><i class="fas fa-map-marker-alt"></i>`+ json[i].category_name + `<span>``</span></a></li>`);
           }
         }
       } catch (err) {

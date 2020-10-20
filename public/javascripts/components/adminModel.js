@@ -62,7 +62,7 @@ class Admin {
         return new Promise(
             async (resolve, reject) => {
                 try {
-                    var sql = 'SELECT items_seq, COUNT(*) FROM tb_view GROUP BY items_seq ORDER BY COUNT(*) DESC';
+                    var sql = 'SELECT items_seq, COUNT(*) AS cnt FROM tb_view GROUP BY items_seq ORDER BY COUNT(*) DESC';
                     var resReturn = await myConnection.query(sql);
                     resolve(resReturn);
                 } catch (err) {
@@ -125,6 +125,20 @@ class Admin {
                     var sql = 'SELECT categories.category_seq, categories.category_name, (SELECT icons.uri FROM tb_category_icons icons WHERE icons.category_seq = categories.category_seq) AS uri FROM tb_categories categories';
                     var resReturn = await myConnection.query(sql);
                     console.log(resReturn)
+                    resolve(resReturn);
+                } catch (err) {
+                    reject(err);
+                }
+            }
+        )
+    }
+
+    getItemCount() {
+        return new Promise (
+            async (resolve, reject) => {
+                try {
+                    var sql = 'SELECT category_seq, COUNT(*) AS cnt FROM tb_company GROUP BY category_seq';
+                    var resReturn = await myConnection.query(sql);
                     resolve(resReturn);
                 } catch (err) {
                     reject(err);

@@ -1,3 +1,4 @@
+const { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } = require('constants');
 var express = require('express'); 
 var router = express.Router();
 var adminModel = require('../../public/javascripts/components/adminModel');
@@ -72,8 +73,16 @@ router.get('/list', (req, res) => {
 
 router.get('/categories', async (req, res) => {
     try {
+        var cArray = new Array();
         var categoryList = await adminModel.getCategoryList();
-        console.log(categoryList);
+        var cmpCount = await adminModel.getItemCount();
+        for (var i = 0; i < categoryList.length; i++) {
+            for (var j = 0; j < cmpCount.length; j++) {
+                if (categoryList[i].category_seq == cmpCount[j].category_seq) {
+                    categoryList[i].count = cmpCount[j].cnt;
+                }
+            }
+        }
         res.status(200).send(categoryList)
     } catch (err) {
         console.log(err);
