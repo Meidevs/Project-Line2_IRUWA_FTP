@@ -73,7 +73,6 @@ router.get('/list', (req, res) => {
 
 router.get('/categories', async (req, res) => {
     try {
-        var cArray = new Array();
         var categoryList = await adminModel.getCategoryList();
         var cmpCount = await adminModel.getItemCount();
         for (var i = 0; i < categoryList.length; i++) {
