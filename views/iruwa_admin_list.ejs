@@ -376,7 +376,7 @@
           var ulForm = document.getElementById('accordion-content-categories');
           for (var i = 0; i < json.length; i++) {
             var li = document.createElement('li');
-            li.innerHTML = `<li><a href="https://mostfeel.site:8888/admin/list/c=` + json[i].category_seq + `"><i class="fas fa-map-marker-alt"></i>`+ json[i].category_name + `(` + json[i].count + `)</a></li>`;
+            li.innerHTML = `<li><a href="https://mostfeel.site:8888/admin/list/c=` + json[i].category_seq + `"><img src="` + json[i].uri + `"class="fas fa-map-marker-alt">`+ json[i].category_name + `(` + json[i].count + `)</a></li>`;
             ulForm.appendChild(li);
           }
         }
