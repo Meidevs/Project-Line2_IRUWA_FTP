@@ -151,11 +151,7 @@
               <div class="collapse show" id="collapse-4" data-parent="#accordion2">
                 <div class="accordion-content">
                   <ul id="accordion-content-categories">
-                    <li><a href="#"><i class="fas fa-laptop"></i>일반 유흥 주점업<span>(1029)</span></a></li>
-                    <li><a href="#"><i class="fas fa-mobile-alt"></i>무도 유흥 주점업<span>(1228)</span></a></li>
-                    <li><a href="#"><i class="fas fa-tablet-alt"></i>힐링 문화업<span>(178)</span></a></li>
-                    <li><a href="#"><i class="fas fa-home"></i>노래방업<span>(7163)</span></a></li>
-                    <li><a href="#"><i class="far fa-user"></i>숙박업<span>(8709)</span></a></li>
+
                   </ul>
                 </div>
               </div>
@@ -376,7 +372,7 @@
           var ulForm = document.getElementById('accordion-content-categories');
           for (var i = 0; i < json.length; i++) {
             var li = document.createElement('li');
-            li.innerHTML = `<li><a href="https://mostfeel.site:8888/admin/list/c=` + json[i].category_seq + `"><img src="` + json[i].uri + `"class="fas fa-map-marker-alt">`+ json[i].category_name + `(` + json[i].count + `)</a></li>`;
+            li.innerHTML = `<li><a href="https://mostfeel.site:8888/admin/list/c=` + json[i].category_seq + `"><img src="` + json[i].uri + ` style="width : 20px; height : 20px; background-color: #15bac1;">`+ json[i].category_name + `(` + json[i].count + `)</a></li>`;
             ulForm.appendChild(li);
           }
         }
