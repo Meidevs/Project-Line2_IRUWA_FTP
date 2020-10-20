@@ -123,7 +123,7 @@ class Admin {
         return new Promise (
             async (resolve, reject) => {
                 try {
-                    var sql = 'SELECT  categories.category_seq, categories.category_name, (SELECT uri FROM tb_category_icons WHERE category_seq = categories.category_seq) FROM tb_categories categories';
+                    var sql = 'SELECT  categories.category_seq, categories.category_name, (SELECT uri FROM tb_category_icons WHERE category_seq = categories.category_seq) AS uri FROM tb_categories categories';
                     var resReturn = await myConnection.query(sql);
                     resolve(resReturn);
                 } catch (err) {
