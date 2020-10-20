@@ -37,7 +37,7 @@ class Authentication {
         )
     }
     EMAIL_EXISTENCE(data) {
-        return new Promise (
+        return new Promise(
             async (resolve, reject) => {
                 try {
                     var sql = 'SELECT * FROM tb_users WHERE user_email = ?';
@@ -209,9 +209,9 @@ class Authentication {
                     rawObj.cmp_phone = CMP_INFO[0].cmp_phone
                     rawObj.cmp_location = CMP_INFO[0].cmp_location
                     rawObj.cmp_certificates = CMP_INFO[0].cmp_certificates,
-                    rawObj.cmp_lon = CMP_INFO[0].cmp_lon,
-                    rawObj.cmp_lat = CMP_INFO[0].cmp_lat,
-                    rawObj.reg_date = CMP_INFO[0].reg_date
+                        rawObj.cmp_lon = CMP_INFO[0].cmp_lon,
+                        rawObj.cmp_lat = CMP_INFO[0].cmp_lat,
+                        rawObj.reg_date = CMP_INFO[0].reg_date
                     rawObj.ads_date = CMP_INFO[0].ads_date
                     rawObj.ads_pre_date = CMP_INFO[0].ads_pre_date
                     resolve(rawObj);
@@ -530,12 +530,12 @@ class Authentication {
             }
         )
     }
-    INSERT_RECOMENDATION_CODE (data) {
-        return new Promise (
+    INSERT_RECOMENDATION_CODE(data) {
+        return new Promise(
             async (resolve, reject) => {
                 try {
                     var sql = 'INSERT INTO tb_recommend_codes (recommendation) VALUES (?)';
-                    await myConnection.query(sql, [data.recommendation]);
+                    await myConnection.query(sql, [data.rRecommendation]);
                     resolve(true);
                 } catch (err) {
                     reject(err);
@@ -544,8 +544,8 @@ class Authentication {
         )
     }
 
-    FIND_USER_EMAIL (data) {
-        return new Promise (
+    FIND_USER_EMAIL(data) {
+        return new Promise(
             async (resolve, reject) => {
                 try {
                     var sql = 'SELECT user_id, user_pw FROM tb_users WHERE user_email = ?';
@@ -557,8 +557,8 @@ class Authentication {
             }
         )
     }
-    UPDATE_PASSWORD (data) {
-        return new Promise (
+    UPDATE_PASSWORD(data) {
+        return new Promise(
             async (resolve, reject) => {
                 try {
                     var sql = 'UPDATE tb_users SET user_pw = ? WHERE user_email = ?';
@@ -570,8 +570,8 @@ class Authentication {
             }
         )
     }
-    UPDATE_PASSWORD_ON_USER (data) {
-        return new Promise (
+    UPDATE_PASSWORD_ON_USER(data) {
+        return new Promise(
             async (resolve, reject) => {
                 try {
                     var sql = 'UPDATE tb_users SET user_pw = ? WHERE user_id = ?';
@@ -579,6 +579,19 @@ class Authentication {
                     resolve(true);
                 } catch (err) {
                     reject(err)
+                }
+            }
+        )
+    }
+    GET_RECOMMENDATIONS() {
+        return new Promise(
+            async (resolve, reject) => {
+                try {
+                    var sql = 'SELECT recommendation, COUNT(*) AS cnt FROM tb_recommend_codes GROUP BY recommendation'
+                    var resReturn = await myConnection.query(sql);
+                    resolve(resReturn);
+                } catch (err) {
+                    reject(err);
                 }
             }
         )

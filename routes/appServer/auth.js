@@ -118,6 +118,9 @@ router.post('/register',
             var USER_EXISTENCE = await userModel.CHECK_USER_EXISTENCE(FromData);
             if (USER_EXISTENCE == 0) {
                 if (FromData.recommendation) {
+                    var b = Buffer.from(FromData.recommendation, 'base64');
+                    var s = b.toString();
+                    FromData.rRecommendation = s;
                     await userModel.INSERT_RECOMENDATION_CODE(FromData);
                 }
                 var REGISTER_USER = await userModel.REGISTER_USER(FromData);
@@ -478,5 +481,13 @@ router.post('/newpassword', async (req, res) => {
         console.log(err);
     }
 });
+
+router.get('/coupons', async (req, res) => {
+    try {
+
+    } catch (err) {
+
+    }
+})
 
 module.exports = router;

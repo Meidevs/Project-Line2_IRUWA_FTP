@@ -1,14 +1,14 @@
 var cron = require('node-cron');
-var userMode = require('../../public/javascripts/components/userModel');
-var itemMode = require('../../public/javascripts/components/itemModel');
-cron.schedule("* * * * *", async () => {
+var userModel = require('../../public/javascripts/components/userModel');
+var itemModel = require('../../public/javascripts/components/itemModel');
+cron.schedule("00 00 * * *", async () => {
     try {
-        var userCouponCnt = await userModel.GET_USER_COUPON();
-        var userRecommendationCnt = await userModel.GET_RECOMMENDATIONS();
+        var userCouponCnt = await userModel.GET_RECOMMENDATIONS();
+        var userRecommendationCnt = await userModel.GET_USER_COUPON();
 
     } catch (err) {
 
     }
-})
+});
 
 module.exports = cron;
