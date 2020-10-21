@@ -164,7 +164,7 @@ class Admin {
         return new Promise (
             async (resolve, reject) => {
                 try {
-                    var sql = 'UPDATE tb_admin_coupons SET used = "Y" WHERE admin_coupons_seq IN ('+ data.join() +')';
+                    var sql = 'UPDATE tb_admin_coupons SET used = "Y" WHERE admin_coupon_seq IN ('+ data.join() +')';
                     await myConnection.query(sql);
                     resolve(true);
                 } catch (err) {
