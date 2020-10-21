@@ -615,6 +615,7 @@ class Authentication {
         return new Promise (
             async (resolve, reject) => {
                 try {  
+                    console.log('data', data)
                     console.log('data coupon', data.coupon)
                     console.log('data user_eamil', data.user_eamil)
                     var sql = 'INSERT INTO tb_user_coupons (coupon, user_email) VALUES (?, ?)';
