@@ -337,7 +337,7 @@ class Items {
                 try {
                     var hostname = 'https://mostfeel.site/';
                     for (var i = 0; i < images.length; i++) {
-                        var uri = hostname + 'item_iamges/' + images[i].filename;
+                        var uri = hostname + 'item_images/' + images[i].filename;
                         var sql = 'INSERT INTO tb_images (items_seq, uri) VALUES (?, ?)';
                         await myConnection.query(sql, [items_seq, uri])
                     }
