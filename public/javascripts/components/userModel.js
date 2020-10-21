@@ -602,7 +602,7 @@ class Authentication {
         return new Promise (
             async (resolve, reject) => {
                 try {
-                    var sql = 'UPDATE tb_recommend_codes SET checked = "Y" WHERE recommend_seq IN (SELECT recommend_seq FROM (SELECT recommend_seq FROM tb_recommend_codes WHERE recommendation IN (?) ORDER BY recommend_seq ASC limit 5) as P);'
+                    var sql = 'UPDATE tb_recommend_codes SET checked = "Y" WHERE recommend_seq IN (SELECT recommend_seq FROM (SELECT recommend_seq FROM tb_recommend_codes WHERE checked = "N" AND recommendation IN (?) ORDER BY recommend_seq ASC limit 5) as P);'
                     
                     await myConnection.query(sql, [data]);
                     resolve(true);
