@@ -151,7 +151,7 @@ class Admin {
         return new Promise (
             async (resolve, reject) => {
                 try {
-                    var sql = 'SELECT * FROM tb_admin_coupons WHERE used = "N" ORDER BY admin_coupon_seq ASC limit ?';
+                    var sql = 'SELECT coupon FROM tb_admin_coupons WHERE used = "N" ORDER BY admin_coupon_seq ASC limit ?';
                     var resReturn = await myConnection.query(sql, [data]);
                     resolve(resReturn);
                 } catch (err) {
