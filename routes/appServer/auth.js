@@ -6,6 +6,8 @@ var userModel = require('../../public/javascripts/components/userModel');
 var functions = require('../../public/javascripts/functions/functions');
 const sendEmail = require('../../public/javascripts/components/email.send');
 const { Buffer } = require('buffer');
+const itemModel = require('../../public/javascripts/components/itemModel');
+const adminModel = require('../../public/javascripts/components/adminModel');
 
 const upload = multer({
     storage: multer.diskStorage({
@@ -484,9 +486,12 @@ router.post('/newpassword', async (req, res) => {
 
 router.get('/coupons', async (req, res) => {
     try {
-
+        var FromData = new Object();
+        FromData.user_email = req.body.user_email;
+        var cList = await adminModel.getCouponList(FromData);
+        res.status(200).send(cList);
     } catch (err) {
-
+        console.log(err);
     }
 });
 
