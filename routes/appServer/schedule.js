@@ -24,6 +24,8 @@ cron.schedule("* * * * *", async () => {
                 resArray.push({ user_email: cReceiverList[i].recommendation, coupon: cList[i].coupon })
                 await userModel.UPDATE_RECOMMENDATIONS(cReceiverList[i].recommendation);
             }
+            console.log('B resArray', resArray);
+
             for (var j = 0; j < cList.length; j++) {
                 await userModel.INSERT_COUPON(resArray[j]);
             }
@@ -33,7 +35,8 @@ cron.schedule("* * * * *", async () => {
                 resArray.push({ user_email: cReceiverList[i].recommendation, coupon: cList[i].coupon })
                 await userModel.UPDATE_RECOMMENDATIONS(cReceiverList[i].recommendation);
             }
-            for (var j = 0; j < cList.length; j++) {
+            console.log('A resArray', resArray);
+            for (var j = 0; j < resArray.length; j++) {
                 await userModel.INSERT_COUPON(resArray[j]);
             }
         }
