@@ -3,6 +3,7 @@ var functions = require('../functions/functions');
 const { rejectSeries } = require('async');
 const { type } = require('os');
 const { resolve } = require('path');
+const { getMaxListeners } = require('process');
 
 class Authentication {
 
@@ -587,9 +588,24 @@ class Authentication {
         return new Promise(
             async (resolve, reject) => {
                 try {
-                    var sql = 'SELECT recommendation, COUNT(*) AS cnt FROM tb_recommend_codes GROUP BY recommendation'
+                    var sql = 'SELECT recommendation, COUNT(*) AS cnt FROM tb_recommend_codes WHERE checked = "N" GROUP BY recommendation'
                     var resReturn = await myConnection.query(sql);
                     resolve(resReturn);
+                } catch (err) {
+                    reject(err);
+                }
+            }
+        )
+    }
+
+    UPDATE_RECOMMENDATIONS(data) {
+        return new Promise (
+            async (resolve, reject) => {
+                try {
+                    var sql = 'UPDATE tb_recommend_codes SET checked = "Y" WHERE recommend_seq IN (SELECT recommend_seq FROM (SELECT recommend_seq FROM tb_recommend_codes WHERE recommendation IN (?) ORDER BY recommend_seq ASC limit 5) as P);'
+                    
+                    await myConnection.query(sql, [data]);
+                    resolve(true);
                 } catch (err) {
                     reject(err);
                 }

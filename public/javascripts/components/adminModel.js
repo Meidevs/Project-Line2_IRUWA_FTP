@@ -1,3 +1,4 @@
+const { memoryUsage } = require('process');
 var myConnection = require('../../../dbConfig');
 
 class Admin {
@@ -140,6 +141,32 @@ class Admin {
                     var sql = 'SELECT category_seq, COUNT(*) AS cnt FROM tb_company GROUP BY category_seq';
                     var resReturn = await myConnection.query(sql);
                     resolve(resReturn);
+                } catch (err) {
+                    reject(err);
+                }
+            }
+        )
+    }
+    getUnuseCoupon (data) {
+        return new Promise (
+            async (resolve, reject) => {
+                try {
+                    var sql = 'SELECT * FROM tb_admin_coupons WHERE used = "N" ORDER BY admin_coupon_seq ASC limit ?';
+                    var resReturn = await myConnection.query(sql, [data]);
+                    resolve(resReturn);
+                } catch (err) {
+                    reject(err);
+                }
+            }
+        )
+    }
+    updateUnuseCoupon (data) {
+        return new Promise (
+            async (resolve, reject) => {
+                try {
+                    var sql = 'UPDATE tb_admin_coupons SET used = "Y" WHERE admin_coupons_seq IN ('+ data.join() +')';
+                    await myConnection.query(sql);
+                    resolve(true);
                 } catch (err) {
                     reject(err);
                 }
