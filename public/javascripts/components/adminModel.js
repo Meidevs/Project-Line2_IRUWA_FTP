@@ -177,7 +177,7 @@ class Admin {
         return new Promise (
             async (resolve, reject) => {
                 try {
-                    var sql = 'SELECT coupon FROM tb_user_coupons WHERE user_email = ?';
+                    var sql = 'SELECT coupon, due_date FROM tb_user_coupons WHERE user_email = ?';
                     var resReturn = await myConnection.query(sql, [data.user_email]);
                     resolve(resReturn);
                 } catch (err) {
