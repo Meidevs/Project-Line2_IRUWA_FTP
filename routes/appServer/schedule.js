@@ -15,7 +15,7 @@ cron.schedule("* * * * *", async () => {
         console.log('userCouponCnt', userCouponCnt);
         console.log('cReceiverList', cReceiverList);
         for (var i = 0; i < cReceiverList.length; i++) {
-            await userModel.UPDATE_RECOMMENDATIONS(cReceiverList[0].recommendation);
+            await userModel.UPDATE_RECOMMENDATIONS(cReceiverList[i].recommendation);
         }
         // var cReceiverCnt = cReceiverList.length;
         // var cList = await adminModel.getUnuseCoupon(cReceiverCnt);
