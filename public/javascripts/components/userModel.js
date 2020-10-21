@@ -603,11 +603,23 @@ class Authentication {
             async (resolve, reject) => {
                 try {
                     var sql = 'UPDATE tb_recommend_codes SET checked = "Y" WHERE recommend_seq IN (SELECT recommend_seq FROM (SELECT recommend_seq FROM tb_recommend_codes WHERE checked = "N" AND recommendation IN (?) ORDER BY recommend_seq ASC limit 5) as P);'
-                    
                     await myConnection.query(sql, [data]);
                     resolve(true);
                 } catch (err) {
                     reject(err);
+                }
+            }
+        )
+    }
+    INSERT_COUPON (data) {
+        return new Promise (
+            async (resolve, reject) => {
+                try {
+                    var sql = 'INSERT INTO tb_user_coupons (coupon, user_email) VALUES (?, ?)';
+                    await myConnection.query(sql, [data.coupon, data.user_eamil]);
+                    resolve(true);
+                } catch (err) {
+                    reject(err)
                 }
             }
         )

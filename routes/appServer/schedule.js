@@ -14,17 +14,38 @@ cron.schedule("* * * * *", async () => {
         });
         console.log('userCouponCnt', userCouponCnt);
         console.log('cReceiverList', cReceiverList);
-        for (var i = 0; i < cReceiverList.length; i++) {
-            await userModel.UPDATE_RECOMMENDATIONS(cReceiverList[i].recommendation);
+        var cReceiverCnt = cReceiverList.length;
+        var cList = await adminModel.getUnuseCoupon(cReceiverCnt);
+        console.log('cList', cList);
+        var resArray = new Array();
+
+        if (cReceiverCnt != cList.length) {
+            for (var i = 0; i < cList.length; i++) {
+                resArray.push({ user_email: cReceiverList[i].recommendation, coupon: cList[i].coupon })
+                await userModel.UPDATE_RECOMMENDATIONS(cReceiverList[i].recommendation);
+            }
+            for (var j = 0; j < cList.length; j++) {
+                await userModel.INSERT_COUPON(resArray[j]);
+            }
+
+        } else {
+            for (var i = 0; i < cReceiverList.length; i++) {
+                resArray.push({ user_email: cReceiverList[i].recommendation, coupon: cList[i].coupon })
+                await userModel.UPDATE_RECOMMENDATIONS(cReceiverList[i].recommendation);
+            }
+            for (var j = 0; j < cList.length; j++) {
+                await userModel.INSERT_COUPON(resArray[j]);
+            }
         }
-        // var cReceiverCnt = cReceiverList.length;
-        // var cList = await adminModel.getUnuseCoupon(cReceiverCnt);
-        // var cArray = new Array();
-        // cList.map((data) => {
-        //     cArray.push(data.admin_coupon_seq);
-        // });
-        // await adminModel.updateUnuseCoupon(cArray)
-        // await userModel.INSERT_COUPON();
+        var cArray = new Array();
+        cList.map((data) => {
+            cArray.push(data.admin_coupon_seq);
+        });
+        console.log('cArray', cArray);
+
+        if (cList.length > 0) {
+            await adminModel.updateUnuseCoupon(cArray);
+        }
 
     } catch (err) {
         console.log(err);
