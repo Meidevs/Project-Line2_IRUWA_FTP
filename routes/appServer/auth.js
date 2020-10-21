@@ -484,7 +484,7 @@ router.post('/newpassword', async (req, res) => {
     }
 });
 
-router.get('/coupons', async (req, res) => {
+router.post('/coupons', async (req, res) => {
     try {
         var FromData = new Object();
         FromData.user_email = req.body.user_email;
