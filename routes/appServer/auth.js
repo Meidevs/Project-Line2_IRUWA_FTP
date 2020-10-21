@@ -488,6 +488,6 @@ router.get('/coupons', async (req, res) => {
     } catch (err) {
 
     }
-})
+});
 
 module.exports = router;
