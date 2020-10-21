@@ -619,7 +619,7 @@ class Authentication {
                     console.log('data coupon', data.coupon)
                     console.log('data user_eamil', data.user_email)
                     var sql = 'INSERT INTO tb_user_coupons (coupon, user_email) VALUES (?, ?)';
-                    await myConnection.query(sql, [data.coupon, data.user_eamil]);
+                    await myConnection.query(sql, [data.coupon, data.user_email]);
                     resolve(true);
                 } catch (err) {
                     reject(err)
