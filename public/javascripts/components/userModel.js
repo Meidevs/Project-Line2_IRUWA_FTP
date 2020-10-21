@@ -614,9 +614,11 @@ class Authentication {
     INSERT_COUPON (data) {
         return new Promise (
             async (resolve, reject) => {
-                try {
+                try {  
+                    console.log('data coupon', data.coupon)
+                    console.log('data user_eamil', data.user_eamil)
                     var sql = 'INSERT INTO tb_user_coupons (coupon, user_email) VALUES (?, ?)';
-                    await myConnection.query(sql, [data.coupon_uri, data.user_eamil]);
+                    await myConnection.query(sql, [data.coupon, data.user_eamil]);
                     resolve(true);
                 } catch (err) {
                     reject(err)
