@@ -21,7 +21,7 @@ cron.schedule("* * * * *", async () => {
 
         if (cReceiverCnt != cList.length) {
             for (var i = 0; i < cList.length; i++) {
-                resArray.push({ user_email: cReceiverList[i].recommendation, coupon: cList[i].coupon })
+                resArray.push({ user_email: cReceiverList[i].recommendation, coupon: cList[i].coupon_uri })
                 await userModel.UPDATE_RECOMMENDATIONS(cReceiverList[i].recommendation);
             }
             console.log('B resArray', resArray);
@@ -32,7 +32,7 @@ cron.schedule("* * * * *", async () => {
 
         } else {
             for (var i = 0; i < cReceiverList.length; i++) {
-                resArray.push({ user_email: cReceiverList[i].recommendation, coupon: cList[i].coupon })
+                resArray.push({ user_email: cReceiverList[i].recommendation, coupon: cList[i].coupon_uri })
                 await userModel.UPDATE_RECOMMENDATIONS(cReceiverList[i].recommendation);
             }
             console.log('A resArray', resArray);
