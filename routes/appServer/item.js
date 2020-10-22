@@ -169,7 +169,8 @@ router.post('/premiums', async (req, res) => {
             data: [],
         }
         FromData.location_name = req.body.user_location;
-        var GET_PREMIUM_LIST = await itemModel.GET_ITEM_PREMIUM_LIST(FromData);
+
+        var GET_PREMIUM_LIST = await itemModel.GET_ITEM_PREMIUM_LIST_WITH_CMP(FromData);
 
         for (var j = 0; j < GET_PREMIUM_LIST.length; j++) {
             IMAGE_URIs.push(GET_PREMIUM_LIST[j].items_seq);
