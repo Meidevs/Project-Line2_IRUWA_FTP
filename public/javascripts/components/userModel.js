@@ -410,7 +410,7 @@ class Authentication {
             async (resolve, reject) => {
                 try {
                     var sql = 'UPDATE tb_device SET token = ?, os = ? WHERE user_seq = ?';
-                    await myConnection.query(sql, [data.user_device.data, data.user_device.type, data.user_seq])
+                    await myConnection.query(sql, [data.user_device.data, data.user_device.type, data.user_seq]);
                     resolve(true);
                 } catch (err) {
                     reject(err)
