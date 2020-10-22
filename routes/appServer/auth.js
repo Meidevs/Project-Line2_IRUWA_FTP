@@ -176,7 +176,29 @@ router.post('/duplication', async (req, res) => {
     } catch (err) {
         console.log(err);
     }
-})
+});
+
+router.post('/userduplication', async (req, res) => {
+    try {
+        var FromData = new Object();
+        var resReturn = {
+            flags: 1,
+            message: '이미 존재하는 아이디입니다.'
+        }
+        FromData.user_id = req.body.user_id;
+        var EXISTENCE = await userModel.CHECK_USER_EXISTENCE(FromData);
+        if (EXISTENCE == 0) {
+            resReturn = {
+                flags: 0,
+                message: '사용 가능한 아이디입니다.'
+            }
+        }
+        res.status(200).send(resReturn)
+    } catch (err) {
+        console.log(err);
+    }
+});
+
 router.get('/logout', (req, res) => {
     if (req.session.user) {
         req.session.destroy(err => {
