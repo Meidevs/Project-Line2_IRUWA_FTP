@@ -91,9 +91,10 @@ class Items {
         return new Promise(
             async (resolve, reject) => {
                 try {
+                    var now = new Date().toISOString().substring(0,10);
                     // After Put Ads Date
-                    var sql = 'SELECT * FROM tb_items WHERE cancelled = 0 AND cmp_seq IN (SELECT cmp_seq FROM tb_company WHERE cmp_location = ?) ORDER BY reg_date DESC';
-                    var resReturn = await myConnection.query(sql, [data.location_name]);
+                    var sql = 'SELECT * FROM tb_items WHERE cancelled = 0 AND cmp_seq IN (SELECT cmp_seq FROM tb_company WHERE cmp_location = ? AND ads_date >= ?) ORDER BY reg_date DESC';
+                    var resReturn = await myConnection.query(sql, [data.location_name, now]);
                     resolve(resReturn);
                 } catch (err) {
                     reject(err)
