@@ -1,7 +1,6 @@
 var cron = require('node-cron');
 var userModel = require('../../public/javascripts/components/userModel');
 var adminModel = require('../../public/javascripts/components/adminModel');
-var itemModel = require('../../public/javascripts/components/itemModel');
 cron.schedule("* * * * *", async () => {
     try {
         var cReceiverList = new Array();

@@ -6,7 +6,6 @@ var userModel = require('../../public/javascripts/components/userModel');
 var functions = require('../../public/javascripts/functions/functions');
 const sendEmail = require('../../public/javascripts/components/email.send');
 const { Buffer } = require('buffer');
-const itemModel = require('../../public/javascripts/components/itemModel');
 const adminModel = require('../../public/javascripts/components/adminModel');
 
 const upload = multer({

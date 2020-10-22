@@ -223,7 +223,6 @@ router.post('/list', async (req, res) => {
         // item_content Might be long String. So, Database dealwith item_content Data As Blob Type. 
         // Server Will encode Blob data to actual Data Which can Read & Understand.
         var GET_ITEM_LIST = await itemModel.GET_ITEMS_LIST(FromData);
-        console.log('GET_ITEM_LIST', GET_ITEM_LIST)
         // Distinguish & Assemble related Information. 
         GET_ITEM_LIST.map((item) => {
             GET_CMP_LIST.map((data) => {
@@ -234,7 +233,6 @@ router.post('/list', async (req, res) => {
                 }
             })
         });
-        console.log('GET_ITEM_LIST With GET_CMP_LIST', GET_ITEM_LIST)
 
         // Extract items_seq As a Array. IMAGE_URIs Array sent to GET_IMAGE_URI Function Which Get Image Uris From Database. 
         for (var j = 0; j < GET_ITEM_LIST.length; j++) {
@@ -625,8 +623,6 @@ router.post('/mypick', async (req, res) => {
                 }
             }
         });
-
-        console.log('LIST_OF_PICK', LIST_OF_PICK)
 
         var resReturn = {
             flags: 0,
