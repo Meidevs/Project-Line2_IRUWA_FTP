@@ -10035,7 +10035,8 @@ table.add-manage-table > tbody > tr > td {
   -webkit-flex-direction: column;
      -moz-box-orient: vertical;
      -moz-box-direction: normal;
-          flex-direction: column; }
+		  flex-direction: column; 
+		}
   @media (max-width: 767px) {
     .inbox-nav {
       -webkit-flex-direction: row;
@@ -10064,9 +10065,12 @@ table.add-manage-table > tbody > tr > td {
       font-weight: normal; }
 
 .message-tool-bar-right .count-message {
-  margin-right: 10px; }
-  
- .dashboardsection .inbox-wrapper a.btn {
+  margin-right: 10px; 
+}
+.inbox-wrapper {
+	width : 100%;
+}  
+.dashboardsection .inbox-wrapper a.btn {
     padding: 10px 8px;
 } 
 
