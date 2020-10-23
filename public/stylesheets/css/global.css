@@ -122,7 +122,7 @@ button, input[type=text]:focus, input[type=email]:focus, input[type=password]:fo
 .form-control:focus {
     color: #495057;
     background-color: #fff;
-    border-color: #21c87a;
+    border-color: #15bac1;
     outline: 0;
     box-shadow:none !important;
 
@@ -130,7 +130,7 @@ button, input[type=text]:focus, input[type=email]:focus, input[type=password]:fo
 
 .custom-select:focus {
 
-    border-color: #21c87a;
+    border-color: #15bac1;
     outline: 0;
     box-shadow: 0 0 0 .2rem rgba(76,189,137,.25);
 
@@ -138,7 +138,7 @@ button, input[type=text]:focus, input[type=email]:focus, input[type=password]:fo
 .form-control:focus {
     color: #495057;
     background-color: #ffffff;
-    border-color: #21c87a;
+    border-color: #15bac1;
     outline: 0;
 }
 *:focus {
