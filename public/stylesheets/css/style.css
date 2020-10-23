@@ -9203,6 +9203,19 @@ h2.title {
 	border-radius: 10px;
 	background-color: #ffffff;
 }
+
+.categories-btn .active{
+	color: #15bac1;
+	font-weight:bold;
+	padding-left: 15px;
+	padding-right: 15px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	border : 1px solid #15bac1;
+	border-radius: 10px;
+	background-color: #ffffff;
+}
+
 .GridList .accordion-primary .accordion-title a {
     font-weight: bold;
 }

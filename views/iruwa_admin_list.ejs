@@ -303,9 +303,14 @@
   <script src="javascripts/js/main.js" type="text/javascript"></script>
 
   <script>
-    $(document).ready(() => {
-
-    })
+    let myBtns = document.querySelectorAll('.categories-btn');
+    myBtns.forEach(function (btn) {
+      btn.addEventListener('click', () => {
+        myBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      });
+    });
+    
     $(document).ready(async () => {
       try {
         const allCompany = await fetch('https://mostfeel.site:8888/admin/all', {
