@@ -206,23 +206,7 @@
                         <div class="message-list">
                           <div id="home">
                             <div class="list-group">
-                              <div class="list-group-item">
-                                <a href="iruwa_admin_detail.html" class="list-box-content"> <span class="title">Is this
-                                    item still available
-                                    ?</span>
-                                  <div class="message-text  "> Hi, how are you ? Donec vel purus eget dui pharetra
-                                    rutrum
-                                  </div>
-                                  <div class="time">2018-04-01 11:05pm</div>
-                                </a>
-                                <div class="list-box-action"> <a data-toggle="tooltip" data-placement="top"
-                                    class="markAsStar" title="" data-original-title="Mark as Important "><i
-                                      class="far fa-star"></i></a> <a data-toggle="tooltip" data-placement="top"
-                                    title="" data-original-title="Delete "> <i class=" fas fa-trash"></i></a> <a
-                                    class="markAsRead" data-toggle="tooltip" data-placement="top" title=""
-                                    data-original-title="Mark as unread "> <i class=" fas fa-envelope-open"></i></a>
-                                </div>
-                              </div>
+
                             </div>
                           </div>
                         </div>
@@ -353,9 +337,27 @@
         btn.classList.add('active');
       });
     });
-    showCompany = (data) => {
-      console.log(cmpList)
-      let 
+    showCompany = (category_seq) => {
+      var newArray = cmpList.filter(data => data.category_seq == category_seq);
+      var divFrom = document.getElementsByClassName('list-group')[0];
+      for (var i = 0; i < newArray.length; i++) {
+        var newDiv = document.createElement('div');
+        newDiv.innerHTML = `<div class="list-group-item">
+                                <a class="list-box-content"> <span class="title">`+ newArray[i].cmp_name + `</span>
+                                  <div class="message-text">` + newArray[i].cmp_detail_location + `
+                                  </div>
+                                  <div class="time">`+ newArray[i].reg_date.substring(0, 10) + `</div>
+                                </a>
+                                <div class="list-box-action"> <a data-toggle="tooltip" data-placement="top"
+                                    class="markAsStar" title="" data-original-title="Mark as Important "><i
+                                      class="far fa-star"></i></a> <a data-toggle="tooltip" data-placement="top"
+                                    title="" data-original-title="Delete "> <i class=" fas fa-trash"></i></a> <a
+                                    class="markAsRead" data-toggle="tooltip" data-placement="top" title=""
+                                    data-original-title="Mark as unread "> <i class=" fas fa-envelope-open"></i></a>
+                                </div>
+                              </div>`
+        divFrom.appendChild(newDiv);
+      }
     }
   </script>
 
