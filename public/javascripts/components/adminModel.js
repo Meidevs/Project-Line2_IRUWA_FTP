@@ -186,6 +186,20 @@ class Admin {
             }
         )
     }
+
+    getAllCompany () {
+        return new Promise (
+            async (resolve, reject) => {
+                try {
+                    var sql = 'SELECT * FROM tb_company';
+                    var resReturn = await myConnection.query(sql);
+                    resolve(resReturn)
+                } catch (err) {
+                    reject(err);
+                }
+            }
+        )
+    }
 }
 
 module.exports = new Admin();

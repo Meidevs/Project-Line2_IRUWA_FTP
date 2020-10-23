@@ -91,5 +91,13 @@ router.get('/categories', async (req, res) => {
     }
 });
 
+router.get('/all', async (req, res) => {
+    try {
+        var companies = await adminModel.getAllCompany();
+        res.status(200).send(companies);
+    } catch (err) {
+        console.log(err);
+    }
+})
 
 module.exports = router;
