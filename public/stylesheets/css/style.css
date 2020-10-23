@@ -9204,7 +9204,7 @@ h2.title {
 	background-color: #ffffff;
 }
 
-.categories-btn .active{
+.categories-btn.active{
 	color: #15bac1;
 	font-weight:bold;
 	padding-left: 15px;
