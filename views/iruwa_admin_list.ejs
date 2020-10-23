@@ -206,7 +206,7 @@
                         <div class="message-list">
                           <div id="home">
                             <div class="list-group">
-                              <div class="list-group-item seen">
+                              <div class="list-group-item">
                                 <a href="iruwa_admin_detail.html" class="list-box-content"> <span class="title">Is this
                                     item still available
                                     ?</span>
@@ -292,7 +292,7 @@
           }
         });
 
-        let json = await resCategories.json();
+        let json = await allCompany.json();
         if (response.ok) {
           cmpList = json;
         }
