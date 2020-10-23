@@ -46,6 +46,7 @@
   <script src="js/main.js" type="text/javascript"></script> -->
   <script>
     let myBtns = document.querySelectorAll('.categories-btn');
+    console.log(myBtns);
     myBtns.forEach(function (btn) {
       btn.addEventListener('click', () => {
         myBtns.forEach(b => b.classList.remove('active'));
