@@ -9966,15 +9966,26 @@ table.add-manage-table > tbody > tr > td {
         .message-list .list-group-item .list-box-user .name i.offline {
           color: #636c72; }
   .message-list .list-group-item .list-box-content {
-    width: 65%;
+    width: 80%;
     display: -webkit-flex;
     display: -moz-box;
     display: flex;
-    -webkit-flex-direction: column;
-       -moz-box-orient: vertical;
+    -webkit-flex-direction: row;
+       -moz-box-orient: horizontal;
        -moz-box-direction: normal;
-            flex-direction: column;
-    -webkit-font-smoothing: antialiased; }
+            flex-direction: row;
+	-webkit-font-smoothing: antialiased; }
+	@media (max-width: 767px) {
+		.message-list .list-group-item .list-box-content {
+			width: 80%;
+			display: -webkit-flex;
+			display: -moz-box;
+			display: flex;
+			-webkit-flex-direction: row;
+			   -moz-box-orient: vertical;
+			   -moz-box-direction: normal;
+					flex-direction: column;
+			-webkit-font-smoothing: antialiased; } }
     .message-list .list-group-item .list-box-content .title {
       font-family: "Roboto", Helvetica, Arial, sans-serif;
       font-weight: 700;
