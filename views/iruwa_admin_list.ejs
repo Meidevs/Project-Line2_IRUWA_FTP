@@ -304,13 +304,14 @@
 
   <script>
     let myBtns = document.querySelectorAll('.categories-btn');
+    console.log(myBtns);
     myBtns.forEach(function (btn) {
       btn.addEventListener('click', () => {
         myBtns.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
       });
     });
-    
+
     $(document).ready(async () => {
       try {
         const allCompany = await fetch('https://mostfeel.site:8888/admin/all', {
