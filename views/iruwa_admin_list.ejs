@@ -332,13 +332,7 @@
       } catch (err) {
       }
     });
-    let myBtns = document.querySelectorAll('.categories-btn');
-    myBtns.forEach(function (btn) {
-      btn.addEventListener('click', () => {
-        myBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-      });
-    });
+
     showCompany = (category_seq) => {
       var newArray = cmpList.filter(data => data.category_seq == category_seq);
       var divForm = document.getElementsByClassName('list-group')[0];
@@ -372,6 +366,22 @@
       ulForm.appendChild(newLi);
 
     }
+    let navBtns = document.querySelectorAll('.nav-item');
+    navBtns.forEach(function (btn) {
+      btn.addEventListener('click', () => {
+        navBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      });
+    });
+
+    let myBtns = document.querySelectorAll('.categories-btn');
+    myBtns.forEach(function (btn) {
+      btn.addEventListener('click', () => {
+        myBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      });
+    });
+
   </script>
 
 </body>
