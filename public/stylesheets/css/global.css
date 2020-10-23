@@ -120,7 +120,6 @@ button, input[type=text]:focus, input[type=email]:focus, input[type=password]:fo
 	border-color: #eee;
 }
 .form-control:focus {
-
     color: #495057;
     background-color: #fff;
     border-color: #21c87a;

@@ -9182,17 +9182,17 @@ h2.title {
     margin-left: 5px;
 }
 
-.GridList .accordion-content ul li button .categories-btn {
+.categories-btn {
 	padding-left: 15px;
 	padding-right: 15px;
 	padding-top: 5px;
 	padding-bottom: 5px;
-	border : 1px solid #000000;
+	border : 0px solid;
 	border-radius: 10px;
 	background-color: #ffffff;
 }
 
-.GridList .accordion-content ul li button .categories-btn:hover{
+.categories-btn:hover{
 	color: #15bac1;
 	font-weight:bold;
 	padding-left: 15px;
