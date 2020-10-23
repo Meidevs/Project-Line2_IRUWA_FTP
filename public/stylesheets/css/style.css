@@ -10042,7 +10042,8 @@ table.add-manage-table > tbody > tr > td {
       -webkit-flex-direction: row;
          -moz-box-orient: horizontal;
          -moz-box-direction: normal;
-              flex-direction: row;
+			  flex-direction: row;
+			  justify-content: space-around;
       margin-bottom: 15px;
       border: solid 1px #ddd; } }
   .inbox-nav li.active, .inbox-nav li:hover {
