@@ -9181,9 +9181,27 @@ h2.title {
     color: #9e9e9e;
     margin-left: 5px;
 }
-.GridList .accordion-content ul li a:hover{
-	color: #21c87a;
+
+.GridList .accordion-content ul li a .categories-btn {
+	padding-left: 15px;
+	padding-right: 15px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	border : 1px solid #000000;
+	border-radius: 10px;
+	background-color: #ffffff;
+}
+
+.GridList .accordion-content ul li a .categories-btn:hover{
+	color: #15bac1;
 	font-weight:bold;
+	padding-left: 15px;
+	padding-right: 15px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	border : 1px solid #15bac1;
+	border-radius: 10px;
+	background-color: #ffffff;
 }
 .GridList .accordion-primary .accordion-title a {
     font-weight: bold;

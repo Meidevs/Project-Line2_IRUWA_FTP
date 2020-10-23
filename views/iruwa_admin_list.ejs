@@ -339,7 +339,7 @@
           var selectForm = document.getElementById('option-content');
           for (var i = 0; i < json.length; i++) {
             var li = document.createElement('li');
-            li.innerHTML = `<a href="https://mostfeel.site:8888/admin/list/c=` + json[i].category_seq + `"><img src="` + json[i].uri + `" style="width : 20px; height : 20px; background-color: #15bac1;">` + json[i].category_name + `(` + json[i].count + `)</a>`;
+            li.innerHTML = `<button name="categories-btn" value="` + json[i].category_seq + `"><img src="` + json[i].uri + `" style="width : 30px; height : 30px; background-color: #15bac1; padding:10px; border-radius: 30px;">` + json[i].category_name + `(` + json[i].count + `)</button>`;
             ulForm.appendChild(li);
 
             var option = document.createElement('option');
