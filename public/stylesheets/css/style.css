@@ -9182,7 +9182,7 @@ h2.title {
     margin-left: 5px;
 }
 
-.GridList .accordion-content ul li a .categories-btn {
+.GridList .accordion-content ul li button .categories-btn {
 	padding-left: 15px;
 	padding-right: 15px;
 	padding-top: 5px;
@@ -9192,7 +9192,7 @@ h2.title {
 	background-color: #ffffff;
 }
 
-.GridList .accordion-content ul li a .categories-btn:hover{
+.GridList .accordion-content ul li button .categories-btn:hover{
 	color: #15bac1;
 	font-weight:bold;
 	padding-left: 15px;
