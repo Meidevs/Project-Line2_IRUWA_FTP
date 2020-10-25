@@ -227,6 +227,7 @@
       let json = await resCategories.json();
       if (resCategories.ok) {
         var my_tbody = document.getElementById('categories-tbody');
+        console.log(json)
         json.map((data, index) => {
           var row = my_tbody.insertRow(my_tbody.rows.length);
           var cell1 = row.insertCell(0);
