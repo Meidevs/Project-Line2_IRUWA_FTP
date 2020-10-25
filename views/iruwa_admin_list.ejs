@@ -193,15 +193,7 @@
                     <div class="row">
                       <div class="col-md-3 col-lg-2">
                         <ul class="nav nav-pills inbox-nav">
-                          <li class="nav-item active">
-                            <a class="nav-link">전체<span class="badge badge-gray count">32</span></a>
-                          </li>
-                          <li class="nav-item">
-                            <a class="nav-link">납부 <span class="badge badge-gray count">28</span></a>
-                          </li>
-                          <li class="nav-item">
-                            <a class="nav-link">미납<span class="badge badge-gray count">4</span></a>
-                          </li>
+                          
                         </ul>
                       </div>
                       <div class="col-md-9 col-lg-10">
@@ -336,7 +328,10 @@
     showCompany = (category_seq) => {
       var newArray = cmpList.filter(data => data.category_seq == category_seq);
       var divForm = document.getElementsByClassName('list-group')[0];
-
+      divForm.childNodes.length;
+      for (var x = 0; x < divForm.childNodes.length; x++) {
+        divForm.removeChild(divForm.childNodes[x])
+      }
       for (var i = 0; i < newArray.length; i++) {
         var newDiv = document.createElement('div');
         newDiv.innerHTML = `<div class="list-group-item">
@@ -354,17 +349,14 @@
                                 </div>
                               </div>`
         divForm.appendChild(newDiv);
-
-
       }
       var ulForm = document.getElementsByClassName('inbox-nav')[0];
       for (var i = 0; i < 3; i++) {
         var newLi = document.createElement('li');
-        newLi.setAttribute('nav-item')
+        newLi.addClass('nav-item')
         newLi.innerHTML = `<a class="nav-link">전체<span class="badge badge-gray count">32</span></a>`;
       }
       ulForm.appendChild(newLi);
-
     }
     let navBtns = document.querySelectorAll('.nav-item');
     navBtns.forEach(function (btn) {

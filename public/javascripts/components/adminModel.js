@@ -91,7 +91,7 @@ class Admin {
         return new Promise(
             async (resolve, reject) => {
                 try {
-                    var sql = "SELECT * FROM tb_company WHERE cmp_seq IN (SELECT * FROM tb_items WHERE items_seq IN (" + data + "))";
+                    var sql = "SELECT * FROM tb_company WHERE cmp_seq IN (SELECT cmp_seq FROM tb_items WHERE items_seq IN (" + data + "))";
                     var resReturn = await myConnection.query(sql);
                     resolve(resReturn);
                 } catch (err) {
