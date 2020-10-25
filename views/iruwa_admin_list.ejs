@@ -315,9 +315,7 @@
       console.log('outServiceArray', outServiceArray);
 
       var divForm = document.getElementsByClassName('list-group')[0];
-      console.log(divForm.childNodes)
-      console.log('Length Of Child Nodes',divForm.childNodes.length);
-      for (var x = 0; x < divForm.childNodes.length; x++) {
+      for (var x = 0; x < divForm.childNodes.length + 1; x++) {
         divForm.removeChild(divForm.childNodes[x])
       }
       for (var i = 0; i < newArray.length; i++) {
@@ -340,14 +338,14 @@
       }
 
       var ulForm = document.getElementsByClassName('inbox-nav')[0];
-      
+
       for (var x = 0; x < ulForm.childNodes.length; x++) {
         ulForm.removeChild(ulForm.childNodes[x])
       }
       var newLi = document.createElement('li');
-      newLi.innerHTML = `<li class="nav-item active" onclick="setNewArray()"><a class="nav-link">전체<span class="badge badge-gray count">` + newArray.length + `</span></a></li>
-      <li class="nav-item" onclick="setOnService()"><a class="nav-link">납부<span class="badge badge-gray count">` + onServiceArray.length + `</span></a></li>
-      <li class="nav-item" onclick="setOutService()"><a class="nav-link">미납<span class="badge badge-gray count">` + outServiceArray.length + `</span></a></li>`;
+      newLi.innerHTML = `<li class="nav-item active" onclick="setNewArray(` + 1 + `)"><a class="nav-link">전체<span class="badge badge-gray count">` + newArray.length + `</span></a></li>
+      <li class="nav-item" onclick="setNewArray(` + 2 + `)"><a class="nav-link">납부<span class="badge badge-gray count">` + onServiceArray.length + `</span></a></li>
+      <li class="nav-item" onclick="setNewArray(` + 3 + `)"><a class="nav-link">미납<span class="badge badge-gray count">` + outServiceArray.length + `</span></a></li>`;
       ulForm.appendChild(newLi);
 
       let navBtns = document.querySelectorAll('.nav-item');
@@ -359,66 +357,30 @@
       });
     }
 
-    setNewArray = () => {
-      var divForm = document.getElementsByClassName('list-group')[0];
-      for (var x = 0; x < divForm.childNodes.length; x++) {
-        divForm.removeChild(divForm.childNodes[x])
-      }
-      for (var i = 0; i < newArray.length; i++) {
-        var newDiv = document.createElement('div');
-        newDiv.setAttribute('class', 'list-group-item');
-        newDiv.innerHTML = `<a class="list-box-content"> <span class="title">` + newArray[i].cmp_name + `</span>
-                                  <div class="message-text">` + newArray[i].cmp_detail_location + `
-                                  </div>
-                                  <div class="time">`+ newArray[i].ads_date.substring(0, 10) + `</div>
-                                </a>
-                                <div class="list-box-action"> <a data-toggle="tooltip" data-placement="top"
-                                    class="markAsStar" title="" data-original-title="Mark as Important "><i
-                                      class="far fa-star"></i></a> <a data-toggle="tooltip" data-placement="top"
-                                    title="" data-original-title="Delete "> <i class=" fas fa-trash"></i></a> <a
-                                    class="markAsRead" data-toggle="tooltip" data-placement="top" title=""
-                                    data-original-title="Mark as unread "> <i class=" fas fa-envelope-open"></i></a>
-                                </div>`
-        divForm.appendChild(newDiv);
-      }
-    }
+    setNewArray = (data) => {
+      var array = new Array();
+      switch (data) {
+        case 1:
+          array = newArray;
 
-    setOnService = () => {
-      var divForm = document.getElementsByClassName('list-group')[0];
-      for (var x = 0; x < divForm.childNodes.length; x++) {
-        divForm.removeChild(divForm.childNodes[x])
-      }
-      for (var i = 0; i < onServiceArray.length; i++) {
-        var newDiv = document.createElement('div');
-        newDiv.setAttribute('class', 'list-group-item');
-        newDiv.innerHTML = `<a class="list-box-content"> <span class="title">`+ onServiceArray[i].cmp_name + `</span>
-                                  <div class="message-text">` + onServiceArray[i].cmp_detail_location + `
-                                  </div>
-                                  <div class="time">`+ onServiceArray[i].ads_date.substring(0, 10) + `</div>
-                                </a>
-                                <div class="list-box-action"> <a data-toggle="tooltip" data-placement="top"
-                                    class="markAsStar" title="" data-original-title="Mark as Important "><i
-                                      class="far fa-star"></i></a> <a data-toggle="tooltip" data-placement="top"
-                                    title="" data-original-title="Delete "> <i class=" fas fa-trash"></i></a> <a
-                                    class="markAsRead" data-toggle="tooltip" data-placement="top" title=""
-                                    data-original-title="Mark as unread "> <i class=" fas fa-envelope-open"></i></a>
-                                </div>`
-        divForm.appendChild(newDiv);
-      }
-    }
+        case 2:
+          array = onServiceArray;
 
-    setOutService = () => {
+        case 3:
+          array = outServiceArray;
+      }
+
       var divForm = document.getElementsByClassName('list-group')[0];
-      for (var x = 0; x < divForm.childNodes.length; x++) {
+      for (var x = 0; x < divForm.childNodes.length + 1; x++) {
         divForm.removeChild(divForm.childNodes[x])
       }
-      for (var i = 0; i < outServiceArray.length; i++) {
+      for (var i = 0; i < array.length; i++) {
         var newDiv = document.createElement('div');
         newDiv.setAttribute('class', 'list-group-item');
-        newDiv.innerHTML = `<a class="list-box-content"> <span class="title">`+ outServiceArray[i].cmp_name + `</span>
-                                  <div class="message-text">` + outServiceArray[i].cmp_detail_location + `
+        newDiv.innerHTML = `<a class="list-box-content"> <span class="title">` + array[i].cmp_name + `</span>
+                                  <div class="message-text">` + array[i].cmp_detail_location + `
                                   </div>
-                                  <div class="time">`+ outServiceArray[i].ads_date.substring(0, 10) + `</div>
+                                  <div class="time">`+ array[i].ads_date.substring(0, 10) + `</div>
                                 </a>
                                 <div class="list-box-action"> <a data-toggle="tooltip" data-placement="top"
                                     class="markAsStar" title="" data-original-title="Mark as Important "><i
