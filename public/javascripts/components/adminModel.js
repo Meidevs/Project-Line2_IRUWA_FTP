@@ -217,7 +217,7 @@ class Admin {
         return new Promise (
             async (resolve, reject) => {
                 try {
-                    var sql = 'UPDATE tb_company SET ads_date = ? WHERE cmp_seq = ?';
+                    var sql = 'UPDATE tb_company SET ads_date = ?, normal_ads = "Y" WHERE cmp_seq = ?';
                     await myConnection.query(sql,[data.due_date, data.cmp_seq]);
                     resolve(true);
                 } catch (err) {
