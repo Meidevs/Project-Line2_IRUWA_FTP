@@ -343,12 +343,18 @@
     let currentArrayNum = 1;
     let currentPage;
     let category_code;
+    console.log('outServiceArray', outServiceArray)
     Initial = (category_seq) => {
       category_code = category_seq;
       var current = new Date().toISOString();
       newArray = cmpList.filter(data => data.category_seq == category_seq);
       onServiceArray = newArray.filter(data => data.ads_date >= current);
-      outServiceArray = newArray.filter(data => data.ads_date < current);
+      outServiceArray = newArray.filter(data => {
+        if (!data.ads_date) {
+          return data.ads_date = '없음';
+        }
+        return data.ads_date < current;
+      });
       var ulForm = document.getElementsByClassName('inbox-nav')[0];
       while (ulForm.hasChildNodes()) { ulForm.removeChild(ulForm.firstChild); }
 
@@ -375,9 +381,8 @@
       outServiceArray = newArray.filter(data => {
         if (!data.ads_date) {
           return data.ads_date = '없음';
-        } 
+        }
         return data.ads_date < current;
-         
       });
       var ulForm = document.getElementsByClassName('inbox-nav')[0];
       while (ulForm.hasChildNodes()) { ulForm.removeChild(ulForm.firstChild); }
