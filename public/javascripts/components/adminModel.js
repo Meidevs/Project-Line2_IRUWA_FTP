@@ -200,7 +200,7 @@ class Admin {
             }
         )
     }
-    getCompanyDuedate () {
+    getCompanyDuedate (data) {
         return new Promise (
             async (resolve, reject) => {
                 try {
@@ -213,7 +213,7 @@ class Admin {
             }
         )
     }
-    renewDueDate () {
+    renewDueDate (data) {
         return new Promise (
             async (resolve, reject) => {
                 try {
