@@ -30,7 +30,9 @@ router.post('/upload',
 
 router.get('/categories', async (req, res) => {
     try {
+        console.log('a')
         var resCategories = await adminModel.getCategoryList();
+        console.log(resCategories)
         res.status(200).send(resCategories);
     } catch (err) {
         console.log(err);

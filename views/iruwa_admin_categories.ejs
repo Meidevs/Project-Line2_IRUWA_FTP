@@ -237,15 +237,11 @@
   <script src="https://mostfeel.site:8888/static/javascripts/js/main.js" type="text/javascript"></script>
 
   <script>
-    $(document).ready(async () => {
-      try {
-        await getCategories();
-      } catch (err) {
-        console.log(err);
-      }
+    $(document).ready(() => {
+      getCategories();
     })
 
-    getCategories = () => {
+    getCategories = async () => {
       const resCategories = await fetch('https://mostfeel.site:8888/admin/category/categories', {
         method: 'GET',
         headers: {
