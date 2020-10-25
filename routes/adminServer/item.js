@@ -117,7 +117,8 @@ router.post('/renew', async (req, res) => {
             FromData.due_date = newDateString;
         } else {
             var today = new Date();
-            newDateString = today.setDate(today.getDate() + 30);
+            var dateNum = today.setDate(today.getDate() + 30);
+            newDateString = new Date(dateNum).toISOString().substring(0, 10);
             console.log(newDateString);
             FromData.due_date = newDateString;
         }
