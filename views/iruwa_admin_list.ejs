@@ -353,22 +353,20 @@
     }
 
     setNewArray = (data) => {
-      console.log(data);
       var setArray = new Array();
       switch (data) {
         case 1:
-        setArray = newArray;
-
+          setArray = newArray;
+          break;
         case 2:
-        setArray = onServiceArray;
+          setArray = onServiceArray;
+          break;
 
         case 3:
-        setArray = outServiceArray;
+          setArray = outServiceArray;
+          break;
       }
-      console.log('array', setArray)
       var divForm = document.getElementsByClassName('list-group')[0];
-      console.log('set Array Child Nodes : ', divForm.childNodes)
-      console.log('set Array : ', divForm.childNodes.length)
       while (divForm.hasChildNodes()) { divForm.removeChild(divForm.firstChild); }
 
       for (var i = 0; i < setArray.length; i++) {
