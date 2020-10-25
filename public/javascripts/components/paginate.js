@@ -58,3 +58,4 @@ function paginate(
         pages: pages
     };
 }
+export default paginate;
