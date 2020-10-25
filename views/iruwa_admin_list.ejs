@@ -490,8 +490,8 @@
       setCompanyList(rawArray);
     }
 
-    refreshBtn = () => {
-      getAllCompanies();
+    refreshBtn = async () => {
+      await getAllCompanies();
       refreshSetter()
     }
   </script>
