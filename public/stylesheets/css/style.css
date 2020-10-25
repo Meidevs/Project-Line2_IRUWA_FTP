@@ -9983,7 +9983,7 @@ table.add-manage-table > tbody > tr > td {
 			display: -webkit-flex;
 			display: -moz-box;
 			display: flex;
-			-webkit-flex-direction: row;
+			-webkit-flex-direction: column;
 			   -moz-box-orient: vertical;
 			   -moz-box-direction: normal;
 					flex-direction: column;
@@ -10013,10 +10013,10 @@ table.add-manage-table > tbody > tr > td {
     display: -webkit-flex;
     display: -moz-box;
     display: flex;
-    -webkit-flex-direction: column;
+    -webkit-flex-direction: row;
        -moz-box-orient: vertical;
        -moz-box-direction: normal;
-            flex-direction: column;
+            flex-direction: row;
     -webkit-justify-content: space-evenly;
        -moz-box-pack: space-evenly;
 			justify-content: space-evenly; 
