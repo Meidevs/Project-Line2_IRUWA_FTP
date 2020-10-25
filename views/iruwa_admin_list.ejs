@@ -413,7 +413,8 @@
       var totalItems = data.legnth;
       var pageSize = 10;
       let totalPages = Math.ceil(totalItems / pageSize);
-
+      console.log('currentPage', currentPage)
+      console.log('totalPages', totalPages)
       // ensure current page isn't out of range
       if (currentPage < 1) {
         currentPage = 1;
