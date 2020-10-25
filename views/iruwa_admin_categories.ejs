@@ -276,7 +276,7 @@
         let response = await fetch('https://mostfeel.site:8888/admin/category/delete', {
           method: 'POST',
           headers: {
-            'Cotent-Type': 'application/json'
+            'Content-Type': 'application/json'
           },
           body: JSON.stringify({category_seq : data})
         });
