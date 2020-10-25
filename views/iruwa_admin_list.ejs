@@ -167,9 +167,11 @@
                             <b>10</b> of <b>255</b>
                           </span>
                           <div class="btn-group btn-group-sm">
-                            <button type="button" class="btn btn-secondary" onclick="prev()"><span class="fas fa-arrow-left"></span>
+                            <button type="button" class="btn btn-secondary" onclick="prev()"><span
+                                class="fas fa-arrow-left"></span>
                             </button>
-                            <button type="button" class="btn btn-secondary"onclick="next()"><span class="fas fa-arrow-right"></span>
+                            <button type="button" class="btn btn-secondary" onclick="next()"><span
+                                class="fas fa-arrow-right"></span>
                             </button>
                           </div>
                         </div>
@@ -277,7 +279,7 @@
           var selectForm = document.getElementById('option-content');
           for (var i = 0; i < json.length; i++) {
             var li = document.createElement('li');
-            li.innerHTML = `<button class="categories-btn" onclick="showCompany(` + json[i].category_seq + `)"><img src="` + json[i].uri + `" style="width : 30px; height : 30px; background-color: #15bac1; padding:5px; border-radius: 30px; margin-right : 10px;">` + json[i].category_name + `(` + json[i].count + `)</button>`;
+            li.innerHTML = `<button class="categories-btn" onclick="Initial(` + json[i].category_seq + `)"><img src="` + json[i].uri + `" style="width : 30px; height : 30px; background-color: #15bac1; padding:5px; border-radius: 30px; margin-right : 10px;">` + json[i].category_name + `(` + json[i].count + `)</button>`;
             ulForm.appendChild(li);
 
             var option = document.createElement('option');
@@ -305,7 +307,8 @@
     let outServiceArray;
     let currentArrayNum;
     let currentPage = 1;
-    showCompany = (category_seq) => {
+
+    Initial = (category_seq) => {
       var current = new Date().toISOString();
       newArray = cmpList.filter(data => data.category_seq == category_seq);
       onServiceArray = newArray.filter(data => data.ads_date >= current);
@@ -313,9 +316,9 @@
       var ulForm = document.getElementsByClassName('inbox-nav')[0];
       while (ulForm.hasChildNodes()) { ulForm.removeChild(ulForm.firstChild); }
 
-      ulForm.innerHTML = `<li class="nav-item active" onclick="setNewArray(` + 1 + `)"><a class="nav-link">전체<span class="badge badge-gray count">` + newArray.length + `</span></a></li>
-      <li class="nav-item" onclick="setNewArray(` + 2 + `)"><a class="nav-link">납부<span class="badge badge-gray count">` + onServiceArray.length + `</span></a></li>
-      <li class="nav-item" onclick="setNewArray(` + 3 + `)"><a class="nav-link">미납<span class="badge badge-gray count">` + outServiceArray.length + `</span></a></li>`;
+      ulForm.innerHTML = `<li class="nav-item active" onclick="setArrayType(` + 1 + `)"><a class="nav-link">전체<span class="badge badge-gray count">` + newArray.length + `</span></a></li>
+      <li class="nav-item" onclick="setArrayType(` + 2 + `)"><a class="nav-link">납부<span class="badge badge-gray count">` + onServiceArray.length + `</span></a></li>
+      <li class="nav-item" onclick="setArrayType(` + 3 + `)"><a class="nav-link">미납<span class="badge badge-gray count">` + outServiceArray.length + `</span></a></li>`;
 
       let navBtns = document.querySelectorAll('.nav-item');
       navBtns.forEach(function (btn) {
@@ -324,10 +327,10 @@
           btn.classList.add('active');
         });
       });
-      setNewArray(1)
+      setArrayType(1)
     }
 
-    setNewArray = (data) => {
+    setArrayType = (data) => {
       currentArrayNum = data;
       switch (currentArrayNum) {
         case 1:
@@ -341,6 +344,11 @@
           setArray = outServiceArray;
           break;
       }
+      setCompanyList(setArray)
+    }
+    // var newSpan = document.getElementsByClassName('text-muted count-message')[0];
+    // newSpan.innerHTML = `<b>`+ currentPage * 10+`</b>-<b>`+ +`</b> of <b>` + + `</b>`;
+    setCompanyList = (setArray) => {
       var divForm = document.getElementsByClassName('list-group')[0];
       while (divForm.hasChildNodes()) { divForm.removeChild(divForm.firstChild); }
       var length;
@@ -350,7 +358,6 @@
         length = setArray.length;
       }
       for (var i = 0; i < length; i++) {
-        console.log(i)
         var newDiv = document.createElement('div');
         newDiv.setAttribute('class', 'list-group-item');
         newDiv.innerHTML = `<a class="list-box-content"> <span class="title">` + setArray[i].cmp_name + `</span>
@@ -367,102 +374,86 @@
                                 </div>`
         divForm.appendChild(newDiv);
       }
-    }
-
-    next = () => {
-      let totalItems;
-      currentArrayNum;
-      switch (currentArrayNum) {
-        case 1:
-          totalItems = newArray;
-          break;
-        case 2:
-          totalItems = onServiceArray;
-          break;
-
-        case 3:
-          totalItems = outServiceArray;
-          break;
-      }
-      paginate(totalItems)
-    }
-
-    prev = () => {
-      let totalItems;
-      currentArrayNum;
-      switch (currentArrayNum) {
-        case 1:
-          totalItems = newArray;
-          break;
-        case 2:
-          totalItems = onServiceArray;
-          break;
-
-        case 3:
-          totalItems = outServiceArray;
-          break;
-      }
-      paginate(totalItems)
-    }
-    function paginate(data) {
-      // calculate total pages
-      let totalItems = data;
-      let currentPage = currentPage;
-      let pageSize = 10;
-      let maxPages = Math.ceil(totalItems.length / pageSize)
-      let totalPages = Math.ceil(totalItems / pageSize);
-
-      // ensure current page isn't out of range
-      if (currentPage < 1) {
-        currentPage = 1;
-      } else if (currentPage > totalPages) {
-        currentPage = totalPages;
+      next = () => {
+        var data = paginate();
+        console.log(data)
       }
 
-      let startPage, endPage;
-      if (totalPages <= maxPages) {
-        // total pages less than max so show all pages
-        startPage = 1;
-        endPage = totalPages;
-      } else {
-        // total pages more than max so calculate start and end pages
-        let maxPagesBeforeCurrentPage = Math.floor(maxPages / 2);
-        let maxPagesAfterCurrentPage = Math.ceil(maxPages / 2) - 1;
-        if (currentPage <= maxPagesBeforeCurrentPage) {
-          // current page near the start
+      prev = () => {
+        paginate()
+      }
+
+      function paginate() {
+        // calculate total pages
+        switch (currentArrayNum) {
+          case 1:
+            setArray = newArray;
+            break;
+          case 2:
+            setArray = onServiceArray;
+            break;
+
+          case 3:
+            setArray = outServiceArray;
+            break;
+        }
+        let totalItems = setArray;
+        let currentPage = currentPage;
+        let pageSize = 10;
+        let maxPages = Math.ceil(totalItems.length / pageSize)
+        let totalPages = Math.ceil(totalItems / pageSize);
+
+        // ensure current page isn't out of range
+        if (currentPage < 1) {
+          currentPage = 1;
+        } else if (currentPage > totalPages) {
+          currentPage = totalPages;
+        }
+
+        let startPage, endPage;
+        if (totalPages <= maxPages) {
+          // total pages less than max so show all pages
           startPage = 1;
-          endPage = maxPages;
-        } else if (currentPage + maxPagesAfterCurrentPage >= totalPages) {
-          // current page near the end
-          startPage = totalPages - maxPages + 1;
           endPage = totalPages;
         } else {
-          // current page somewhere in the middle
-          startPage = currentPage - maxPagesBeforeCurrentPage;
-          endPage = currentPage + maxPagesAfterCurrentPage;
+          // total pages more than max so calculate start and end pages
+          let maxPagesBeforeCurrentPage = Math.floor(maxPages / 2);
+          let maxPagesAfterCurrentPage = Math.ceil(maxPages / 2) - 1;
+          if (currentPage <= maxPagesBeforeCurrentPage) {
+            // current page near the start
+            startPage = 1;
+            endPage = maxPages;
+          } else if (currentPage + maxPagesAfterCurrentPage >= totalPages) {
+            // current page near the end
+            startPage = totalPages - maxPages + 1;
+            endPage = totalPages;
+          } else {
+            // current page somewhere in the middle
+            startPage = currentPage - maxPagesBeforeCurrentPage;
+            endPage = currentPage + maxPagesAfterCurrentPage;
+          }
         }
+
+        // calculate start and end item indexes
+        let startIndex = (currentPage - 1) * pageSize;
+        let endIndex = Math.min(startIndex + pageSize - 1, totalItems - 1);
+
+        // create an array of pages to ng-repeat in the pager control
+        let pages = Array.from(Array((endPage + 1) - startPage).keys()).map(i => startPage + i);
+
+        // return object with all pager properties required by the view
+        return {
+          totalItems: totalItems,
+          currentPage: currentPage,
+          pageSize: pageSize,
+          totalPages: totalPages,
+          startPage: startPage,
+          endPage: endPage,
+          startIndex: startIndex,
+          endIndex: endIndex,
+          pages: pages
+        };
       }
-
-      // calculate start and end item indexes
-      let startIndex = (currentPage - 1) * pageSize;
-      let endIndex = Math.min(startIndex + pageSize - 1, totalItems - 1);
-
-      // create an array of pages to ng-repeat in the pager control
-      let pages = Array.from(Array((endPage + 1) - startPage).keys()).map(i => startPage + i);
-
-      // return object with all pager properties required by the view
-      return {
-        totalItems: totalItems,
-        currentPage: currentPage,
-        pageSize: pageSize,
-        totalPages: totalPages,
-        startPage: startPage,
-        endPage: endPage,
-        startIndex: startIndex,
-        endIndex: endIndex,
-        pages: pages
-      };
-    }
   </script>
 
 </body>
