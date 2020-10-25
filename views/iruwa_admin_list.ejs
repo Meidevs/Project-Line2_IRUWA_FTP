@@ -413,15 +413,15 @@
                                   <div class="time">`+ setArray[i].ads_date.substring(0, 10) + `</div>
                                 </a>
                                 <div class="list-box-action">
-                                  <a onclick="setPremium(` + setArray[i].cmp_seq + `)" style="flex-direction : row; width : 100%">
+                                  <button onclick="setPremium(` + setArray[i].cmp_seq + `)" style="flex-direction : row; width : 100%">
                                     <p>프리미엄 허가</p>
-                                  </a>
-                                  <a onclick="renewDueDate(` + setArray[i].cmp_seq + `)" style="flex-direction : row; width : 100%">
+                                  </button>
+                                  <button onclick="renewDueDate(` + setArray[i].cmp_seq + `)" style="flex-direction : row; width : 100%">
                                     <p>기간 연장</p>
-                                  </a>
-                                  <a onclick="pauseCompany(` + setArray[i].cmp_seq + `)" style="flex-direction : row; width : 100%">
+                                  </button>
+                                  <button onclick="pauseCompany(` + setArray[i].cmp_seq + `)" style="flex-direction : row; width : 100%">
                                     <p>등록 중지</p>
-                                  </a>
+                                  </button>
                                 </div>`
         divForm.appendChild(newDiv);
       }

@@ -10023,9 +10023,16 @@ table.add-manage-table > tbody > tr > td {
 			justify-content: flex-end; 
 			align-items: center;
 		}
-    .message-list .list-group-item .list-box-action a {
-      color: #292b2c; }
-      .message-list .list-group-item .list-box-action a:hover {
+	.message-list .list-group-item .list-box-action button 
+	{
+	  flex-direction: row;
+	  width : 100%;
+	  border: 1px solid 10px 0px 10px 0px;
+	  border-radius: 1px;
+	  background-color: #ffffff;
+	  border-color : '#15bac1'
+	}
+      .message-list .list-group-item .list-box-action button:hover {
         -webkit-transform: scale(1.1);
            -moz-transform: scale(1.1);
              -o-transform: scale(1.1);
