@@ -109,9 +109,9 @@ router.post('/renew', async (req, res) => {
             message : '업체 광고 등록기간 연장이 실패하였습니다.'
         }
         var getCmpDueDate = await adminModel.getCompanyDuedate(FromData);
-        var year = getCmpDueDate.split('-')[0];
-        var month = getCmpDueDate.split('-')[1];
-        var day = getCmpDueDate.split('-')[2];
+        var year = getCmpDueDate.toString().split('-')[0];
+        var month = getCmpDueDate.toString().split('-')[1];
+        var day = getCmpDueDate.toString().split('-')[2];
         console.log(year, month, day);
         var newDateString = new Date(year, month, day+30).toISOString().substring(0,10);
         console.log(newDateString)
