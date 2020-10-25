@@ -111,9 +111,9 @@ router.post('/renew', async (req, res) => {
         var getCmpDueDate = new Date();
         getCmpDueDate = await adminModel.getCompanyDuedate(FromData);
         var dateNum = getCmpDueDate.setDate(getCmpDueDate.getDate() + 30);
-        newDateString = new Date(dateNum);
+        newDateString = new Date(dateNum).toISOString().substring(0,10);
         console.log(newDateString)
-        FromData.due_date =newDateString;
+        FromData.due_date = newDateString;
         var updateResult = await adminModel.renewDueDate(FromData);
         if (updateResult) {
             resReturn = {
@@ -121,7 +121,7 @@ router.post('/renew', async (req, res) => {
                 message : '업체의 광고 등록기간이 연장되었습니다.'
             }
         }
-        res.status(200).send(companies);
+        res.status(200).send(resReturn);
     } catch (err) {
         console.log(err);
     }
