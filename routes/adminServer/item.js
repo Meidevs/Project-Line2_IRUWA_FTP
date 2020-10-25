@@ -100,7 +100,7 @@ router.get('/all', async (req, res) => {
     }
 });
 
-router.get('/renew', async (req, res) => {
+router.post('/renew', async (req, res) => {
     try {
         var FromData = new Object();
         FromData.cmp_seq = req.body.cmp_seq;
