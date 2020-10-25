@@ -10014,13 +10014,13 @@ table.add-manage-table > tbody > tr > td {
     display: -webkit-flex;
     display: -moz-box;
     display: flex;
-    -webkit-flex-direction: row;
+    -webkit-flex-direction: column;
        -moz-box-orient: vertical;
        -moz-box-direction: normal;
-            flex-direction: row;
-    -webkit-justify-content: space-between;
+            flex-direction: column;
+    -webkit-justify-content: flex-end;
        -moz-box-pack: space-between;
-			justify-content: space-between; 
+			justify-content: flex-end; 
 			align-items: center;
 		}
     .message-list .list-group-item .list-box-action a {
