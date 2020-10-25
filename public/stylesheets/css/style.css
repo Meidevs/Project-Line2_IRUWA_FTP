@@ -9973,7 +9973,8 @@ table.add-manage-table > tbody > tr > td {
     -webkit-flex-direction: row;
        -moz-box-orient: horizontal;
        -moz-box-direction: normal;
-            flex-direction: row;
+			flex-direction: row;
+			align-items: center;
 	-webkit-font-smoothing: antialiased; }
 	@media (max-width: 767px) {
 		.message-list .list-group-item .list-box-content {
@@ -9985,6 +9986,7 @@ table.add-manage-table > tbody > tr > td {
 			   -moz-box-orient: vertical;
 			   -moz-box-direction: normal;
 					flex-direction: column;
+					align-items: flex-start;
 			-webkit-font-smoothing: antialiased; } }
     .message-list .list-group-item .list-box-content .title {
       font-family: "Roboto", Helvetica, Arial, sans-serif;
@@ -10015,7 +10017,9 @@ table.add-manage-table > tbody > tr > td {
             flex-direction: column;
     -webkit-justify-content: space-evenly;
        -moz-box-pack: space-evenly;
-            justify-content: space-evenly; }
+			justify-content: space-evenly; 
+			align-items: center;
+		}
     .message-list .list-group-item .list-box-action a {
       color: #292b2c; }
       .message-list .list-group-item .list-box-action a:hover {
