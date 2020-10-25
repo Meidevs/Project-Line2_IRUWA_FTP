@@ -306,14 +306,12 @@
     showCompany = (category_seq) => {
       var current = new Date().toISOString();
       newArray = cmpList.filter(data => data.category_seq == category_seq);
-      console.log('Pagenation : ', paginate(newArray));
-
       onServiceArray = newArray.filter(data => data.ads_date >= current);
       outServiceArray = newArray.filter(data => data.ads_date < current);
 
       var divForm = document.getElementsByClassName('list-group')[0];
       while (divForm.hasChildNodes()) { divForm.removeChild(divForm.firstChild); }
-      for (var i = 0; i < newArray.length; i++) {
+      for (var i = 0; i < newArray.length > 10 ? 10 : newArray.length; i++) {
         var newDiv = document.createElement('div');
         newDiv.setAttribute('class', 'list-group-item');
         newDiv.innerHTML = `<a class="list-box-content"> <span class="title">` + newArray[i].cmp_name + `</span>
@@ -363,7 +361,6 @@
           setArray = outServiceArray;
           break;
       }
-      console.log('Pagenation : ', paginate(setArray));
       var divForm = document.getElementsByClassName('list-group')[0];
       while (divForm.hasChildNodes()) { divForm.removeChild(divForm.firstChild); }
 
@@ -385,13 +382,24 @@
         divForm.appendChild(newDiv);
       }
     }
-    function paginate(
-      totalItems,
-      currentPage = 1,
-      pageSize = 10,
-      maxPages = totalItems.length
-    ) {
+
+    next = () => {
+      let totalItems = data;
+      let currentPage = currentPage;
+      let pageSize = 10;
+      let maxPages = Math.ceil(totalItems.length / pageSize)
+      let totalPages = Math.ceil(totalItems / pageSize);
+    }
+
+    prev = () => {
+
+    }
+    function paginate(data, currentPage) {
       // calculate total pages
+      let totalItems = data;
+      let currentPage = currentPage;
+      let pageSize = 10;
+      let maxPages = Math.ceil(totalItems.length / pageSize)
       let totalPages = Math.ceil(totalItems / pageSize);
 
       // ensure current page isn't out of range
