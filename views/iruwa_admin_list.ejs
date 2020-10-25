@@ -360,7 +360,6 @@
         ulForm.removeChild(ulForm.childNodes[x])
       }
       var newLi= document.createElement('li');
-      newLi.addClass('nav-item')
       newLi.innerHTML = `<li class="nav-item active"><a class="nav-link">전체<span class="badge badge-gray count">` + newArray.length + `</span></a></li>
       <li class="nav-item active"><a class="nav-link">전체<span class="badge badge-gray count">` + onServiceArray.length + `</span></a></li>
       <li class="nav-item active"><a class="nav-link">전체<span class="badge badge-gray count">` + outServiceArray.length + `</span></a></li>`;
