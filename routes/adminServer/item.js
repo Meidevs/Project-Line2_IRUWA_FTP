@@ -126,4 +126,10 @@ router.post('/renew', async (req, res) => {
     }
 });
 
+router.get('/images', (req, res) => {
+    res.status(200).render('iruwa_admin_images');
+});
+router.get('/category', (req, res) => {
+    res.status(200).render('iruwa_admin_categories');
+});
 module.exports = router;
