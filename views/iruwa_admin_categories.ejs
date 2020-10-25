@@ -244,8 +244,8 @@
 
     uploadCategory = async () => {
       var formData = new FormData();
-      var category_name = document.getElementById('category_name').val;
-      var category_icon_name = document.getElementById('category_icon_name').val;
+      var category_name = document.getElementById('category_name').value;
+      var category_icon_name = document.getElementById('category_icon_name').value;
       var fileField = document.querySelector("input[type='file']");
       console.log('category_name', category_name);
       console.log('category_icon_name', category_icon_name);
