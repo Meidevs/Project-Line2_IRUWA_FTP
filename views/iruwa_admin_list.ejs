@@ -375,7 +375,15 @@
                                 </div>`
         divForm.appendChild(newDiv);
       }
-      
+      var endIndex;
+      if (currentPage * 10 > setArray.length) {
+        endIndex = setArray.length;
+      } else {
+        endIndex = currentPage * 10;
+      }
+      var startIndex = (currentPage - 1) * 10 + 1;
+      var newSpan = document.getElementsByClassName('count-message')[0];
+      newSpan.innerHTML = `<b>` + startIndex + `</b>-<b>` + endIndex + `</b> of <b>` + setArray.length + `</b>`
     }
     next = () => {
       currentPage += 1;
@@ -424,19 +432,11 @@
       }
 
       var rawArray = new Array();
-      var endIndex;
-      if (currentPage * 10 > setArray.length) {
-        endIndex = setArray.length;
-      } else {
-        endIndex = currentPage * 10;
-      }
-      var startIndex = (currentPage - 1) * 10 + 1;
+      
       for (var i = (currentPage - 1) * 10; i < endIndex; i++) {
         rawArray.push(setArray[i])
       }
       setCompanyList(rawArray);
-      var newSpan = document.getElementsByClassName('count-message')[0];
-      newSpan.innerHTML = `<b>` + startIndex + `</b>-<b>` + endIndex + `</b> of <b>` + setArray.length + `</b>`
     }
   </script>
 
