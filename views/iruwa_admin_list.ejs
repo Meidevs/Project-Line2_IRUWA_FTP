@@ -337,11 +337,9 @@
 
       while (ulForm.hasChildNodes()) { ulForm.removeChild(ulForm.firstChild); }
 
-      var newLi = document.createElement('li');
-      newLi.innerHTML = `<li class="nav-item active" onclick="setNewArray(` + 1 + `)"><a class="nav-link">전체<span class="badge badge-gray count">` + newArray.length + `</span></a></li>
+      ulForm.innerHTML = `<li class="nav-item active" onclick="setNewArray(` + 1 + `)"><a class="nav-link">전체<span class="badge badge-gray count">` + newArray.length + `</span></a></li>
       <li class="nav-item" onclick="setNewArray(` + 2 + `)"><a class="nav-link">납부<span class="badge badge-gray count">` + onServiceArray.length + `</span></a></li>
       <li class="nav-item" onclick="setNewArray(` + 3 + `)"><a class="nav-link">미납<span class="badge badge-gray count">` + outServiceArray.length + `</span></a></li>`;
-      ulForm.appendChild(newLi);
 
       let navBtns = document.querySelectorAll('.nav-item');
       navBtns.forEach(function (btn) {
