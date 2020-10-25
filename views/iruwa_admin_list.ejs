@@ -52,7 +52,8 @@
     <nav class="navbar navbar-expand-lg">
       <div class="container">
         <!-- Logo -->
-        <a class="navbar-brand" href="index.html"> <img src="images/web_images/logo-header.png" alt="travelgo"> </a>
+        <a class="navbar-brand" href="https://mostfeel.site:8888/admin/auth/"> <img src="images/web_images/logo.png"
+            style="width: 60px; height: 60px;" alt="iruwa"> <strong>IRUWA</strong> </a>
         <!-- Menu opener button -->
         <button class="navbar-toggler ml-auto" type="button" data-toggle="collapse" data-target="#navbarCollapse"
           aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation"> <span
@@ -306,14 +307,19 @@
       getAllCategories();
     });
 
+    refreshBtn = () => {
+      getAllCompanies();
+    }
+
 
     let newArray;
     let onServiceArray;
     let outServiceArray;
-    let currentArrayNum;
+    let currentArrayNum = 1;
     let currentPage;
-
+    let category_code;
     Initial = (category_seq) => {
+      category_code = category_seq;
       var current = new Date().toISOString();
       newArray = cmpList.filter(data => data.category_seq == category_seq);
       onServiceArray = newArray.filter(data => data.ads_date >= current);
