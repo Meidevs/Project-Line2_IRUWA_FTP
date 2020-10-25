@@ -9975,6 +9975,7 @@ table.add-manage-table > tbody > tr > td {
        -moz-box-direction: normal;
 			flex-direction: row;
 			align-items: center;
+			justify-content: space-between;
 	-webkit-font-smoothing: antialiased; }
 	@media (max-width: 767px) {
 		.message-list .list-group-item .list-box-content {
@@ -9995,7 +9996,7 @@ table.add-manage-table > tbody > tr > td {
       font-size: .875rem;
       letter-spacing: .2px;
       text-overflow: ellipsis;
-      width: 95%;
+      width: 80%;
       white-space: nowrap;
       overflow: hidden; }
     .message-list .list-group-item .list-box-content .message-text {
@@ -10005,7 +10006,8 @@ table.add-manage-table > tbody > tr > td {
       font-weight: bold; }
     .message-list .list-group-item .list-box-content .time {
       font-size: 11px;
-      color: #636c72;
+	  color: #636c72;
+      max-width: 80%;
       margin-top: 5px; }
   .message-list .list-group-item .list-box-action {
     display: -webkit-flex;
