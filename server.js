@@ -34,7 +34,7 @@ AdminApp.use(logger('dev'));
 AdminApp.use(express.json());
 AdminApp.use(express.urlencoded({ extended: false }));
 AdminApp.use(cookieParser());
-AdminApp.use('/admin', express.static(path.join(__dirname, 'public')));
+AdminApp.use('/admin', path.join(__dirname, 'public'));
 
 
 appServer.use(bodyParser.json());
