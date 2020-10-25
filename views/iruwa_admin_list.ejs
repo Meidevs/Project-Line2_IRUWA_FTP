@@ -371,6 +371,7 @@
       }
 
       var divForm = document.getElementsByClassName('list-group')[0];
+      console.log('set Array : ',divForm.childNodes.length)
       for (var x = 0; x < divForm.childNodes.length + 1; x++) {
         divForm.removeChild(divForm.childNodes[x])
       }
