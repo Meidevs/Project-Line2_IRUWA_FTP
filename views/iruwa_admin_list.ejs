@@ -340,7 +340,10 @@
       var current = new Date().toISOString();
       newArray = cmpList.filter(data => data.category_seq == category_seq);
       onServiceArray = newArray.filter(data => data.ads_date >= current);
+      console.log('onServiceArray', onServiceArray);
       outServiceArray = newArray.filter(data => data.ads_date < current);
+      console.log('outServiceArray', outServiceArray);
+
       var divForm = document.getElementsByClassName('list-group')[0];
       divForm.childNodes.length;
       for (var x = 0; x < divForm.childNodes.length; x++) {
@@ -348,8 +351,8 @@
       }
       for (var i = 0; i < newArray.length; i++) {
         var newDiv = document.createElement('div');
-        newDiv.innerHTML = `<div class="list-group-item">
-                                <a class="list-box-content"> <span class="title">`+ newArray[i].cmp_name + `</span>
+        newDiv.setAttribute('class', 'list-group-item');
+        newDiv.innerHTML = `<a class="list-box-content"> <span class="title">` + newArray[i].cmp_name + `</span>
                                   <div class="message-text">` + newArray[i].cmp_detail_location + `
                                   </div>
                                   <div class="time">`+ newArray[i].ads_date.substring(0, 10) + `</div>
@@ -361,7 +364,7 @@
                                     class="markAsRead" data-toggle="tooltip" data-placement="top" title=""
                                     data-original-title="Mark as unread "> <i class=" fas fa-envelope-open"></i></a>
                                 </div>
-                              </div>`
+                              `
         divForm.appendChild(newDiv);
       }
 
@@ -393,8 +396,8 @@
       }
       for (var i = 0; i < newArray.length; i++) {
         var newDiv = document.createElement('div');
-        newDiv.innerHTML = `<div class="list-group-item">
-                                <a class="list-box-content"> <span class="title">`+ newArray[i].cmp_name + `</span>
+        newDiv.setAttribute('class', 'list-group-item');
+        newDiv.innerHTML = `<a class="list-box-content"> <span class="title">` + newArray[i].cmp_name + `</span>
                                   <div class="message-text">` + newArray[i].cmp_detail_location + `
                                   </div>
                                   <div class="time">`+ newArray[i].ads_date.substring(0, 10) + `</div>
@@ -405,8 +408,7 @@
                                     title="" data-original-title="Delete "> <i class=" fas fa-trash"></i></a> <a
                                     class="markAsRead" data-toggle="tooltip" data-placement="top" title=""
                                     data-original-title="Mark as unread "> <i class=" fas fa-envelope-open"></i></a>
-                                </div>
-                              </div>`
+                                </div>`
         divForm.appendChild(newDiv);
       }
     }
@@ -419,8 +421,8 @@
       }
       for (var i = 0; i < onServiceArray.length; i++) {
         var newDiv = document.createElement('div');
-        newDiv.innerHTML = `<div class="list-group-item">
-                                <a class="list-box-content"> <span class="title">`+ onServiceArray[i].cmp_name + `</span>
+        newDiv.setAttribute('class', 'list-group-item');
+        newDiv.innerHTML = `<a class="list-box-content"> <span class="title">`+ onServiceArray[i].cmp_name + `</span>
                                   <div class="message-text">` + onServiceArray[i].cmp_detail_location + `
                                   </div>
                                   <div class="time">`+ onServiceArray[i].ads_date.substring(0, 10) + `</div>
@@ -431,8 +433,7 @@
                                     title="" data-original-title="Delete "> <i class=" fas fa-trash"></i></a> <a
                                     class="markAsRead" data-toggle="tooltip" data-placement="top" title=""
                                     data-original-title="Mark as unread "> <i class=" fas fa-envelope-open"></i></a>
-                                </div>
-                              </div>`
+                                </div>`
         divForm.appendChild(newDiv);
       }
     }
@@ -445,8 +446,8 @@
       }
       for (var i = 0; i < outServiceArray.length; i++) {
         var newDiv = document.createElement('div');
-        newDiv.innerHTML = `<div class="list-group-item">
-                                <a class="list-box-content"> <span class="title">`+ outServiceArray[i].cmp_name + `</span>
+        newDiv.setAttribute('class', 'list-group-item');
+        newDiv.innerHTML = `<a class="list-box-content"> <span class="title">`+ outServiceArray[i].cmp_name + `</span>
                                   <div class="message-text">` + outServiceArray[i].cmp_detail_location + `
                                   </div>
                                   <div class="time">`+ outServiceArray[i].ads_date.substring(0, 10) + `</div>
@@ -457,8 +458,7 @@
                                     title="" data-original-title="Delete "> <i class=" fas fa-trash"></i></a> <a
                                     class="markAsRead" data-toggle="tooltip" data-placement="top" title=""
                                     data-original-title="Mark as unread "> <i class=" fas fa-envelope-open"></i></a>
-                                </div>
-                              </div>`
+                                </div>`
         divForm.appendChild(newDiv);
       }
     }
