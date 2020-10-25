@@ -282,9 +282,9 @@ class Admin {
         return new Promise(
             async (resolve, reject) => {
                 try {
-                    data.icon_name = 'https://mostfeel.site:443/icons/' + data.icon_name;
+                    data.icon_name = 'https://mostfeel.site:443/icons/' + data.icon_name + '.png';
                     var sql = 'INSERT INTO tb_category_icons (category_seq, uri) VALUES (?, ?)';
-                    await myConnection.query(sql, [data.lastNum, data.icon_name]);
+                    await myConnection.query(sql, [data.category_seq, data.icon_name]);
                     resolve(true);
                 } catch (err) {
                     reject(err);

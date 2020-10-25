@@ -33,7 +33,7 @@ router.post('/upload',
             FromData.icon_name = req.body.icon_name;
             var result = await adminModel.setCategory(FromData);
             var lastNum = await adminModel.getLastCategoryNum();
-            FromData.lastNum = lastNum;
+            FromData.category_seq = lastNum[0].category_seq;
             if (result) {
                 setIconResult = await adminModel.setCategoryIcon(FromData);
                 if(setIconResult) {
