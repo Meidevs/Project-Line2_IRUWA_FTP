@@ -149,18 +149,6 @@
                 </div>
               </div>
             </div>
-            <div class="accordion-item">
-              <div class="accordion-title"> <a class="collapsed" data-toggle="collapse" href="#collapse-7">마감 일자</a>
-              </div>
-              <div class="collapse" id="collapse-7" data-parent="#accordion2">
-                <div class="accordion-content">
-                  <div class="custom-control custom-checkbox mr-sm-2">
-                    <input type="checkbox" class="custom-control-input" id="customControlAutosizing">
-                    <label class="custom-control-label" for="customControlAutosizing">가까운순</label>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
         <div class="col-lg-9 col-md-8 col-sm-12 col-xs-12">
@@ -286,7 +274,6 @@
             'Content-Type': 'application/json'
           }
         });
-
         let json = await resCategories.json();
         if (resCategories.ok) {
           var ulForm = document.getElementById('accordion-content-categories');
@@ -313,23 +300,6 @@
       } catch (err) {
         console.log(err);
         alert('카테고리를 불러오는데 실패하였습니다.');
-      }
-    });
-
-    $(document).ready(async () => {
-      try {
-        const resCategories = await fetch('https://mostfeel.site:8888/admin/duedate', {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        });
-
-        let json = await resCategories.json();
-        if (resCategories.ok) {
-
-        }
-      } catch (err) {
       }
     });
 
@@ -369,7 +339,7 @@
       }
 
       var ulForm = document.getElementsByClassName('inbox-nav')[0];
-      ulForm.childNodes.length;
+      console.log('Length Of Child Nodes',ulForm.childNodes.length);
       for (var x = 0; x < ulForm.childNodes.length; x++) {
         ulForm.removeChild(ulForm.childNodes[x])
       }
@@ -390,7 +360,6 @@
 
     setNewArray = () => {
       var divForm = document.getElementsByClassName('list-group')[0];
-      divForm.childNodes.length;
       for (var x = 0; x < divForm.childNodes.length; x++) {
         divForm.removeChild(divForm.childNodes[x])
       }
@@ -415,7 +384,6 @@
 
     setOnService = () => {
       var divForm = document.getElementsByClassName('list-group')[0];
-      divForm.childNodes.length;
       for (var x = 0; x < divForm.childNodes.length; x++) {
         divForm.removeChild(divForm.childNodes[x])
       }
@@ -440,7 +408,6 @@
 
     setOutService = () => {
       var divForm = document.getElementsByClassName('list-group')[0];
-      divForm.childNodes.length;
       for (var x = 0; x < divForm.childNodes.length; x++) {
         divForm.removeChild(divForm.childNodes[x])
       }
