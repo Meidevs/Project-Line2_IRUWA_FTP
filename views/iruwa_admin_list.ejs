@@ -326,7 +326,7 @@
     });
 
     showCompany = (category_seq) => {
-      var current = new Date().toISOString().subString(0,10);
+      var current = new Date().toISOString();
       var newArray = cmpList.filter(data => data.category_seq == category_seq);
       var onServiceArray = newArray.filter(data => data.ads_date >= current);
       var outServiceArray = newArray.filter(data => data.ads_date < current);
