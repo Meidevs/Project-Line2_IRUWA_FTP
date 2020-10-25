@@ -167,9 +167,9 @@
                             <b>10</b> of <b>255</b>
                           </span>
                           <div class="btn-group btn-group-sm">
-                            <button type="button" class="btn btn-secondary"><span class="fas fa-arrow-left"></span>
+                            <button type="button" class="btn btn-secondary" onclick="prev()"><span class="fas fa-arrow-left"></span>
                             </button>
-                            <button type="button" class="btn btn-secondary"><span class="fas fa-arrow-right"></span>
+                            <button type="button" class="btn btn-secondary"onclick="next()"><span class="fas fa-arrow-right"></span>
                             </button>
                           </div>
                         </div>
@@ -303,35 +303,14 @@
     let newArray;
     let onServiceArray;
     let outServiceArray;
+    let currentArrayNum;
+    let currentPage = 1;
     showCompany = (category_seq) => {
       var current = new Date().toISOString();
       newArray = cmpList.filter(data => data.category_seq == category_seq);
       onServiceArray = newArray.filter(data => data.ads_date >= current);
       outServiceArray = newArray.filter(data => data.ads_date < current);
-
-      var divForm = document.getElementsByClassName('list-group')[0];
-      while (divForm.hasChildNodes()) { divForm.removeChild(divForm.firstChild); }
-      for (var i = 0; i < newArray.length > 10 ? 10 : newArray.length; i++) {
-        var newDiv = document.createElement('div');
-        newDiv.setAttribute('class', 'list-group-item');
-        newDiv.innerHTML = `<a class="list-box-content"> <span class="title">` + newArray[i].cmp_name + `</span>
-                                  <div class="message-text">` + newArray[i].cmp_detail_location + `
-                                  </div>
-                                  <div class="time">`+ newArray[i].ads_date.substring(0, 10) + `</div>
-                                </a>
-                                <div class="list-box-action"> <a data-toggle="tooltip" data-placement="top"
-                                    class="markAsStar" title="" data-original-title="Mark as Important "><i
-                                      class="far fa-star"></i></a> <a data-toggle="tooltip" data-placement="top"
-                                    title="" data-original-title="Delete "> <i class=" fas fa-trash"></i></a> <a
-                                    class="markAsRead" data-toggle="tooltip" data-placement="top" title=""
-                                    data-original-title="Mark as unread "> <i class=" fas fa-envelope-open"></i></a>
-                                </div>
-                              `
-        divForm.appendChild(newDiv);
-      }
-
       var ulForm = document.getElementsByClassName('inbox-nav')[0];
-
       while (ulForm.hasChildNodes()) { ulForm.removeChild(ulForm.firstChild); }
 
       ulForm.innerHTML = `<li class="nav-item active" onclick="setNewArray(` + 1 + `)"><a class="nav-link">전체<span class="badge badge-gray count">` + newArray.length + `</span></a></li>
@@ -345,11 +324,12 @@
           btn.classList.add('active');
         });
       });
+      setNewArray()
     }
 
-    setNewArray = (data) => {
-      var setArray = new Array();
-      switch (data) {
+    setNewArray = () => {
+      currentArrayNum;
+      switch (currentArrayNum) {
         case 1:
           setArray = newArray;
           break;
@@ -364,7 +344,7 @@
       var divForm = document.getElementsByClassName('list-group')[0];
       while (divForm.hasChildNodes()) { divForm.removeChild(divForm.firstChild); }
 
-      for (var i = 0; i < setArray.length; i++) {
+      for (var i = 0; i < setArray.length > 10 ? 10 : setArray.length; i++) {
         var newDiv = document.createElement('div');
         newDiv.setAttribute('class', 'list-group-item');
         newDiv.innerHTML = `<a class="list-box-content"> <span class="title">` + setArray[i].cmp_name + `</span>
@@ -384,19 +364,43 @@
     }
 
     next = () => {
-      let totalItems = data;
-      let currentPage = currentPage;
-      let pageSize = 10;
-      let maxPages = Math.ceil(totalItems.length / pageSize)
-      let totalPages = Math.ceil(totalItems / pageSize);
+      let totalItems;
+      currentArrayNum;
+      switch (currentArrayNum) {
+        case 1:
+          totalItems = newArray;
+          break;
+        case 2:
+          totalItems = onServiceArray;
+          break;
+
+        case 3:
+          totalItems = outServiceArray;
+          break;
+      }
+      paginate(totalItems)
     }
 
     prev = () => {
+      let totalItems;
+      currentArrayNum;
+      switch (currentArrayNum) {
+        case 1:
+          totalItems = newArray;
+          break;
+        case 2:
+          totalItems = onServiceArray;
+          break;
 
+        case 3:
+          totalItems = outServiceArray;
+          break;
+      }
+      paginate(totalItems)
     }
-    function paginate(data, currentPage) {
+    function paginate(data) {
       // calculate total pages
-      let totalItems = data;
+      let totalItems;
       let currentPage = currentPage;
       let pageSize = 10;
       let maxPages = Math.ceil(totalItems.length / pageSize)
