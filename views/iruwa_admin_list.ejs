@@ -315,7 +315,8 @@
       console.log('outServiceArray', outServiceArray);
 
       var divForm = document.getElementsByClassName('list-group')[0];
-      divForm.childNodes.length;
+      console.log(divForm.childNodes)
+      console.log('Length Of Child Nodes',divForm.childNodes.length);
       for (var x = 0; x < divForm.childNodes.length; x++) {
         divForm.removeChild(divForm.childNodes[x])
       }
@@ -339,8 +340,7 @@
       }
 
       var ulForm = document.getElementsByClassName('inbox-nav')[0];
-      console.log(ulForm.childNodes)
-      console.log('Length Of Child Nodes',ulForm.childNodes.length);
+      
       for (var x = 0; x < ulForm.childNodes.length; x++) {
         ulForm.removeChild(ulForm.childNodes[x])
       }
