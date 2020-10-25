@@ -28,4 +28,13 @@ router.post('/upload',
         }
     });
 
+router.get('/categories', async (req, res) => {
+    try {
+        var resCategories = await adminModel.getCategoryList();
+        res.status(200).send(resCategories);
+    } catch (err) {
+        console.log(err);
+    }
+});
+
 module.exports = router;

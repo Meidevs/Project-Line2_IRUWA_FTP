@@ -93,14 +93,8 @@
     <div class="container">
       <div class="row all-text-white">
         <div class="col-md-12 align-self-center">
-          <h1 class="innerpage-title">카테고리 등록/삭제</h1>
-          <h6 class="subtitle">Fusce iaculis ex sed nulla commodo imperdiet. Proin sed rhoncus ligula.</h6>
-          <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-              <li class="breadcrumb-item active"><a href="index.html"><i class="ti-home"></i> Home</a></li>
-              <li class="breadcrumb-item">Forms</li>
-            </ol>
-          </nav>
+          <h1 class="innerpage-title">카테고리 관리</h1>
+          <h6 class="subtitle">카테고리를 등록/삭제할 수 있는 관리자 페이지입니다</h6>
         </div>
       </div>
     </div>
@@ -121,9 +115,10 @@
                   <th scope="col">아이콘</th>
                   <th scope="col">카테고리 명</th>
                   <th scope="col">Url</th>
+                  <th scope="col">삭제</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody id="categories-tbody">
                 <tr>
                   <th scope="row">1</th>
                   <td>Mark</td>
@@ -155,11 +150,11 @@
     <div class="container">
       <div class="row">
         <div class="col-md-12">
-
-          <!-- Email -->
           <div class="form-group">
-
             <input class="form-control" type="text" placeholder="카테고리 명">
+          </div>
+          <div class="form-group">
+            <input class="form-control" type="text" placeholder="아이콘 명(영문)">
           </div>
         </div>
 
@@ -240,6 +235,42 @@
   <script src="https://mostfeel.site:8888/static/javascripts/js/slick.js" type="text/javascript"></script>
   <script src="https://mostfeel.site:8888/static/javascripts/js/swiper.min.js" type="text/javascript"></script>
   <script src="https://mostfeel.site:8888/static/javascripts/js/main.js" type="text/javascript"></script>
+
+  <script>
+    $(document).ready(async () => {
+      try {
+        await getCategories();
+      } catch (err) {
+        console.log(err);
+      }
+    })
+
+    getCategories = () => {
+      const resCategories = await fetch('https://mostfeel.site:8888/admin/category/categories', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      let json = await resCategories.json();
+      if (resCategories.ok) {
+        var my_tbody = document.getElementById('categories-tbody');
+        json.map((data, index) => {
+          var row = my_tbody.insertRow(my_tbody.rows.length);
+          var cell1 = row.insertCell(0);
+          var cell2 = row.insertCell(1);
+          var cell3 = row.insertCell(2);
+          var cell4 = row.insertCell(3);
+          var cell5 = row.insertCell(4);
+          cell1.innerHTML = index;
+          cell2.innerHTML = `<img src="` + data.uri + `">`
+          cell3.innerHTML = data.category_name;
+          cell4.innerHTML = data.uri;
+          cell5.innerHTML = `<button type="button" onclick="deleteCategory(` + data.category_seq + `)">`
+        })
+      }
+    }
+  </script>
 </body>
 
 </html>
