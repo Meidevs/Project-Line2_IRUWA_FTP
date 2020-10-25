@@ -422,7 +422,7 @@
         newDiv.innerHTML = `<a class="list-box-content"> <span class="title">` + setArray[i].cmp_name + `</span>
                                   <div class="message-text">` + setArray[i].cmp_detail_location + `
                                   </div>
-                                  <div class="time">`+ setArray[i].ads_date.substring(0, 10) + `</div>
+                                  <div class="time">`+ !setArray[i].ads_date ? '일정이 없습니다' : setArray[i].ads_date.substring(0, 10) + `</div>
                                 </a>
                                 <div class="list-box-action">
                                   <button onclick="setPremium(` + setArray[i].cmp_seq + `)" style="flex-direction : row; width : 100%">
