@@ -10050,8 +10050,7 @@ table.add-manage-table > tbody > tr > td {
     background: #f5f5f5; }
     .inbox-nav li.active a, .inbox-nav li:hover a {
       font-weight: bold; }
-  .inbox-nav li button {
-	border: 0px solid;
+  .inbox-nav li a {
     color: #292b2c;
     display: -webkit-flex;
     display: -moz-box;
@@ -10062,7 +10061,7 @@ table.add-manage-table > tbody > tr > td {
     -webkit-justify-content: space-between;
        -moz-box-pack: justify;
             justify-content: space-between; }
-    .inbox-nav li button .badge {
+    .inbox-nav li a .badge {
       color: #636c72;
       font-weight: normal; }
 
