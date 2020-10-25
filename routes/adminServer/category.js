@@ -27,7 +27,7 @@ router.post('/upload',
             var FromData = new Object();
             var resReturn = {
                 flags : 1,
-                message : '카테고리를 업데이트에 실패하였습니다.';
+                message : '카테고리를 업데이트에 실패하였습니다.'
             }
             FromData.category_name = req.body.category_name;
             FromData.icon_name = req.body.icon_name;
