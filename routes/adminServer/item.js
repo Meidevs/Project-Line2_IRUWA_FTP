@@ -110,8 +110,8 @@ router.post('/renew', async (req, res) => {
         }
         var getCmpDueDate = new Date();
         getCmpDueDate = await adminModel.getCompanyDuedate(FromData);
-        console.log('getCmpDueDate', getCmpDueDate)
-        var newDateString = getCmpDueDate.setDate(30).toLocaleString();
+        var result = new Date(getCmpDueDate);
+        var newDateString = result.setDate(result.getDate() + 30);
         console.log('newDateString', newDateString)
         FromData.due_date = newDateString;
         var updateResult = await adminModel.renewDueDate(FromData);
