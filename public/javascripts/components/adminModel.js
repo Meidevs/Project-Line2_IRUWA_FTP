@@ -318,6 +318,20 @@ class Admin {
             }
         )
     }
+
+    getImageInfo() {
+        return new Promise(
+            async (resolve, reject) => {
+                try {
+                    var sql = 'SELECT uri, (SELECT items_seq FROM tb_items items WHERE items.items_seq = images.items_seq) AS items_seq, (SELECT item_name FROM tb_items items WHERE items.items_seq = images.items_seq) AS item_name, (SELECT cmp_name FROM tb_company cmp WHERE cmp.cmp_seq IN (SELECT cmp_seq FROM tb_items items WHERE items.items_seq = images.items_seq)) AS cmp_name, (SELECT cmp_seq FROM tb_company cmp WHERE cmp.cmp_seq IN (SELECT cmp_seq FROM tb_items items WHERE items.items_seq = images.items_seq)) AS cmp_seq, (SELECT category_seq FROM tb_company cmp WHERE cmp.cmp_seq IN (SELECT cmp_seq FROM tb_items items WHERE items.items_seq = images.items_seq)) AS category_seq FROM tb_images images'
+                    var imageList = await myConnection.query(sql);
+                    resolve(imageList)
+                } catch (err) {
+                    reject(err);
+                }
+            }
+        )
+    }
 }
 
 module.exports = new Admin();

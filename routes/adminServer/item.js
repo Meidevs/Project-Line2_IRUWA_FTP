@@ -6,6 +6,10 @@ router.get('/main', (req, res) => {
     res.status(200).render('iruwa_admin_main');
 });
 
+router.get('/images', (req, res) => {
+    res.status(200).render('iruwa_admin_images');
+});
+
 router.get('/popular', async (req, res) => {
     try {
         var result = new Array();
@@ -178,8 +182,13 @@ router.post('/setpremium', async (req, res) => {
     }
 });
 
-router.get('/images', (req, res) => {
-    res.status(200).render('iruwa_admin_images');
-});
+router.get('/itemimages', async (req, res) => {
+    try {
+        var result = await adminModel.getImageInfo();
+        res.status(200).send(result);
+    } catch (err) {
+        console.log(err);
+    }
+})
 
 module.exports = router;
