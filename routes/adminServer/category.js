@@ -24,9 +24,27 @@ router.post('/upload',
         try {
             console.log(req.body);
             console.log(req.files);
-            console.log(req.file);
+            var FromData = new Object();
+            var resReturn = {
+                flags : 1,
+                message : '카테고리를 업데이트에 실패하였습니다.';
+            }
+            FromData.category_name = req.body.category_name;
+            FromData.icon_name = req.body.icon_name;
+            var result = await adminModel.setCategory(FromData);
+            var lastNum = await adminModel.getLastCategoryNum();
+            FromData.lastNum = lastNum;
+            if (result) {
+                setIconResult = await adminModel.setCategoryIcon(FromData);
+                if(setIconResult) {
+                    resReturn = {
+                        flags : 0,
+                        message : '카테고리를 업데이트 하였습니다.'
+                    }
+                }
+            }
         } catch (err) {
-
+            console.log(err);
         }
     });
 

@@ -252,6 +252,46 @@ class Admin {
             }
         )
     }
+    setCategory(data) {
+        return new Promise(
+            async (resolve, reject) => {
+                try {
+                    var sql = 'INSERT INTO tb_categories (category_name) VALUES (?)';
+                    await myConnection.query(sql, [data.category_name]);
+                    resolve(true);
+                } catch (err) {
+                    reject(err);
+                }
+            }
+        )
+    }
+    getLastCategoryNum() {
+        return new Promise(
+            async (resolve, reject) => {
+                try {
+                    var sql = 'SELECT category_seq FROM tb_categories ORDER BY category_seq DESC LIMIT 1';
+                    var resReturn = await myConnection.query(sql);
+                    resolve(resReturn);
+                } catch (err) {
+                    reject(err);
+                }
+            }
+        )
+    }
+    setCategoryIcon(data) {
+        return new Promise(
+            async (resolve, reject) => {
+                try {
+                    data.icon_name = 'https://mostfeel.site:443/icons/' + data.icon_name;
+                    var sql = 'INSERT INTO tb_category_icons (category_seq, uri) VALUES (?, ?)';
+                    await myConnection.query(sql, [data.lastNum, data.icon_name]);
+                    resolve(true);
+                } catch (err) {
+                    reject(err);
+                }
+            }
+        )
+    }
 }
 
 module.exports = new Admin();

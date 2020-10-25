@@ -137,7 +137,7 @@
               <input class="form-control" id="category_name" name="category_name" type="text" placeholder="카테고리 명" value="">
             </div>
             <div class="form-group">
-              <input class="form-control" id="category_icon_name" name="category_icon_name" type="text" placeholder="아이콘 명(영문)" value="">
+              <input class="form-control" id="icon_name" name="icon_name" type="text" placeholder="아이콘 명(영문)" value="">
             </div>
             <div class="input-group-prepend">
               <span class="input-group-text">Upload</span>
@@ -245,13 +245,13 @@
     uploadCategory = async () => {
       var formData = new FormData();
       var category_name = document.getElementById('category_name').value;
-      var category_icon_name = document.getElementById('category_icon_name').value;
+      var icon_name = document.getElementById('icon_name').value;
       var fileField = document.querySelector("input[type='file']");
       console.log('category_name', category_name);
       console.log('category_icon_name', category_icon_name);
       console.log('fileField', fileField);
       formData.append("category_name", category_name)
-      formData.append("category_icon_name", category_icon_name)
+      formData.append("icon_name", icon_name)
       formData.append("image", fileField.files[0]);
       try {
         let response = await fetch('https://mostfeel.site:8888/admin/category/upload', {
