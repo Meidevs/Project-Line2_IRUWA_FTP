@@ -324,11 +324,12 @@
           btn.classList.add('active');
         });
       });
+      currentArrayNum = 1;
       setNewArray()
     }
 
-    setNewArray = () => {
-      currentArrayNum;
+    setNewArray = (data) => {
+      currentArrayNum = data;
       switch (currentArrayNum) {
         case 1:
           setArray = newArray;
@@ -400,7 +401,7 @@
     }
     function paginate(data) {
       // calculate total pages
-      let totalItems;
+      let totalItems = data;
       let currentPage = currentPage;
       let pageSize = 10;
       let maxPages = Math.ceil(totalItems.length / pageSize)
