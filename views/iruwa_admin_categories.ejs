@@ -69,11 +69,11 @@
             <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="#" id="docMenu"
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">대쉬보드</a>
               <ul class="dropdown-menu" aria-labelledby="docMenu">
-                <li><a class="dropdown-item" href="dashboard.html">카테고리 관리</a></li>
+                <li><a class="dropdown-item" href="https://mostfeel.site:8888/admin/category">카테고리 관리</a></li>
                 <li><a class="dropdown-item" href="dashboard-myads.html">공지사항 관리</a></li>
                 <li><a class="dropdown-item" href="dashboard-myfavourites.html">프리미엄 광고 관리</a></li>
                 <li><a class="dropdown-item" href="dashboard-offermessages.html">검색 금지어 관리</a></li>
-                <li><a class="dropdown-item" href="dashboard-payments.html">이미지 관리</a></li>
+                <li><a class="dropdown-item" href="https://mostfeel.site:8888/admin/images">이미지 관리</a></li>
               </ul>
             </li>
           </ul>
@@ -271,7 +271,6 @@
       }
     }
     deleteCategory = async (data) => {
-      console.log('deleteCategory', data)
       try {
         let response = await fetch('https://mostfeel.site:8888/admin/category/delete', {
           method: 'POST',
@@ -282,7 +281,7 @@
         });
         let json = await response.json();
         if (response.ok) {
-          
+          alert(json.message);
         }
       } catch (err) {
         console.log(err);

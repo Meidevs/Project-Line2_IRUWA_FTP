@@ -50,7 +50,6 @@ router.post('/upload',
     });
 router.post('/delete', async (req, res) => {
     try {
-        console.log('Category Seq ? ', req.body)
         var FromData = new Object();
         FromData.category_seq = req.body.category_seq;
         await adminModel.deleteCategory(FromData);
