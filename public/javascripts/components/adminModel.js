@@ -200,6 +200,32 @@ class Admin {
             }
         )
     }
+    getCompanyDuedate () {
+        return new Promise (
+            async (resolve, reject) => {
+                try {
+                    var sql = 'SELECT ads_date FROM tb_company WHERE cmp_seq = ?';
+                    var cmpInfo = await myConnection.query(sql, [data.cmp_seq]);
+                    resolve(cmpInfo)
+                } catch (err) {
+                    reject(err);
+                }
+            }
+        )
+    }
+    renewDueDate () {
+        return new Promise (
+            async (resolve, reject) => {
+                try {
+                    var sql = 'UPDATE tb_company SET ads_date = ? WHERE cmp_seq = ?';
+                    await myConnection.query(sql,[data.due_date, data.cmp_seq]);
+                    resolve(true);
+                } catch (err) {
+                    reject(err);
+                }
+            }
+        )
+    }
 }
 
 module.exports = new Admin();

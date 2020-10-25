@@ -98,6 +98,35 @@ router.get('/all', async (req, res) => {
     } catch (err) {
         console.log(err);
     }
-})
+});
+
+router.get('/renew', async (req, res) => {
+    try {
+        var FromData = new Object();
+        FromData.cmp_seq = req.body.cmp_seq;
+        var resReturn = {
+            flags : 1,
+            message : '업체 광고 등록기간 연장이 실패하였습니다.'
+        }
+        var getCmpDueDate = await adminModel.getCompanyDuedate(FromData);
+        var year = getCmpDueDate.split('-')[0];
+        var month = getCmpDueDate.split('-')[1];
+        var day = getCmpDueDate.split('-')[2];
+        console.log(year, month, day);
+        var newDateString = new Date(year, month, day+30).toISOString().substring(0,10);
+        console.log(newDateString)
+        FromData.due_date = newDateString;
+        var updateResult = await adminModel.renewDueDate(FromData);
+        if (updateResult) {
+            resReturn = {
+                flags : 0,
+                message : '업체의 광고 등록기간이 연장되었습니다.'
+            }
+        }
+        res.status(200).send(companies);
+    } catch (err) {
+        console.log(err);
+    }
+});
 
 module.exports = router;

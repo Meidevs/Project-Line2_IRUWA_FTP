@@ -10018,9 +10018,9 @@ table.add-manage-table > tbody > tr > td {
        -moz-box-orient: vertical;
        -moz-box-direction: normal;
             flex-direction: row;
-    -webkit-justify-content: space-evenly;
-       -moz-box-pack: space-evenly;
-			justify-content: space-evenly; 
+    -webkit-justify-content: space-between;
+       -moz-box-pack: space-between;
+			justify-content: space-between; 
 			align-items: center;
 		}
     .message-list .list-group-item .list-box-action a {

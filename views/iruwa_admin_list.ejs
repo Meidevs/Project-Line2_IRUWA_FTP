@@ -347,7 +347,7 @@
       }
       setCompanyList(setArray)
     }
-    
+
     setCompanyList = (setArray) => {
       var divForm = document.getElementsByClassName('list-group')[0];
       while (divForm.hasChildNodes()) { divForm.removeChild(divForm.firstChild); }
@@ -365,12 +365,13 @@
                                   </div>
                                   <div class="time">`+ setArray[i].ads_date.substring(0, 10) + `</div>
                                 </a>
-                                <div class="list-box-action"> <a data-toggle="tooltip" data-placement="top"
-                                    class="markAsStar" title="" data-original-title="Mark as Important "><i
-                                      class="far fa-star"></i></a> <a data-toggle="tooltip" data-placement="top"
-                                    title="" data-original-title="Delete "> <i class=" fas fa-trash"></i></a> <a
-                                    class="markAsRead" data-toggle="tooltip" data-placement="top" title=""
-                                    data-original-title="Mark as unread "> <i class=" fas fa-envelope-open"></i></a>
+                                <div class="list-box-action">
+                                  <a onclick="renewDueDate(` + setArray[i].cmp_seq + `)">
+                                    <i class="fas fa-plus-circle"></i>
+                                  </a>
+                                  <a onclick="pauseCompany(` + setArray[i].cmp_seq + `)">
+                                    <i class="fas fa-pause-circle"></i>
+                                  </a>
                                 </div>`
         divForm.appendChild(newDiv);
       }
@@ -439,6 +440,25 @@
         rawArray.push(setArray[i])
       }
       setCompanyList(rawArray);
+    }
+
+    renewDueDate = async (data) => {
+      try {
+        let response = await fetch ('https://mostfeel.site:8888/admin/renew', {
+          method : 'POST',
+          headers : {
+            'Content-Type' : 'application/json'
+          },
+          body : JSON.stringify({cmp_seq : data})
+        })
+
+        let json = await response.json();
+        if (response.ok) {
+          alert(json.message)
+        }
+      } catch (err) {
+        console.log(err);
+      }
     }
   </script>
 
