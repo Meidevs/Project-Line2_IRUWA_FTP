@@ -66,7 +66,7 @@
               <a class="nav-link" href="iruwa_admin_main_1.html">Home</a>
             </li>
             <li class="nav-item active">
-              <a class="nav-link" href="iruwa_admin_list.html">Ads Listing</a>
+              <a class="nav-link" href="iruwa_admin_list.html">Company List</a>
             </li>
             <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="#" id="docMenu"
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dashboard</a>
@@ -302,15 +302,28 @@
         alert('카테고리를 불러오는데 실패하였습니다.');
       }
     }
+    renewDueDate = async (data) => {
+      try {
+        let response = await fetch('https://mostfeel.site:8888/admin/renew', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ cmp_seq: data })
+        })
+
+        let json = await response.json();
+        if (response.ok) {
+          alert(json.message)
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    }
     $(document).ready(async () => {
       getAllCompanies();
       getAllCategories();
     });
-
-    refreshBtn = () => {
-      getAllCompanies();
-    }
-
 
     let newArray;
     let onServiceArray;
@@ -340,6 +353,29 @@
       });
       currentPage = 1;
       setArrayType(1)
+    }
+
+    refreshSetter = () => {
+      var category_seq = category_code;
+      var current = new Date().toISOString();
+      newArray = cmpList.filter(data => data.category_seq == category_seq);
+      onServiceArray = newArray.filter(data => data.ads_date >= current);
+      outServiceArray = newArray.filter(data => data.ads_date < current);
+      var ulForm = document.getElementsByClassName('inbox-nav')[0];
+      while (ulForm.hasChildNodes()) { ulForm.removeChild(ulForm.firstChild); }
+
+      ulForm.innerHTML = `<li class="nav-item active" onclick="setArrayType(` + 1 + `)"><a class="nav-link">전체<span class="badge badge-gray count">` + newArray.length + `</span></a></li>
+      <li class="nav-item" onclick="setArrayType(` + 2 + `)"><a class="nav-link">납부<span class="badge badge-gray count">` + onServiceArray.length + `</span></a></li>
+      <li class="nav-item" onclick="setArrayType(` + 3 + `)"><a class="nav-link">미납<span class="badge badge-gray count">` + outServiceArray.length + `</span></a></li>`;
+
+      let navBtns = document.querySelectorAll('.nav-item');
+      navBtns.forEach(function (btn) {
+        btn.addEventListener('click', () => {
+          navBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+        });
+      });
+      setArrayType(currentArrayNum)
     }
 
     setArrayType = (data) => {
@@ -429,6 +465,7 @@
       }
       paginate(setArray)
     }
+
     function paginate(data) {
       var totalItems = data.length;
       var pageSize = 10;
@@ -453,23 +490,9 @@
       setCompanyList(rawArray);
     }
 
-    renewDueDate = async (data) => {
-      try {
-        let response = await fetch('https://mostfeel.site:8888/admin/renew', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ cmp_seq: data })
-        })
-
-        let json = await response.json();
-        if (response.ok) {
-          alert(json.message)
-        }
-      } catch (err) {
-        console.log(err);
-      }
+    refreshBtn = () => {
+      getAllCompanies();
+      setArrayType(currentArrayNum)
     }
   </script>
 
