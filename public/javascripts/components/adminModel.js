@@ -206,7 +206,7 @@ class Admin {
                 try {
                     var sql = 'SELECT ads_date FROM tb_company WHERE cmp_seq = ?';
                     var cmpInfo = await myConnection.query(sql, [data.cmp_seq]);
-                    resolve(cmpInfo)
+                    resolve(cmpInfo[0].ads_date)
                 } catch (err) {
                     reject(err);
                 }
