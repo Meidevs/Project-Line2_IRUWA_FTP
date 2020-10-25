@@ -343,8 +343,9 @@
       }
       var divForm = document.getElementsByClassName('list-group')[0];
       while (divForm.hasChildNodes()) { divForm.removeChild(divForm.firstChild); }
-
+      console.log(setArray.length)
       for (var i = 0; i < setArray.length > 10 ? 10 : setArray.length; i++) {
+        console.log(i)
         var newDiv = document.createElement('div');
         newDiv.setAttribute('class', 'list-group-item');
         newDiv.innerHTML = `<a class="list-box-content"> <span class="title">` + setArray[i].cmp_name + `</span>
