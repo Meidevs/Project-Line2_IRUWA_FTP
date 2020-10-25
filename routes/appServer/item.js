@@ -17,7 +17,7 @@ const upload = multer({
             cb(null, JSON.stringify(Date.now()) + '.' + type[1]);
         }
     })
-})
+});
 
 router.post('/create',
     upload.any(),

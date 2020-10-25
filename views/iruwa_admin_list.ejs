@@ -313,7 +313,7 @@
       }
     }
 
-    setPremium = async () => {
+    setPremium = async (data) => {
       try {
         let response = await fetch('https://mostfeel.site:8888/admin/setpremium', {
           method: 'POST',

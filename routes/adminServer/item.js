@@ -1,4 +1,3 @@
-const { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } = require('constants');
 var express = require('express');
 var router = express.Router();
 var adminModel = require('../../public/javascripts/components/adminModel');
@@ -182,7 +181,5 @@ router.post('/setpremium', async (req, res) => {
 router.get('/images', (req, res) => {
     res.status(200).render('iruwa_admin_images');
 });
-router.get('/category', (req, res) => {
-    res.status(200).render('iruwa_admin_categories');
-});
+
 module.exports = router;
