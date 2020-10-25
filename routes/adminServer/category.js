@@ -22,7 +22,9 @@ router.post('/upload',
     upload.any(),
     async (req, res) => {
         try {
-            console.log(req.body)
+            console.log(req.body);
+            console.log(req.files);
+            console.log(req.file);
         } catch (err) {
 
         }
