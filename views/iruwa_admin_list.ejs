@@ -317,7 +317,7 @@
       var divForm = document.getElementsByClassName('list-group')[0];
       console.log('childNodes', divForm.childNodes)
       console.log('aa', divForm.childNodes.length)
-      for (var x = 0; x <= divForm.childNodes.length + 1; x++) {
+      for (var x = 0; x < divForm.childNodes.length + 1; x++) {
         divForm.removeChild(divForm.childNodes[x])
       }
       for (var i = 0; i < newArray.length; i++) {
