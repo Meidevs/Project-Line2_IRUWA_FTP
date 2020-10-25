@@ -375,6 +375,13 @@
                                 </div>`
         divForm.appendChild(newDiv);
       }
+      if (currentPage * 10 > setArray.length) {
+        overCnt = setArray.length;
+      } else {
+        overCnt = currentPage * 10;
+      }
+      var newSpan = document.getElementsByClassName('count-message')[0];
+      newSpan.innerHTML = `<b>` + (currentPage - 1) * 10 + 1 + `</b>-<b>` + overCnt + `</b> of <b>` + setArray.length + `</b>`
     }
     next = () => {
       currentPage += 1;
