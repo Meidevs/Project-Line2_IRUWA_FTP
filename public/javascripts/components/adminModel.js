@@ -226,6 +226,20 @@ class Admin {
             }
         )
     }
+    changeToPremiums (data) {
+        return new Promise (
+            async (resolve, reject) => {
+                try {
+
+                    var sql = 'UPDATE tb_company SET pre_ads = "Y" WHERE cmp_seq = ?';
+                    await myConnection.query(sql, [data.cmp_seq])
+                    resolve (true);
+                } catch (err) {
+                    reject(err);
+                }
+            }
+        )
+    }
 }
 
 module.exports = new Admin();

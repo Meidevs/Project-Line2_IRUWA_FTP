@@ -1,5 +1,5 @@
 const { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } = require('constants');
-var express = require('express'); 
+var express = require('express');
 var router = express.Router();
 var adminModel = require('../../public/javascripts/components/adminModel');
 
@@ -7,24 +7,24 @@ router.get('/main', (req, res) => {
     res.status(200).render('iruwa_admin_main');
 });
 
-router.get('/popular', async(req, res) => {
+router.get('/popular', async (req, res) => {
     try {
         var result = new Array();
         var rawArray = new Array();
         var newString;
         var resReturn = {
-            flags : 1,
-            message : '조회에 실패하였습니다.'
+            flags: 1,
+            message: '조회에 실패하였습니다.'
         };
         result = await adminModel.getHighestView();
-        if(result.length > 0) {
-            for (var i =0; i< result.length ;i++) {
+        if (result.length > 0) {
+            for (var i = 0; i < result.length; i++) {
                 rawArray.push(result[i].items_seq);
-             }
+            }
             if (rawArray.length - 3 < 0) {
                 newString = rawArray.join();
             } else {
-                newString = rawArray.slice(0,3).join();
+                newString = rawArray.slice(0, 3).join();
             }
             var itemsList = await adminModel.getHighestViewItem(newString);
             var cmpList = await adminModel.getCompanyInfo(newString);
@@ -37,8 +37,8 @@ router.get('/popular', async(req, res) => {
                 }
             })
             resReturn = {
-                flags : 0,
-                message : itemsList,
+                flags: 0,
+                message: itemsList,
             }
         }
 
@@ -48,17 +48,17 @@ router.get('/popular', async(req, res) => {
     }
 });
 
-router.get('/recentcompany', async(req, res) => {
+router.get('/recentcompany', async (req, res) => {
     try {
         var resReturn = {
-            flags : 1,
-            message : '조회에 실패하였습니다.'
+            flags: 1,
+            message: '조회에 실패하였습니다.'
         };
         var result = await adminModel.getNewCompany();
         if (result.length > 0) {
             resReturn = {
-                flags : 1,
-                message : result
+                flags: 1,
+                message: result
             };
         }
         res.status(200).send(resReturn);
@@ -79,9 +79,9 @@ router.get('/categories', async (req, res) => {
             categoryList[i].count = 0;
             for (var j = 0; j < cmpCount.length; j++) {
                 if (categoryList[i].category_seq == cmpCount[j].category_seq) {
-                    if(cmpCount[j].cnt) {
+                    if (cmpCount[j].cnt) {
                         categoryList[i].count = cmpCount[j].cnt;
-                    } 
+                    }
                 }
             }
         }
@@ -105,19 +105,42 @@ router.post('/renew', async (req, res) => {
         var FromData = new Object();
         FromData.cmp_seq = req.body.cmp_seq;
         var resReturn = {
-            flags : 1,
-            message : '업체 광고 등록기간 연장이 실패하였습니다.'
+            flags: 1,
+            message: '업체 광고 등록기간 연장이 실패하였습니다.'
         }
         var getCmpDueDate = new Date();
         getCmpDueDate = await adminModel.getCompanyDuedate(FromData);
         var dateNum = getCmpDueDate.setDate(getCmpDueDate.getDate() + 30);
-        newDateString = new Date(dateNum).toISOString().substring(0,10);
+        newDateString = new Date(dateNum).toISOString().substring(0, 10);
         FromData.due_date = newDateString;
         var updateResult = await adminModel.renewDueDate(FromData);
         if (updateResult) {
             resReturn = {
-                flags : 0,
-                message : '업체의 광고 등록기간이 연장되었습니다.'
+                flags: 0,
+                message: '업체의 광고 등록기간이 연장되었습니다.'
+            }
+        }
+        res.status(200).send(resReturn);
+    } catch (err) {
+        console.log(err);
+    }
+});
+
+router.post('/setpremium', async (req, res) => {
+    try {
+        var FromData = new Object();
+        FromData.cmp_seq = req.body.cmp_seq;
+        var resReturn = {
+            flags: 1,
+            message: '프리미엄 변경이 실패하였습니다.'
+        }
+        newDateString = new Date(dateNum).toISOString().substring(0, 10);
+        FromData.due_date = newDateString;
+        var updateResult = await adminModel.changeToPremiums(FromData);
+        if (updateResult) {
+            resReturn = {
+                flags: 0,
+                message: '프리미엄으로 변경되었습니다.'
             }
         }
         res.status(200).send(resReturn);

@@ -11,9 +11,12 @@
   <!-- Favicon and Touch Icons -->
   <link href="https://mostfeel.site:8888/static/images/web_images/favicon.png" rel="shortcut icon" type="image/png">
   <link href="https://mostfeel.site:8888/static/images/web_images/apple-touch-icon.png" rel="apple-touch-icon">
-  <link href="https://mostfeel.site:8888/static/images/web_images/apple-touch-icon-72x72.png" rel="apple-touch-icon" sizes="72x72">
-  <link href="https://mostfeel.site:8888/static/images/web_images/apple-touch-icon-114x114.png" rel="apple-touch-icon" sizes="114x114">
-  <link href="https://mostfeel.site:8888/static/images/web_images/apple-touch-icon-144x144.png" rel="apple-touch-icon" sizes="144x144">
+  <link href="https://mostfeel.site:8888/static/images/web_images/apple-touch-icon-72x72.png" rel="apple-touch-icon"
+    sizes="72x72">
+  <link href="https://mostfeel.site:8888/static/images/web_images/apple-touch-icon-114x114.png" rel="apple-touch-icon"
+    sizes="114x114">
+  <link href="https://mostfeel.site:8888/static/images/web_images/apple-touch-icon-144x144.png" rel="apple-touch-icon"
+    sizes="144x144">
   <title>Classifly - Classified Ads HTML Template</title>
   <style>
     .cflyformtheme {
@@ -52,8 +55,9 @@
     <nav class="navbar navbar-expand-lg">
       <div class="container">
         <!-- Logo -->
-        <a class="navbar-brand" href="https://mostfeel.site:8888/admin/main"> <img src="https://mostfeel.site:8888/static/images/web_images/logo.png"
-            style="width: 60px; height: 60px;" alt="iruwa"> <strong>IRUWA</strong> </a>
+        <a class="navbar-brand" href="https://mostfeel.site:8888/admin/main"> <img
+            src="https://mostfeel.site:8888/static/images/web_images/logo.png" style="width: 60px; height: 60px;"
+            alt="iruwa"> <strong>IRUWA</strong> </a>
         <!-- Menu opener button -->
         <button class="navbar-toggler ml-auto" type="button" data-toggle="collapse" data-target="#navbarCollapse"
           aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation"> <span
@@ -201,9 +205,11 @@
                   <h4 class="footer-title">Mobile Apps</h4>
                   <div class="row ">
                     <div class="col-6  "> <a class="app-icon" target="_blank" href="https://itunes.apple.com/"> <img
-                          src="https://mostfeel.site:8888/static/images/web_images/app_store_badge.svg" alt="Available on the App Store"> </a> </div>
+                          src="https://mostfeel.site:8888/static/images/web_images/app_store_badge.svg"
+                          alt="Available on the App Store"> </a> </div>
                     <div class="col-6  "> <a class="app-icon" target="_blank" href="https://play.google.com/store/">
-                        <img src="https://mostfeel.site:8888/static/images/web_images/google-play-badge.svg" alt="Available on the App Store"> </a> </div>
+                        <img src="https://mostfeel.site:8888/static/images/web_images/google-play-badge.svg"
+                          alt="Available on the App Store"> </a> </div>
                   </div>
                 </div>
               </div>
@@ -226,7 +232,8 @@
   <script src="https://mostfeel.site:8888/static/javascripts/js/popper.min.js" type="text/javascript"></script>
   <script src="https://mostfeel.site:8888/static/javascripts/js/bootstrap.min.js" type="text/javascript"></script>
   <script src="https://mostfeel.site:8888/static/javascripts/js/isotope.pkgd.min.js" type="text/javascript"></script>
-  <script src="https://mostfeel.site:8888/static/javascripts/js/imagesloaded.pkgd.min.js" type="text/javascript"></script>
+  <script src="https://mostfeel.site:8888/static/javascripts/js/imagesloaded.pkgd.min.js"
+    type="text/javascript"></script>
   <script src="https://mostfeel.site:8888/static/javascripts/js/functions.js" type="text/javascript"></script>
   <script src="https://mostfeel.site:8888/static/javascripts/js/owl.carousel.min.js" type="text/javascript"></script>
   <script src="https://mostfeel.site:8888/static/javascripts/js/slick.js" type="text/javascript"></script>
@@ -305,6 +312,26 @@
         console.log(err);
       }
     }
+
+    setPremium = async () => {
+      try {
+        let response = await fetch('https://mostfeel.site:8888/admin/setpremium', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ cmp_seq: data })
+        })
+
+        let json = await response.json();
+        if (response.ok) {
+          alert(json.message)
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
     $(document).ready(async () => {
       getAllCompanies();
       getAllCategories();
