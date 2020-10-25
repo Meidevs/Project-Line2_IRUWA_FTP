@@ -134,7 +134,8 @@
         <div class="col-md-12">
           <form enctype="multipart/form-data">
             <div class="form-group">
-              <input class="form-control" id="category_name" name="category_name" type="text" placeholder="카테고리 명" value="">
+              <input class="form-control" id="category_name" name="category_name" type="text" placeholder="카테고리 명"
+                value="">
             </div>
             <div class="form-group">
               <input class="form-control" id="icon_name" name="icon_name" type="text" placeholder="아이콘 명(영문)" value="">
@@ -255,17 +256,34 @@
       formData.append("image", fileField.files[0]);
       try {
         let response = await fetch('https://mostfeel.site:8888/admin/category/upload', {
-          method : 'POST',
-          headers : {
-            'Cotent-Type' : 'multipart/form-data'
+          method: 'POST',
+          headers: {
+            'Cotent-Type': 'multipart/form-data'
           },
-          body : formData,
+          body: formData,
         })
         if (response.ok) {
           alert('저장되었습니다.')
         }
       } catch (err) {
         console.log(err)
+      }
+    }
+    deleteCategory = async (data) => {
+      try {
+        let response = await fetch('https://mostfeel.site:8888/admin/category/delete', {
+          method: 'POST',
+          headers: {
+            'Cotent-Type': 'application/json'
+          },
+          body: JSON.stringify({category_seq : data})
+        });
+        let json = await response.json();
+        if (response.ok) {
+          
+        }
+      } catch (err) {
+        console.log(err);
       }
     }
   </script>

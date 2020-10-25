@@ -265,6 +265,32 @@ class Admin {
             }
         )
     }
+    deleteCategory(data) {
+        return new Promise(
+            async (resolve, reject) => {
+                try {
+                    var sql = 'DELETE FROM tb_categories WHERE category_seq = ?';
+                    await myConnection.query(sql, [data.category_seq]);
+                    resolve(true);
+                } catch (err) {
+                    reject(err);
+                }
+            }
+        )
+    }
+    deleteCategoryIcon(data) {
+        return new Promise(
+            async (resolve, reject) => {
+                try {
+                    var sql = 'DELETE FROM tb_category_icons WHERE category_seq = ?';
+                    await myConnection.query(sql, [data.category_seq]);
+                    resolve(true);
+                } catch (err) {
+                    reject(err);
+                }
+            }
+        )
+    }
     getLastCategoryNum() {
         return new Promise(
             async (resolve, reject) => {
