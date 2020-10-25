@@ -241,10 +241,10 @@
           var cell4 = row.insertCell(3);
           var cell5 = row.insertCell(4);
           cell1.innerHTML = index + 1;
-          cell2.innerHTML = `<img src="` + data.uri + `" style="width : 30px; height : 30px; border-radius : 30px; padding : 10px; background-color : #15bac1;">`
+          cell2.innerHTML = `<img src="` + data.uri + `" style="width : 50px; height : 50px; border-radius : 50px; padding : 10px; background-color : #15bac1;">`
           cell3.innerHTML = data.category_name;
           cell4.innerHTML = data.uri;
-          cell5.innerHTML = `<button type="button" onclick="deleteCategory(` + data.category_seq + `)">삭제</button>`
+          cell5.innerHTML = `<button type="button" onclick="deleteCategory(` + data.category_seq + `)" style="border-radius : 20px; background-color : #ffffff">삭제</button>`
         })
       }
     }
