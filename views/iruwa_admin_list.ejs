@@ -422,8 +422,6 @@
       var totalItems = data.length;
       var pageSize = 10;
       let totalPages = Math.ceil(totalItems / pageSize);
-      console.log('currentPage', currentPage)
-      console.log('totalPages', totalPages)
       // ensure current page isn't out of range
       if (currentPage < 1) {
         currentPage = 1;
@@ -432,7 +430,12 @@
       }
 
       var rawArray = new Array();
-      
+      var endIndex;
+      if (currentPage * 10 > setArray.length) {
+        endIndex = setArray.length;
+      } else {
+        endIndex = currentPage * 10;
+      }
       for (var i = (currentPage - 1) * 10; i < endIndex; i++) {
         rawArray.push(setArray[i])
       }
