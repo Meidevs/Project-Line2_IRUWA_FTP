@@ -135,7 +135,7 @@ class Admin {
     }
 
     getItemCount() {
-        return new Promise (
+        return new Promise(
             async (resolve, reject) => {
                 try {
                     var sql = 'SELECT category_seq, COUNT(*) AS cnt FROM tb_company GROUP BY category_seq';
@@ -147,8 +147,8 @@ class Admin {
             }
         )
     }
-    getUnuseCoupon (data) {
-        return new Promise (
+    getUnuseCoupon(data) {
+        return new Promise(
             async (resolve, reject) => {
                 try {
                     var sql = 'SELECT * FROM tb_admin_coupons WHERE used = "N" ORDER BY admin_coupon_seq ASC limit ?';
@@ -160,11 +160,11 @@ class Admin {
             }
         )
     }
-    updateUnuseCoupon (data) {
-        return new Promise (
+    updateUnuseCoupon(data) {
+        return new Promise(
             async (resolve, reject) => {
                 try {
-                    var sql = 'UPDATE tb_admin_coupons SET used = "Y" WHERE admin_coupon_seq IN ('+ data.join() +')';
+                    var sql = 'UPDATE tb_admin_coupons SET used = "Y" WHERE admin_coupon_seq IN (' + data.join() + ')';
                     await myConnection.query(sql);
                     resolve(true);
                 } catch (err) {
@@ -173,8 +173,8 @@ class Admin {
             }
         )
     }
-    getCouponList (data) {
-        return new Promise (
+    getCouponList(data) {
+        return new Promise(
             async (resolve, reject) => {
                 try {
                     var sql = 'SELECT coupon, due_date FROM tb_user_coupons WHERE user_email = ?';
@@ -187,8 +187,8 @@ class Admin {
         )
     }
 
-    getAllCompany () {
-        return new Promise (
+    getAllCompany() {
+        return new Promise(
             async (resolve, reject) => {
                 try {
                     var sql = 'SELECT * FROM tb_company ORDER BY ads_date ASC';
@@ -200,8 +200,8 @@ class Admin {
             }
         )
     }
-    getCompanyDuedate (data) {
-        return new Promise (
+    getCompanyDuedate(data) {
+        return new Promise(
             async (resolve, reject) => {
                 try {
                     var sql = 'SELECT ads_date FROM tb_company WHERE cmp_seq = ?';
@@ -213,12 +213,26 @@ class Admin {
             }
         )
     }
-    renewDueDate (data) {
-        return new Promise (
+    getCompanyPreDuedate(data) {
+        return new Promise(
+            async (resolve, reject) => {
+                try {
+                    var sql = 'SELECT pre_ads_date FROM tb_company WHERE cmp_seq = ?';
+                    var cmpInfo = await myConnection.query(sql, [data.cmp_seq]);
+                    resolve(cmpInfo)
+                } catch (err) {
+                    reject(err);
+                }
+            }
+        )
+    }
+
+    renewDueDate(data) {
+        return new Promise(
             async (resolve, reject) => {
                 try {
                     var sql = 'UPDATE tb_company SET ads_date = ?, normal_ads = "Y" WHERE cmp_seq = ?';
-                    await myConnection.query(sql,[data.due_date, data.cmp_seq]);
+                    await myConnection.query(sql, [data.due_date, data.cmp_seq]);
                     resolve(true);
                 } catch (err) {
                     reject(err);
@@ -226,13 +240,14 @@ class Admin {
             }
         )
     }
-    changeToPremiums (data) {
-        return new Promise (
+    changeToPremiums(data) {
+        return new Promise(
             async (resolve, reject) => {
                 try {
-                    var sql = 'UPDATE tb_company SET pre_ads = "Y" WHERE cmp_seq = ?';
-                    await myConnection.query(sql, [data.cmp_seq])
-                    resolve (true);
+                    console.log(data)
+                    var sql = 'UPDATE tb_company SET ads_date = ?, pre_ads_date = ?,  normal_ads = "Y", pre_ads = "Y" WHERE cmp_seq = ?';
+                    await myConnection.query(sql, [data.due_date, data.pre_due_date, data.cmp_seq])
+                    resolve(true);
                 } catch (err) {
                     reject(err);
                 }

@@ -110,8 +110,7 @@ router.post('/renew', async (req, res) => {
         }
         var getCmpDueDate = new Date();
         getCmpDueDate = await adminModel.getCompanyDuedate(FromData);
-        console.log(getCmpDueDate)
-        if(getCmpDueDate[0].ads_date != null) {
+        if (getCmpDueDate[0].ads_date != null) {
             var dateNum = getCmpDueDate.setDate(getCmpDueDate.getDate() + 30);
             newDateString = new Date(dateNum).toISOString().substring(0, 10);
             FromData.due_date = newDateString;
@@ -119,7 +118,6 @@ router.post('/renew', async (req, res) => {
             var today = new Date();
             var dateNum = today.setDate(today.getDate() + 30);
             newDateString = new Date(dateNum).toISOString().substring(0, 10);
-            console.log(newDateString);
             FromData.due_date = newDateString;
         }
         var updateResult = await adminModel.renewDueDate(FromData);
@@ -143,8 +141,31 @@ router.post('/setpremium', async (req, res) => {
             flags: 1,
             message: '프리미엄 변경이 실패하였습니다.'
         }
-        newDateString = new Date(dateNum).toISOString().substring(0, 10);
-        FromData.due_date = newDateString;
+        var getCmpPreDueDate = new Date();
+        var getCmpDueDate = new Date();
+        getCmpPreDueDate = await adminModel.getCompanyPreDuedate(FromData);
+        if (getCmpPreDueDate[0].pre_ads_date != null) {
+            var dateNum = getCmpPreDueDate.setDate(getCmpPreDueDate.getDate() + 30);
+            newDateString = new Date(dateNum).toISOString().substring(0, 10);
+            FromData.pre_due_date = newDateString;
+        } else {
+            var today = new Date();
+            var dateNum = today.setDate(today.getDate() + 30);
+            newDateString = new Date(dateNum).toISOString().substring(0, 10);
+            FromData.pre_due_date = newDateString;
+        }
+
+        getCmpDueDate = await adminModel.getCompanyDuedate(FromData);
+        if (getCmpDueDate[0].ads_date != null) {
+            var dateNum = getCmpDueDate.setDate(getCmpDueDate.getDate() + 30);
+            newDateString = new Date(dateNum).toISOString().substring(0, 10);
+            FromData.due_date = newDateString;
+        } else {
+            var today = new Date();
+            var dateNum = today.setDate(today.getDate() + 30);
+            newDateString = new Date(dateNum).toISOString().substring(0, 10);
+            FromData.due_date = newDateString;
+        }
         var updateResult = await adminModel.changeToPremiums(FromData);
         if (updateResult) {
             resReturn = {
