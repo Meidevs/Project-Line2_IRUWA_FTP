@@ -306,7 +306,7 @@
     let onServiceArray;
     let outServiceArray;
     let currentArrayNum;
-    let currentPage = 1;
+    let currentPage;
 
     Initial = (category_seq) => {
       var current = new Date().toISOString();
@@ -327,6 +327,7 @@
           btn.classList.add('active');
         });
       });
+      currentPage = 1;
       setArrayType(1)
     }
 
@@ -390,17 +391,6 @@
           break;
       }
       paginate(setArray);
-      var rawArray = new Array();
-      var overCnt;
-      if (currentPage * 10 > setArray.length) {
-        overCnt = setArray.length;
-      } else {
-        overCnt = currentPage * 10;
-      }
-      for (var i = (currentPage - 1) * 10; i < overCnt; i++) {
-        rawArray.push(setArray[i])
-      }
-      setCompanyList(rawArray);
     }
 
     prev = () => {
@@ -418,17 +408,6 @@
           break;
       }
       paginate(setArray)
-      var rawArray = new Array();
-      var overCnt;
-      if (currentPage * 10 > setArray.length) {
-        overCnt = setArray.length;
-      } else {
-        overCnt = currentPage * 10;
-      }
-      for (var i = (currentPage - 1) * 10; i < overCnt; i++) {
-        rawArray.push(setArray[i])
-      }
-      setCompanyList(rawArray);
     }
     function paginate(data) {
       var totalItems = data.legnth;
@@ -441,6 +420,18 @@
       } else if (currentPage > totalPages) {
         currentPage = totalPages;
       }
+
+      var rawArray = new Array();
+      var overCnt;
+      if (currentPage * 10 > setArray.length) {
+        overCnt = setArray.length;
+      } else {
+        overCnt = currentPage * 10;
+      }
+      for (var i = (currentPage - 1) * 10; i < overCnt; i++) {
+        rawArray.push(setArray[i])
+      }
+      setCompanyList(rawArray);
     }
   </script>
 
