@@ -157,7 +157,7 @@
                   <div class="inbox-wrapper">
                     <div class="row">
                       <div class="col-md-12 col-lg-12">
-                        <button type="button" onclick="Initial();" class="btn btn-secondary hidden-sm"
+                        <button type="button" onclick="getAllCompanies();" class="btn btn-secondary hidden-sm"
                           data-toggle="tooltip" title="" data-original-title="Refresh"><span
                             class="fas fa-sync-alt"></span> </button>
                         <div class="message-tool-bar-right pull-right">
@@ -248,7 +248,7 @@
   <script src="javascripts/js/main.js" type="text/javascript"></script>
   <script>
     let cmpList = new Array();
-    $(document).ready(async () => {
+    getAllCompanies = async () => {
       try {
         const allCompany = await fetch('https://mostfeel.site:8888/admin/all', {
           method: 'GET',
@@ -264,8 +264,8 @@
       } catch (err) {
         console.log(err);
       }
-    });
-    $(document).ready(async () => {
+    }
+    getAllCategories = async () => {
       try {
         const resCategories = await fetch('https://mostfeel.site:8888/admin/categories', {
           method: 'GET',
@@ -300,7 +300,12 @@
         console.log(err);
         alert('카테고리를 불러오는데 실패하였습니다.');
       }
+    }
+    $(document).ready(async () => {
+      getAllCompanies();
+      getAllCategories();
     });
+
 
     let newArray;
     let onServiceArray;
@@ -444,12 +449,12 @@
 
     renewDueDate = async (data) => {
       try {
-        let response = await fetch ('https://mostfeel.site:8888/admin/renew', {
-          method : 'POST',
-          headers : {
-            'Content-Type' : 'application/json'
+        let response = await fetch('https://mostfeel.site:8888/admin/renew', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
           },
-          body : JSON.stringify({cmp_seq : data})
+          body: JSON.stringify({ cmp_seq: data })
         })
 
         let json = await response.json();
