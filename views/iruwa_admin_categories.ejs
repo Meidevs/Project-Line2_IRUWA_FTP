@@ -271,6 +271,7 @@
       }
     }
     deleteCategory = async (data) => {
+      console.log('deleteCategory', data)
       try {
         let response = await fetch('https://mostfeel.site:8888/admin/category/delete', {
           method: 'POST',
