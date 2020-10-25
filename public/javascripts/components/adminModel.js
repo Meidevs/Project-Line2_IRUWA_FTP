@@ -206,7 +206,7 @@ class Admin {
                 try {
                     var sql = 'SELECT ads_date FROM tb_company WHERE cmp_seq = ?';
                     var cmpInfo = await myConnection.query(sql, [data.cmp_seq]);
-                    resolve(cmpInfo[0].ads_date)
+                    resolve(cmpInfo)
                 } catch (err) {
                     reject(err);
                 }
@@ -230,7 +230,6 @@ class Admin {
         return new Promise (
             async (resolve, reject) => {
                 try {
-
                     var sql = 'UPDATE tb_company SET pre_ads = "Y" WHERE cmp_seq = ?';
                     await myConnection.query(sql, [data.cmp_seq])
                     resolve (true);
