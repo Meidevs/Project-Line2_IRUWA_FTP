@@ -229,12 +229,12 @@
         json.map((data, index) => {
           var th = document.createElement('th');
           var row = my_tbody.insertRow(my_tbody.rows.length);
-          var cell1 = row.insertCell(0);
           var cell2 = row.insertCell(1);
           var cell3 = row.insertCell(2);
           var cell4 = row.insertCell(3);
           var cell5 = row.insertCell(4);
-          cell1.innerHTML = th.setAttribute("scope", "row")
+          th.innerHTML = `<th scope="row">` + index +`</th>`;
+          row.appendChild(th);
           cell2.innerHTML = `<img src="` + data.uri + `" style="width : 50px; height : 50px; border-radius : 50px; padding : 10px; background-color : #15bac1;">`
           cell3.innerHTML = data.category_name;
           cell4.innerHTML = data.uri;
