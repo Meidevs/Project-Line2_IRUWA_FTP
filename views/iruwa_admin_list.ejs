@@ -353,30 +353,31 @@
     }
 
     setNewArray = (data) => {
-      var array = new Array();
+      console.log(data);
+      var setArray = new Array();
       switch (data) {
         case 1:
-          array = newArray;
+        setArray = newArray;
 
         case 2:
-          array = onServiceArray;
+        setArray = onServiceArray;
 
         case 3:
-          array = outServiceArray;
+        setArray = outServiceArray;
       }
-
+      console.log('array', setArray)
       var divForm = document.getElementsByClassName('list-group')[0];
       console.log('set Array Child Nodes : ', divForm.childNodes)
       console.log('set Array : ', divForm.childNodes.length)
       while (divForm.hasChildNodes()) { divForm.removeChild(divForm.firstChild); }
 
-      for (var i = 0; i < array.length; i++) {
+      for (var i = 0; i < setArray.length; i++) {
         var newDiv = document.createElement('div');
         newDiv.setAttribute('class', 'list-group-item');
-        newDiv.innerHTML = `<a class="list-box-content"> <span class="title">` + array[i].cmp_name + `</span>
-                                  <div class="message-text">` + array[i].cmp_detail_location + `
+        newDiv.innerHTML = `<a class="list-box-content"> <span class="title">` + setArray[i].cmp_name + `</span>
+                                  <div class="message-text">` + setArray[i].cmp_detail_location + `
                                   </div>
-                                  <div class="time">`+ array[i].ads_date.substring(0, 10) + `</div>
+                                  <div class="time">`+ setArray[i].ads_date.substring(0, 10) + `</div>
                                 </a>
                                 <div class="list-box-action"> <a data-toggle="tooltip" data-placement="top"
                                     class="markAsStar" title="" data-original-title="Mark as Important "><i
