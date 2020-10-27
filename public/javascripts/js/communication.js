@@ -1,4 +1,6 @@
-const getAllCategories = async () => {
+
+console.log('hi')
+getAllCategories = async () => {
     try {
         const resCategories = await fetch('https://mostfeel.site:8888/admin/category/list', {
             method: 'GET',
@@ -24,7 +26,7 @@ const getAllCategories = async () => {
         alert('카테고리를 불러오는데 실패하였습니다.');
     }
 }
-const getAllImages = async () => {
+getAllImages = async () => {
     try {
         let response = await fetch('https://mostfeel.site:8888/admin/itemimages', {
             method: 'GET',
