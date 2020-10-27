@@ -402,7 +402,6 @@
     $(document).ready(() => {
       getAllCategories();
       getAllImages();
-      portfolioIsotope();
     })
     getAllCategories = async () => {
       try {
@@ -423,6 +422,7 @@
             newLi.appendChild(textNode);
             data_filter_list.append(newLi)
           }
+          portfolioIsotope();
         }
       } catch (err) {
         console.log(err);
@@ -447,7 +447,6 @@
       }
     }
     portfolioIsotope = function () {
-      console.log($().isotope)
     if ($().isotope) {
       var $container = $('.portfolio-wrap');
       $container.imagesLoaded(function () {
@@ -457,7 +456,6 @@
         });
       });
       $('.nav-tabs .nav-filter').on('click', function () {
-        console.log('a')
         var selector = $(this).attr('data-filter');
         $('.nav-tabs .nav-filter').removeClass('active');
         $(this).addClass('active');
