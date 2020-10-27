@@ -287,7 +287,6 @@
             var styleString = "position : absolute; left : " + colCnt * 280 + "px; top : " + rowCnt * 265 + "px;"
             newDiv.setAttribute("class", `"portfolio-card isotope-item ` + json[i].category_seq + `"`);
             newDiv.style = styleString;
-            newDiv.innerHTML = data;
             var data = `<div class="portfolio-card-body">
                 <div class="portfolio-card-header"> <img
                     src="`+ json[i].uri + `" alt="" width="200" height="200"> </div>
@@ -298,6 +297,7 @@
                   <p>Branding, Watch</p>
                 </div>
               </div>`
+            newDiv.innerHTML = data;
             items_padding.appendChild(newDiv);
           }
           return true;
