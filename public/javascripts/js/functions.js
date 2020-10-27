@@ -4,6 +4,7 @@
     // BEGIN: 03 Portfolio Isotope
     var portfolioIsotope = function() {
         if ( $().isotope ) {
+          console.log('a');
             var $container = $('.portfolio-wrap');
             $container.imagesLoaded(function(){
                 $container.isotope({
@@ -11,8 +12,10 @@
                     transitionDuration: '0.5s',
                 });
             });
+            
             $('.nav-tabs .nav-filter').on('click',function() {
                 var selector = $(this).attr('data-filter');
+                console.log('selector', selector)
                 $('.nav-tabs .nav-filter').removeClass('active');
                 $(this).addClass('active');
                 $container.isotope({ filter: selector });
