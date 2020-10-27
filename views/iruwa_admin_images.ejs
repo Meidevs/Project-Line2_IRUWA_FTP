@@ -415,8 +415,8 @@
         if (resCategories.ok) {
           var data_filter_list = document.getElementById('data-filter-list');
           for (var i = 0; i < json.length; i++) {
-            newLi.innerHTML = `<li class="nav-filter" data-filter="` + '.' + json[i].category_name + `">`+ json[i].category_name +`</li>`
-            data_filter_list.append(newLi);
+            data_filter_list.innerHTML = `<li class="nav-filter" data-filter="` + '.' + json[i].category_name + `">`+ json[i].category_name +`</li>`
+            data_filter_list.append(data_filter_list);
           }
         }
       } catch (err) {
