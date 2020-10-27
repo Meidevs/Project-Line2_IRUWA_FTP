@@ -431,39 +431,53 @@
     }
     getAllImages = async () => {
       try {
-        let response = await fetch ('https://mostfeel.site/admin/itemimages', {
-          method : 'GET',
-          headers : {
-            'Content-Type' : 'application/json',
+        let response = await fetch('https://mostfeel.site/admin/itemimages', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
           }
         });
 
         let json = await response.json();
         if (response.ok) {
-
+          var items_padding = document.getElementById('items-padding');
+          for (var i = 0; i < json.length; i++) {
+            var data = `<div class="portfolio-card isotope-item ` + json[i].category_name +`">
+              <div class="portfolio-card-body">
+                <div class="portfolio-card-header"> <img
+                    src="`+ json[i].uri +`" alt=""> </div>
+                <div class="portfolio-card-footer"> <a class="full-screen"
+                    href="https://mostfeel.site:8888/static/images/web_images/portfolio/01.jpg"
+                    data-fancybox="portfolio" data-caption="aperiam sorem"><i class="fas fa-compress"></i></a>
+                  <h6 class="info-title"><a href="#" title="">aperiam sorem</a></h6>
+                  <p>Branding, Watch</p>
+                </div>
+              </div>
+            </div>`
+          }
         }
       } catch (err) {
         console.log(err);
       }
     }
     portfolioIsotope = function () {
-    if ($().isotope) {
-      var $container = $('.portfolio-wrap');
-      $container.imagesLoaded(function () {
-        $container.isotope({
-          itemSelector: '.isotope-item',
-          transitionDuration: '0.5s',
+      if ($().isotope) {
+        var $container = $('.portfolio-wrap');
+        $container.imagesLoaded(function () {
+          $container.isotope({
+            itemSelector: '.isotope-item',
+            transitionDuration: '0.5s',
+          });
         });
-      });
-      $('.nav-tabs .nav-filter').on('click', function () {
-        var selector = $(this).attr('data-filter');
-        $('.nav-tabs .nav-filter').removeClass('active');
-        $(this).addClass('active');
-        $container.isotope({ filter: selector });
-        return false;
-      });
-    }
-  };
+        $('.nav-tabs .nav-filter').on('click', function () {
+          var selector = $(this).attr('data-filter');
+          $('.nav-tabs .nav-filter').removeClass('active');
+          $(this).addClass('active');
+          $container.isotope({ filter: selector });
+          return false;
+        });
+      }
+    };
   </script>
 </body>
 
