@@ -23,11 +23,8 @@
     type="text/javascript"></script>
   <script>
     $(document).ready(async () => {
-      var a = await getAllCategories();
-      var b = await getAllImages();
-      console.log('a', a)
-      console.log('b', b)
-      if(a & b) portfolioIsotope();
+      await getAllCategories();
+      await getAllImages();
     })
     getAllCategories = async () => {
       try {
@@ -93,24 +90,7 @@
         console.log(err);
       }
     }
-    portfolioIsotope = function () {
-      if ($().isotope) {
-        var $container = $('.portfolio-wrap');
-        $container.imagesLoaded(function () {
-          $container.isotope({
-            itemSelector: '.isotope-item',
-            transitionDuration: '0.5s',
-          });
-        });
-        $('.nav-tabs .nav-filter').on('click', function () {
-          var selector = $(this).attr('data-filter');
-          $('.nav-tabs .nav-filter').removeClass('active');
-          $(this).addClass('active');
-          $container.isotope({ filter: selector });
-          return false;
-        });
-      }
-    };
+    
   </script>
   <title>Classifly - Classified Ads HTML Template</title>
 
@@ -335,7 +315,29 @@
   <script src="https://mostfeel.site:8888/static/javascripts/js/slick.js" type="text/javascript"></script>
   <script src="https://mostfeel.site:8888/static/javascripts/js/swiper.min.js" type="text/javascript"></script>
   <script src="https://mostfeel.site:8888/static/javascripts/js/main.js" type="text/javascript"></script>
-
+  <script>
+    $(document).ready(() => {
+      portfolioIsotope();
+    })
+    portfolioIsotope = function () {
+      if ($().isotope) {
+        var $container = $('.portfolio-wrap');
+        $container.imagesLoaded(function () {
+          $container.isotope({
+            itemSelector: '.isotope-item',
+            transitionDuration: '0.5s',
+          });
+        });
+        $('.nav-tabs .nav-filter').on('click', function () {
+          var selector = $(this).attr('data-filter');
+          $('.nav-tabs .nav-filter').removeClass('active');
+          $(this).addClass('active');
+          $container.isotope({ filter: selector });
+          return false;
+        });
+      }
+    };
+  </script>
 </body>
 
 </html>
