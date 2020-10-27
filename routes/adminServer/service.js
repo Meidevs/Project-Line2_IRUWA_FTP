@@ -24,7 +24,7 @@ router.get('/bannedkeywords', async (req, res) => {
     }
 });
 
-router.post('/setnotifiation', async (req, res) => {
+router.post('/setnotification', async (req, res) => {
     try {
         var FromData = new Object();
         var resReturn = {
