@@ -236,11 +236,9 @@
   <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
   <script>
-    $(document).ready(async () => {
-      await getAllCategories();
-      await getAllImages();
-      console.log('ready')
-    });
+    getAllCategories();
+    getAllImages();
+    
     getAllCategories = async () => {
       try {
         const resCategories = await fetch('https://mostfeel.site:8888/admin/category/list', {
@@ -291,17 +289,17 @@
             newDiv.setAttribute("class", `"portfolio-card isotope-item ` + json[i].category_seq + `"`);
             newDiv.style = styleString;
             var data = `<div class="portfolio-card-body">
-                <div class="portfolio-card-header"> <img
-                    src="`+ json[i].uri + `" alt="" width="200" height="200"> </div>
-                <div class="portfolio-card-footer"> <a class="full-screen"
-                    href="`+ json[i].uri + `" 
-                    data-fancybox="portfolio" data-caption="aperiam sorem"><i class="fas fa-compress"></i></a>
-                  <h6 class="info-title"><a href="#" title="">aperiam sorem</a></h6>
-                  <p>Branding, Watch</p>
-                </div>
-              </div>`
-              newDiv.innerHTML = data;
-              parentDiv.appendChild(newDiv);
+              <div class="portfolio-card-header"> <img
+                  src="`+ json[i].uri + `" alt="" width="200" height="200"> </div>
+              <div class="portfolio-card-footer"> <a class="full-screen"
+                  href="`+ json[i].uri + `" 
+                  data-fancybox="portfolio" data-caption="aperiam sorem"><i class="fas fa-compress"></i></a>
+                <h6 class="info-title"><a href="#" title="">aperiam sorem</a></h6>
+                <p>Branding, Watch</p>
+              </div>
+            </div>`
+            newDiv.innerHTML = data;
+            parentDiv.appendChild(newDiv);
           }
           return true;
         }
@@ -309,9 +307,7 @@
         console.log(err);
       }
     }
-
   </script>
-  
   <script>
     window.onload = () => {
       portfolioIsotope();
