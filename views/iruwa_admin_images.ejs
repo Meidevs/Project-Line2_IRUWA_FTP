@@ -402,6 +402,7 @@
     $(document).ready(() => {
       getAllCategories();
       getAllImages();
+      portfolioIsotope();
     })
     getAllCategories = async () => {
       try {
@@ -445,6 +446,24 @@
         console.log(err);
       }
     }
+    portfolioIsotope = function () {
+    if ($().isotope) {
+      var $container = $('.portfolio-wrap');
+      $container.imagesLoaded(function () {
+        $container.isotope({
+          itemSelector: '.isotope-item',
+          transitionDuration: '0.5s',
+        });
+      });
+      $('.nav-tabs .nav-filter').on('click', function () {
+        var selector = $(this).attr('data-filter');
+        $('.nav-tabs .nav-filter').removeClass('active');
+        $(this).addClass('active');
+        $container.isotope({ filter: selector });
+        return false;
+      });
+    }
+  };
   </script>
 </body>
 
