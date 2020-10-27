@@ -416,9 +416,10 @@
           var data_filter_list = document.getElementById('data-filter-list');
           for (var i = 0; i < json.length; i++) {
             var newLi = document.createElement('li');
+            var textNode = document.createTextNode(`"` + json[i].category_name + `"`);
             newLi.setAttribute("class", "nav-filter");
             newLi.setAttribute("data-filter", "." + json[i].category_name);
-            newLi.createTextNode(`"` + json[i].category_name + `"`);
+            newLi.appendChild(textNode);
             data_filter_list.append(newLi)
           }
         }
