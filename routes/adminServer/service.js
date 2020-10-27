@@ -58,7 +58,7 @@ router.post('/setbannedkeyword', async (req, res) => {
             flags : 1,
             message : '금지어 등록에 실패하였습니다.'
         }
-        FromData.title = req.body.keyword;
+        FromData.keyword = req.body.keyword;
         var setBannedResult = await adminModel.setBannedKeyword(FromData);
         if(setBannedResult) {
             resReturn = {
