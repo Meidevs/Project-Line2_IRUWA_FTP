@@ -113,7 +113,7 @@
               <li class="nav-filter active" data-filter="*">전체</li>
             </ul>
           </div>
-          <div class="portfolio-wrap grid items-4 items-padding">
+          <div class="portfolio-wrap grid items-4 items-padding" id="image-list">
             <!-- portfolio-card -->
             <div class="portfolio-card isotope-item digital">
               <div class="portfolio-card-body">
@@ -440,7 +440,7 @@
 
         let json = await response.json();
         if (response.ok) {
-          var items_padding = document.getElementById('items-padding');
+          var items_padding = document.getElementById('image-list');
           for (var i = 0; i < json.length; i++) {
             var newDiv = document.createElement('div');
             newDiv.setAttribute("class", `"portfolio-card isotope-item` + json[i].category_name +`"`);
