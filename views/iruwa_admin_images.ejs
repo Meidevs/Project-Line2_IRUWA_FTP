@@ -311,8 +311,10 @@
     }
     $(document).ready(() => {
       portfolioIsotope();
+      reload_js();
     })
     function portfolioIsotope () {
+      console.log('a')
       if ($().isotope) {
         var $container = $('.portfolio-wrap');
         $container.imagesLoaded(function () {
