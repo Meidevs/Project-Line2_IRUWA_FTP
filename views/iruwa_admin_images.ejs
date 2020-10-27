@@ -283,7 +283,7 @@
           items_padding.appendChild(parentDiv);
           for (var i = 0; i < json.length; i++) {
             var newDiv = document.createElement('div');
-            newDiv.setAttribute("class", `"portfolio-card isotope-item ` + 'a_' + json[i].category_seq + `"`);
+            newDiv.setAttribute("class", `portfolio-card isotope-item a_` + json[i].category_seq);
             var data = `<div class="portfolio-card-body">
               <div class="portfolio-card-header"> <img
                   src="`+ json[i].uri + `" alt="" width="200" height="200"> </div>
