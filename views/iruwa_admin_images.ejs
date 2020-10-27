@@ -318,10 +318,9 @@
   <script src="https://mostfeel.site:8888/static/javascripts/js/swiper.min.js" type="text/javascript"></script>
   <script src="https://mostfeel.site:8888/static/javascripts/js/main.js" type="text/javascript"></script>
   <script>
-    $(document).ready(() => {
+    window.onload(() => {
       portfolioIsotope();
-      console.log('c')
-    });
+    })
     portfolioIsotope = function () {
       if ($().isotope) {
         var $container = $('.portfolio-wrap');
