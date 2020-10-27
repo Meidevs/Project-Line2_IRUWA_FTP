@@ -144,7 +144,8 @@
               <span class="input-group-text">Upload</span>
             </div>
             <div class="custom-file">
-              <input type="file" class="custom-file-input" id="inputGroupFile01">
+              <img id="output" width="200" />
+              <input type="file" class="custom-file-input" onchange="loadFile(event)" id="inputGroupFile01">
               <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
             </div>
           </form>
@@ -244,14 +245,16 @@
       }
     }
 
+    loadFile = (e) => {
+      var image = document.getElementById('output');
+      image.src = URL.createObjectURL(event.target.files[0]);
+    }
+
     uploadCategory = async () => {
       var formData = new FormData();
       var category_name = document.getElementById('category_name').value;
       var icon_name = document.getElementById('icon_name').value;
       var fileField = document.querySelector("input[type='file']");
-      console.log('category_name', category_name);
-      console.log('icon_name', icon_name);
-      console.log('fileField', fileField);
       formData.append("category_name", category_name)
       formData.append("icon_name", icon_name)
       formData.append("image", fileField.files[0]);
@@ -270,6 +273,7 @@
         console.log(err)
       }
     }
+
     deleteCategory = async (data) => {
       try {
         let response = await fetch('https://mostfeel.site:8888/admin/category/delete', {
