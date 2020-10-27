@@ -288,7 +288,7 @@
             var rowCnt = parseInt(i / 4);
             var colCnt = i % 4;
             var styleString = "position : absolute; left : " + colCnt * 280 + "px; top : " + rowCnt * 265 + "px;"
-            newDiv.setAttribute("class", `"portfolio-card isotope-item ` + json[i].category_seq + `"`);
+            newDiv.setAttribute("class", `"portfolio-card isotope-item ` + "." + json[i].category_seq + `"`);
             newDiv.style = styleString;
             var data = `<div class="portfolio-card-body">
               <div class="portfolio-card-header"> <img
