@@ -236,7 +236,10 @@
   <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
   <script>
-
+    $(document).ready(() => {
+      getAllImages();
+      getAllCategories();
+    })
     getAllCategories = async () => {
       try {
         const resCategories = await fetch('https://mostfeel.site:8888/admin/category/list', {
