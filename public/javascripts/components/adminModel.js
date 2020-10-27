@@ -350,7 +350,7 @@ class Admin {
         return new Promise(
             async (resolve, reject) => {
                 try {
-                    var sql = 'INSERT INTO tb_notification (title, content, reg_date) VALUES (?, ?, ?)';
+                    var sql = 'INSERT INTO tb_notifications (title, content, reg_date) VALUES (?, ?, ?)';
                     await myConnection.query(sql, [data.title, data.content, data.reg_date]);
                     resolve(true);
                 } catch (err) {
