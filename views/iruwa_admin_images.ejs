@@ -109,23 +109,8 @@
       <div class="row">
         <div class="col-md-12 p-0">
           <div class="nav justify-content-center">
-            <ul class="nav-tabs nav-tabs-style-2 text-center px-2 p-md-0 m-0 mb-4">
-              <li class="nav-filter active" data-filter="*">All Works</li>
-              <li class="nav-filter" data-filter=".marketing">Marketing</li>
-              <li class="nav-filter" data-filter=".digital">Digital</li>
-              <li class="nav-filter" data-filter=".photo">Photography</li>
-              <li class="nav-filter" data-filter=".photo">Photography</li>
-              <li class="nav-filter" data-filter=".photo">Photography</li>
-              <li class="nav-filter" data-filter=".photo">Photography</li>
-              <li class="nav-filter" data-filter=".photo">Photography</li>
-              <li class="nav-filter" data-filter=".photo">Photography</li>
-              <li class="nav-filter" data-filter=".photo">Photography</li>
-              <li class="nav-filter" data-filter=".photo">Photography</li>
-              <li class="nav-filter" data-filter=".photo">Photography</li>
-              <li class="nav-filter" data-filter=".photo">Photography</li>
-              <li class="nav-filter" data-filter=".photo">Photography</li>
-              <li class="nav-filter" data-filter=".photo">Photography</li>
-              <li class="nav-filter" data-filter=".photo">Photography</li>
+            <ul class="nav-tabs nav-tabs-style-2 text-center px-2 p-md-0 m-0 mb-4" id="data-filter-list">
+              <li class="nav-filter active" data-filter="*">전체</li>
             </ul>
           </div>
           <div class="portfolio-wrap grid items-4 items-padding">
@@ -415,9 +400,31 @@
   <script src="https://mostfeel.site:8888/static/javascripts/js/main.js" type="text/javascript"></script>
   <script>
     $(document).ready(() => {
-
+      getAllCategories();
+      getAllImages();
     })
-
+    getAllCategories = async () => {
+      try {
+        const resCategories = await fetch('https://mostfeel.site:8888/admin/categories', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+        let json = await resCategories.json();
+        if (resCategories.ok) {
+          var data_filter_list = document.getElementById('data-filter-list');
+          for (var i = 0; i < json.length; i++) {
+            var newLi = document.createElement('li');
+            newLi.innerHTML = `<li class="nav-filter" data-filter="` + '.' + json[i].category_name + `">`+ json[i].category_name +`</li>`
+            data_filter_list.append(newLi);
+          }
+        }
+      } catch (err) {
+        console.log(err);
+        alert('카테고리를 불러오는데 실패하였습니다.');
+      }
+    }
     getAllImages = async () => {
       try {
         let response = await fetch ('https://mostfeel.site/admin/itemimages', {

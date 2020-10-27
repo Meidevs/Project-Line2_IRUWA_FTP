@@ -258,6 +258,8 @@
       formData.append("category_name", category_name)
       formData.append("icon_name", icon_name)
       formData.append("image", fileField.files[0]);
+      if(!category_name) return alert('카테고리명을 입력해주세요');
+      if(!icon_name) return alert('아이콘 이름을 입력해주세요');
       try {
         let response = await fetch('https://mostfeel.site:8888/admin/category/upload', {
           method: 'POST',
