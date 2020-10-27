@@ -131,22 +131,33 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-
                     <!-- Email -->
                     <div class="form-group">
-
-                        <input class="form-control" type="email" placeholder="Email">
+                        <input class="form-control" type="email" id="notification-title" placeholder="공지사항 제목을 입력해주세요">
                     </div>
 
                     <!-- Textarea -->
                     <div class="form-group">
 
-                        <textarea class="form-control" rows="5" placeholder="Example textarea"></textarea>
+                        <textarea class="form-control" rows="5" id="notification-content"
+                            placeholder="공지사항 내용을 입력해주세요"></textarea>
                     </div>
+
                 </div>
             </div>
         </div>
     </section>
+    <div class="gradient-overlay-half-primary-v1">
+        <div class="bg-img-hero" style="background-image: url(images/bg2.png);">
+            <div class="container">
+                <div class="row align-items-lg-center text-lg-left space-2">
+                    <div class="col-lg-12 text-lg-right">
+                        <a class="btn btn-purple mb-2 mb-sm-0 mr-sm-2" type="submit" onclick="setNotification()">등록</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <section class="pt80 pb80">
         <div class="container">
             <div class="row">
@@ -174,16 +185,8 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-
-                    <!-- Email -->
                     <div class="form-group">
-                        <input class="form-control" type="email" id="notification-title" placeholder="공지사항 제목을 입력해주세요">
-                    </div>
-
-                    <!-- Textarea -->
-                    <div class="form-group">
-
-                        <textarea class="form-control" rows="5" id="notification-content" placeholder="공지사항 내용을 입력해주세요"></textarea>
+                        <input class="form-control" type="email" id="banned-keyword" placeholder="금지어를 입력해주세요.">
                     </div>
                 </div>
             </div>
@@ -193,8 +196,9 @@
         <div class="bg-img-hero" style="background-image: url(images/bg2.png);">
             <div class="container">
                 <div class="row align-items-lg-center text-lg-left space-2">
-                    <div class="col-lg-12 text-lg-right"> 
-                        <a class="btn btn-purple mb-2 mb-sm-0 mr-sm-2" type="submit" onclick="setNotification()">등록</a>
+                    <div class="col-lg-12 text-lg-right">
+                        <a class="btn btn-purple mb-2 mb-sm-0 mr-sm-2" type="submit" onclick="setBannedKeyword()">등록</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -249,6 +253,7 @@
     <script>
         $(document).ready(() => {
             getAllnotification();
+            getAllBannedKeyword();
         });
         getAllnotification = async () => {
             try {
@@ -279,6 +284,7 @@
                 console.log(err);
             }
         }
+
         removeNotification = async (data) => {
             try {
                 let response = await fetch('https://mostfeel.site:8888/admin/service/removenotification', {
@@ -291,6 +297,7 @@
                 let json = await response.json();
                 if (response.ok) {
                     alert(json.message);
+                    location.reload();
                 }
             } catch (err) {
                 console.log(err);
@@ -310,13 +317,79 @@
                 })
                 let json = await response.json();
                 if (response.ok) {
-                    alert(json.message)
+                    alert(json.message);
+                    location.reload();
+                }
+            } catch (err) {
+                console.log(err);
+            }
+        }
+        getAllBannedKeyword = async () => {
+            try {
+                let resBannedkeyword = await fetch ('https://mostfeel.site:8888/admin/service/bannedkeywords', {
+                    method : 'GET',
+                    headers : {
+                        'Content-Type' : 'application/json'
+                    }
+                });
+
+                let json = await resBannedkeyword.json();
+                console.log(json);
+                if (resBannedkeyword.ok) {
+                    var my_tbody = document.getElementById('banned-list');
+                    json.map((data, index) => {
+                        var row = my_tbody.insertRow(my_tbody.rows.length);
+                        var cell1 = row.insertCell(0);
+                        var cell2 = row.insertCell(1);
+                        var cell4 = row.insertCell(2);
+                        cell1.innerHTML = index + 1;
+                        cell2.innerHTML = data.keyword;
+                        cell4.innerHTML = `<button type="button" onclick="removeBannedKeyword(` + data.banned_seq + `)" style="border-radius : 10px; background-color : #ffffff">삭제</button>`
+                    });
                 }
             } catch (err) {
                 console.log(err);
             }
         }
 
+        removeBannedKeyword = async (data) => {
+            try {
+                let response = await fetch('https://mostfeel.site:8888/admin/service/removebannedkeyword', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ notification_seq: data })
+                })
+                let json = await response.json();
+                if (response.ok) {
+                    alert(json.message);
+                    location.reload();
+                }
+            } catch (err) {
+                console.log(err);
+            }
+        }
+
+        setBannedKeyword = async () => {
+            var keyword = document.getElementById('banned-keyword').value;
+            try {
+                let response = await fetch('https://mostfeel.site:8888/admin/service/setnotification', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ keyword: keyword})
+                })
+                let json = await response.json();
+                if (response.ok) {
+                    alert(json.message);
+                    location.reload();
+                }
+            } catch (err) {
+                console.log(err);
+            }
+        }
     </script>
 </body>
 

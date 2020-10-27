@@ -333,8 +333,8 @@ class Admin {
             }
         )
     }
-    getAllNotifications () {
-        return new Promise (
+    getAllNotifications() {
+        return new Promise(
             async (resolve, reject) => {
                 try {
                     var sql = 'SELECT * FROM tb_notifications ORDER BY reg_date DESC';
@@ -346,8 +346,8 @@ class Admin {
             }
         )
     }
-    setNotifications (data) {
-        return new Promise (
+    setNotifications(data) {
+        return new Promise(
             async (resolve, reject) => {
                 try {
                     var sql = 'INSERT INTO tb_notification (title, content, reg_date) VALUES (?, ?, ?)';
@@ -360,11 +360,51 @@ class Admin {
         )
     }
     removeNotifications(data) {
-        return new Promise (
+        return new Promise(
             async (resolve, reject) => {
                 try {
                     var sql = 'DELETE FROM tb_notifications WHERE notification_seq = ?';
                     await myConnection.query(sql, [data.notification_seq]);
+                    resolve(true);
+                } catch (err) {
+                    reject(err);
+                }
+            }
+        )
+    }
+
+    getAllBannedKeywords() {
+        return new Promise(
+            async (resolve, reject) => {
+                try {
+                    var sql = 'SELECT * FROM tb_banned_keyword';
+                    var bannedList = await myConnection.query(sql);
+                    resolve(bannedList);
+                } catch (err) {
+                    reject(err);
+                }
+            }
+        )
+    }
+    setBannedKeyword (data) {
+        return new Promise(
+            async (resolve, reject) => {
+                try {
+                    var sql = 'INSERT INTO tb_banned_keyword (keyword) VALUES (?)';
+                    await myConnection.query(sql, [data.keyword]);
+                    resolve(true);
+                } catch (err) {
+                    reject(err);
+                }
+            }
+        )
+    }
+    removeBannedKeyword (data) {
+        return new Promise(
+            async (resolve, reject) => {
+                try {
+                    var sql = 'DELETE FROM tb_banned_keyword WHERE banned_seq = ?';
+                    await myConnection.query(sql, [data.banned_seq]);
                     resolve(true);
                 } catch (err) {
                     reject(err);
