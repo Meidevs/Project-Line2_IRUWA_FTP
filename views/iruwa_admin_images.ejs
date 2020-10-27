@@ -238,6 +238,8 @@
   <script>
     getAllCategories();
     getAllImages();
+    portfolioIsotope();
+    reload_js();
     async function getAllCategories() {
       console.log('getAllCategories')
       try {
@@ -308,12 +310,8 @@
         console.log(err);
       }
     }
-  </script>
-  <script>
-    portfolioIsotope();
-    reload_js();
-    portfolioIsotope = function () {
-      console.log('portfolioIsotope')
+    
+    function portfolioIsotope () {
       if ($().isotope) {
         var $container = $('.portfolio-wrap');
         $container.imagesLoaded(function () {
