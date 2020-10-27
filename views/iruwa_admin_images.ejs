@@ -311,10 +311,10 @@
     }
   </script>
   <script>
-    window.onload = () => {
+    $(document).ready(() => {
       portfolioIsotope();
-      console.log('isotope')
-    }
+      console.log('a')
+    })
     portfolioIsotope = function () {
       if ($().isotope) {
         var $container = $('.portfolio-wrap');
