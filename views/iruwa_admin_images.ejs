@@ -238,7 +238,6 @@
   <script>
     getAllCategories();
     getAllImages();
-    portfolioIsotope();
     reload_js();
     async function getAllCategories() {
       console.log('getAllCategories')
@@ -310,7 +309,7 @@
         console.log(err);
       }
     }
-    
+    portfolioIsotope();
     function portfolioIsotope () {
       if ($().isotope) {
         var $container = $('.portfolio-wrap');
@@ -333,7 +332,6 @@
       $('script[src="https://mostfeel.site:8888/static/javascripts/js/isotope.pkgd.min.js"]').remove();
       $('<script>').attr('src', "https://mostfeel.site:8888/static/javascripts/js/isotope.pkgd.min.js").appendTo('head');
     }
-    reload_js();
   </script>
   <script src="https://mostfeel.site:8888/static/javascripts/js/popper.min.js" type="text/javascript"></script>
   <script src="https://mostfeel.site:8888/static/javascripts/js/bootstrap.min.js" type="text/javascript"></script>
