@@ -335,6 +335,8 @@
     function reload_js() {
       $('script[src="https://mostfeel.site:8888/static/javascripts/js/isotope.pkgd.min.js"]').remove();
       $('<script>').attr('src', "https://mostfeel.site:8888/static/javascripts/js/isotope.pkgd.min.js").appendTo('head');
+        $('script[src="https://mostfeel.site:8888/static/javascripts/js/imagesloaded.pkgd.min.js"]').remove();
+      $('<script>').attr('src', "https://mostfeel.site:8888/static/javascripts/js/imagesloaded.pkgd.min.js").appendTo('head');
     }
   </script>
   <script src="https://mostfeel.site:8888/static/javascripts/js/popper.min.js" type="text/javascript"></script>
