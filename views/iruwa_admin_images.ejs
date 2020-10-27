@@ -310,15 +310,15 @@
       reload_js();
     })
     function portfolioIsotope() {
-      console.log('a')
       if ($().isotope) {
         var $container = $('.portfolio-wrap');
-        $container.imagesLoaded(function () {
-          $container.isotope({
-            itemSelector: '.isotope-item',
-            transitionDuration: '0.5s',
-          });
-        });
+        // console.log(container)
+        // $container.imagesLoaded(function () {
+        //   $container.isotope({
+        //     itemSelector: '.isotope-item',
+        //     transitionDuration: '0.5s',
+        //   });
+        // });
         $('.nav-tabs .nav-filter').on('click', function () {
           var selector = $(this).attr('data-filter');
           console.log(selector)
