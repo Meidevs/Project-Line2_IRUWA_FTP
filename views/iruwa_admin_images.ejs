@@ -442,8 +442,10 @@
         if (response.ok) {
           var items_padding = document.getElementById('items-padding');
           for (var i = 0; i < json.length; i++) {
-            var data = `<div class="portfolio-card isotope-item ` + json[i].category_name +`">
-              <div class="portfolio-card-body">
+            var newDiv = document.createElement('div');
+            newDiv.setAttribute("class", `"portfolio-card isotope-item` + json[i].category_name +`"`);
+            newDiv.innerHTML = data;
+            var data = `<div class="portfolio-card-body">
                 <div class="portfolio-card-header"> <img
                     src="`+ json[i].uri +`" alt=""> </div>
                 <div class="portfolio-card-footer"> <a class="full-screen"
@@ -452,8 +454,8 @@
                   <h6 class="info-title"><a href="#" title="">aperiam sorem</a></h6>
                   <p>Branding, Watch</p>
                 </div>
-              </div>
-            </div>`
+              </div>`
+              items_padding.appendChild(newDiv);
           }
         }
       } catch (err) {
