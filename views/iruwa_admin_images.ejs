@@ -418,7 +418,7 @@
             var newLi = document.createElement('li');
             var textNode = document.createTextNode(json[i].category_name);
             newLi.setAttribute("class", "nav-filter");
-            newLi.setAttribute("data-filter", "." + json[i].category_name);
+            newLi.setAttribute("data-filter", "." + json[i].category_seq);
             newLi.appendChild(textNode);
             data_filter_list.append(newLi)
           }
@@ -443,7 +443,7 @@
           var items_padding = document.getElementById('image-list');
           for (var i = 0; i < json.length; i++) {
             var newDiv = document.createElement('div');
-            newDiv.setAttribute("class", `"portfolio-card isotope-item` + json[i].category_name +`"`);
+            newDiv.setAttribute("class", `"portfolio-card isotope-item ` + json[i].category_seq +`"`);
             newDiv.innerHTML = data;
             var data = `<div class="portfolio-card-body">
                 <div class="portfolio-card-header"> <img
