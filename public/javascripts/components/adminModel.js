@@ -333,6 +333,45 @@ class Admin {
             }
         )
     }
+    getAllNotifications () {
+        return new Promise (
+            async (resolve, reject) => {
+                try {
+                    var sql = 'SELECT * FROM tb_notifications ORDER BY reg_date DESC';
+                    var notiList = await myConnection.query(sql);
+                    resolve(notiList);
+                } catch (err) {
+                    reject(err);
+                }
+            }
+        )
+    }
+    setNotifications (data) {
+        return new Promise (
+            async (resolve, reject) => {
+                try {
+                    var sql = 'INSERT INTO tb_notification (title, content, reg_date) VALUES (?, ?, ?)';
+                    await myConnection.query(sql, [data.title, data.content, data.reg_date]);
+                    resolve(true);
+                } catch (err) {
+                    reject(err);
+                }
+            }
+        )
+    }
+    removeNotifications(data) {
+        return new Promise (
+            async (resolve, reject) => {
+                try {
+                    var sql = 'DELETE FROM tb_notifications WHERE notification_seq = ?';
+                    await myConnection.query(sql, [data.notification_seq]);
+                    resolve(true);
+                } catch (err) {
+                    reject(err);
+                }
+            }
+        )
+    }
 }
 
 module.exports = new Admin();

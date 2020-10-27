@@ -118,7 +118,7 @@
                                     <th scope="col" style="width : 10%; text-align : center;">삭제</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="noti-list">
 
                             </tbody>
                         </table>
@@ -161,7 +161,7 @@
                                     <th scope="col" style="width : 10%; text-align : center">삭제</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="banned-list">
 
                             </tbody>
                         </table>
@@ -177,50 +177,60 @@
 
                     <!-- Email -->
                     <div class="form-group">
-
-                        <input class="form-control" type="email" placeholder="Email">
+                        <input class="form-control" type="email" id="notification-title" placeholder="공지사항 제목을 입력해주세요">
                     </div>
 
                     <!-- Textarea -->
                     <div class="form-group">
 
-                        <textarea class="form-control" rows="5" placeholder="Example textarea"></textarea>
+                        <textarea class="form-control" rows="5" id="notification-content" placeholder="공지사항 내용을 입력해주세요"></textarea>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <div class="footer-content">
-        <div class="container">
-            <div class="row">
-                <div class=" col-xl-3 col-xl-3 col-md-3 col-sm-6 col-xs-12 col-12">
-                    <div class="footer-col row">
-                        <div class="col-sm-12 col-xs-6 col-xxs-12 no-padding-lg">
-                            <div class="mobile-app-content">
-                                <h4 class="footer-title">Mobile Apps</h4>
-                                <div class="row ">
-                                    <div class="col-6  "> <a class="app-icon" target="_blank"
-                                            href="https://itunes.apple.com/"> <img
-                                                src="https://mostfeel.site:8888/static/images/web_images/app_store_badge.svg"
-                                                alt="Available on the App Store"> </a> </div>
-                                    <div class="col-6  "> <a class="app-icon" target="_blank"
-                                            href="https://play.google.com/store/">
-                                            <img src="https://mostfeel.site:8888/static/images/web_images/google-play-badge.svg"
-                                                alt="Available on the App Store"> </a> </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div style="clear: both"></div>
-                <div class="col-xl-12">
-                    <div class=" text-center paymanet-method-logo">
-                        <div class="copy-info text-center"> © 2019 Classifly. All Rights Reserved. </div>
-                    </div>
+    <div class="gradient-overlay-half-primary-v1">
+        <div class="bg-img-hero" style="background-image: url(images/bg2.png);">
+            <div class="container">
+                <div class="row align-items-lg-center text-lg-left space-2">
+                    <div class="col-lg-12 text-lg-right"> 
+                        <a class="btn btn-purple mb-2 mb-sm-0 mr-sm-2" type="submit" onclick="setNotification()">등록</a>
                 </div>
             </div>
         </div>
     </div>
+    <footer class="main-footer">
+        <div class="footer-content">
+            <div class="container">
+                <div class="row">
+                    <div class=" col-xl-3 col-xl-3 col-md-3 col-sm-6 col-xs-12 col-12">
+                        <div class="footer-col row">
+                            <div class="col-sm-12 col-xs-6 col-xxs-12 no-padding-lg">
+                                <div class="mobile-app-content">
+                                    <h4 class="footer-title">Mobile Apps</h4>
+                                    <div class="row ">
+                                        <div class="col-6  "> <a class="app-icon" target="_blank"
+                                                href="https://itunes.apple.com/"> <img
+                                                    src="https://mostfeel.site:8888/static/images/web_images/app_store_badge.svg"
+                                                    alt="Available on the App Store"> </a> </div>
+                                        <div class="col-6  "> <a class="app-icon" target="_blank"
+                                                href="https://play.google.com/store/">
+                                                <img src="https://mostfeel.site:8888/static/images/web_images/google-play-badge.svg"
+                                                    alt="Available on the App Store"> </a> </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="clear: both"></div>
+                    <div class="col-xl-12">
+                        <div class=" text-center paymanet-method-logo">
+                            <div class="copy-info text-center"> © 2019 Classifly. All Rights Reserved. </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </footer>
 
     <!-- Optional JavaScript -->
@@ -236,6 +246,78 @@
     <script src="https://mostfeel.site:8888/static/javascripts/js/slick.js" type="text/javascript"></script>
     <script src="https://mostfeel.site:8888/static/javascripts/js/swiper.min.js" type="text/javascript"></script>
     <script src="https://mostfeel.site:8888/static/javascripts/js/main.js" type="text/javascript"></script>
+    <script>
+        $(document).ready(() => {
+            getAllnotification();
+        });
+        getAllnotification = async () => {
+            try {
+                let resNotifications = await fetch('https://mostfeel.site:8888/admin/service/notifications', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                let json = await resNotifications.json();
+                console.log(json);
+                if (resNotifications.ok) {
+                    var my_tbody = document.getElementById('noti-list');
+                    json.map((data, index) => {
+                        var row = my_tbody.insertRow(my_tbody.rows.length);
+                        var cell1 = row.insertCell(0);
+                        var cell2 = row.insertCell(1);
+                        var cell3 = row.insertCell(2);
+                        var cell4 = row.insertCell(3);
+                        cell1.innerHTML = index + 1;
+                        cell2.innerHTML = data.title
+                        cell3.innerHTML = data.content;
+                        cell4.innerHTML = `<button type="button" onclick="removeNotification(` + data.notification_seq + `)" style="border-radius : 10px; background-color : #ffffff">삭제</button>`
+                    });
+                }
+            } catch (err) {
+                console.log(err);
+            }
+        }
+        removeNotification = async (data) => {
+            try {
+                let response = await fetch('https://mostfeel.site:8888/admin/service/removenotification', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ notification_seq: data })
+                })
+                let json = await response.json();
+                if (response.ok) {
+                    alert(json.message);
+                }
+            } catch (err) {
+                console.log(err);
+            }
+        }
+
+        setNotification = async () => {
+            var title = document.getElementById('notification-title').value;
+            var content = document.getElementById('notification-content').value;
+            try {
+                let response = await fetch('https://mostfeel.site:8888/admin/service/setnotification', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ title: title, content: content })
+                })
+                let json = await response.json();
+                if (response.ok) {
+                    alert(json.message)
+                }
+            } catch (err) {
+                console.log(err);
+            }
+        }
+
+    </script>
 </body>
 
 </html>
