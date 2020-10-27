@@ -231,10 +231,12 @@
     </div>
   </footer>
   <script>
-    $(document).ready(() => {
-      getAllCategories();
-      getAllImages();
-      portfolioIsotope();
+    $(document).ready(async () => {
+      var a = await getAllCategories();
+      var b = await getAllImages();
+      console.log('a', a)
+      console.log('b', b)
+      if(a & b) portfolioIsotope();
     })
     getAllCategories = async () => {
       try {
