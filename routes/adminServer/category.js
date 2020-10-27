@@ -64,7 +64,7 @@ router.post('/delete', async (req, res) => {
     }
 });
 
-router.get('/categories', async (req, res) => {
+router.get('/list', async (req, res) => {
     try {
         var resCategories = await adminModel.getCategoryList();
         res.status(200).send(resCategories);
