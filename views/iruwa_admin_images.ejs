@@ -280,6 +280,7 @@
           var items_padding = document.getElementById('image-list');
           var parentDiv = document.createElement('div');
           parentDiv.setAttribute("class", "portfolio-wrap grid items-4 items-padding");
+          parentDiv.style = "position : relative; height : 1000px;"
           items_padding.appendChild(parentDiv);
           for (var i = 0; i < json.length; i++) {
             var newDiv = document.createElement('div');
