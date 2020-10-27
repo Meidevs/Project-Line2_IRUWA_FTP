@@ -443,13 +443,17 @@
           var items_padding = document.getElementById('image-list');
           for (var i = 0; i < json.length; i++) {
             var newDiv = document.createElement('div');
+            var rowCnt = parseInt(i / 4);
+            var colCnt = i % 4;
+            var styleString = "position : absolute; left : " + colCnt * 280 + "px; top : " + rowCnt * 265 + "px;"
             newDiv.setAttribute("class", `"portfolio-card isotope-item ` + json[i].category_seq +`"`);
+            newDiv.style = styleString;
             newDiv.innerHTML = data;
             var data = `<div class="portfolio-card-body">
                 <div class="portfolio-card-header"> <img
-                    src="`+ json[i].uri +`" alt=""> </div>
+                    src="`+ json[i].uri +`" alt="" width="200"> </div>
                 <div class="portfolio-card-footer"> <a class="full-screen"
-                    href="https://mostfeel.site:8888/static/images/web_images/portfolio/01.jpg"
+                    href="`+ json[i].uri + `" 
                     data-fancybox="portfolio" data-caption="aperiam sorem"><i class="fas fa-compress"></i></a>
                   <h6 class="info-title"><a href="#" title="">aperiam sorem</a></h6>
                   <p>Branding, Watch</p>
