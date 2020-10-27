@@ -337,7 +337,7 @@
       $('script[src="https://mostfeel.site:8888/static/javascripts/js/imagesloaded.pkgd.min.js"]').remove();
       $('<script>').attr('src', "https://mostfeel.site:8888/static/javascripts/js/imagesloaded.pkgd.min.js").appendTo('head');
       $('link[href="https://mostfeel.site:8888/static/stylesheets/css/style.css"]').remove();
-      $('<link>').attr('href', "https://mostfeel.site:8888/static/stylesheets/css/style.css").appendTo('head');
+      $('<link>').attr('href', "https://mostfeel.site:8888/static/stylesheets/css/style.css").attr("type", "text/css").attr("rel", "stylesheets").appendTo('head');
     }
   </script>
   <script src="https://mostfeel.site:8888/static/javascripts/js/popper.min.js" type="text/javascript"></script>
