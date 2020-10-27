@@ -415,7 +415,11 @@
         if (resCategories.ok) {
           var data_filter_list = document.getElementById('data-filter-list');
           for (var i = 0; i < json.length; i++) {
-            data_filter_list.appendChild(`<li class="nav-filter" data-filter=".` +json[i].category_name+ `">`+json[i].category_name+`</li>`)
+            var newLi = document.createElement('li');
+            newLi.setAttribute("class", "nav-filter");
+            newLi.setAttribute("data-filter", "." + json[i].category_name);
+            newLi.createTextNode(`"` + json[i].category_name + `"`);
+            data_filter_list.append(newLi)
           }
         }
       } catch (err) {
