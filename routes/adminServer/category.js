@@ -73,4 +73,24 @@ router.get('/list', async (req, res) => {
     }
 });
 
+router.get('/categories', async (req, res) => {
+    try {
+        var categoryList = await adminModel.getCategoryList();
+        var cmpCount = await adminModel.getItemCount();
+        for (var i = 0; i < categoryList.length; i++) {
+            categoryList[i].count = 0;
+            for (var j = 0; j < cmpCount.length; j++) {
+                if (categoryList[i].category_seq == cmpCount[j].category_seq) {
+                    if (cmpCount[j].cnt) {
+                        categoryList[i].count = cmpCount[j].cnt;
+                    }
+                }
+            }
+        }
+        res.status(200).send(categoryList)
+    } catch (err) {
+        console.log(err);
+    }
+});
+
 module.exports = router;
