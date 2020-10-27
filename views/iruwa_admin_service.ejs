@@ -374,7 +374,7 @@
         setBannedKeyword = async () => {
             var keyword = document.getElementById('banned-keyword').value;
             try {
-                let response = await fetch('https://mostfeel.site:8888/admin/service/setnotification', {
+                let response = await fetch('https://mostfeel.site:8888/admin/service/setbannedkeyword', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
