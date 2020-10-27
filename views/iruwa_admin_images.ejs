@@ -6,6 +6,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <!-- Bootstrap CSS -->
+  <link href="https://mostfeel.site:8888/static/stylesheets/css/style.css" type="text/css" rel="stylesheet" />
   <!-- Favicon -->
   <!-- Favicon and Touch Icons -->
   <link href="https://mostfeel.site:8888/static/images/web_images/favicon.png" rel="shortcut icon" type="image/png">
@@ -18,7 +19,7 @@
     sizes="144x144">
   <script src="https://mostfeel.site:8888/static/javascripts/js/jquery.min.js" type="text/javascript"></script>
 
-  
+
   <title>Classifly - Classified Ads HTML Template</title>
 
 </head>
@@ -231,15 +232,13 @@
       </div>
     </div>
   </footer>
-  
+
   <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
   <script>
     $(document).ready(async () => {
-      var a = await getAllCategories();
-      var b = await getAllImages();
-      console.log(a);
-      console.log(b);
+      await getAllCategories();
+      await getAllImages();
     });
     getAllCategories = async () => {
       try {
@@ -305,20 +304,9 @@
         console.log(err);
       }
     }
-    
-  </script>
-  <script src="https://mostfeel.site:8888/static/javascripts/js/popper.min.js" type="text/javascript"></script>
-  <script src="https://mostfeel.site:8888/static/javascripts/js/bootstrap.min.js" type="text/javascript"></script>
-  <script src="https://mostfeel.site:8888/static/javascripts/js/isotope.pkgd.min.js" type="text/javascript"></script>
-  <script src="https://mostfeel.site:8888/static/javascripts/js/imagesloaded.pkgd.min.js"
-    type="text/javascript"></script>
-  <script src="https://mostfeel.site:8888/static/javascripts/js/functions.js" type="text/javascript"></script>
-  <script src="https://mostfeel.site:8888/static/javascripts/js/owl.carousel.min.js" type="text/javascript"></script>
-  <script src="https://mostfeel.site:8888/static/javascripts/js/slick.js" type="text/javascript"></script>
-  <script src="https://mostfeel.site:8888/static/javascripts/js/swiper.min.js" type="text/javascript"></script>
-  <script src="https://mostfeel.site:8888/static/javascripts/js/main.js" type="text/javascript"></script>
-  <link href="https://mostfeel.site:8888/static/stylesheets/css/style.css" type="text/css" rel="stylesheet" />
 
+  </script>
+  
   <script>
     window.onload = () => {
       portfolioIsotope();
@@ -342,6 +330,16 @@
       }
     };
   </script>
+  <script src="https://mostfeel.site:8888/static/javascripts/js/popper.min.js" type="text/javascript"></script>
+  <script src="https://mostfeel.site:8888/static/javascripts/js/bootstrap.min.js" type="text/javascript"></script>
+  <script src="https://mostfeel.site:8888/static/javascripts/js/isotope.pkgd.min.js" type="text/javascript"></script>
+  <script src="https://mostfeel.site:8888/static/javascripts/js/imagesloaded.pkgd.min.js"
+    type="text/javascript"></script>
+  <script src="https://mostfeel.site:8888/static/javascripts/js/functions.js" type="text/javascript"></script>
+  <script src="https://mostfeel.site:8888/static/javascripts/js/owl.carousel.min.js" type="text/javascript"></script>
+  <script src="https://mostfeel.site:8888/static/javascripts/js/slick.js" type="text/javascript"></script>
+  <script src="https://mostfeel.site:8888/static/javascripts/js/swiper.min.js" type="text/javascript"></script>
+  <script src="https://mostfeel.site:8888/static/javascripts/js/main.js" type="text/javascript"></script>
 </body>
 
 </html>
