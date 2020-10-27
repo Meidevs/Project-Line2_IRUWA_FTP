@@ -359,7 +359,7 @@
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ notification_seq: data })
+                    body: JSON.stringify({ banned_seq: data })
                 })
                 let json = await response.json();
                 if (response.ok) {
