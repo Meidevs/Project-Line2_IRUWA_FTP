@@ -236,12 +236,10 @@
   <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
   <script>
-    $(document).ready(() => {
-      getAllImages();
-      getAllCategories();
-      console.log('hi')
-    })
-    getAllCategories = async () => {
+    getAllCategories();
+    getAllImages();
+    async function getAllCategories() {
+      console.log('getAllCategories')
       try {
         const resCategories = await fetch('https://mostfeel.site:8888/admin/category/list', {
           method: 'GET',
@@ -267,7 +265,8 @@
         alert('카테고리를 불러오는데 실패하였습니다.');
       }
     }
-    getAllImages = async () => {
+    async function getAllImages() {
+      console.log('getAllImages')
       try {
         let response = await fetch('https://mostfeel.site:8888/admin/itemimages', {
           method: 'GET',
@@ -311,11 +310,10 @@
     }
   </script>
   <script>
-    $(document).ready(() => {
-      portfolioIsotope();
-      console.log('a')
-    })
+    portfolioIsotope();
+    reload_js();
     portfolioIsotope = function () {
+      console.log('portfolioIsotope')
       if ($().isotope) {
         var $container = $('.portfolio-wrap');
         $container.imagesLoaded(function () {
@@ -333,6 +331,11 @@
         });
       }
     };
+    function reload_js() {
+      $('script[src="https://mostfeel.site:8888/static/javascripts/js/isotope.pkgd.min.js"]').remove();
+      $('<script>').attr('src', "https://mostfeel.site:8888/static/javascripts/js/isotope.pkgd.min.js").appendTo('head');
+    }
+    reload_js();
   </script>
   <script src="https://mostfeel.site:8888/static/javascripts/js/popper.min.js" type="text/javascript"></script>
   <script src="https://mostfeel.site:8888/static/javascripts/js/bootstrap.min.js" type="text/javascript"></script>
