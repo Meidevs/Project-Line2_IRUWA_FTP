@@ -256,7 +256,7 @@
             var newLi = document.createElement('li');
             var textNode = document.createTextNode(json[i].category_name);
             newLi.setAttribute("class", "nav-filter");
-            newLi.setAttribute("data-filter", "." + json[i].category_seq);
+            newLi.setAttribute("data-filter", ".a_" + json[i].category_seq);
             newLi.appendChild(textNode);
             data_filter_list.append(newLi)
           }
@@ -287,9 +287,9 @@
             var newDiv = document.createElement('div');
             var rowCnt = parseInt(i / 4);
             var colCnt = i % 4;
-            var styleString = "position : absolute; left : " + colCnt * 280 + "px; top : " + rowCnt * 265 + "px;"
-            newDiv.setAttribute("class", `"portfolio-card isotope-item ` + "." + json[i].category_seq + `"`);
-            newDiv.style = styleString;
+            // var styleString = "position : absolute; left : " + colCnt * 280 + "px; top : " + rowCnt * 265 + "px;"
+            newDiv.setAttribute("class", `"portfolio-card isotope-item ` + 'a_' +json[i].category_seq + `"`);
+            // newDiv.style = styleString;
             var data = `<div class="portfolio-card-body">
               <div class="portfolio-card-header"> <img
                   src="`+ json[i].uri + `" alt="" width="200" height="200"> </div>
