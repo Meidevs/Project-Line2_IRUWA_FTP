@@ -153,7 +153,7 @@ router.post('/setpremium', async (req, res) => {
 
         FromData.pre_due_date = newDateString_a;
 
-
+        var now = new Date();
         getCmpDueDate = await adminModel.getCompanyDuedate(FromData);
         if (getCmpDueDate[0].ads_date) {
             dueDate = getCmpDueDate[0].ads_date;
