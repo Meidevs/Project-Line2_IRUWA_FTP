@@ -393,6 +393,7 @@ router.post('/search/keyword', async (req, res) => {
         console.log(req.body)
         var keyword = req.body.keyword;
         var user_location = req.session.user.user_location;
+        console.log(user_location)
         var FromData = new Object();
         var resReturn = new Object();
         FromData.keyword = keyword;
@@ -408,9 +409,9 @@ router.post('/search/keyword', async (req, res) => {
         } else {
             // Get Company Information From Database to Show Company Infos At Main Page with Item Information.
             var GET_CMP_LIST = await userModel.GET_CMP_LIST(FromData);
-
+            console.log('GET_CMP_LIST', GET_CMP_LIST)
             var GET_ITEM_LIST = await itemModel.SEARCH_ITEM(FromData);
-
+            console.log('GET_ITEM_LIST', GET_ITEM_LIST)
             // Distinguish & Assemble related Information. 
             GET_ITEM_LIST.map((item) => {
                 GET_CMP_LIST.map((data) => {
