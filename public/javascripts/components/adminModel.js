@@ -26,6 +26,7 @@ class Admin {
                 try {
                     var sql = 'SELECT * FROM tb_admins WHERE user_id = ? AND user_pw = ?';
                     var USER_INFO = await myConnection.query(sql, [data.user_id, data.user_pw]);
+                    console.log('USER_INFO', USER_INFO)
                     resolve(USER_INFO);
                 } catch (err) {
                     reject(err)
