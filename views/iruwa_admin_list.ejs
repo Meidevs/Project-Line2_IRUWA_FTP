@@ -449,8 +449,8 @@
         newDiv.innerHTML = `<a class="list-box-content"> <span class="title">` + setArray[i].cmp_name + `</span>
                                   <div class="message-text">` + setArray[i].cmp_detail_location + `
                                   </div>
-                                  <div class="time">일반 종료 : \n`+ setArray[i].ads_date.substring(0, 10) + `</div>
-                                  <div class="time">프리미엄 종료: \n`+ setArray[i].pre_ads_date.substring(0, 10) + `</div>
+                                  <div class="time">일반 종료 : </div>`+ `<p>` + setArray[i].ads_date.substring(0, 10) + `</p>
+                                  <div class="time">프리미엄 종료: </div>`+ `<p>` + setArray[i].pre_ads_date.substring(0, 10) + `</p>
                                 </a>
                                 <div class="list-box-action">
                                   <button onclick="setPremium(` + setArray[i].cmp_seq + `)" style="flex-direction : row; width : 100%">
