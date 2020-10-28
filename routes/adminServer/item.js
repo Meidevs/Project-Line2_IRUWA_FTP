@@ -107,7 +107,7 @@ router.post('/renew', async (req, res) => {
             dueDate = null;
         }
 
-        if (dueDate < now | pdueDate == null) {
+        if (dueDate < now | dueDate == null) {
             var dateNum = now.setDate(now.getDate() + 30);
         } else {
             var dateNum = dueDate.setDate(dueDate.getDate() + 30);
