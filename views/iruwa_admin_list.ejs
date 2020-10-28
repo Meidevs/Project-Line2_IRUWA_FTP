@@ -97,7 +97,7 @@
           <form class="cflyformtheme cflyformbannersearch">
             <fieldset>
               <div class="form-group cflyinputwithicon"> <i class="fas fa-bullhorn"></i>
-                <input type="text" name="customword" class="form-control" placeholder="업체 명을 입력해주세요">
+                <input type="text" name="cmp_name" id="cmp_name" class="form-control" placeholder="업체 명을 입력해주세요" value="">
               </div>
               <div class="form-group cflyinputwithicon"> <i class="fab fa-staylinked"></i>
                 <div class="cflyselect">
@@ -106,7 +106,7 @@
                   </select>
                 </div>
               </div>
-              <Button class="cflybtn" type="button" onclick="location.href='iruwa_admin_detail.html'">Search
+              <Button class="cflybtn" type="button" onclick="seaechCompany()">Search
                 Now</Button>
             </fieldset>
           </form>
@@ -273,9 +273,10 @@
             li.innerHTML = `<button class="categories-btn" onclick="Initial(` + json[i].category_seq + `)"><img src="` + json[i].uri + `" style="width : 30px; height : 30px; background-color: #15bac1; padding:5px; border-radius: 30px; margin-right : 10px;">` + json[i].category_name + `(` + json[i].count + `)</button>`;
             ulForm.appendChild(li);
 
-            var option = document.createElement('option');
-            option.innerHTML = `<option value="` + json[i].category_seq + `">` + json[i].category_name + `</option>`
-            selectForm.appendChild(option);
+            var options = document.createElement('option');
+            options.setAttribute("value", json[i].category_seq);
+            options.innerHTML=json[i].category_name;
+            selectForm.appendChild(options);
           }
 
           let myBtns = document.querySelectorAll('.categories-btn');
@@ -332,16 +333,32 @@
     pauseCompany = async (data) => {
       try {
         let response = await fetch('https://mostfeel.site:8888/admin/pause', {
-          method  : "POST",
-          headers : {
-            'Content-Type' : 'application/json'
+          method: "POST",
+          headers: {
+            'Content-Type': 'application/json'
           },
-          body : JSON.stringify({cmp_seq : data})
+          body: JSON.stringify({ cmp_seq: data })
         });
         let json = await response.json();
         if (response.ok) {
           alert(json.message)
         }
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    seaechCompany = async () => {
+      var cmpName = document.getElementById('cmp_name').value;
+
+      try {
+        let response = await fetch('https://mostfeel.site:8888/admin/searchcompany', {
+          method : "POST",
+          headers : {
+            'Content-Type' : 'application/json'
+          },
+          body : JSON.stringify({})
+        });
       } catch (err) {
         console.log(err);
       }
@@ -442,8 +459,8 @@
         length = setArray.length;
       }
       for (var i = 0; i < length; i++) {
-        if(!setArray[i].ads_date) setArray[i].ads_date = "없음";
-        if(!setArray[i].pre_ads_date) setArray[i].pre_ads_date = "없음";
+        if (!setArray[i].ads_date) setArray[i].ads_date = "없음";
+        if (!setArray[i].pre_ads_date) setArray[i].pre_ads_date = "없음";
         var newDiv = document.createElement('div');
         newDiv.setAttribute('class', 'list-group-item');
         newDiv.innerHTML = `<a class="list-box-content"> <span class="title">` + setArray[i].cmp_name + `</span>
