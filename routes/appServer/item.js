@@ -400,7 +400,8 @@ router.post('/search/keyword', async (req, res) => {
 
         // Check whether there are banned keyword or not.
         var existence = await itemModel.findBannedKeyword(FromData);
-        if (existence.length >= 0) {
+        
+if (existence.length > 0) {
             resReturn = {
                 flags: 1,
                 content: '검색 금지어입니다.'
