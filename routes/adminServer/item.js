@@ -93,18 +93,27 @@ router.post('/renew', async (req, res) => {
             flags: 1,
             message: '업체 광고 등록기간 연장이 실패하였습니다.'
         }
+        // Check which condition to execute;
+        // Outdated, No data (NULL), Extend Period;
+        var now = new Date();
         var getCmpDueDate = new Date();
+        var dueDate = new Date();
+        var dateNum;
+        // Get Company Premium Ads Permission Due Date;
         getCmpDueDate = await adminModel.getCompanyDuedate(FromData);
-        if (getCmpDueDate[0].ads_date != null) {
-            var dateNum = getCmpDueDate.setDate(getCmpDueDate.getDate() + 30);
-            newDateString = new Date(dateNum).toISOString().substring(0, 10);
-            FromData.due_date = newDateString;
+        if (getCmpDueDate[0].ads_date) {
+            dueDate = getCmpDueDate[0].ads_date;
         } else {
-            var today = new Date();
-            var dateNum = today.setDate(today.getDate() + 30);
-            newDateString = new Date(dateNum).toISOString().substring(0, 10);
-            FromData.due_date = newDateString;
+            dueDate = null;
         }
+
+        if (dueDate < now | pdueDate == null) {
+            var dateNum = now.setDate(now.getDate() + 30);
+        } else {
+            var dateNum = dueDate.setDate(dueDate.getDate() + 30);
+        }
+        var newDateString = new Date(dateNum).toISOString().substring(0,10);
+        FromData.due_date = newDateString;
         var updateResult = await adminModel.renewDueDate(FromData);
         if (updateResult) {
             resReturn = {
@@ -129,12 +138,9 @@ router.post('/setpremium', async (req, res) => {
 
         // Check which condition to execute;
         // Outdated, No data (NULL), Extend Period;
-
         var now = new Date();
         var getCmpPreDueDate = new Date();
-        var getCmpDueDate = new Date();
         var preDueDate = new Date();
-        var dueDate = new Date();
         var dateNum;
         // Get Company Premium Ads Permission Due Date;
         getCmpPreDueDate = await adminModel.getCompanyPreDuedate(FromData);
