@@ -149,26 +149,9 @@ router.post('/setpremium', async (req, res) => {
         } else {
             var dateNum = preDueDate.setDate(preDueDate.getDate() + 30);
         }
-        var newDateString_a = new Date(dateNum).toISOString().substring(0,10);
+        var newDateString = new Date(dateNum).toISOString().substring(0,10);
 
-        FromData.pre_due_date = newDateString_a;
-
-        var now = new Date();
-        getCmpDueDate = await adminModel.getCompanyDuedate(FromData);
-        if (getCmpDueDate[0].ads_date) {
-            dueDate = getCmpDueDate[0].ads_date;
-        } else {
-            dueDate = null;
-        }
-
-        if (dueDate < now | dueDate == null) {
-            var dateNum = now.setDate(now.getDate() + 30);
-        } else {
-            var dateNum = dueDate.setDate(dueDate.getDate() + 30);
-        }
-        var newDateString_b = new Date(dateNum).toISOString().substring(0,10);
-
-        FromData.due_date = newDateString_b;
+        FromData.pre_due_date = newDateString;
 
         var updateResult = await adminModel.changeToPremiums(FromData);
         if (updateResult) {

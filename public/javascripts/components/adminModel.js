@@ -243,8 +243,8 @@ class Admin {
             async (resolve, reject) => {
                 try {
                     console.log(data)
-                    var sql = 'UPDATE tb_company SET ads_date = ?, pre_ads_date = ?,  normal_ads = "Y", pre_ads = "Y" WHERE cmp_seq = ?';
-                    await myConnection.query(sql, [data.due_date, data.pre_due_date, data.cmp_seq])
+                    var sql = 'UPDATE tb_company SET pre_ads_date = ?, pre_ads = "Y" WHERE cmp_seq = ?';
+                    await myConnection.query(sql, [data.pre_due_date, data.cmp_seq])
                     resolve(true);
                 } catch (err) {
                     reject(err);
