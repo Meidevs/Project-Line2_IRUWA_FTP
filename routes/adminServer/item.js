@@ -129,6 +129,7 @@ router.post('/setpremium', async (req, res) => {
         var getCmpPreDueDate = new Date();
         var getCmpDueDate = new Date();
         getCmpPreDueDate = await adminModel.getCompanyPreDuedate(FromData);
+        console.log(getCmpPreDueDate)
         if (getCmpPreDueDate[0].pre_ads_date != null) {
             var dateNum = getCmpPreDueDate.setDate(getCmpPreDueDate.getDate() + 30);
             newDateString = new Date(dateNum).toISOString().substring(0, 10);
@@ -155,7 +156,7 @@ router.post('/setpremium', async (req, res) => {
         if (updateResult) {
             resReturn = {
                 flags: 0,
-                message: '프리미엄으로 변경되었습니다.'
+                message: '프리미엄으로 등록되었습니다.'
             }
         }
         res.status(200).send(resReturn);
