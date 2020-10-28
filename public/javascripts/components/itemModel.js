@@ -214,7 +214,7 @@ class Items {
         return new Promise(
             async (resolve, reject) => {
                 try {
-                    var sql = 'SELECT COUNT(*) AS cnt FROM tb_items WHERE cmp_seq = ?';
+                    var sql = 'SELECT COUNT(*) AS cnt FROM tb_items WHERE cmp_seq = ? AND ads_type = 0 AND cancelled = 0';
                     var ITEM_COUNT = await myConnection.query(sql, [data.cmp_seq]);
                     resolve(ITEM_COUNT[0].cnt);
                 } catch (err) {
@@ -228,7 +228,7 @@ class Items {
         return new Promise(
             async (resolve, reject) => {
                 try {
-                    var sql = 'SELECT COUNT(*) AS cnt FROM tb_items WHERE cmp_seq = ? AND ads_type = 1';
+                    var sql = 'SELECT COUNT(*) AS cnt FROM tb_items WHERE cmp_seq = ? AND ads_type = 1 AND cancelled = 0';
                     var ITEM_COUNT = await myConnection.query(sql, [data.cmp_seq]);
                     resolve(ITEM_COUNT[0].cnt);
                 } catch (err) {
