@@ -35,10 +35,8 @@ const getRoom = (roomList) => {
 }
 
 const addMessages = (data) => {
-  console.log('addMessage Received : ', data);
   var exist = rooms.findIndex((rooms) => rooms.roomCode == data.roomCode);
   rooms[exist].messages.push(data);
-  console.log('addMessage rooms : ', rooms)
 }
 
 const removeMessages = (data) => {

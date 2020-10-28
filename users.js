@@ -31,7 +31,6 @@ const addUser = (socketID, userID, socket) => {
     }
     users.push(user)
   }
-  console.log('addUser', users)
   return user;
 }
 
@@ -58,7 +57,6 @@ const removeRoomCode = (a) => {
       users[index].roomList.splice(i, 1);
     }
   }
-  console.log(users);
 }
 
 const getUser = (uid) => {
@@ -79,9 +77,7 @@ const roomExistence = (data) => {
 
 const bannedUserCheck = async (data) => {
   try {
-    console.log('bannedUserCheck', data)
     var BANNED_USER = await userModel.CHECK_BANNED_USER(data);
-    console.log('BANNED_USER', BANNED_USER)
     if (BANNED_USER.length > 0) {
       return true;
     } else {
