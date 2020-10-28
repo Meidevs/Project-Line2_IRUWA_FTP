@@ -7,7 +7,7 @@ class Admin {
             async (resolve, reject) => {
                 try {
                     var flags = 1;
-                    var sql = 'SELECT 1 AS user_id FROM tb_users WHERE EXISTS (SELECT user_id FROM tb_admins WHERE user_id = ?)';
+                    var sql = 'SELECT 1 AS user_id FROM tb_admins WHERE EXISTS (SELECT user_id FROM tb_admins WHERE user_id = ?)';
                     var USER_EXISTENCE = await myConnection.query(sql, [data.user_id]);
                     if (USER_EXISTENCE[0] == undefined) {
                         flags = 0;
