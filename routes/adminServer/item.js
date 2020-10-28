@@ -164,6 +164,27 @@ router.post('/setpremium', async (req, res) => {
     }
 });
 
+router.post('/pause', async (req, res) => {
+    try {
+        var FromData = new Object();
+        FromData.cmp_seq = req.body.cmp_seq;
+        var resReturn = {
+            flags : 1,
+            message : '업체 서비스 중지에 실패하였습니다.'
+        }
+        var result = await adminModel.pauseCompany(FromData);
+        if (result) {
+            resReturn = {
+                flags : 0,
+                message : '업체 서비스를 중지합니다.'
+            }
+        }
+        res.status(200).send(resReturn);
+    } catch (err) {
+        console.log(err);
+    }
+})
+
 router.get('/itemimages', async (req, res) => {
     try {
         var result = await adminModel.getImageInfo();

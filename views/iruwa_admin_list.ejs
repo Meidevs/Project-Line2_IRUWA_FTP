@@ -329,6 +329,20 @@
       }
     }
 
+    pauseCompany = async (data) => {
+      try {
+        let response = await fetch('https://mostfeel.site:8888/admin/pause', {
+          method  : "POST",
+          headers : {
+            'Content-Type' : 'application/json'
+          },
+          body : JSON.stringify({cmp_seq : data});
+        })
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
     $(document).ready(async () => {
       getAllCompanies();
       getAllCategories();
@@ -431,8 +445,8 @@
         newDiv.innerHTML = `<a class="list-box-content"> <span class="title">` + setArray[i].cmp_name + `</span>
                                   <div class="message-text">` + setArray[i].cmp_detail_location + `
                                   </div>
-                                  <div class="time">일반 종료 : `+ setArray[i].ads_date.substring(0, 10) + `</div>
-                                  <div class="time">프리미엄 종료: `+ setArray[i].pre_ads_date.substring(0, 10) + `</div>
+                                  <div class="time">일반 종료 : \n`+ setArray[i].ads_date.substring(0, 10) + `</div>
+                                  <div class="time">프리미엄 종료: \n`+ setArray[i].pre_ads_date.substring(0, 10) + `</div>
                                 </a>
                                 <div class="list-box-action">
                                   <button onclick="setPremium(` + setArray[i].cmp_seq + `)" style="flex-direction : row; width : 100%">
@@ -442,7 +456,7 @@
                                     <p>기간 연장</p>
                                   </button>
                                   <button onclick="pauseCompany(` + setArray[i].cmp_seq + `)" style="flex-direction : row; width : 100%">
-                                    <p>등록 중지</p>
+                                    <p>업체 중지</p>
                                   </button>
                                 </div>`
         divForm.appendChild(newDiv);

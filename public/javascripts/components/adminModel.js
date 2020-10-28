@@ -252,6 +252,22 @@ class Admin {
             }
         )
     }
+
+    pauseCompany(data) {
+        return new Promise (
+            async (resolve, reject) => {
+                try{
+
+                    var sql = 'UPDATE tb_company SET normal_ads = "N", pre_ads = "N", ads_date = NULL, pre_ads_date = NULL WHERE cmp_seq = ?';
+                    await myConnection.query(sql, [data.cmp_seq]);
+                    resolve(true);
+                } catch(err) {
+                    reject(err);
+                }
+            }
+        )
+    }
+
     setCategory(data) {
         return new Promise(
             async (resolve, reject) => {
