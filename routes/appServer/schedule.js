@@ -3,6 +3,7 @@ var userModel = require('../../public/javascripts/components/userModel');
 var adminModel = require('../../public/javascripts/components/adminModel');
 cron.schedule("* * * * *", async () => {
     try {
+        console.log('Run Every Minutes')
         var cReceiverList = new Array();
         var userCouponCnt = await userModel.GET_RECOMMENDATIONS();
         userCouponCnt.map((data) => {
