@@ -1,10 +1,12 @@
 var express = require('express');
 var router = express.Router();
 var adminModel = require('../../public/javascripts/components/adminModel');
-
+function errorHandler(res) {
+    res.status(500);
+    res.send('error');
+}
 router.get('/main', (req, res) => {
-    console.log(req.session.user)
-    if (!req.session.user.user_id) return;
+    if (!req.session.user) return errorHandler(res);
     res.status(200).render('iruwa_admin_main');
 });
 
@@ -114,7 +116,7 @@ router.post('/renew', async (req, res) => {
         } else {
             var dateNum = dueDate.setDate(dueDate.getDate() + 30);
         }
-        var newDateString = new Date(dateNum).toISOString().substring(0,10);
+        var newDateString = new Date(dateNum).toISOString().substring(0, 10);
         FromData.due_date = newDateString;
         var updateResult = await adminModel.renewDueDate(FromData);
         if (updateResult) {
@@ -157,7 +159,7 @@ router.post('/setpremium', async (req, res) => {
         } else {
             var dateNum = preDueDate.setDate(preDueDate.getDate() + 30);
         }
-        var newDateString = new Date(dateNum).toISOString().substring(0,10);
+        var newDateString = new Date(dateNum).toISOString().substring(0, 10);
 
         FromData.pre_due_date = newDateString;
 
@@ -210,14 +212,14 @@ router.post('/searchcompany', async (req, res) => {
         FromData.category_seq = req.body.category_seq;
         FromData.cmp_name = req.body.cmp_name;
         var resReturn = {
-            flags : 1,
-            message : '검색 결과가 없습니다.'
+            flags: 1,
+            message: '검색 결과가 없습니다.'
         }
         var searchResult = await adminModel.searchCompanyList(FromData);
-        if(searchResult.length > 0) {
+        if (searchResult.length > 0) {
             resReturn = {
-                flags : 0,
-                message : searchResult,
+                flags: 0,
+                message: searchResult,
             }
         }
         res.status(200).send(resReturn);
