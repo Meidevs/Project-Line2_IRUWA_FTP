@@ -624,6 +624,34 @@ class Authentication {
             }
         )
     }
+
+    setAdsOutDated(data) {
+        return new Promise (
+            async (resolve, reject) => {
+                try {
+                    var sql = 'UPDATE tb_company SET normal_ads = "N" WHERE ads_date <= ?';
+                    await myConnection.query(sql, [data.due_date]);
+                    resolve(true);
+                } catch (err) {
+                    reject(err);
+                }
+            }
+        )
+    }
+
+    setPreAdsOutDated(data) {
+        return new Promise (
+            async (resolve, reject) => {
+                try {
+                    var sql = 'UPDATE tb_company SET pre_ads = "N" WHERE pre_ads_date <= ?';
+                    await myConnection.query(sql, [data.due_date]);
+                    resolve(true);
+                } catch (err) {
+                    reject(err);
+                }
+            }
+        )
+    }
 }
 
 module.exports = new Authentication();

@@ -47,4 +47,22 @@ cron.schedule("* * * * *", async () => {
     }
 });
 
+cron.schedule("00 00 * * *", async () => {
+    try {
+        var now = new Date().toISOString().substring(0,10);
+        var FromData = new Object();
+        FromData.due_date = now;
+        console.log('Today ', now);
+        // Ads Date Due Date Update;
+        await userModel.setAdsOutDated(FromData);
+
+
+        // Premium Ads Date Due Date Update;
+        await userModel.setPreAdsOutDated(FromData);
+
+    } catch (err) {
+        console.log(err);
+    }
+});
+
 module.exports = cron;

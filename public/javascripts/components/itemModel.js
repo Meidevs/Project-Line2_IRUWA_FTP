@@ -463,6 +463,20 @@ class Items {
         )
     }
 
+    findBannedKeyword(data) {
+        return new Promise (
+            async (resolve, reject) => {
+                try {
+                    var sql = 'SELECT * FROM tb_banned_keyword WHERE keyword = ?';
+                    var existence = await myConnection.query(sql, [data.keyword]);
+                    resolve(existence);
+                } catch (err) {
+                    reject(err);
+                }
+            }
+        )
+    }
+
     SEARCH_ITEM(data) {
         return new Promise(
             async (resolve, reject) => {
