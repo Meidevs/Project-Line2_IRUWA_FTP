@@ -126,32 +126,50 @@ router.post('/setpremium', async (req, res) => {
             flags: 1,
             message: '프리미엄 변경이 실패하였습니다.'
         }
+
+        // Check which condition to execute;
+        // Outdated, No data (NULL), Extend Period;
+
+        var now = new Date();
         var getCmpPreDueDate = new Date();
         var getCmpDueDate = new Date();
+        var preDueDate = new Date();
+        var dueDate = new Date();
+        var dateNum;
+        // Get Company Premium Ads Permission Due Date;
         getCmpPreDueDate = await adminModel.getCompanyPreDuedate(FromData);
-        console.log(getCmpPreDueDate)
-        if (getCmpPreDueDate[0].pre_ads_date != null) {
-            var dateNum = getCmpPreDueDate.setDate(getCmpPreDueDate.getDate() + 30);
-            newDateString = new Date(dateNum).toISOString().substring(0, 10);
-            FromData.pre_due_date = newDateString;
+        if (getCmpPreDueDate[0].pre_ads_date) {
+            preDueDate = getCmpPreDueDate[0].pre_ads_date;
         } else {
-            var today = new Date();
-            var dateNum = today.setDate(today.getDate() + 30);
-            newDateString = new Date(dateNum).toISOString().substring(0, 10);
-            FromData.pre_due_date = newDateString;
+            preDueDate = null;
         }
 
-        getCmpDueDate = await adminModel.getCompanyDuedate(FromData);
-        if (getCmpDueDate[0].ads_date != null) {
-            var dateNum = getCmpDueDate.setDate(getCmpDueDate.getDate() + 30);
-            newDateString = new Date(dateNum).toISOString().substring(0, 10);
-            FromData.due_date = newDateString;
+        if (preDueDate < now | preDueDate == null) {
+            var dateNum = now.setDate(now.getDate() + 30);
         } else {
-            var today = new Date();
-            var dateNum = today.setDate(today.getDate() + 30);
-            newDateString = new Date(dateNum).toISOString().substring(0, 10);
-            FromData.due_date = newDateString;
+            var dateNum = preDueDate.setDate(preDueDate.getDate() + 30);
         }
+        var newDateString_a = new Date(dateNum).toISOString().substring(0,10);
+
+        FromData.pre_due_date = newDateString_a;
+
+
+        getCmpDueDate = await adminModel.getCompanyDuedate(FromData);
+        if (getCmpDueDate[0].ads_date) {
+            dueDate = getCmpDueDate[0].ads_date;
+        } else {
+            dueDate = null;
+        }
+
+        if (dueDate < now | dueDate == null) {
+            var dateNum = now.setDate(now.getDate() + 30);
+        } else {
+            var dateNum = dueDate.setDate(dueDate.getDate() + 30);
+        }
+        var newDateString_b = new Date(dateNum).toISOString().substring(0,10);
+
+        FromData.due_date = newDateString_b;
+
         var updateResult = await adminModel.changeToPremiums(FromData);
         if (updateResult) {
             resReturn = {
@@ -170,14 +188,14 @@ router.post('/pause', async (req, res) => {
         var FromData = new Object();
         FromData.cmp_seq = req.body.cmp_seq;
         var resReturn = {
-            flags : 1,
-            message : '업체 서비스 중지에 실패하였습니다.'
+            flags: 1,
+            message: '업체 서비스 중지에 실패하였습니다.'
         }
         var result = await adminModel.pauseCompany(FromData);
         if (result) {
             resReturn = {
-                flags : 0,
-                message : '업체 서비스를 중지합니다.'
+                flags: 0,
+                message: '업체 서비스를 중지합니다.'
             }
         }
         res.status(200).send(resReturn);
