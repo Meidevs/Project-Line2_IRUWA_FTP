@@ -3,6 +3,8 @@ var router = express.Router();
 var adminModel = require('../../public/javascripts/components/adminModel');
 
 router.get('/main', (req, res) => {
+    console.log(req.session.user);
+    if (!req.session.user.user_id) return res.status(200).render('iruwa_admin_auth');
     res.status(200).render('iruwa_admin_main');
 });
 

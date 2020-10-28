@@ -27,6 +27,17 @@ appServer.use(session({
   }
 }));
 
+AdminApp.use(session({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: false,
+  rolling: true,
+  store: new FileStore(),
+  cookie: {
+    maxAge: 2592000000,
+  }
+}));
+
 AdminApp.use(bodyParser.json());
 AdminApp.set('views', path.join(__dirname, 'views'));
 AdminApp.set('view engine', 'ejs');
