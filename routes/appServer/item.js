@@ -47,7 +47,7 @@ router.post('/create',
                     flag: 2,
                     message: '일반 광고는 4개 이상 등록할 수 없습니다.'
                 }
-                if (ITEM_COUNT < 5) {
+                if (ITEM_COUNT < 4) {
                     await itemModel.INSERT_ITEMS(FromData);
                     var ITEM_SEQ = await itemModel.GET_ITEMS_SEQ();
                     var items_seq = ITEM_SEQ;
