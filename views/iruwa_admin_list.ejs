@@ -362,28 +362,31 @@
           body: JSON.stringify({cmp_name : cmpName, category_seq : category_seq})
         });
         let json = await response.json();
+
         if (response.ok) {
+          if (json.flags == 1) alert(json.message);
+          var rawArray = json.message;
           var divForm = document.getElementsByClassName('list-group')[0];
           while (divForm.hasChildNodes()) { divForm.removeChild(divForm.firstChild); }
-          for (var i = 0; i < length; i++) {
-            if (!json[i].ads_date) setArray[i].ads_date = "없음";
-            if (!json[i].pre_ads_date) setArray[i].pre_ads_date = "없음";
+          for (var i = 0; i < rawArray.length; i++) {
+            if (!rawArray[i].ads_date) rawArray[i].ads_date = "없음";
+            if (!rawArray[i].pre_ads_date) rawArray[i].pre_ads_date = "없음";
             var newDiv = document.createElement('div');
             newDiv.setAttribute('class', 'list-group-item');
-            newDiv.innerHTML = `<a class="list-box-content"> <span class="title">` + json[i].cmp_name + `</span>
-                                  <div class="message-text">` + json[i].cmp_detail_location + `
+            newDiv.innerHTML = `<a class="list-box-content"> <span class="title">` + rawArray[i].cmp_name + `</span>
+                                  <div class="message-text">` + rawArray[i].cmp_detail_location + `
                                   </div>
-                                  <div class="time">일반 종료 : <p>` + json[i].ads_date.substring(0, 10) + `</p></div>
-                                  <div class="time">프리미엄 종료: <p>` + json[i].pre_ads_date.substring(0, 10) + `</p></div>
+                                  <div class="time">일반 종료 : <p>` + rawArray[i].ads_date.substring(0, 10) + `</p></div>
+                                  <div class="time">프리미엄 종료: <p>` + rawArray[i].pre_ads_date.substring(0, 10) + `</p></div>
                                 </a>
                                 <div class="list-box-action">
-                                  <button onclick="setPremium(` + json[i].cmp_seq + `)" style="flex-direction : row; width : 100%">
+                                  <button onclick="setPremium(` + rawArray[i].cmp_seq + `)" style="flex-direction : row; width : 100%">
                                     <p>프리미엄 허가</p>
                                   </button>
-                                  <button onclick="renewDueDate(` + json[i].cmp_seq + `)" style="flex-direction : row; width : 100%">
+                                  <button onclick="renewDueDate(` + rawArray[i].cmp_seq + `)" style="flex-direction : row; width : 100%">
                                     <p>기간 연장</p>
                                   </button>
-                                  <button onclick="pauseCompany(` + json[i].cmp_seq + `)" style="flex-direction : row; width : 100%">
+                                  <button onclick="pauseCompany(` + rawArray[i].cmp_seq + `)" style="flex-direction : row; width : 100%">
                                     <p>업체 중지</p>
                                   </button>
                                 </div>`
