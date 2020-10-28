@@ -336,7 +336,7 @@ router.post('/list/detail', async (req, res) => {
         var CMP_PHONE_LIST = await itemModel.GET_PHONE_LIST(FromData);
         var PROFILE = await userModel.GET_USER_PROFILE(CMP_INFOs.user_seq);
         console.log(PROFILE)
-        if (PROFILE.lenggth > 0) {
+        if (PROFILE.length > 0) {
             CMP_INFOs.profile_uri = PROFILE[0].uri;
         }
 
