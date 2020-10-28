@@ -6,6 +6,7 @@ cron.schedule("* * * * *", async () => {
         console.log('Run Every Minutes')
         var cReceiverList = new Array();
         var userCouponCnt = await userModel.GET_RECOMMENDATIONS();
+        console.log('userCouponCnt', userCouponCnt)
         userCouponCnt.map((data) => {
             if (data.cnt >= 5) {
                 cReceiverList.push(data);
