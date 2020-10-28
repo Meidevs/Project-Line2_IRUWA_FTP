@@ -189,7 +189,7 @@ class Admin {
         return new Promise(
             async (resolve, reject) => {
                 try {
-                    var sql = 'SELECT * FROM tb_company ORDER BY ads_date ASC';
+                    var sql = 'SELECT * FROM tb_company ORDER BY reg_date ASC';
                     var resReturn = await myConnection.query(sql);
                     resolve(resReturn)
                 } catch (err) {
