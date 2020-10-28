@@ -14,7 +14,12 @@ const upload = multer({
         }
     })
 });
+function errorHandler(res) {
+    res.status(500);
+    res.send('비정상 접근입니다.');
+}
 router.get('/', (req, res) => {
+    if (!req.session.user) return errorHandler(res);
     res.status(200).render('iruwa_admin_categories');
 });
 

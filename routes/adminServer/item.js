@@ -3,7 +3,7 @@ var router = express.Router();
 var adminModel = require('../../public/javascripts/components/adminModel');
 function errorHandler(res) {
     res.status(500);
-    res.send('error');
+    res.send('비정상 접근입니다.');
 }
 router.get('/main', (req, res) => {
     if (!req.session.user) return errorHandler(res);
@@ -11,6 +11,7 @@ router.get('/main', (req, res) => {
 });
 
 router.get('/images', (req, res) => {
+    if (!req.session.user) return errorHandler(res);
     res.status(200).render('iruwa_admin_images');
 });
 
@@ -75,6 +76,7 @@ router.get('/recentcompany', async (req, res) => {
 });
 
 router.get('/list', (req, res) => {
+    if (!req.session.user) return errorHandler(res);
     res.status(200).render('iruwa_admin_list');
 });
 
