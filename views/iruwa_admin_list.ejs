@@ -274,6 +274,9 @@
             ulForm.appendChild(li);
 
             var options = document.createElement('option');
+            if(i == 0) {
+              options.setAttribute("selected")
+            }
             options.setAttribute("value", json[i].category_seq);
             options.innerHTML=json[i].category_name;
             selectForm.appendChild(options);
