@@ -274,7 +274,6 @@
             ulForm.appendChild(li);
 
             var options = document.createElement('option');
-            if(i == 0) options.setAttribute("selected", "selected")
             options.setAttribute("value", json[i].category_seq);
             options.innerHTML=json[i].category_name;
             selectForm.appendChild(options);
@@ -351,7 +350,9 @@
 
     seaechCompany = async () => {
       var cmpName = document.getElementById('cmp_name').value;
-
+      var sel = document.getElementById('option-content');
+      var category_seq = sel.options[sel.selectedIndex].value;
+      console.log(category_seq)
       try {
         let response = await fetch('https://mostfeel.site:8888/admin/searchcompany', {
           method : "POST",
