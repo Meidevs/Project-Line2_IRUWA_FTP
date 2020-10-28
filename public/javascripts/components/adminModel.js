@@ -428,6 +428,21 @@ class Admin {
             }
         )
     }
+
+    searchCompanyList (data) {
+        return new Promise (
+            async (resolve, reject) => {
+                try {
+                    data.cmp_name = '%' + data.cmp_name + '%';
+                    var sql = 'SELECT * FROM tb_company WHERE cmp_name LIKE ? AND category_seq = ?';
+                    var cmpList = await myConnection.query(sql, [data.cmp_name, data.category_seq]);
+                    resolve(cmpList);
+                } catch (err) {
+                    reject(err);
+                }
+            }
+        )
+    }
 }
 
 module.exports = new Admin();

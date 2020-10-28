@@ -200,6 +200,28 @@ router.get('/itemimages', async (req, res) => {
     } catch (err) {
         console.log(err);
     }
+});
+
+router.post('/searchcompany', async (req, res) => {
+    try {
+        var FromData = new Object();
+        FromData.category_seq = req.body.category_seq;
+        FromData.cmp_name = req.body.cmp_name;
+        var resReturn = {
+            flags : 1,
+            message : '검색 결과가 없습니다.'
+        }
+        var searchResult = await adminModel.searchCompanyList(FromData);
+        if(searchResult.length > 0) {
+            resReturn = {
+                flags : 0,
+                message : searchResult,
+            }
+        }
+        res.status(200).send(resReturn);
+    } catch (err) {
+        console.log(err);
+    }
 })
 
 module.exports = router;

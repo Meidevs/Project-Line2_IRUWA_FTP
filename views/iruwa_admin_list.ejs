@@ -97,7 +97,8 @@
           <form class="cflyformtheme cflyformbannersearch">
             <fieldset>
               <div class="form-group cflyinputwithicon"> <i class="fas fa-bullhorn"></i>
-                <input type="text" name="cmp_name" id="cmp_name" class="form-control" placeholder="업체 명을 입력해주세요" value="">
+                <input type="text" name="cmp_name" id="cmp_name" class="form-control" placeholder="업체 명을 입력해주세요"
+                  value="">
               </div>
               <div class="form-group cflyinputwithicon"> <i class="fab fa-staylinked"></i>
                 <div class="cflyselect">
@@ -275,7 +276,7 @@
 
             var options = document.createElement('option');
             options.setAttribute("value", json[i].category_seq);
-            options.innerHTML=json[i].category_name;
+            options.innerHTML = json[i].category_name;
             selectForm.appendChild(options);
           }
 
@@ -352,15 +353,43 @@
       var cmpName = document.getElementById('cmp_name').value;
       var sel = document.getElementById('option-content');
       var category_seq = sel.options[sel.selectedIndex].value;
-      console.log(category_seq)
       try {
         let response = await fetch('https://mostfeel.site:8888/admin/searchcompany', {
-          method : "POST",
-          headers : {
-            'Content-Type' : 'application/json'
+          method: "POST",
+          headers: {
+            'Content-Type': 'application/json'
           },
-          body : JSON.stringify({})
+          body: JSON.stringify({})
         });
+        let json = await response.json();
+        if (response.ok) {
+          var divForm = document.getElementsByClassName('list-group')[0];
+          while (divForm.hasChildNodes()) { divForm.removeChild(divForm.firstChild); }
+          for (var i = 0; i < length; i++) {
+            if (!json[i].ads_date) setArray[i].ads_date = "없음";
+            if (!json[i].pre_ads_date) setArray[i].pre_ads_date = "없음";
+            var newDiv = document.createElement('div');
+            newDiv.setAttribute('class', 'list-group-item');
+            newDiv.innerHTML = `<a class="list-box-content"> <span class="title">` + json[i].cmp_name + `</span>
+                                  <div class="message-text">` + json[i].cmp_detail_location + `
+                                  </div>
+                                  <div class="time">일반 종료 : <p>` + json[i].ads_date.substring(0, 10) + `</p></div>
+                                  <div class="time">프리미엄 종료: <p>` + json[i].pre_ads_date.substring(0, 10) + `</p></div>
+                                </a>
+                                <div class="list-box-action">
+                                  <button onclick="setPremium(` + json[i].cmp_seq + `)" style="flex-direction : row; width : 100%">
+                                    <p>프리미엄 허가</p>
+                                  </button>
+                                  <button onclick="renewDueDate(` + json[i].cmp_seq + `)" style="flex-direction : row; width : 100%">
+                                    <p>기간 연장</p>
+                                  </button>
+                                  <button onclick="pauseCompany(` + json[i].cmp_seq + `)" style="flex-direction : row; width : 100%">
+                                    <p>업체 중지</p>
+                                  </button>
+                                </div>`
+            divForm.appendChild(newDiv);
+          }
+        }
       } catch (err) {
         console.log(err);
       }
