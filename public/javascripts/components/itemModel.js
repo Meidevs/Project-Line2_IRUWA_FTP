@@ -483,8 +483,9 @@ class Items {
                 try {
                     var now = new Date().toISOString().substring(0,10);
                     data.keyword = '%' + data.keyword + '%';
-                    var sql = 'SELECT * FROM tb_items WHERE (cancelled = 0 AND item_name LIKE ?) OR (cancelled = 0 AND item_content LIKE ?) AND cmp_seq IN (SELECT cmp_seq FROM tb_company WHERE (cmp_location = ? AND ads_date >= ?) OR (cmp_location = ? AND pre_ads_date >= ?)) ORDER BY reg_date DESC';
-                    var SERACH_RETURN = await myConnection.query(sql, [data.keyword, data.keyword, data.location_name, now, data.location_name, now]);
+                    var sql = 'SELECT * FROM tb_items WHERE (cancelled = 0 AND item_name LIKE ? AND cmp_seq IN (SELECT cmp_seq FROM tb_company WHERE (cmp_location = ? AND ads_date >= ?) OR (cmp_location = ? AND pre_ads_date >= ?))) OR (cancelled = 0 AND item_content LIKE ? AND cmp_seq IN (SELECT cmp_seq FROM tb_company WHERE (cmp_location = ?AND ads_date >= ?) OR (cmp_location = ? AND pre_ads_date >= ?)))  ORDER BY reg_date DESC';
+                    
+                    var SERACH_RETURN = await myConnection.query(sql, [data.keyword, data.location_name, now, data.location_name, now, data.keyword, data.location_name, now, data.location_name, now]);
                     resolve(SERACH_RETURN);
                 } catch (err) {
                     reject(err);
