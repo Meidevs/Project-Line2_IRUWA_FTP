@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-var functions = require('../../public/javascripts/functions/functions');
 var adminModel = require('../../public/javascripts/components/adminModel');
 
 router.get('/', (req, res) => {
@@ -25,13 +24,12 @@ router.post('/login', async (req, res) => {
         // CHECK_USER_EXISTENCE or CHECK_CMP_EXISTENCE is Checking whether User already Exist or Not. 
         // USER_EXISTENCE == 0 Means that user_id(cmp_id) Which you sent to Server is out of Database.
         // Contrarily, USER_EXISTENCE == 1 Means that user_id is in the Database.
-        console.log(FromData)
         var adminExitence = await adminModel.CHECK_ADMIN_EXISTENCE(FromData);
 
         if (adminExitence == 1) {
             var USER_INFO = await adminModel.LOGIN_ADMIN(FromData);
             if (USER_INFO.length > 0) {
-                console.log(req.session.user)
+                console.log(req.session)
                 req.session.user.user_id = USER_INFO[0].user_id;
                 resReturn = {
                     flags: 0,
