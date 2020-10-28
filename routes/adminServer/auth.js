@@ -30,7 +30,7 @@ router.post('/login', async (req, res) => {
 
         if (adminExitence == 1) {
             var USER_INFO = await adminModel.LOGIN_ADMIN(FromData);
-            if (USER_INFO.flags == 0) {
+            if (USER_INFO.length > 0) {
                 req.session.user.user_id = FromData.user_id;
                 resReturn = {
                     flags: 0,

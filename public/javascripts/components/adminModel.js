@@ -24,20 +24,9 @@ class Admin {
         return new Promise(
             async (resolve, reject) => {
                 try {
-                    var resReturn = {
-                        flags: 1,
-                        message: '비밀번호가 맞지 않습니다.',
-                    };
                     var sql = 'SELECT * FROM tb_admins WHERE user_id = ? AND user_pw = ?';
                     var USER_INFO = await myConnection.query(sql, [data.user_id, data.user_pw]);
-                    if (USER_INFO[0] != undefined) {
-                        resReturn = {
-                            flags: 0,
-                            message: '로그인 되었습니다.',
-                            userSession: USER_INFO[0],
-                        }
-                    }
-                    resolve(resReturn);
+                    resolve(USER_INFO);
                 } catch (err) {
                     reject(err)
                 }
