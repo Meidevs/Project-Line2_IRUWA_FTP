@@ -253,7 +253,24 @@ router.post('/detail/info', async (req, res) => {
         var cmpInfo = await adminModel.getCompany(FromData);
         var itemInfo = await adminModel.getItem(FromData);
         itemInfo[0]['image'] = await adminModel.getImageUri(FromData.items_seq);
-        res.status(200).send({cmp : cmpInfo, item : itemInfo});
+
+        var itemList = await adminModel.getRelated(FromData);
+        var rawArray = new Array();
+        for(var i = 0; i < itemList.length; i++) {
+            rawArray.push(itemList[i].items_seq);
+        }
+        var imageList = await adminModel.getImageUri(rawArray.join());
+        itemList = itemList.filter((item) => item.items_seq != itemInfo[0].items_seq);
+        itemList.map((data) => {
+            data['image'] = [];
+
+            for (var i = 0; i < imageList.length; i++) {
+                if (data.items_seq == imageList[i].items_seq) {
+                    data['image'].push(imageList[i])
+                }
+            }
+        })
+        res.status(200).send({cmp : cmpInfo, item : itemInfo, related : itemList});
     } catch (err) {
         console.log(err);
     }

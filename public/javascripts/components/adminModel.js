@@ -480,6 +480,20 @@ class Admin {
             }
         )
     }
+
+    getRelated (data) {
+        return new Promise (
+            async (resolve, reject) => {
+                try {
+                    var sql = 'SELECT * FROM tb_items WHERE cmp_seq = ?';
+                    var itemList = await myConnection.query(sql, [data.cmp_seq]);
+                    resolve(itemList);
+                } catch (err) {
+                    reject(err);
+                }
+            }
+        )
+    }
 }
 
 module.exports = new Admin();
