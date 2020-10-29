@@ -618,14 +618,17 @@
       }
     }
     setCompanyProfile = (data) => {
+      console.log('cmp Data', data)
       var cmpName = document.getElementById('cmp-name');
       var cmpLocation = document.getElementById('cmp-location');
       var cmpDate = document.getElementById('cmp-reg-date');
       var cmpCategory = document.getElementById('cmp-category');
-      cmpName.innerHTML = '<i class="fas fa-building"></i>' + data.cmp_name;
+      cmpName.innerHTML = '<i class="fas fa-building"></i> 업체 명 :' + data.cmp_name;
       cmpLocation.innerHTML = '<i class="fa fa-map-marker" aria-hidden="true"></i> 업체위치 : ' + data.cmp_location;
       cmpDate.innerHTML = '<i class="fas fa-microphone"></i> 가입일자 : ' + data.reg_date.substring(0,10);
-      cmpCategory.innerHTML = '<i class="fas fa-microphone"></i> 카테고리 : ' + data.cmp_name;
+      var a = category.filter(item => item.category_seq == data.category_seq);
+      console.log('category', a)
+      cmpCategory.innerHTML = '<i class="fas fa-microphone"></i> 카테고리 : ' + a.category_name;
     }
   </script>
 </body>
