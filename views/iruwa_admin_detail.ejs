@@ -346,6 +346,12 @@
           owl_2.appendChild(newDiv);
         }
       }
+      function reload_js() {
+      $('link[href="https://mostfeel.site:8888/static/stylesheets/css/style.css"]').remove();
+      $('<link>').attr('href', "https://mostfeel.site:8888/static/stylesheets/css/style.css").attr("type","text/css").attr("rel", "stylesheet").appendTo('head');
+      $('script[src="https://mostfeel.site:8888/static/javascripts/js/owl.carousel.min.js"]').remove();
+      $('<script>').attr('src', "https://mostfeel.site:8888/static/javascripts/js/owl.carousel.min.js").appendTo('head');
+    }
     </script>
 </body>
 
