@@ -233,6 +233,15 @@ router.post('/searchcompany', async (req, res) => {
     } catch (err) {
         console.log(err);
     }
+});
+
+router.get('/detail?id', async (req, res) => {
+    try {
+        console.log(req.params);
+        console.log(req.path);
+    } catch (err) {
+        console.log(err);
+    }
 })
 
 module.exports = router;
