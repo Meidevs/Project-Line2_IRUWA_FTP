@@ -232,12 +232,21 @@
               `<div class="card card-event info-overlay">
             <div class="img has-background"
               style="background-image: url(` + rawArray[i].profile + `); background-size:cover ">
+              <a href="addetail.html" class="event-pop-link"> 
+                  <span class="event-badges "></span>
+                  <div class="event-pop-info">
+                    <p class="publisher"><strong>` + rawArray[i].cmp_name + `</strong></p>
+                  </div>
+                </a> 
+                <a href="addetail.html"> <img alt="340x230" class="card-img-top img-responsive"
+                  data-holder-rendered="true" src="` + rawArray[i].profile + `"> 
+                </a> 
             </div>
             <div class="card-body">
               <h4 class="card-title"> <a href="addetail.html">` + rawArray[i].cmp_name + `</a> </h4>
               <div class="card-event-info">
                 <p class="event-location"><i class="far fa-compass"></i> <a class="location" href="">` + rawArray[i].cmp_detail_location + ` </a></p>
-                <p class="event-time"><i class="far fa-clock"></i> ` + rawArray[i].reg_date + `</p>
+                <p class="event-time"><i class="far fa-clock"></i> ` + rawArray[i].reg_date.substring(0,10) + `</p>
               </div>
             </div>
             <div class="card-footer">
