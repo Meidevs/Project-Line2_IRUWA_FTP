@@ -11,9 +11,12 @@
   <!-- Favicon and Touch Icons -->
   <link href="https://mostfeel.site:8888/static/images/web_images/favicon.png" rel="shortcut icon" type="image/png">
   <link href="https://mostfeel.site:8888/static/images/web_images/apple-touch-icon.png" rel="apple-touch-icon">
-  <link href="https://mostfeel.site:8888/static/images/web_images/apple-touch-icon-72x72.png" rel="apple-touch-icon" sizes="72x72">
-  <link href="https://mostfeel.site:8888/static/images/web_images/apple-touch-icon-114x114.png" rel="apple-touch-icon" sizes="114x114">
-  <link href="https://mostfeel.site:8888/static/images/web_images/apple-touch-icon-144x144.png" rel="apple-touch-icon" sizes="144x144">
+  <link href="https://mostfeel.site:8888/static/images/web_images/apple-touch-icon-72x72.png" rel="apple-touch-icon"
+    sizes="72x72">
+  <link href="https://mostfeel.site:8888/static/images/web_images/apple-touch-icon-114x114.png" rel="apple-touch-icon"
+    sizes="114x114">
+  <link href="https://mostfeel.site:8888/static/images/web_images/apple-touch-icon-144x144.png" rel="apple-touch-icon"
+    sizes="144x144">
   <title>Classifly - Classified Ads HTML Template</title>
 </head>
 
@@ -91,10 +94,11 @@
       </div>
       <!-- End Title -->
 
-      <div class="row">
+      <div class="row" id="popular-item">
         <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 col-12 Classidied-box">
           <div class="card card-event info-overlay">
-            <div class="img has-background" style="background-image: url(https://mostfeel.site:8888/static/images/web_images/1.jpg); background-size:cover ">
+            <div class="img has-background"
+              style="background-image: url(https://mostfeel.site:8888/static/images/web_images/1.jpg); background-size:cover ">
               <a href="addetail.html" class="event-pop-link"> <span class="event-badges "></span>
                 <div class="event-pop-info">
                   <p class="publisher"><strong>게시물 제목</strong></p>
@@ -135,7 +139,8 @@
       <div class="row">
         <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 col-12 Classidied-box">
           <div class="card card-event info-overlay">
-            <div class="img has-background" style="background-image: url(https://mostfeel.site:8888/static/images/web_images/1.jpg); background-size:cover ">
+            <div class="img has-background"
+              style="background-image: url(https://mostfeel.site:8888/static/images/web_images/1.jpg); background-size:cover ">
               <a href="addetail.html" class="event-pop-link"> <span class="event-badges "></span>
                 <div class="event-pop-info">
                   <p class="publisher"><strong>게시물 제목</strong></p>
@@ -174,9 +179,11 @@
                   <h4 class="footer-title">Mobile Apps</h4>
                   <div class="row ">
                     <div class="col-6  "> <a class="app-icon" target="_blank" href="https://itunes.apple.com/"> <img
-                          src="https://mostfeel.site:8888/static/images/web_images/app_store_badge.svg" alt="Available on the App Store"> </a> </div>
+                          src="https://mostfeel.site:8888/static/images/web_images/app_store_badge.svg"
+                          alt="Available on the App Store"> </a> </div>
                     <div class="col-6  "> <a class="app-icon" target="_blank" href="https://play.google.com/store/">
-                        <img src="https://mostfeel.site:8888/static/images/web_images/google-play-badge.svg" alt="Available on the App Store"> </a> </div>
+                        <img src="https://mostfeel.site:8888/static/images/web_images/google-play-badge.svg"
+                          alt="Available on the App Store"> </a> </div>
                   </div>
                 </div>
               </div>
@@ -211,26 +218,56 @@
     getPopularCompany = async () => {
       try {
         let response = await fetch('https://mostfeel.site:8888/admin/popular', {
-          method : 'GET',
-          headers : {
-            'Content-Type' : 'application/json'
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
           }
         });
         let json = await response.json();
         if (response.ok) {
-          console.log(json)
+          var divList = document.getElementById('popular-item');
+          for (var i = 0; i < json.length; i++) {
+            var newDiv = document.createElement('div');
+            newDiv.setAttribute("class", "col-lg-4 col-md-6 col-sm-6 col-xs-12 col-12 Classidied-box");
+            newDiv.innerHTML = `<div class="card card-event info-overlay">
+            <div class="img has-background" style="background-image: url(`+ json[i].image[0] + `); background-size:cover ">
+              <a href="addetail.html" class="event-pop-link"> <span class="event-badges "></span>
+                <div class="event-pop-info">
+                  <p class="publisher"><strong>` + json[i].item_name + `</strong></p>
+                  <div class="event-rating">
+                    <div class="review-count"> 좋아요 | 89 조회수</div>
+                  </div>
+                </div>
+              </a> <a href="addetail.html"> <img alt="340x230" class="card-img-top img-responsive"
+                  data-holder-rendered="true" src="https://mostfeel.site:8888/static/images/web_images/10x6.gif"> </a>
+            </div>
+            <div class="card-body">
+              <h4 class="card-title"> <a href="addetail.html">` + json[i].item_name + `</a> </h4>
+              <div class="card-event-info">
+                <p class="event-location"><i class="far fa-compass"></i> <a class="location" href="">` + json[i].cmp.cmp_detail_location + `</a></p>
+                <p class="event-time"><i class="far fa-clock"></i>` + json[i].reg_date.substring(0, 10) + `</p>
+              </div>
+            </div>
+            <div class="card-footer">
+              <div class="pull-left left">
+                <div class=""><a href="dashboard-myads.html">업체로 이동</div>
+              </div>
+            </div>
+          </div>`;
+          divList.appendChild(newDiv);
+          }
         }
       } catch (err) {
         console.log(err);
       }
     }
-    
+
     getRecentCompany = async () => {
       try {
         let response = await fetch('https://mostfeel.site:8888/admin/recentcompany', {
-          method : 'GET',
-          headers : {
-            'Content-Type' : 'application/json'
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
           }
         });
         let json = await response.json();

@@ -43,10 +43,7 @@ router.get('/popular', async (req, res) => {
                 }
             }
         });
-        console.log(itemsList);
-
         var cmpList = await adminModel.getCompanyInfo(newString);
-
         itemsList.map((data) => {
             for (var i = 0; i < cmpList.length; i++) {
                 if (data.cmp_seq == cmpList[i].cmp_seq) {
