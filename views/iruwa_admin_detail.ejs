@@ -186,13 +186,13 @@
               <div class="col-md-4">
                 <div class="contact-seller">
                   <div class="seller-heading">업체 정보</div>
-                  <div class="seller-details"> 
-                    <img src="images/img1.jpg">
-                    <p id="cmp-name"></p>
-                    <p id="cmp-location"></p>
-                    <p id="cmp-reg-date"></p>
-                    <p id="cmp-category"></p>
+                  <div class="seller-details">
+
                   </div>
+                  <p id="cmp-name"></p>
+                  <p id="cmp-location"></p>
+                  <p id="cmp-reg-date"></p>
+                  <p id="cmp-category"></p>
                   <div class="seller_message"><a class="btn  btn-info btn-block" id="cmp-phone"></a></div>
                 </div>
 
@@ -583,11 +583,11 @@
     getInfo = async (a, b) => {
       try {
         let response = await fetch('https://mostfeel.site:8888/admin/detail/info', {
-          method : 'POST',
-          headers : {
-            'Content-Type' : 'application/json'
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
           },
-          body : JSON.stringify({cmp_seq : a, items_seq : b})
+          body: JSON.stringify({ cmp_seq: a, items_seq: b })
         });
         let json = await response.json();
         if (response.ok) {
@@ -602,9 +602,9 @@
     getCategory = async (a, b) => {
       try {
         let response = await fetch('https://mostfeel.site:8888/admin/category/categories', {
-          method : 'GET',
-          headers : {
-            'Content-Type' : 'application/json'
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
           },
         });
         let json = await response.json();
@@ -628,7 +628,7 @@
       var cmpPhone = document.getElementById('cmp-phone');
       cmpName.innerHTML = '<i class="fas fa-building"></i> 업체 명 :' + data.cmp_name;
       cmpLocation.innerHTML = '<i class="fa fa-map-marker" aria-hidden="true"></i> 업체위치 : ' + data.cmp_location;
-      cmpDate.innerHTML = '<i class="fas fa-microphone"></i> 가입일자 : ' + data.reg_date.substring(0,10);
+      cmpDate.innerHTML = '<i class="fas fa-microphone"></i> 가입일자 : ' + data.reg_date.substring(0, 10);
       var a = category.filter(item => item.category_seq == data.category_seq);
       cmpCategory.innerHTML = '<i class="fas fa-microphone"></i> 카테고리 : ' + a[0].category_name;
       cmpPhone.innerHTML = '<i class="fa fa-mobile" aria-hidden="true"></i>' + data.cmp_phone
