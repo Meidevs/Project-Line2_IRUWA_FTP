@@ -102,18 +102,16 @@
                           </div>
                           <div class="classifi-account-view" id="normal-cnt">
                           </div>
-                          <div class="classifi-account-view" id="premium-cnt"> <span>Featured ads left :</span>
-                            <p class="text-right">19</p>
+                          <div class="classifi-account-view" id="premium-cnt">
                           </div>
-                          <div class="classifi-account-view" id="cancel-cnt"> <span>Featured ads left :</span>
-                            <p class="text-right">19</p>
+                          <div class="classifi-account-view" id="cancel-cnt">
                           </div>
                         </div>
                       </div>
                       <div class="col-sm-3">
                         <div class="author-images"></div>
                         <div class="classauthor-title">
-                          <p>John Deo</p>
+                          
                         </div>
                         <div class="author-setting">
                           <p>Setting</p>
@@ -123,9 +121,9 @@
                     <div class="row">
                       <div class="col-md-12">
                         <div class="author-profile-details">
-                          <h4 class="profile-heading">CONTACT DETAILS</h4>
+                          <h4 class="profile-heading">업체 정보</h4>
                           <ul id="profile-info">
-                            
+
                           </ul>
                         </div>
                       </div>
@@ -202,7 +200,7 @@
         let json = await response.json();
         if (response.ok) {
           setCompanyInfo(json);
-          setAdsInfo(json.item);
+          // setAdsInfo(json.item);
         }
       } catch (err) {
         console.log(err);
@@ -213,7 +211,6 @@
       var normalCnt = data.item.filter((item) => item.ads_type == 0).length;
       var premiumCnt = data.item.filter((item) => item.ads_type == 1).length;
       var cancelledCnt = data.item.filter((item) => item.cancelled == 1).length;
-      console.log('total : ', totalCnt, 'normal : ', normalCnt, 'premium : ', premiumCnt, 'cancel : ', cancelledCnt);
       var total = document.getElementById('total-cnt');
       var normal = document.getElementById('normal-cnt');
       var premium = document.getElementById('premium-cnt');
@@ -226,12 +223,15 @@
       var profile = document.getElementsByClassName('author-images')[0];
       // profile.innerHTML =  <img src="images/img-22.jpg">
       var img = document.createElement('img');
+      img.setAttribute("style", "width : 100px; height : 100px;")
       img.src = data.cmp[0].profile;
       profile.appendChild(img);
 
       var profileInfo = document.getElementById('profile-info');
       profileInfo.innerHTML = `<li> <i class="fa fa-map-marker"></i>` + data.cmp[0].cmp_detail_location + `</li>
                             <li> <i class="fa fa-phone"></i>` + data.cmp[0].cmp_phone + `</li>`
+      var companyName = document.getElementsByClassName('classauthor-title')[0];
+      companyName.innerHTML = `<p>` + data.cmp[0].cmp_name + `</p>`
     }
   </script>
 </body>

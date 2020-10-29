@@ -10291,10 +10291,8 @@ table.add-manage-table > tbody > tr > td {
     border: 1px solid #e1e1e1;
     display: inline-block;
     padding: 5px;
-    position: absolute;
-    text-align: center;
-    top: -40px;
-    width: 86%;
+	text-align: center;
+	justify-content: center;
 }
 .classauthor-title {
     background: #e96969 none repeat scroll 0 0;
