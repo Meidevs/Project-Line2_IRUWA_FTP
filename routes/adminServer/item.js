@@ -37,9 +37,10 @@ router.get('/popular', async (req, res) => {
         var imageList = await adminModel.getImageUri(newString);
         itemsList.map((data) => {
             data['image'] = new Array();
-            for(var i = 0; i < imageList.length; i++) {
+            for (var i = 0; i < imageList.length; i++) {
                 if (data.items_seq == imageList[i].items_seq) {
                     data.image.push(imageList[i])
+                }
             }
         });
         console.log(itemsList);
@@ -49,7 +50,7 @@ router.get('/popular', async (req, res) => {
         itemsList.map((data) => {
             for (var i = 0; i < cmpList.length; i++) {
                 if (data.cmp_seq == cmpList[i].cmp_seq) {
-                    data['cmp'] = cmpList[i];
+                    data['cmp'] = cmpList[i]; s
                 }
             }
         })
