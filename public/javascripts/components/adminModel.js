@@ -451,6 +451,34 @@ class Admin {
             }
         )
     }
+
+    getCompany(data) {
+        return new Promise (
+            async (resolve, reject) => {
+                try {
+                    var sql = 'SELECT *, (SELECT uri FROM tb_user_profile WHERE user_seq IN (SELECT user_seq FROM tb_users user WHERE user.user_seq = cmp.user_seq)) AS profile FROM tb_company cmp WHERE cmp_seq = ?';
+                    var cmpInfo = await myConnection.query(sql, [data.cmp_seq]);
+                    resolve(cmpInfo);
+                } catch (err) {
+                    reject(err);
+                }
+            }
+        )
+    }
+    getItem (data) {
+        return new Promise (
+            async (resolve, reject) => {
+                try {
+
+                    var sql = 'SELECT * FROM tb_items WHERE items_seq = ?';
+                    var itemInfo = await myConnection.query(sql, [data.items_seq]);
+                    resolve(itemInfo);
+                } catch (err) {
+                    reject(err);
+                }
+            }
+        )
+    }
 }
 
 module.exports = new Admin();

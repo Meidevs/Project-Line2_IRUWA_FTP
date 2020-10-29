@@ -244,4 +244,19 @@ router.get('/detail/item', (req, res) => {
 
 });
 
+router.post('/detail/item', async (req, res) => {
+    try {
+        var FromData = new Object();
+        FromData.cmp_seq = req.body.cmp_seq;
+        FromData.items_seq = req.body.items_seq;
+
+        var cmpInfo = await adminModel.getCompany(FromData);
+        var itemInfo = await adminModel.getItem(FromData);
+        itemInfo['image'] = await adminModel.getImageUri(FromData.items_seq);
+        res.status(200).send({cmp : cmpInfo, item : itemInfo});
+    } catch (err) {
+        console.log(err);
+    }
+});
+
 module.exports = router;
