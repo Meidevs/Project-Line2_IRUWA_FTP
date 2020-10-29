@@ -50,7 +50,7 @@ router.get('/popular', async (req, res) => {
         itemsList.map((data) => {
             for (var i = 0; i < cmpList.length; i++) {
                 if (data.cmp_seq == cmpList[i].cmp_seq) {
-                    data['cmp'] = cmpList[i]; s
+                    data['cmp'] = cmpList[i];
                 }
             }
         })
