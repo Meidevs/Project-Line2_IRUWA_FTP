@@ -277,78 +277,57 @@
           <div class="swiper-wrapper">
             <div class="swiper-slide Classidied-box h-auto px-2">
               <div class="card card-event info-overlay">
-                <div class="img has-background" style="background-image: url(images/1.jpg); background-size:cover ">
-                  <div class="pop-info "> <span class="event-badges "> <span class="badge price-tag big badge-default">
-                        FREE</span> </span> </div>
-                  <a href="addetail.html" class="event-pop-link"> <span class="event-badges "> <span
-                        class="badge badge-danger"> TOP RATED</span> </span>
-                    <div class="event-pop-info">
-                      <p class="price">FREE</p>
-                      <p class="publisher">by <strong>Viagrand</strong></p>
-                      <div class="event-rating">
-                        <div class="star"> <i class="fa  fa-star"></i> <i class="fa  fa-star"></i> <i
-                            class="fa  fa-star"></i> <i class="fa  fa-star"></i> <i class="fa  fa-star"></i> </div>
-                        <div class="review-count"> 4.89 | 89 reviews</div>
+                <div class="img has-background"
+                  style="background-image: url(` + rawArray[i].profile + `); background-size:cover ">
+                  <div class="event-pop-link"> 
+                      <span class="event-badges "></span>
+                      <div class="event-pop-info">
+                        <p class="publisher"><strong>` + rawArray[i].cmp_name + `</strong></p>
                       </div>
-                    </div>
-                  </a> <a href="addetail.html"> <img alt="340x230" class="card-img-top img-responsive"
-                      data-holder-rendered="true" src="images/10x6.gif"> </a>
+                    </div> 
+                    <div> <img alt="340x230" class="card-img-top img-responsive"
+                      data-holder-rendered="true" src="` + rawArray[i].profile + `"> 
+                    </div> 
                 </div>
                 <div class="card-body">
-                  <h4 class="card-title"> <a href="addetail.html">exercitation consequat aliqua et nulla nostrud duis
-                      mollit</a> </h4>
-                  <p class="card-text hide">Donec imperdiet leo ac ipsum blandit auctor.</p>
+                  <h4 class="card-title"> <a href="addetail.html">` + rawArray[i].cmp_name + `</a> </h4>
                   <div class="card-event-info">
-                    <p class="event-location"><i class="far fa-compass"></i> <a class="location" href="">Valle,
-                        Louisiana, 1259 </a></p>
-                    <p class="event-time"><i class="far fa-clock"></i> 2019-03-19 03:08pm </p>
+                    <p class="event-location"><i class="far fa-compass"></i> <a class="location" href="">` + rawArray[i].cmp_detail_location + ` </a></p>
+                    <p class="event-time"><i class="far fa-clock"></i> ` + rawArray[i].reg_date.substring(0,10) + `</p>
                   </div>
                 </div>
                 <div class="card-footer">
                   <div class="pull-left left">
-                    <div class="">by <a href="dashboard-myads.html">Mark Smith </a><i class="fas fa-certificate"></i>
-                    </div>
+                    <div class=""><a href="https://mostfeel.site:8888/admin/detail/company?ccode=` + rawArray[i].cmp_seq + `">업체로 이동</div>
                   </div>
-                  <div class="pull-right right social-link"> <a href="#"><i class="fa  fa-share-alt"></i> </a> <a
-                      href="#"><i class="fa  fa-heart"></i> </a> </div>
                 </div>
               </div>
             </div>
             <div class="swiper-slide Classidied-box h-auto px-2">
               <div class="card card-event info-overlay">
-                <div class="img has-background" style="background-image: url(images/2.jpg); background-size:cover ">
-                  <div class="pop-info "> <span class="event-badges "> <span class="badge price-tag big badge-default">
-                        $292</span> </span> </div>
-                  <a href="addetail.html" class="event-pop-link"> <span class="event-badges "> <span
-                        class="badge badge-danger"> TOP RATED</span> </span>
-                    <div class="event-pop-info">
-                      <p class="price">$292</p>
-                      <p class="publisher">by <strong>Leon Mark</strong></p>
-                      <div class="event-rating">
-                        <div class="star"> <i class="fa  fa-star"></i> <i class="fa  fa-star"></i> <i
-                            class="fa  fa-star"></i> <i class="fa  fa-star"></i> <i class="fa  fa-star"></i> </div>
-                        <div class="review-count"> 4.89 | 89 reviews</div>
+                <div class="img has-background"
+                  style="background-image: url(` + rawArray[i].profile + `); background-size:cover ">
+                  <div class="event-pop-link"> 
+                      <span class="event-badges "></span>
+                      <div class="event-pop-info">
+                        <p class="publisher"><strong>` + rawArray[i].cmp_name + `</strong></p>
                       </div>
-                    </div>
-                  </a> <a href="addetail.html"> <img alt="340x230" class="card-img-top img-responsive"
-                      data-holder-rendered="true" src="images/10x6.gif"> </a>
+                    </div> 
+                    <div> <img alt="340x230" class="card-img-top img-responsive"
+                      data-holder-rendered="true" src="` + rawArray[i].profile + `"> 
+                    </div> 
                 </div>
                 <div class="card-body">
-                  <h4 class="card-title"> <a href="addetail.html">aute ea proident labore nulla pariatur quis aliqua</a>
-                  </h4>
-                  <p class="card-text hide">Donec imperdiet leo ac ipsum blandit auctor.</p>
+                  <h4 class="card-title"> <a href="addetail.html">` + rawArray[i].cmp_name + `</a> </h4>
                   <div class="card-event-info">
-                    <p class="event-location"><i class="far fa-compass"></i> <a class="location" href="">Seymour,
-                        Kentucky, 3314 </a></p>
-                    <p class="event-time"><i class="far fa-clock"></i> 2019-04-01 11:05pm </p>
+                    <p class="event-location"><i class="far fa-compass"></i> <a class="location" href="">` + rawArray[i].cmp_detail_location + ` </a></p>
+                    <p class="event-time"><i class="far fa-clock"></i> ` + rawArray[i].reg_date.substring(0,10) + `</p>
                   </div>
                 </div>
                 <div class="card-footer">
                   <div class="pull-left left">
-                    <div class="">by <a href="dashboard-myads.html">John Deo </a></div>
+                    <div class=""><a href="https://mostfeel.site:8888/admin/detail/company?ccode=` + rawArray[i].cmp_seq + `">업체로 이동</div>
                   </div>
-                  <div class="pull-right right social-link"> <a href="#"><i class="fa  fa-share-alt"></i> </a> <a
-                      href="#"><i class="fa  fa-heart"></i> </a> </div>
                 </div>
               </div>
             </div>
