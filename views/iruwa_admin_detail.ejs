@@ -355,8 +355,8 @@
           console.log(json)
           if (response.ok) {
             setCompanyProfile(json.cmp[0]);
+            setRelated(json.related);
             setItemInfo();
-            setRelated(json.related)
           }
         } catch (err) {
           console.log(err);
@@ -399,7 +399,6 @@
       }
 
       setRelated = (data) => {
-        console.log('aaa', data)
         var rawArray = data;
         var divList = document.getElementById('related-item');
         for (var i = 0; i < rawArray.length; i++) {
