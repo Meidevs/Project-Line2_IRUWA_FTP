@@ -252,7 +252,7 @@ router.post('/detail/info', async (req, res) => {
 
         var cmpInfo = await adminModel.getCompany(FromData);
         var itemInfo = await adminModel.getItem(FromData);
-        itemInfo['image'] = await adminModel.getImageUri(FromData.items_seq);
+        itemInfo[0]['image'] = await adminModel.getImageUri(FromData.items_seq);
         res.status(200).send({cmp : cmpInfo, item : itemInfo});
     } catch (err) {
         console.log(err);
