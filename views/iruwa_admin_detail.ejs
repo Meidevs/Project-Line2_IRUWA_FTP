@@ -388,6 +388,9 @@
         var rawArray = data;
         var divList = document.getElementById('related-item');
         for (var i = 0; i < rawArray.length; i++) {
+          var status;
+          if(rawArray[i].cancelled == 0) status = '게시중';
+          if(rawArray[i].cancelled == 1) status = '삭제';
           var newDiv = document.createElement('div');
           newDiv.setAttribute("class", "col-lg-3 col-md-6 col-sm-6 col-xs-12 col-12 Classidied-box");
           newDiv.innerHTML =
@@ -409,7 +412,7 @@
               <div class="card-body">
                 <h4 class="card-title"> <a href="addetail.html">` + rawArray[i].item_name + `</a> </h4>
                 <div class="card-event-info">
-                  <p class="event-location"><i class="fas fa-check-circle"></i> 광고여부 : ` + rawArray[i].cancelled == 1 ? "게시중" : "삭제" + `</p>
+                  <p class="event-location"><i class="fas fa-check-circle"></i> 광고여부 : ` + status + `</p>
                   <p class="event-time"><i class="far fa-clock"></i> 등록일자 : ` + rawArray[i].reg_date.substring(0, 10) + `</p>
                 </div>
               </div>
