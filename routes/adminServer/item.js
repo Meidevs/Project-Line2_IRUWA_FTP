@@ -263,7 +263,6 @@ router.post('/detail/info', async (req, res) => {
         itemList = itemList.filter((item) => item.items_seq != itemInfo[0].items_seq);
         itemList.map((data) => {
             data['image'] = [];
-
             for (var i = 0; i < imageList.length; i++) {
                 if (data.items_seq == imageList[i].items_seq) {
                     data['image'].push(imageList[i])

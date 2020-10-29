@@ -407,6 +407,7 @@
             body: JSON.stringify({ cmp_seq: a, items_seq: b })
           });
           let json = await response.json();
+          console.log(json)
           if (response.ok) {
             setCompanyProfile(json.cmp[0]);
             setItemInfo();
