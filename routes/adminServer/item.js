@@ -246,6 +246,7 @@ router.get('/detail/item', (req, res) => {
 
 router.post('/detail/item', async (req, res) => {
     try {
+        console.log('Request Body : ', req.body)
         var FromData = new Object();
         FromData.cmp_seq = req.body.cmp_seq;
         FromData.items_seq = req.body.items_seq;
