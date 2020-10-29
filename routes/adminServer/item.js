@@ -69,12 +69,11 @@ router.get('/recentcompany', async (req, res) => {
             message: '조회에 실패하였습니다.'
         };
         var result = await adminModel.getNewCompany();
-        if (result.length > 0) {
-            resReturn = {
-                flags: 1,
-                message: result
-            };
-        }
+
+        resReturn = {
+            flags: 1,
+            message: result
+        };
         res.status(200).send(resReturn);
     } catch (err) {
         console.log(err);

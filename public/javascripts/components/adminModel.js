@@ -100,7 +100,7 @@ class Admin {
                     var month = new Date().getMonth();
                     var day = new Date().getDate();
                     var daysAgo = new Date(year, month, day - 2).toISOString().substring(0, 10);
-                    var sql = 'SELECT * FROM tb_company WHERE reg_date > ?';
+                    var sql = 'SELECT * , (SELECT uri FROM tb_user_profile WHERE user_seq IN (SELECT user_seq FROM tb_users user WHERE user.user_seq = cmp.user_seq)) AS profile FROM tb_company cmp WHERE reg_date > ?';
                     var resReturn = await myConnection.query(sql, [daysAgo]);
                     resolve(resReturn);
                 } catch (err) {
