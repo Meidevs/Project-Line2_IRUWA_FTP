@@ -92,7 +92,7 @@
                   <div class="account-overview">
                     <div class="row">
                       <div class="col-sm-12">
-                        <h4 class="profile-heading">ACCOUNT OVERVIEW</h4>
+                        <h4 class="profile-heading">업체 광고 현황</h4>
                       </div>
                     </div>
                     <div class="row">
@@ -111,7 +111,7 @@
                       <div class="col-sm-3">
                         <div class="author-images"></div>
                         <div class="classauthor-title">
-                          
+
                         </div>
                         <div class="author-setting">
                           <p>Setting</p>
@@ -137,7 +137,21 @@
       </div>
     </div>
   </section>
+  <div class="whiteBG pt80 pb60">
+    <div class="container space-2 space-3--lg">
+      <!-- Title -->
+      <div class="w-md-80 w-lg-60 text-center mx-md-auto mb-9"> <span
+          class="u-label u-label--sm u-label--purple mb-3">광고 현황</span>
+        <h2 class="h3">업체 관련 <strong>광고</strong></h2>
+        <p>업체에서 이전에 작성한 모든 광고 리스트입니다</p>
+      </div>
+      <!-- End Title -->
 
+      <div class="row" id="related-item">
+
+      </div>
+    </div>
+  </div>
   <footer class="main-footer">
     <div class="footer-content">
       <div class="container">
@@ -198,9 +212,10 @@
         });
 
         let json = await response.json();
+        console.log(json)
         if (response.ok) {
           setCompanyInfo(json);
-          // setAdsInfo(json.item);
+          setAdsInfo(json.item);
         }
       } catch (err) {
         console.log(err);
@@ -232,6 +247,39 @@
                             <li> <i class="fa fa-phone"></i>` + data.cmp[0].cmp_phone + `</li>`
       var companyName = document.getElementsByClassName('classauthor-title')[0];
       companyName.innerHTML = `<p>` + data.cmp[0].cmp_name + `</p>`
+    }
+
+    setAdsInfo = (data) => {
+      var rawArray = data;
+      var divList = document.getElementById('related-item');
+      for (var i = 0; i < rawArray.length; i++) {
+        var status;
+        if (rawArray[i].cancelled == 0) status = '게시중';
+        if (rawArray[i].cancelled == 1) status = '삭제';
+        var newDiv = document.createElement('div');
+        newDiv.setAttribute("class", "col-lg-3 col-md-6 col-sm-6 col-xs-12 col-12 Classidied-box");
+        newDiv.innerHTML =
+          `<div class="card card-event info-overlay">
+              <div class="img has-background" style="background-image: url(`+ rawArray[i].image[0].uri + `); background-size:cover ">
+                <div> <img alt="340x230" class="card-img-top img-responsive"
+                  data-holder-rendered="true" src="` + rawArray[i].image[0].uri + `"> 
+                </div>
+              </div>
+              <div class="card-body">
+                <h4 class="card-title"> <a href="addetail.html">` + rawArray[i].item_name + `</a> </h4>
+                <div class="card-event-info">
+                  <p class="event-location"><i class="fas fa-check-circle"></i> 광고여부 : ` + status + `</p>
+                  <p class="event-time"><i class="far fa-clock"></i> 등록일자 : ` + rawArray[i].reg_date.substring(0, 10) + `</p>
+                </div>
+              </div>
+              <div class="card-footer">
+                <div class="pull-left left">
+                  <div class=""><a href="https://mostfeel.site:8888/admin/detail/item?ccode=` + rawArray[i].cmp_seq + "&icode=" + rawArray[i].items_seq + `">업체로 이동</div>
+                </div>
+              </div>
+            </div>`;
+        divList.appendChild(newDiv);
+      }
     }
   </script>
 </body>

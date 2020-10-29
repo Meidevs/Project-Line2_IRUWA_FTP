@@ -105,7 +105,7 @@
             <h5 class="Detsils-title"><strong>광고 내용</strong></h5>
             <div class="row">
               <div class="sindetails-info col-md-8" id="item-content">
-                
+
               </div>
               <div class="col-md-4">
                 <div class="contact-seller">
@@ -180,9 +180,9 @@
     <div class="container space-2 space-3--lg">
       <!-- Title -->
       <div class="w-md-80 w-lg-60 text-center mx-md-auto mb-9"> <span
-          class="u-label u-label--sm u-label--purple mb-3">Most Popular</span>
-        <h2 class="h3">Related <strong>Ads</strong></h2>
-        <p>Consectetur adipicing elit sed temporie incidint ut et dolore .</p>
+          class="u-label u-label--sm u-label--purple mb-3">광고 현황</span>
+        <h2 class="h3">업체 관련 <strong>광고</strong></h2>
+        <p>업체에서 이전에 작성한 모든 광고 리스트입니다</p>
       </div>
       <!-- End Title -->
 
@@ -190,115 +190,116 @@
 
       </div>
     </div>
-    <footer class="main-footer">
-      <div class="footer-content">
-        <div class="container">
-          <div class="row">
-            <div class=" col-xl-3 col-xl-3 col-md-3 col-sm-6 col-xs-12 col-12">
-              <div class="footer-col row">
-                <div class="col-sm-12 col-xs-6 col-xxs-12 no-padding-lg">
-                  <div class="mobile-app-content">
-                    <h4 class="footer-title">Mobile Apps</h4>
-                    <div class="row ">
-                      <div class="col-6  "> <a class="app-icon" target="_blank" href="https://itunes.apple.com/"> <img
-                            src="https://mostfeel.site:8888/static/images/web_images/app_store_badge.svg"
-                            alt="Available on the App Store"> </a> </div>
-                      <div class="col-6  "> <a class="app-icon" target="_blank" href="https://play.google.com/store/">
-                          <img src="https://mostfeel.site:8888/static/images/web_images/google-play-badge.svg"
-                            alt="Available on the App Store"> </a> </div>
-                    </div>
+  </div>
+  <footer class="main-footer">
+    <div class="footer-content">
+      <div class="container">
+        <div class="row">
+          <div class=" col-xl-3 col-xl-3 col-md-3 col-sm-6 col-xs-12 col-12">
+            <div class="footer-col row">
+              <div class="col-sm-12 col-xs-6 col-xxs-12 no-padding-lg">
+                <div class="mobile-app-content">
+                  <h4 class="footer-title">Mobile Apps</h4>
+                  <div class="row ">
+                    <div class="col-6  "> <a class="app-icon" target="_blank" href="https://itunes.apple.com/"> <img
+                          src="https://mostfeel.site:8888/static/images/web_images/app_store_badge.svg"
+                          alt="Available on the App Store"> </a> </div>
+                    <div class="col-6  "> <a class="app-icon" target="_blank" href="https://play.google.com/store/">
+                        <img src="https://mostfeel.site:8888/static/images/web_images/google-play-badge.svg"
+                          alt="Available on the App Store"> </a> </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div style="clear: both"></div>
-            <div class="col-xl-12">
-              <div class=" text-center paymanet-method-logo">
-                <div class="copy-info text-center"> © 2019 Classifly. All Rights Reserved. </div>
-              </div>
+          </div>
+          <div style="clear: both"></div>
+          <div class="col-xl-12">
+            <div class=" text-center paymanet-method-logo">
+              <div class="copy-info text-center"> © 2019 Classifly. All Rights Reserved. </div>
             </div>
           </div>
         </div>
       </div>
-    </footer>
+    </div>
+  </footer>
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://mostfeel.site:8888/static/javascripts/js/jquery.min.js" type="text/javascript"></script>
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://mostfeel.site:8888/static/javascripts/js/jquery.min.js" type="text/javascript"></script>
 
-    <script>
-      $(document).ready(async () => {
-        let params = new URL(document.location).searchParams;
-        var a = params.get('ccode');
-        var b = params.get('icode');
-        await getCategory();
-        await getInfo(a, b);
-      });
-      getInfo = async (a, b) => {
-        try {
-          let response = await fetch('https://mostfeel.site:8888/admin/detail/info', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ cmp_seq: a, items_seq: b })
-          });
-          let json = await response.json();
-          if (response.ok) {
-            setCompanyProfile(json.cmp[0]);
-            setRelated(json.related);
-            setItemInfo(json.item[0]);
-          }
-        } catch (err) {
-          console.log(err);
+  <script>
+    $(document).ready(async () => {
+      let params = new URL(document.location).searchParams;
+      var a = params.get('ccode');
+      var b = params.get('icode');
+      await getCategory();
+      await getInfo(a, b);
+    });
+    getInfo = async (a, b) => {
+      try {
+        let response = await fetch('https://mostfeel.site:8888/admin/detail/info', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ cmp_seq: a, items_seq: b })
+        });
+        let json = await response.json();
+        if (response.ok) {
+          setCompanyProfile(json.cmp[0]);
+          setRelated(json.related);
+          setItemInfo(json.item[0]);
         }
+      } catch (err) {
+        console.log(err);
       }
-      let category = new Array();
-      getCategory = async (a, b) => {
-        try {
-          let response = await fetch('https://mostfeel.site:8888/admin/category/categories', {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-          });
-          let json = await response.json();
-          if (response.ok) {
-            category = json;
-          }
-        } catch (err) {
-          console.log(err);
+    }
+    let category = new Array();
+    getCategory = async (a, b) => {
+      try {
+        let response = await fetch('https://mostfeel.site:8888/admin/category/categories', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+        });
+        let json = await response.json();
+        if (response.ok) {
+          category = json;
         }
+      } catch (err) {
+        console.log(err);
       }
-      setCompanyProfile = (data) => {
-        var div = document.getElementsByClassName('contact-seller')[0];
-        var img = document.createElement('img');
-        img.src = data.profile;
-        div.appendChild(img);
-        var cmpName = document.getElementById('cmp-name');
-        var cmpLocation = document.getElementById('cmp-location');
-        var cmpDate = document.getElementById('cmp-reg-date');
-        var cmpCategory = document.getElementById('cmp-category');
-        var cmpPhone = document.getElementById('cmp-phone');
-        cmpName.innerHTML = '<i class="fas fa-building"></i> 업체 명 :' + data.cmp_name;
-        cmpLocation.innerHTML = '<i class="fa fa-map-marker" aria-hidden="true"></i> 업체위치 : ' + data.cmp_location;
-        cmpDate.innerHTML = '<i class="fas fa-microphone"></i> 가입일자 : ' + data.reg_date.substring(0, 10);
-        var a = category.filter(item => item.category_seq == data.category_seq);
-        cmpCategory.innerHTML = '<i class="fas fa-microphone"></i> 카테고리 : ' + a[0].category_name;
-        cmpPhone.innerHTML = '<i class="fa fa-mobile" aria-hidden="true"></i>' + data.cmp_phone
-      }
+    }
+    setCompanyProfile = (data) => {
+      var div = document.getElementsByClassName('contact-seller')[0];
+      var img = document.createElement('img');
+      img.src = data.profile;
+      div.appendChild(img);
+      var cmpName = document.getElementById('cmp-name');
+      var cmpLocation = document.getElementById('cmp-location');
+      var cmpDate = document.getElementById('cmp-reg-date');
+      var cmpCategory = document.getElementById('cmp-category');
+      var cmpPhone = document.getElementById('cmp-phone');
+      cmpName.innerHTML = '<i class="fas fa-building"></i> 업체 명 :' + data.cmp_name;
+      cmpLocation.innerHTML = '<i class="fa fa-map-marker" aria-hidden="true"></i> 업체위치 : ' + data.cmp_location;
+      cmpDate.innerHTML = '<i class="fas fa-microphone"></i> 가입일자 : ' + data.reg_date.substring(0, 10);
+      var a = category.filter(item => item.category_seq == data.category_seq);
+      cmpCategory.innerHTML = '<i class="fas fa-microphone"></i> 카테고리 : ' + a[0].category_name;
+      cmpPhone.innerHTML = '<i class="fa fa-mobile" aria-hidden="true"></i>' + data.cmp_phone
+    }
 
-      setRelated = (data) => {
-        var rawArray = data;
-        var divList = document.getElementById('related-item');
-        for (var i = 0; i < rawArray.length; i++) {
-          var status;
-          if (rawArray[i].cancelled == 0) status = '게시중';
-          if (rawArray[i].cancelled == 1) status = '삭제';
-          var newDiv = document.createElement('div');
-          newDiv.setAttribute("class", "col-lg-3 col-md-6 col-sm-6 col-xs-12 col-12 Classidied-box");
-          newDiv.innerHTML =
-            `<div class="card card-event info-overlay">
+    setRelated = (data) => {
+      var rawArray = data;
+      var divList = document.getElementById('related-item');
+      for (var i = 0; i < rawArray.length; i++) {
+        var status;
+        if (rawArray[i].cancelled == 0) status = '게시중';
+        if (rawArray[i].cancelled == 1) status = '삭제';
+        var newDiv = document.createElement('div');
+        newDiv.setAttribute("class", "col-lg-3 col-md-6 col-sm-6 col-xs-12 col-12 Classidied-box");
+        newDiv.innerHTML =
+          `<div class="card card-event info-overlay">
               <div class="img has-background" style="background-image: url(`+ rawArray[i].image[0].uri + `); background-size:cover ">
                 <div> <img alt="340x230" class="card-img-top img-responsive"
                   data-holder-rendered="true" src="` + rawArray[i].image[0].uri + `"> 
@@ -317,52 +318,52 @@
                 </div>
               </div>
             </div>`;
-          divList.appendChild(newDiv);
-        }
+        divList.appendChild(newDiv);
       }
+    }
 
-      setItemInfo = (data) => {
-        var itemTitle = document.getElementById('item-title');
-        var itemRegDate = document.getElementById('item-reg-date');
-        var itemContent = document.getElementById('item-content');
-        var regDate = new Date(data.reg_date);
-        var hour = regDate.getHours()
-        var minutes = regDate.getMinutes();
-        itemTitle.innerHTML = data.item_name;
-        itemContent.innerHTML = `<p>` + data.item_content + `</p>`;
-        itemRegDate.innerHTML = ` <span class="date"><i class="far fa-clock"></i> ` + data.reg_date.substring(0,10) + " " + hour + ':' + minutes + `</span>`
+    setItemInfo = (data) => {
+      var itemTitle = document.getElementById('item-title');
+      var itemRegDate = document.getElementById('item-reg-date');
+      var itemContent = document.getElementById('item-content');
+      var regDate = new Date(data.reg_date);
+      var hour = regDate.getHours()
+      var minutes = regDate.getMinutes();
+      itemTitle.innerHTML = data.item_name;
+      itemContent.innerHTML = `<p>` + data.item_content + `</p>`;
+      itemRegDate.innerHTML = ` <span class="date"><i class="far fa-clock"></i> ` + data.reg_date.substring(0, 10) + " " + hour + ':' + minutes + `</span>`
 
-        var owl_1 = document.getElementById('owl-1');
-        var owl_2 = document.getElementById('owl-2');
-        for (var i = 0; i < data.image.length; i++) {
-          var newDiv_1 = document.createElement('div');
-          var newDiv_2 = document.createElement('div');
-          newDiv_1.setAttribute("class", "item");
-          newDiv_2.setAttribute("class", "item");
-          newDiv_1.innerHTML = `<img src="` + data.image[i].uri + `" alt="" class="image" style="width :1140px; height: 600px; object-fit: cover;">`
-          newDiv_2.innerHTML = `<img src="` + data.image[i].uri + `" alt="" class="image" style="width :114px; height: 114px; object-fit: cover;">`
-          owl_1.appendChild(newDiv_1);
-          owl_2.appendChild(newDiv_2);
-        }
-        reload_js();
+      var owl_1 = document.getElementById('owl-1');
+      var owl_2 = document.getElementById('owl-2');
+      for (var i = 0; i < data.image.length; i++) {
+        var newDiv_1 = document.createElement('div');
+        var newDiv_2 = document.createElement('div');
+        newDiv_1.setAttribute("class", "item");
+        newDiv_2.setAttribute("class", "item");
+        newDiv_1.innerHTML = `<img src="` + data.image[i].uri + `" alt="" class="image" style="width :1140px; height: 600px; object-fit: cover;">`
+        newDiv_2.innerHTML = `<img src="` + data.image[i].uri + `" alt="" class="image" style="width :114px; height: 114px; object-fit: cover;">`
+        owl_1.appendChild(newDiv_1);
+        owl_2.appendChild(newDiv_2);
       }
-      function reload_js() {
-        $('link[href="https://mostfeel.site:8888/static/stylesheets/css/style.css"]').remove();
-        $('<link>').attr('href', "https://mostfeel.site:8888/static/stylesheets/css/style.css").attr("type", "text/css").attr("rel", "stylesheet").appendTo('head');
-        $('script[src="https://mostfeel.site:8888/static/javascripts/js/owl.carousel.min.js"]').remove();
-        $('<script>').attr('src', "https://mostfeel.site:8888/static/javascripts/js/owl.carousel.min.js").appendTo('head');
-        $('script[src="https://mostfeel.site:8888/static/javascripts/js/swiper.min.js"]').remove();
-        $('<script>').attr('src', "https://mostfeel.site:8888/static/javascripts/js/swiper.min.js").appendTo('head');
-        $('script[src="https://mostfeel.site:8888/static/javascripts/js/functions.js"]').remove();
-        $('<script>').attr('src', "https://mostfeel.site:8888/static/javascripts/js/functions.js").appendTo('head');
-      }
-    </script>
-    <script src="https://mostfeel.site:8888/static/javascripts/js/popper.min.js" type="text/javascript"></script>
-    <script src="https://mostfeel.site:8888/static/javascripts/js/bootstrap.min.js" type="text/javascript"></script>
-    <script src="https://mostfeel.site:8888/static/javascripts/js/isotope.pkgd.min.js" type="text/javascript"></script>
-    <script src="https://mostfeel.site:8888/static/javascripts/js/imagesloaded.pkgd.min.js"
-      type="text/javascript"></script>
-    <script src="https://mostfeel.site:8888/static/javascripts/js/slick.js" type="text/javascript"></script>
+      reload_js();
+    }
+    function reload_js() {
+      $('link[href="https://mostfeel.site:8888/static/stylesheets/css/style.css"]').remove();
+      $('<link>').attr('href', "https://mostfeel.site:8888/static/stylesheets/css/style.css").attr("type", "text/css").attr("rel", "stylesheet").appendTo('head');
+      $('script[src="https://mostfeel.site:8888/static/javascripts/js/owl.carousel.min.js"]').remove();
+      $('<script>').attr('src', "https://mostfeel.site:8888/static/javascripts/js/owl.carousel.min.js").appendTo('head');
+      $('script[src="https://mostfeel.site:8888/static/javascripts/js/swiper.min.js"]').remove();
+      $('<script>').attr('src', "https://mostfeel.site:8888/static/javascripts/js/swiper.min.js").appendTo('head');
+      $('script[src="https://mostfeel.site:8888/static/javascripts/js/functions.js"]').remove();
+      $('<script>').attr('src', "https://mostfeel.site:8888/static/javascripts/js/functions.js").appendTo('head');
+    }
+  </script>
+  <script src="https://mostfeel.site:8888/static/javascripts/js/popper.min.js" type="text/javascript"></script>
+  <script src="https://mostfeel.site:8888/static/javascripts/js/bootstrap.min.js" type="text/javascript"></script>
+  <script src="https://mostfeel.site:8888/static/javascripts/js/isotope.pkgd.min.js" type="text/javascript"></script>
+  <script src="https://mostfeel.site:8888/static/javascripts/js/imagesloaded.pkgd.min.js"
+    type="text/javascript"></script>
+  <script src="https://mostfeel.site:8888/static/javascripts/js/slick.js" type="text/javascript"></script>
 </body>
 
 </html>
