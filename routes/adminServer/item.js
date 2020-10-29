@@ -235,7 +235,7 @@ router.post('/searchcompany', async (req, res) => {
     }
 });
 
-router.get('/detail?id', async (req, res) => {
+router.get('/detail/?id', async (req, res) => {
     try {
         console.log(req.params);
         console.log(req.path);
