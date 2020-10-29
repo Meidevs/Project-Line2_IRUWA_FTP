@@ -205,34 +205,42 @@
   <script src="https://mostfeel.site:8888/static//javascripts/js/main.js" type="text/javascript"></script>
   <script>
     $(document).ready(async () => {
+      getPopularCompany();
+      getRecentCompany();
+    });
+    getPopularCompany = async () => {
       try {
-        const response_a = await fetch('https://mostfeel.site:8888/admin/popular', {
+        let response = await fetch('https://mostfeel.site:8888/admin/popular', {
           method : 'GET',
           headers : {
             'Content-Type' : 'application/json'
-          },
+          }
         });
-        let json_a = await response_a.json();
-        if (response_a.ok) {
-
-        }
-        
-        const response_b = await fetch('https://mostfeel.site:8888/admin/recentcompany', {
-          method : 'GET',
-          headers : {
-            'Content-Type' : 'application/json'
-          },
-        });
-        let json_b = await response_b.json();
-        if (response_b.ok) {
-
+        let json = await response.json();
+        if (response.ok) {
+          console.log(json)
         }
       } catch (err) {
         console.log(err);
       }
-    });
-
+    }
     
+    getRecentCompany = async () => {
+      try {
+        let response = await fetch('https://mostfeel.site:8888/admin/recentcompany', {
+          method : 'GET',
+          headers : {
+            'Content-Type' : 'application/json'
+          }
+        });
+        let json = await response.json();
+        if (response.ok) {
+          console.log(json)
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    }
   </script>
 </body>
 
