@@ -244,7 +244,6 @@
             body: JSON.stringify({ cmp_seq: a, items_seq: b })
           });
           let json = await response.json();
-          console.log(json)
           if (response.ok) {
             setCompanyProfile(json.cmp[0]);
             setRelated(json.related);
@@ -265,7 +264,6 @@
           });
           let json = await response.json();
           if (response.ok) {
-            console.log('categories : ', json)
             category = json;
           }
         } catch (err) {
@@ -342,7 +340,7 @@
           newDiv_1.setAttribute("class", "item");
           newDiv_2.setAttribute("class", "item");
           newDiv_1.innerHTML = `<img src="` + data.image[i].uri + `" alt="" class="image" style="width :1140px; height: 600px; object-fit: cover;">`
-          newDiv_2.innerHTML = `<img src="` + data.image[i].uri + `" alt="" class="image">`
+          newDiv_2.innerHTML = `<img src="` + data.image[i].uri + `" alt="" class="image" style="width :214px; height: 104px; object-fit: cover;">`
           owl_1.appendChild(newDiv_1);
           owl_2.appendChild(newDiv_2);
         }
