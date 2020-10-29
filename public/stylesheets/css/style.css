@@ -7602,6 +7602,21 @@ blog-single-section
 	border-top: 3px solid #15bac1;
 	padding: 45px 50px;
 }
+@media (max-width: 575px) {
+	.login-area .login-box {
+		width: 100%;
+		margin: auto;
+		background-color: rgba(255, 255, 255, 1);
+		-webkit-box-shadow: 0 18px 38px rgba(0, 0, 0, 0.2);
+		box-shadow: 0 18px 38px rgba(0, 0, 0, 0.2);
+		-webkit-border-radius: 6px;
+		-moz-border-radius: 6px;
+		-ms-border-radius: 6px;
+		border-radius: 6px;
+		border-top: 3px solid #15bac1;
+		padding: 15px 10px;
+	}
+	}
 .login-area .login-box .login-top {
 	margin-bottom: 30px;
 }
