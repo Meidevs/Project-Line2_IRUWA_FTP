@@ -578,8 +578,8 @@
       let params = new URL(document.location).searchParams;
       var a = params.get('ccode');
       var b = params.get('icode');
-      await getInfo(a, b);
       getCategory();
+      await getInfo(a, b);
     });
     getInfo = async (a, b) => {
       try {
