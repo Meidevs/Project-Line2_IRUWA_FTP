@@ -95,34 +95,7 @@
       <!-- End Title -->
 
       <div class="row" id="popular-item">
-        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 col-12 Classidied-box">
-          <div class="card card-event info-overlay">
-            <div class="img has-background"
-              style="background-image: url(https://mostfeel.site:8888/static/images/web_images/1.jpg); background-size:cover ">
-              <a href="addetail.html" class="event-pop-link"> <span class="event-badges "></span>
-                <div class="event-pop-info">
-                  <p class="publisher"><strong>게시물 제목</strong></p>
-                  <div class="event-rating">
-                    <div class="review-count"> 좋아요 | 89 조회수</div>
-                  </div>
-                </div>
-              </a> <a href="addetail.html"> <img alt="340x230" class="card-img-top img-responsive"
-                  data-holder-rendered="true" src="https://mostfeel.site:8888/static/images/web_images/10x6.gif"> </a>
-            </div>
-            <div class="card-body">
-              <h4 class="card-title"> <a href="addetail.html">게시물 제목</a> </h4>
-              <div class="card-event-info">
-                <p class="event-location"><i class="far fa-compass"></i> <a class="location" href="">업체 위치 </a></p>
-                <p class="event-time"><i class="far fa-clock"></i> 등록일자</p>
-              </div>
-            </div>
-            <div class="card-footer">
-              <div class="pull-left left">
-                <div class=""><a href="dashboard-myads.html">업체로 이동</div>
-              </div>
-            </div>
-          </div>
-        </div>
+
       </div>
     </div>
   </div>
@@ -229,31 +202,35 @@
           for (var i = 0; i < json.length; i++) {
             var newDiv = document.createElement('div');
             newDiv.setAttribute("class", "col-lg-4 col-md-6 col-sm-6 col-xs-12 col-12 Classidied-box");
-            newDiv.innerHTML = `<div class="card card-event info-overlay">
-            <div class="img has-background" style="background-image: url(`+ json[i].image[0] + `); background-size:cover ">
-              <a href="addetail.html" class="event-pop-link"> <span class="event-badges "></span>
-                <div class="event-pop-info">
-                  <p class="publisher"><strong>` + json[i].item_name + `</strong></p>
-                  <div class="event-rating">
-                    <div class="review-count"> 좋아요 | 89 조회수</div>
+            newDiv.innerHTML = 
+            `<div class="card card-event info-overlay">
+              <div class="img has-background" style="background-image: url(`+ json[i].image[0] + `); background-size:cover ">
+                <a href="addetail.html" class="event-pop-link"> 
+                  <span class="event-badges "></span>
+                  <div class="event-pop-info">
+                    <p class="publisher"><strong>` + json[i].item_name + `</strong></p>
+                    <div class="event-rating">
+                      <div class="review-count"> 좋아요 | 89 조회수</div>
+                    </div>
                   </div>
+                </a> 
+                <a href="addetail.html"> <img alt="340x230" class="card-img-top img-responsive"
+                  data-holder-rendered="true" src="https://mostfeel.site:8888/static/images/web_images/10x6.gif"> 
+                </a>
+              </div>
+              <div class="card-body">
+                <h4 class="card-title"> <a href="addetail.html">` + json[i].item_name + `</a> </h4>
+                <div class="card-event-info">
+                  <p class="event-location"><i class="far fa-compass"></i><a class="location" href="">` + json[i].cmp.cmp_detail_location + `</a></p>
+                  <p class="event-time"><i class="far fa-clock"></i>` + json[i].reg_date.substring(0, 10) + `</p>
                 </div>
-              </a> <a href="addetail.html"> <img alt="340x230" class="card-img-top img-responsive"
-                  data-holder-rendered="true" src="https://mostfeel.site:8888/static/images/web_images/10x6.gif"> </a>
-            </div>
-            <div class="card-body">
-              <h4 class="card-title"> <a href="addetail.html">` + json[i].item_name + `</a> </h4>
-              <div class="card-event-info">
-                <p class="event-location"><i class="far fa-compass"></i> <a class="location" href="">` + json[i].cmp.cmp_detail_location + `</a></p>
-                <p class="event-time"><i class="far fa-clock"></i>` + json[i].reg_date.substring(0, 10) + `</p>
               </div>
-            </div>
-            <div class="card-footer">
-              <div class="pull-left left">
-                <div class=""><a href="dashboard-myads.html">업체로 이동</div>
+              <div class="card-footer">
+                <div class="pull-left left">
+                  <div class=""><a href="dashboard-myads.html">업체로 이동</div>
+                </div>
               </div>
-            </div>
-          </div>`;
+            </div>`;
           divList.appendChild(newDiv);
           }
         }
