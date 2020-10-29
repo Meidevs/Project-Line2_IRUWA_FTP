@@ -574,22 +574,22 @@
   <script src="https://mostfeel.site:8888/static/javascripts/js/swiper.min.js" type="text/javascript"></script>
   <script src="https://mostfeel.site:8888/static/javascripts/js/main.js" type="text/javascript"></script>
   <script>
-    $(document).ready(() => {
+    $(document).ready(async () => {
       let params = new URL(document.location).searchParams;
       var a = params.get('ccode');
       var b = params.get('icode');
-      getInfo(a, b);
+      await getInfo(a, b);
     });
-    getInfo = async (ccode, icode) => {
-      console.log('ccode', ccode)
-      console.log('icode', icode)
+    getInfo = async (a, b) => {
+      console.log('ccode', a)
+      console.log('icode', b)
       try {
         let response = await fetch('https://mostfeel.site:8888/admin/detail/item', {
           method : 'POST',
           headers : {
             'Content-Type' : 'aaplication/json'
           },
-          body : JSON.stringify({cmp_seq : ccode, items_seq : icode})
+          body : JSON.stringify({cmp_seq : a, items_seq : b})
         });
 
         let json = await response.json();
