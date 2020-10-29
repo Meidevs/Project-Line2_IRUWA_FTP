@@ -574,9 +574,13 @@
   <script src="https://mostfeel.site:8888/static/javascripts/js/swiper.min.js" type="text/javascript"></script>
   <script src="https://mostfeel.site:8888/static/javascripts/js/main.js" type="text/javascript"></script>
   <script>
-    $(document).ready(() => {
-      console.log(document.location.pathname)
-    })
+    var data = getParameterByName(window.location);
+    console.log('data : ', data)
+    function getParameterByName(name) { 
+      console.log(name)
+      var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
+      return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+    }
   </script>
 </body>
 
