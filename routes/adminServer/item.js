@@ -235,15 +235,13 @@ router.post('/searchcompany', async (req, res) => {
     }
 });
 
-router.get('/detail/company', async (req, res) => {
-    try {
-        console.log('a', req.params);
-        console.log('b', req.query);
-        console.log('c', req.path);
-        console.log('d', req.originalUrl);
-    } catch (err) {
-        console.log(err);
-    }
-})
+router.get('/detail/company', (req, res) => {
+    res.status(200).render('iruwa_admin_company');
+});
+
+router.get('/detail/item', (req, res) => {
+    res.status(200).render('iruwa_admin_detail');
+
+});
 
 module.exports = router;
