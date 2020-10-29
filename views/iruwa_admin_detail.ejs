@@ -587,11 +587,10 @@
         let response = await fetch('https://mostfeel.site:8888/admin/detail/info', {
           method : 'POST',
           headers : {
-            'Content-Type' : 'aaplication/json'
+            'Content-Type' : 'application/json'
           },
           body : JSON.stringify({cmp_seq : a, items_seq : b})
         });
-
         let json = await response.json();
         if (response.ok) {
           console.log(json)
