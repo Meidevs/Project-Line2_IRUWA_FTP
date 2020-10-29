@@ -235,10 +235,12 @@ router.post('/searchcompany', async (req, res) => {
     }
 });
 
-router.get('/detail/?id', async (req, res) => {
+router.get('/detail/company', async (req, res) => {
     try {
-        console.log(req.params);
-        console.log(req.path);
+        console.log('a', req.params);
+        console.log('b', req.query);
+        console.log('c', req.path);
+        console.log('d', req.originalUrl);
     } catch (err) {
         console.log(err);
     }
