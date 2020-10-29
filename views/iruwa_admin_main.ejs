@@ -222,8 +222,9 @@
               <div class="card-body">
                 <h4 class="card-title"> <a href="addetail.html">` + rawArray[i].item_name + `</a> </h4>
                 <div class="card-event-info">
-                  <p class="event-location"><i class="far fa-compass"></i><a class="location" href="">` + rawArray[i].cmp.cmp_detail_location + `</a></p>
-                  <p class="event-time"><i class="far fa-clock"></i>` + rawArray[i].reg_date.substring(0, 10) + `</p>
+                  <p class="event-location"><i class="far fa-building"></i><a class="location" href="">업체 명 : ` + rawArray[i].cmp.cmp_name + `</a></p>
+                  <p class="event-location"><i class="fas fa-compass"></i><a class="location" href="">업체위치 : ` + rawArray[i].cmp.cmp_detail_location + `</a></p>
+                  <p class="event-time"><i class="far fa-clock"></i>등록일자 : ` + rawArray[i].reg_date.substring(0, 10) + `</p>
                 </div>
               </div>
               <div class="card-footer">
