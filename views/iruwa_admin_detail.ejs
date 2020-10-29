@@ -187,10 +187,10 @@
                 <div class="contact-seller">
                   <div class="seller-heading">업체 정보</div>
                   <div class="seller-details"> <img src="images/img1.jpg">
-                    <p><i class="fas fa-user"></i> John Deo</p>
-                    <p><i class="fa fa-map-marker" aria-hidden="true"></i> 업체위치 : New York </p>
-                    <p><i class="fas fa-microphone"></i> 가입일자 : 01 Nov 2016</p>
-                    <p><i class="fas fa-microphone"></i> 카테고리 : 무도 유흥 주점업</p>
+                    <p id="cmp-name"></p>
+                    <p id="cmp-location"></p>
+                    <p id="cmp-reg-date"></p>
+                    <p id="cmp-category"></p>
                   </div>
                   <div class="seller_message">
                     <a class="btn  btn-info btn-block"><i class="fa fa-mobile" aria-hidden="true"></i>
@@ -579,10 +579,9 @@
       var a = params.get('ccode');
       var b = params.get('icode');
       await getInfo(a, b);
+      getCategory();
     });
     getInfo = async (a, b) => {
-      console.log('ccode', a)
-      console.log('icode', b)
       try {
         let response = await fetch('https://mostfeel.site:8888/admin/detail/info', {
           method : 'POST',
@@ -593,11 +592,40 @@
         });
         let json = await response.json();
         if (response.ok) {
-          console.log(json)
+          setCompanyProfile(json.cmp[0]);
+          setItemInfo();
         }
       } catch (err) {
         console.log(err);
       }
+    }
+    let category = new Array();
+    getCategory = async (a, b) => {
+      try {
+        let response = await fetch('https://mostfeel.site:8888/admin/category/categories', {
+          method : 'GET',
+          headers : {
+            'Content-Type' : 'application/json'
+          },
+        });
+        let json = await response.json();
+        if (response.ok) {
+          console.log('categories : ', json)
+          category = json;
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    setCompanyProfile = (data) => {
+      var cmpName = document.getElementById('cmp-name');
+      var cmpLocation = document.getElementById('cmp-location');
+      var cmpDate = document.getElementById('cmp-reg-date');
+      var cmpCategory = document.getElementById('cmp-category');
+      cmpName.innerHTML = '<i class="fas fa-building"></i>' + data.cmp_name;
+      cmpLocation.innerHTML = '<i class="fa fa-map-marker" aria-hidden="true"></i> 업체위치 : ' + data.cmp_location;
+      cmpDate.innerHTML = '<i class="fas fa-microphone"></i> 가입일자 : ' + data.reg_date.substring(0,10);
+      cmpCategory.innerHTML = '<i class="fas fa-microphone"></i> 카테고리 : ' + data.cmp_name;
     }
   </script>
 </body>
