@@ -36,10 +36,10 @@ router.get('/popular', async (req, res) => {
         var itemsList = await adminModel.getHighestViewItem(newString);
         var imageList = await adminModel.getImageUri(newString);
         itemsList.map((data) => {
+            data['image'] = new Array();
             for(var i = 0; i < imageList.length; i++) {
                 if (data.items_seq == imageList[i].items_seq) {
-                    data['image'] = imageList[i]
-                }
+                    data.image.push(imageList[i])
             }
         });
         console.log(itemsList);
