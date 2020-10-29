@@ -456,6 +456,7 @@ class Admin {
         return new Promise (
             async (resolve, reject) => {
                 try {
+                    console.log('aa', data)
                     var sql = 'SELECT *, (SELECT uri FROM tb_user_profile WHERE user_seq IN (SELECT user_seq FROM tb_users user WHERE user.user_seq = cmp.user_seq)) AS profile FROM tb_company cmp WHERE cmp_seq = ?';
                     var cmpInfo = await myConnection.query(sql, [data.cmp_seq]);
                     resolve(cmpInfo);

@@ -575,12 +575,9 @@
   <script src="https://mostfeel.site:8888/static/javascripts/js/main.js" type="text/javascript"></script>
   <script>
     $(document).ready(() => {
-      console.log('search', document.location);
       let params = new URL(document.location).searchParams;
       var a = params.get('ccode');
       var b = params.get('icode');
-      console.log('a', a)
-      console.log('b', b)
       getInfo(a, b);
     });
     getInfo = async (ccode, icode) => {
