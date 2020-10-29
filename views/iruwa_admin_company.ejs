@@ -86,7 +86,7 @@
 
           <!-- Tab Content -->
           <div class="tab-content" id="v-pills-tabContent">
-            <div class="tab-pane fade active" id="v-pills-Profile" role="tabpanel" aria-labelledby="v-pills-key-Profile-tab">
+            <div class="tab-pane active" id="v-pills-Profile" role="tabpanel" aria-labelledby="v-pills-key-Profile-tab">
               <div class="row">
                 <div class="classi-ads-detail">
                   <div class="account-overview">
@@ -131,40 +131,6 @@
                             <li> <i class="fa fa-envelope"></i> Email: <a href="#"
                                 class="col">support@Yourdomain.com</a> </li>
                           </ul>
-                          <div class="author-price-plan">
-                            <h4 class="profile-heading">FEATURED AD PLANS</h4>
-                            <div class="row">
-                              <div class="col-sm-4">
-                                <div class="profile-pricing">
-                                  <div class="price-plan">
-                                    <div class="profile-user-plan">
-                                      <h4>7 DAY PLAN</h4>
-                                      <ul>
-                                        <li>Price : $340</li>
-                                        <li>100 Featured Ad</li>
-                                        <li>30 Day</li>
-                                        <li>100% Secure</li>
-                                        <li>unlimited Regular Ads</li>
-                                      </ul>
-                                      <a href="#" type="button">Order Now</a>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="col-sm-8">
-                                <div class="author-price-content">
-                                  <p><strong>Lorem ipsum dolor sit amet</strong> consectetuer adipiscing elit, sed diam
-                                    sit nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
-                                  </p>
-                                  <p>Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper
-                                    lorem dolor sit amet.</p>
-                                  <p>suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum
-                                    iriure dolor in hendrerit in vulputate velit esse molestie equat, vel illum dolore
-                                    eu feugiat nulla facilisis at vero eros. </p>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
                         </div>
                       </div>
                     </div>
@@ -226,6 +192,25 @@
       var a = params.get('ccode');
       await getInfo(a);
     });
+
+    getInfo = async (a) => {
+      try {
+        let response = await fetch('https://mostfeel.site:8888/admin/detail/company', {
+          method : 'POST',
+          headers : {
+            'Content-Type' : 'application/json'
+          },
+          body : JSON.stringify({cmp_seq : a})
+        });
+
+        let json = await response.json();
+        if (response.ok) {
+          console.log(json)
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    }
   </script>
 </body>
 

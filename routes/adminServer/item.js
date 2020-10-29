@@ -239,6 +239,32 @@ router.get('/detail/company', (req, res) => {
     res.status(200).render('iruwa_admin_company');
 });
 
+
+router.post('/detail/company', async (req, res) => {
+    try {
+        var FromData = new Object();
+        FromData.cmp_seq = req.body.cmp_seq;
+        var cmpInfo = await adminModel.getCompany(FromData)
+        var itemList = await adminModel.getRelated(FromData);
+        var rawArray = new Array();
+        for(var i = 0; i < itemList.length; i++) {
+            rawArray.push(itemList[i].items_seq);
+        }
+        var imageList = await adminModel.getImageUri(rawArray.join());
+        itemList.map((data) => {
+            data['image'] = [];
+            for (var i = 0; i < imageList.length; i++) {
+                if (data.items_seq == imageList[i].items_seq) {
+                    data['image'].push(imageList[i])
+                }
+            }
+        })
+        res.status(200).send({cmp : cmpInfo, item : itemList})
+    } catch (err) {
+        console.log(err);
+    }
+})
+
 router.get('/detail/item', (req, res) => {
     res.status(200).render('iruwa_admin_detail');
 
