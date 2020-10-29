@@ -332,7 +332,7 @@
         for (var i = 0; i < data.image.length; i++) {
           var newDiv = document.createElement('div');
           newDiv.setAttribute("class", "item");
-          newDiv.innerHtml = `<img src="` + data.image[i].uri + `" alt="" class="image">`
+          newDiv.innerHTML = `<img src="` + data.image[i].uri + `" alt="" class="image">`
           owl_1.appendChild(newDiv);
           owl_2.appendChild(newDiv);
         }
@@ -343,7 +343,7 @@
         $('<link>').attr('href', "https://mostfeel.site:8888/static/stylesheets/css/style.css").attr("type", "text/css").attr("rel", "stylesheet").appendTo('head');
         $('script[src="https://mostfeel.site:8888/static/javascripts/js/owl.carousel.min.js"]').remove();
         $('<script>').attr('src', "https://mostfeel.site:8888/static/javascripts/js/owl.carousel.min.js").appendTo('head');
-          $('script[src="https://mostfeel.site:8888/static/javascripts/js/swiper.min.js"]').remove();
+        $('script[src="https://mostfeel.site:8888/static/javascripts/js/swiper.min.js"]').remove();
         $('<script>').attr('src', "https://mostfeel.site:8888/static/javascripts/js/swiper.min.js").appendTo('head');
       }
     </script>
