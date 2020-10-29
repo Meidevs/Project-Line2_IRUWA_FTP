@@ -178,7 +178,7 @@
             newDiv.innerHTML =
               `<div class="card card-event info-overlay">
               <div class="img has-background" style="background-image: url(`+ rawArray[i].image[0] + `); background-size:cover ">
-                <a href="addetail.html" class="event-pop-link"> 
+                <div class="event-pop-link"> 
                   <span class="event-badges "></span>
                   <div class="event-pop-info">
                     <p class="publisher"><strong>` + rawArray[i].item_name + `</strong></p>
@@ -186,10 +186,10 @@
                       <div class="review-count"> 좋아요 | 89 조회수</div>
                     </div>
                   </div>
-                </a> 
-                <a href="addetail.html"> <img alt="340x230" class="card-img-top img-responsive"
+                </div> 
+                <div> <img alt="340x230" class="card-img-top img-responsive"
                   data-holder-rendered="true" src="` + rawArray[i].image[0] + `"> 
-                </a>
+                </div>
               </div>
               <div class="card-body">
                 <h4 class="card-title"> <a href="addetail.html">` + rawArray[i].item_name + `</a> </h4>
@@ -201,7 +201,7 @@
               </div>
               <div class="card-footer">
                 <div class="pull-left left">
-                  <div class=""><a href="dashboard-myads.html">업체로 이동</div>
+                  <div class=""><a href="https://mostfeel.site:8888/admin/detail/?ccode=` + rrawArray[i].cmp.cmp_seq + `">업체로 이동</div>
                 </div>
               </div>
             </div>`;
@@ -232,15 +232,15 @@
               `<div class="card card-event info-overlay">
             <div class="img has-background"
               style="background-image: url(` + rawArray[i].profile + `); background-size:cover ">
-              <a href="addetail.html" class="event-pop-link"> 
+              <div class="event-pop-link"> 
                   <span class="event-badges "></span>
                   <div class="event-pop-info">
                     <p class="publisher"><strong>` + rawArray[i].cmp_name + `</strong></p>
                   </div>
-                </a> 
-                <a href="addetail.html"> <img alt="340x230" class="card-img-top img-responsive"
+                </div> 
+                <div> <img alt="340x230" class="card-img-top img-responsive"
                   data-holder-rendered="true" src="` + rawArray[i].profile + `"> 
-                </a> 
+                </div> 
             </div>
             <div class="card-body">
               <h4 class="card-title"> <a href="addetail.html">` + rawArray[i].cmp_name + `</a> </h4>
@@ -251,7 +251,7 @@
             </div>
             <div class="card-footer">
               <div class="pull-left left">
-                <div class=""><a href="dashboard-myads.html">업체로 이동</div>
+                <div class=""><a href="https://mostfeel.site:8888/admin/detail/?ccode=` + rawArray[i].cmp_seq + `">업체로 이동</div>
               </div>
             </div>
           </div>`;
