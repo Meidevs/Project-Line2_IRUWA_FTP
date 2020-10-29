@@ -198,19 +198,18 @@
         });
         let json = await response.json();
         if (response.ok) {
-          console.log(json)
+          var rawArray = json.message;
           var divList = document.getElementById('popular-item');
-          for (var i = 0; i < json.length; i++) {
-            console.log('a')
+          for (var i = 0; i < rawArray.length; i++) {
             var newDiv = document.createElement('div');
             newDiv.setAttribute("class", "col-lg-4 col-md-6 col-sm-6 col-xs-12 col-12 Classidied-box");
             newDiv.innerHTML = 
             `<div class="card card-event info-overlay">
-              <div class="img has-background" style="background-image: url(`+ json[i].image[0] + `); background-size:cover ">
+              <div class="img has-background" style="background-image: url(`+ rawArray[i].image[0] + `); background-size:cover ">
                 <a href="addetail.html" class="event-pop-link"> 
                   <span class="event-badges "></span>
                   <div class="event-pop-info">
-                    <p class="publisher"><strong>` + json[i].item_name + `</strong></p>
+                    <p class="publisher"><strong>` + rawArray[i].item_name + `</strong></p>
                     <div class="event-rating">
                       <div class="review-count"> 좋아요 | 89 조회수</div>
                     </div>
@@ -221,10 +220,10 @@
                 </a>
               </div>
               <div class="card-body">
-                <h4 class="card-title"> <a href="addetail.html">` + json[i].item_name + `</a> </h4>
+                <h4 class="card-title"> <a href="addetail.html">` + rawArray[i].item_name + `</a> </h4>
                 <div class="card-event-info">
-                  <p class="event-location"><i class="far fa-compass"></i><a class="location" href="">` + json[i].cmp.cmp_detail_location + `</a></p>
-                  <p class="event-time"><i class="far fa-clock"></i>` + json[i].reg_date.substring(0, 10) + `</p>
+                  <p class="event-location"><i class="far fa-compass"></i><a class="location" href="">` + rawArray[i].cmp.cmp_detail_location + `</a></p>
+                  <p class="event-time"><i class="far fa-clock"></i>` + rawArray[i].reg_date.substring(0, 10) + `</p>
                 </div>
               </div>
               <div class="card-footer">
