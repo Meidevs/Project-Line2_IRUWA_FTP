@@ -39,7 +39,7 @@ router.get('/popular', async (req, res) => {
             data['image'] = new Array();
             for (var i = 0; i < imageList.length; i++) {
                 if (data.items_seq == imageList[i].items_seq) {
-                    data.image.push(imageList[i])
+                    data.image.push(imageList[i].uri)
                 }
             }
         });
