@@ -200,6 +200,7 @@
         if (response.ok) {
           var divList = document.getElementById('popular-item');
           for (var i = 0; i < json.length; i++) {
+            console.log('a')
             var newDiv = document.createElement('div');
             newDiv.setAttribute("class", "col-lg-4 col-md-6 col-sm-6 col-xs-12 col-12 Classidied-box");
             newDiv.innerHTML = 
