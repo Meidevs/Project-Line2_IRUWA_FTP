@@ -275,20 +275,6 @@
 
       </div>
     </div>
-    <div class="gradient-overlay-half-primary-v1">
-      <div class="bg-img-hero" style="background-image: url(images/bg2.png);">
-        <div class="container">
-          <div class="row align-items-lg-center text-lg-left space-2">
-            <div class="col-lg-7">
-              <h3 class="text-white h3">Duis orci odio, at dapibus</h3>
-              <p class="text-white">Lorem ipsum dolor sit amet, consectetur adipiscing elit. </p>
-            </div>
-            <div class="col-lg-5 text-lg-right"> <a class="btn btn-purple mb-2 mb-sm-0 mr-sm-2" href="#">Post an Ads</a>
-              <a class="btn btn-light mb-2 mb-sm-0" href="#">Create an Account</a> </div>
-          </div>
-        </div>
-      </div>
-    </div>
     <footer class="main-footer">
       <div class="footer-content">
         <div class="container">
@@ -407,18 +393,8 @@
           newDiv.innerHTML =
             `<div class="card card-event info-overlay">
               <div class="img has-background" style="background-image: url(`+ rawArray[i].image[0].uri + `); background-size:cover ">
-                <div class="event-pop-link"> 
-                  <span class="event-badges "></span>
-                  <div class="event-pop-info">
-                    <p class="publisher"><strong>` + rawArray[i].item_name + `</strong></p>
-                    <div class="event-rating">
-                      <div class="review-count"> 좋아요 | 89 조회수</div>
-                    </div>
-                  </div>
-                </div> 
-                <div> <img alt="340x230" class="card-img-top img-responsive"
-                  data-holder-rendered="true" src="` + rawArray[i].image[0].uri + `"> 
-                </div>
+                <div class="event-pop-link"> <span class="event-badges "></span><div class="event-pop-info"><p class="publisher"><strong>` + rawArray[i].item_name + `</strong></p></div></div>
+                <div> <img alt="340x230" class="card-img-top img-responsive" data-holder-rendered="true" src="` + rawArray[i].image[0].uri + `"> </div>
               </div>
               <div class="card-body">
                 <h4 class="card-title"> <a href="addetail.html">` + rawArray[i].item_name + `</a> </h4>
