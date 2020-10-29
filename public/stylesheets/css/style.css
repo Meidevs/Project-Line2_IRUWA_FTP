@@ -10293,12 +10293,13 @@ table.add-manage-table > tbody > tr > td {
     padding: 5px;
 	text-align: center;
 	justify-content: center;
+	width : 100%;
 }
 .classauthor-title {
     background: #e96969 none repeat scroll 0 0;
     color: #ffffff;
     display: inline-block;
-    margin:65px 0 10px;
+    margin:10px 0 10px;
     text-align: center;
     width: 100%;
 }
