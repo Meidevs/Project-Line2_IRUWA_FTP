@@ -88,10 +88,9 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 page-details">
-          <h2> Hp Pavilion G6 <span>Company</span> </h2>
-          <div class="classi-single_info"> <span class="date"><i class="far fa-clock"></i> 2019-02-01 07:23pm </span> -
-            <span class="category">Laptop</span> - <span class="item-location"><i class="fa fa-map-marker"></i> Canada.
-            </span> </div>
+          <h2 id="item-title"></h2>
+          <div class="classi-single_info" id="item-reg-date">
+          </div>
           <div class="sinbanner-image">
             <div class="singleban">
               <div class="singleban_main">
@@ -105,10 +104,8 @@
           <div class="single-page-details">
             <h5 class="Detsils-title"><strong>광고 내용</strong></h5>
             <div class="row">
-              <div class="sindetails-info col-md-8">
-                <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum
-                  dolore eu feugiat nulla facilisis at vero eros et accumsan dignissim qui blandit praesent luptatum
-                  zzril delenit augue duis dolore te feugait nulla facilisi. </p>
+              <div class="sindetails-info col-md-8" id="item-content">
+                
               </div>
               <div class="col-md-4">
                 <div class="contact-seller">
@@ -327,6 +324,14 @@
       }
 
       setItemInfo = (data) => {
+        var itemTitle = document.getElementById('item-title');
+        var itemRegDate = document.getElementById('item-reg-date');
+        var itemContent = document.getElementById('item-reg-date');
+
+        itemTitle.innerHTML = data.item_name;
+        itemContent.innerHTML = `<p>` + data.item_content + `</p>`;
+        itemRegDate.innerHTML = ` <span class="date"><i class="far fa-clock"></i> ` + data.reg_date + `</span>`
+
         var owl_1 = document.getElementById('owl-1');
         var owl_2 = document.getElementById('owl-2');
         for (var i = 0; i < data.image.length; i++) {
@@ -349,7 +354,7 @@
         $('script[src="https://mostfeel.site:8888/static/javascripts/js/swiper.min.js"]').remove();
         $('<script>').attr('src', "https://mostfeel.site:8888/static/javascripts/js/swiper.min.js").appendTo('head');
         $('script[src="https://mostfeel.site:8888/static/javascripts/js/functions.js"]').remove();
-        $('<script>').attr('src', "https://mostfeel.site:8888/static/javascripts/js/functions.js").appendTo('head'); 
+        $('<script>').attr('src', "https://mostfeel.site:8888/static/javascripts/js/functions.js").appendTo('head');
       }
     </script>
     <script src="https://mostfeel.site:8888/static/javascripts/js/popper.min.js" type="text/javascript"></script>
