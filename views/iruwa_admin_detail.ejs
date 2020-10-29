@@ -581,6 +581,8 @@
       getInfo(a, b);
     });
     getInfo = async (ccode, icode) => {
+      console.log('ccode', ccode)
+      console.log('icode', icode)
       try {
         let response = await fetch('https://mostfeel.site:8888/admin/detail/item', {
           method : 'POST',
