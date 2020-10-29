@@ -77,6 +77,7 @@ class Admin {
             }
         )
     }
+
     getCompanyInfo(data) {
         return new Promise(
             async (resolve, reject) => {
@@ -90,6 +91,7 @@ class Admin {
             }
         )
     }
+
     getNewCompany() {
         return new Promise(
             async (resolve, reject) => {
@@ -339,6 +341,22 @@ class Admin {
             }
         )
     }
+
+    getImageUri(data) {
+        return new Promise (
+            async (resolve, reject) => {
+                try {
+
+                    var sql = 'SELECT * FROM tb_images WHERE items_seq IN (' + data + ')';
+                    var imageList = await myConnection.query(sql);
+                    resolve(imageList)
+                } catch (err) {
+                    reject(err);
+                }
+            }
+        )
+    }
+
     getAllNotifications() {
         return new Promise(
             async (resolve, reject) => {
