@@ -389,23 +389,32 @@
         var divList = document.getElementById('related-item');
         for (var i = 0; i < rawArray.length; i++) {
           var newDiv = document.createElement('div');
-          newDiv.setAttribute("class", "col-lg-3 col-md-6 col-sm-6 col-xs-12 col-12 Classidied-box");
+          newDiv.setAttribute("class", "col-lg-4 col-md-6 col-sm-6 col-xs-12 col-12 Classidied-box");
           newDiv.innerHTML =
             `<div class="card card-event info-overlay">
               <div class="img has-background" style="background-image: url(`+ rawArray[i].image[0].uri + `); background-size:cover ">
-                <div class="event-pop-link"> <span class="event-badges "></span><div class="event-pop-info"><p class="publisher"><strong>` + rawArray[i].item_name + `</strong></p></div></div>
-                <div> <img alt="340x230" class="card-img-top img-responsive" data-holder-rendered="true" src="` + rawArray[i].image[0].uri + `"> </div>
+                <div class="event-pop-link"> 
+                  <span class="event-badges "></span>
+                  <div class="event-pop-info">
+                    <p class="publisher"><strong>` + rawArray[i].item_name + `</strong></p>
+                    <div class="event-rating">
+                      <div class="review-count"> 좋아요 | 89 조회수</div>
+                    </div>
+                  </div>
+                </div> 
+                <div> <img alt="340x230" class="card-img-top img-responsive"
+                  data-holder-rendered="true" src="` + rawArray[i].image[0].uri + `"> 
+                </div>
               </div>
               <div class="card-body">
                 <h4 class="card-title"> <a href="addetail.html">` + rawArray[i].item_name + `</a> </h4>
                 <div class="card-event-info">
-                  <p class="event-location"><i class="far fa-check-circle"></i><a class="location" href=""> 광고상태 : ` + rawArray[i].cancelled == 0 ? '게시중' : '삭제' + `</a></p>
                   <p class="event-time"><i class="far fa-clock"></i> 등록일자 : ` + rawArray[i].reg_date.substring(0, 10) + `</p>
                 </div>
               </div>
               <div class="card-footer">
                 <div class="pull-left left">
-                  <div class=""><a href="https://mostfeel.site:8888/admin/detail/item?ccode=` + rawArray[i].cmp_seq + "&icode=" + rawArray[i].items_seq + `">업체로 이동</div>
+                  <div class=""><a href="https://mostfeel.site:8888/admin/detail/item?ccode=` + rawArray[i].cmp_seq +"&icode="+ rawArray[i].items_seq+`">업체로 이동</div>
                 </div>
               </div>
             </div>`;
