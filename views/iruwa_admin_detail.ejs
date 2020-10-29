@@ -327,8 +327,9 @@
         var itemTitle = document.getElementById('item-title');
         var itemRegDate = document.getElementById('item-reg-date');
         var itemContent = document.getElementById('item-content');
-        var hour = data.reg_date.getHours();
-        var minutes = data.reg_date.getMinutes();
+        var regDate = new Date(data.reg_date);
+        var hour = regDate.getHours()
+        var minutes = regDate.getMinutes();
         itemTitle.innerHTML = data.item_name;
         itemContent.innerHTML = `<p>` + data.item_content + `</p>`;
         itemRegDate.innerHTML = ` <span class="date"><i class="far fa-clock"></i> ` + data.reg_date.substring(0,10) + " " + hour + ':' + minutes + `</span>`
