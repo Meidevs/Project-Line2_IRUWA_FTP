@@ -77,9 +77,10 @@ class Items {
         return new Promise(
             async (resolve, reject) => {
                 try {
-                    var sql = 'SELECT COUNT(*) AS cnt FROM tb_items';
+                    // var sql = 'SELECT COUNT(*) AS cnt FROM tb_items';
+                    var sql = "SELECT items_seq FROM tb_items ORDER BY items_seq DESC LIMIT 1";
                     var resRetrun = await myConnection.query(sql);
-                    resolve(resRetrun[0].cnt);
+                    resolve(resRetrun[0].items_seq);
                 } catch (err) {
                     reject(err)
                 }
@@ -583,6 +584,19 @@ class Items {
                     var sql = 'UPDATE tb_items SET reg_date = ? WHERE items_seq = ?';
                     await myConnection.query(sql, [data.reg_date, data.items_seq]);
                     resolve(true);
+                } catch (err) {
+                    reject(err);
+                }
+            }
+        )
+    }
+    deleteItem (data) {
+        return new Promise (
+            async (resolve, reject) => {
+                try {   
+                    var sql = "DELETE FROM tb_items WHERE cmp_seq IN (SELECT cmp_seq FROM tb_company WHERE user_seq IN (SELECT user_seq FROM tb_users WHERE user_seq = ?))";
+                    await myConnection.query(sql, [data.user_seq]);
+                    resolve(true)
                 } catch (err) {
                     reject(err);
                 }

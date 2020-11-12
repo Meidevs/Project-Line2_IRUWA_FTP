@@ -86,9 +86,9 @@ class Authentication {
         return new Promise(
             async (resolve, reject) => {
                 try {
-                    var sql = 'SELECT COUNT(*) AS cnt FROM tb_users';
+                    var sql = 'SELECT user_seq FROM tb_users ORDER BY user_seq DESC LIMIT 1';
                     var USER_COUNT = await myConnection.query(sql);
-                    resolve(USER_COUNT[0].cnt);
+                    resolve(USER_COUNT[0].user_seq);
                 } catch (err) {
                     reject(err)
                 }
@@ -645,6 +645,19 @@ class Authentication {
                 try {
                     var sql = 'UPDATE tb_company SET pre_ads = "N" WHERE pre_ads_date <= ?';
                     await myConnection.query(sql, [data.due_date]);
+                    resolve(true);
+                } catch (err) {
+                    reject(err);
+                }
+            }
+        )
+    }
+    deleteUser (data) {
+        return new Promise (
+            async (resolve, reject) => {
+                try {   
+                    var sql = "DELETE FROM tb_users WHERE user_seq = ?";
+                    await myConnection.query(sql, data.user_seq);
                     resolve(true);
                 } catch (err) {
                     reject(err);

@@ -3,6 +3,7 @@ var router = express.Router();
 const multer = require("multer");
 var url = require('url');
 var userModel = require('../../public/javascripts/components/userModel');
+var itemModel = require('../../public/javascripts/components/itemModel');
 var functions = require('../../public/javascripts/functions/functions');
 const sendEmail = require('../../public/javascripts/components/email.send');
 const { Buffer } = require('buffer');
@@ -520,5 +521,29 @@ router.post('/coupons', async (req, res) => {
         console.log(err);
     }
 });
+
+router.post('/delete', async (req, res) => {
+    try {
+        var FromData = new Object();
+        var resReturn = {
+            flags : 1,
+            message : "탈퇴에 실패하였습니다."
+        }
+        FromData.user_seq = req.session.user.user_seq;
+        var result = await userModel.deleteUser(FromData);
+        if (result) {
+            var resResult = await itemModel.deleteItem(FromData);
+            if (resResult) {
+                resReturn = {
+                    flags : 0,
+                    message : "탈퇴되었습니다"
+                }
+            }
+        }
+        res.status(200).send(resReturn);
+    } catch (err) {
+        console.log(err);
+    }
+})
 
 module.exports = router;
