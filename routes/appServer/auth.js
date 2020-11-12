@@ -53,8 +53,8 @@ router.post('/login', async (req, res) => {
         // Variables of Data ,user_id for General User and cmp_id for Incorp User, are Different.
         //Encrypt User & Incorporated Password For Security. Hash Password Created Using User_id and User_pw.
         var hashingPassword = await functions.PasswordEncryption(FromData.user_id, FromData.user_pw);
-        FromData.user_pw = hashingPassword;
         console.log("hashingPassword", hashingPassword)
+        FromData.user_pw = hashingPassword;
         // CHECK_USER_EXISTENCE or CHECK_CMP_EXISTENCE is Checking whether User already Exist or Not. 
         // USER_EXISTENCE == 0 Means that user_id(cmp_id) Which you sent to Server is out of Database.
         // Contrarily, USER_EXISTENCE == 1 Means that user_id is in the Database.
@@ -461,8 +461,8 @@ router.post('/userpw', async (req, res) => {
             var rndString = Math.random().toString(36).substring(2, 11);
             console.log('rndString', rndString)
             var hashingPassword = await functions.PasswordEncryption(FromData.user_id, rndString);
+            console.log("User hashingPassword", hashingPassword)
             FromData.user_pw = hashingPassword;
-            console.log("User PW", FromData)
             var RESULT = await userModel.UPDATE_PASSWORD(FromData);
             if (RESULT) {
                 sendEmail.password_sender(FromData.user_email, rndString);
