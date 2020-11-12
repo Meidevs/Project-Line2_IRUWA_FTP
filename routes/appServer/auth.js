@@ -47,7 +47,7 @@ router.post('/login', async (req, res) => {
             flags: 1,
             message: '아이디를 확인해 주세요.'
         }
-        console.log("Login FromData");
+        console.log("Login FromData", FromData);
         // !! Distinguish General & Incorporated User Based On Status Value Which Sent From Browser. (0 General User, 1 Incorporated User).
         // Notice! Datas From Browser about General User & Incorporated User are totally Different. 
         // Variables of Data ,user_id for General User and cmp_id for Incorp User, are Different.
