@@ -6,6 +6,7 @@ class Functions {
         return new Promise(
             async (resolve, reject) => {
                 try {
+                    console.log("Password Encryption id", id, "pw", pw)
                     var cryptoHash = crypto.createHash('sha256').update(id).update(pw).digest();
                     var base64String = await btoa(String.fromCharCode(...new Uint8Array(cryptoHash)));
                     resolve(base64String);
