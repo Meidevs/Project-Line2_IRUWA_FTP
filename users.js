@@ -1,11 +1,6 @@
 const userModel = require("./public/javascripts/components/userModel");
 const users = [];
-const user = {
-  socketID: null,
-  userID: null,
-  socket: null,
-  rooms: []
-}
+
 const addUser = (socketID, userID, socket) => {
   var index = users.findIndex((user) => user.userID === userID);
 
