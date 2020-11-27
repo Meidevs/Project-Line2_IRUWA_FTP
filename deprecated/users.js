@@ -1,18 +1,11 @@
 const userModel = require("./public/javascripts/components/userModel");
+
 const users = [];
-const user = {
-  socketID: null,
-  userID: null,
-  socket: null,
-  rooms: []
-}
+
 const addUser = (socketID, userID, socket) => {
+  var user;
   var index = users.findIndex((user) => user.userID === userID);
-
-  // User is already registered into Users Array;
   if (index !== -1) {
-
-    // User has room list? Then, put user room list id into user.roomList Array;
     if (users[index].roomList.length > 0) {
       user = {
         socketID: socketID,
@@ -29,7 +22,6 @@ const addUser = (socketID, userID, socket) => {
       }
     }
     users[index] = user;
-    // There is no registered user in Users Array;
   } else {
     user = {
       socketID: socketID,
@@ -41,11 +33,6 @@ const addUser = (socketID, userID, socket) => {
   }
   return user;
 }
-
-const getUser = (uid) => {
-  var user = users.find((user) => user.userID === uid);
-  return user;
-};
 
 const addRoomCode = (sender_seq, receiver_seq, roomCode) => {
   var index_a = users.findIndex((user) => user.userID == sender_seq);
@@ -71,6 +58,12 @@ const removeRoomCode = (a) => {
     }
   }
 }
+
+const getUser = (uid) => {
+  var user = users.find((user) => user.userID === uid);
+
+  return user;
+};
 
 const roomExistence = (data) => {
   var returnValue = false;

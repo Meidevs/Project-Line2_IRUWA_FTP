@@ -69,60 +69,57 @@ appServer.use(body.json());
 
 const fs = require('fs');
 const normalizePort = require('normalize-port');
-var privateKey = fs.readFileSync('../../../../etc/ssl/private/mf.key');
-var certificate = fs.readFileSync('../../../../etc/ssl/certs/mf.crt');
-var cert_g = fs.readFileSync('../../../../etc/ssl/certs/gd_bundle-g2-g1.crt');
+// var privateKey = fs.readFileSync('../../../../etc/ssl/private/mf.key');
+// var certificate = fs.readFileSync('../../../../etc/ssl/certs/mf.crt');
+// var cert_g = fs.readFileSync('../../../../etc/ssl/certs/gd_bundle-g2-g1.crt');
 
-var securePort = normalizePort(process.env.PORT || '443');
-var secureAdminPort = normalizePort(process.env.PORT || '8888');
-appServer.set('port', securePort);
-AdminApp.set('port', secureAdminPort);
-
-var options = {key: privateKey, cert: certificate, ca : [cert_g]};
-var adminOptions = {key: privateKey, cert: certificate, ca : [cert_g]};
-
-var adminHttps = require('https').Server(adminOptions, AdminApp);
-var https = require('https').Server(options, appServer);
-let io = require('socket.io')(https);
-
-adminHttps.listen(secureAdminPort);
-https.listen(securePort);
-
-
-// var securePort = normalizePort(process.env.PORT || '3000');
+// var securePort = normalizePort(process.env.PORT || '443');
 // var secureAdminPort = normalizePort(process.env.PORT || '8888');
 // appServer.set('port', securePort);
 // AdminApp.set('port', secureAdminPort);
 
-// var adminHttp = require('https').Server(AdminApp);
-// var http = require('http').Server(appServer);
-// let io = require('socket.io')(http);
+// var options = {key: privateKey, cert: certificate, ca : [cert_g]};
+// var adminOptions = {key: privateKey, cert: certificate, ca : [cert_g]};
 
-// adminHttp.listen(secureAdminPort);
-// http.listen(securePort);
+// var adminHttps = require('https').Server(adminOptions, AdminApp);
+// var https = require('https').Server(options, appServer);
+// let io = require('socket.io')(https);
+
+// adminHttps.listen(secureAdminPort);
+// https.listen(securePort);
+
+
+var securePort = normalizePort(process.env.PORT || '3000');
+var secureAdminPort = normalizePort(process.env.PORT || '8888');
+appServer.set('port', securePort);
+AdminApp.set('port', secureAdminPort);
+
+var adminHttp = require('https').Server(AdminApp);
+var http = require('http').Server(appServer);
+let io = require('socket.io')(http);
+
+adminHttp.listen(secureAdminPort);
+http.listen(securePort);
 
 const { addUser, getUser, addRoomCode, removeRoomCode, roomExistence, bannedUserCheck } = require('./users');
 const { addRoom, getRoom, addMessages, removeMessages } = require('./rooms');
 const { sendPushNotification } = require('./messages');
 io.on('connect', (socket) => {
   socket.on('connection', ({ userID }, callback) => {
-    console.log("socket ID", socket.id)
     if (userID != null) {
-      addUser(socket.id, userID, socket);
-      // var ROOMS_OF_USER = getUser(user.userID);
-      // if (ROOMS_OF_USER.roomList.length > 0) {
-      //   for (var i = 0; i < ROOMS_OF_USER.roomList.length; i++) {
-      //     socket.join(ROOMS_OF_USER.roomList[i]);
-      //   }
-      // }
+      var user = addUser(socket.id, userID, socket);
+      var ROOMS_OF_USER = getUser(user.userID);
+      if (ROOMS_OF_USER.roomList.length > 0) {
+        for (var i = 0; i < ROOMS_OF_USER.roomList.length; i++) {
+          socket.join(ROOMS_OF_USER.roomList[i]);
+        }
+      }
     }
   });
 
   socket.on('CreateRoom', async data => {
-    // Request other user's socket info to join specific room;
     var socketB = getUser(data.receiver_seq);
     if (!socketB) return;
-
     socket.join(data.roomCode);
     var check = await bannedUserCheck(data);
     if (check) return;
