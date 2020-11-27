@@ -88,19 +88,6 @@ let io = require('socket.io')(https);
 adminHttps.listen(secureAdminPort);
 https.listen(securePort);
 
-
-// var securePort = normalizePort(process.env.PORT || '3000');
-// var secureAdminPort = normalizePort(process.env.PORT || '8888');
-// appServer.set('port', securePort);
-// AdminApp.set('port', secureAdminPort);
-
-// var adminHttp = require('https').Server(AdminApp);
-// var http = require('http').Server(appServer);
-// let io = require('socket.io')(http);
-
-// adminHttp.listen(secureAdminPort);
-// http.listen(securePort);
-
 const { addUser, getUser, addRoomCode, removeRoomCode, roomExistence, bannedUserCheck } = require('./users');
 const { addRoom, getRoom, addMessages, removeMessages } = require('./rooms');
 const { sendPushNotification } = require('./messages');
@@ -109,12 +96,12 @@ io.on('connect', (socket) => {
     console.log("socket ID", socket.id)
     if (userID != null) {
       addUser(socket.id, userID, socket);
-      // var ROOMS_OF_USER = getUser(user.userID);
-      // if (ROOMS_OF_USER.roomList.length > 0) {
-      //   for (var i = 0; i < ROOMS_OF_USER.roomList.length; i++) {
-      //     socket.join(ROOMS_OF_USER.roomList[i]);
-      //   }
-      // }
+      var ROOMS_OF_USER = getUser(user.userID);
+      if (ROOMS_OF_USER.roomList.length > 0) {
+        for (var i = 0; i < ROOMS_OF_USER.roomList.length; i++) {
+          socket.join(ROOMS_OF_USER.roomList[i]);
+        }
+      }
     }
   });
 
