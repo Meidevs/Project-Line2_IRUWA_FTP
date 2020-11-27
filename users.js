@@ -13,7 +13,7 @@ const addUser = (socketID, userID, socket) => {
       socketID: users[index].socketID,
       userID: users[index].userID,
       socket: users[index].socket,
-      roomList: [users[index].roomList]
+      roomList: users[index].roomList
     }
     console.log(user);
     users[index] = user;
