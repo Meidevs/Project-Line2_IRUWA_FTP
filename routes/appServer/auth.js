@@ -376,7 +376,6 @@ router.post('/ban', async (req, res) => {
 router.get('/banlist', async (req, res) => {
     try {
         var FromData = new Object();
-        var rawArray = new Array();
         FromData.user_seq = req.session.user.user_seq;
         console.log('User_seq FromData : ', FromData)
         var GET_BANNED_USER_LIST = await userModel.GET_BANNED_USER(FromData);
