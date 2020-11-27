@@ -96,12 +96,12 @@ io.on('connect', (socket) => {
     console.log("socket ID", socket.id)
     if (userID != null) {
       addUser(socket.id, userID, socket);
-      // var ROOMS_OF_USER = getUser(user.userID);
-      // if (ROOMS_OF_USER.roomList.length > 0) {
-      //   for (var i = 0; i < ROOMS_OF_USER.roomList.length; i++) {
-      //     socket.join(ROOMS_OF_USER.roomList[i]);
-      //   }
-      // }
+      var ROOMS_OF_USER = getUser(user.userID);
+      if (ROOMS_OF_USER.roomList.length > 0) {
+        for (var i = 0; i < ROOMS_OF_USER.roomList.length; i++) {
+          socket.join(ROOMS_OF_USER.roomList[i]);
+        }
+      }
     }
   });
 
