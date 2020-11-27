@@ -5,24 +5,17 @@ const addUser = (socketID, userID, socket) => {
   var index = users.findIndex((user) => user.userID === userID);
 
   // User is already registered into Users Array;
+  // Must use previous socket infos. If server update socket to new one, all connections are disabled. 
   if (index !== -1) {
 
     // User has room list? Then, put user room list id into user.roomList Array;
-    if (users[index].roomList.length > 0) {
-      user = {
-        socketID: socketID,
-        userID: userID,
-        socket: socket,
-        roomList: [users[index].roomList]
-      }
-    } else {
-      user = {
-        socketID: socketID,
-        userID: userID,
-        socket: socket,
-        roomList: []
-      }
+    user = {
+      socketID: users[index].socketID,
+      userID: users[index].userID,
+      socket: users[index].socket,
+      roomList: [users[index].roomList]
     }
+    console.log(user);
     users[index] = user;
     // There is no registered user in Users Array;
   } else {
