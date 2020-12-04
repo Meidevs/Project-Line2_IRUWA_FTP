@@ -88,19 +88,6 @@ let io = require('socket.io')(https);
 adminHttps.listen(secureAdminPort);
 https.listen(securePort);
 
-
-// var securePort = normalizePort(process.env.PORT || '3000');
-// var secureAdminPort = normalizePort(process.env.PORT || '8888');
-// appServer.set('port', securePort);
-// AdminApp.set('port', secureAdminPort);
-
-// var adminHttp = require('https').Server(AdminApp);
-// var http = require('http').Server(appServer);
-// let io = require('socket.io')(http);
-
-// adminHttp.listen(secureAdminPort);
-// http.listen(securePort);
-
 const { addUser, getUser, addRoomCode, removeRoomCode, roomExistence, bannedUserCheck } = require('./users');
 const { addRoom, getRoom, addMessages, removeMessages } = require('./rooms');
 const { sendPushNotification } = require('./messages');
@@ -119,49 +106,82 @@ io.on('connect', (socket) => {
   });
 
   socket.on('CreateRoom', async data => {
-    // Request other user's socket info to join specific room;
+    // CreateRoom receives roomCode, sender_seq, receiver_seq, etc...;
+    // Using receiver_seq (seq of the user who registered company information) gets target's socket;
     var socketB = getUser(data.receiver_seq);
     if (!socketB) return;
 
+    // join the room;
     socket.join(data.roomCode);
+
+    // Checks Whether the user is banned;
     var check = await bannedUserCheck(data);
     if (check) return;
+
+    // socketB has the socket of the target (receiver);
+    // force to participate the target to room;
     socketB.socket.join(data.roomCode);
+    
+    // inserts roomCode to users array in the users.js
     addRoomCode(data.sender_seq, data.receiver_seq, data.roomCode);
+
+    // Also, inserts room information to rooms array in the rooms.js
     addRoom(data);
   });
 
   socket.on('sendMessage', async message => {
+
+    // Using the roomCode, requests the room information;
     var returnRoom = getRoom([message.roomCode]);
+
+    // inserts a new message to the messages in the messages.js;
     addMessages(message);
+
+    // Checks Whether the user is banned;
     var check = await bannedUserCheck(message);
     if (check) {
+
+      // Return a message to all participants in the room;
       socket.emit('receiveMessage', { roomInfo: returnRoom[0], messages: message });
     } else {
+      // The sendPushNotification function sends a notification to the user who is not viewing the application;
       sendPushNotification(message)
       io.in(message.roomCode).emit('receiveMessage', { roomInfo: returnRoom[0], messages: message });
     }
   });
 
   socket.on('GetRoom', (data) => {
+    // The getRoom function requests all the information of the room containing the message;
     var rawReturn = getRoom([data]);
     socket.emit('GetRoom', rawReturn);
   });
 
   socket.on('GetRoomList', (data) => {
+
+    // The getUser function requests user's information using user_seq;
+    // if there is no returns from the getUser function, the GetRoomList do nothing;
     var ROOMS_OF_USER = getUser(data);
     if (!ROOMS_OF_USER) return;
+    
+    // When the getUser function returns a roomList of rooms the user has joined;
+    // Use the roomList variable to request detailed information about the room.
     var roomList = ROOMS_OF_USER.roomList;
     if (roomList) {
       var rawReturn = getRoom(roomList);
     }
+
+    // And, the function returns the detail of rooms;
     socket.emit('GetRoomList', rawReturn);
   });
 
   socket.on('leave', (data) => {
+    // The leave function receives roomCode & user_seq and deletes the roomCode in the users array;
     removeRoomCode(data);
+
+    // If the existence of a room is false, it means that there are no more users participating in this room.;
     var a = roomExistence(data);
     if (!a) {
+      // So, removes all messages
       removeMessages(data)
     }
     var messages = {
@@ -169,6 +189,7 @@ io.on('connect', (socket) => {
       sender_seq: 'admin',
       message: '다른 사용자가 방을 떠났습니다.'
     }
+    // If the user left, official message is sent to the room;
     addMessages(messages);
     io.in(data.roomCode).emit('officialMessage', { messages });
     socket.leave(data.roomCode)
